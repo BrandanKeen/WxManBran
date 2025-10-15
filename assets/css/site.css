@@ -336,10 +336,27 @@ section {
   box-shadow: 0 2px 6px rgba(0,0,0,.08);
 }
 
-/* CTA */
+/* --- Read more hover highlight --- */
+.card__link { text-decoration: none; }
+
 .card__cta {
   display: inline-block;
   font-weight: 600;
+  padding: .45rem .8rem;          /* pill padding */
+  border-radius: 9999px;           /* pill shape */
+  transition: background-color .18s ease, box-shadow .18s ease, transform .06s ease;
+}
+
+.card__link:hover .card__cta,
+.card__link:focus-visible .card__cta {
+  background: rgba(0,0,0,.06);     /* subtle highlight */
+  box-shadow: 0 0 0 1px rgba(0,0,0,.04) inset;
+}
+
+.card__link:hover .card__cta { transform: translateY(-1px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .card__cta { transition: none; }
 }
 
 /* --- Layout: make tiles fit the thumbnail size nicely --- */
