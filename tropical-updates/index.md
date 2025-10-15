@@ -10,6 +10,11 @@ permalink: /tropical-updates/
   {% for post in posts_sorted %}
     <article class="card card--tight">
       <a class="card__link" href="{{ post.url | relative_url }}">
+
+        <time class="card__date card__date--center" datetime="{{ post.date | date_to_xmlschema }}">
+          {{ post.date | date: "%B %d, %Y %-I %p %Z" }}
+        </time>
+
         <h3 class="card__title card__title--center">{{ post.title }}</h3>
 
         {% if post.thumb %}
