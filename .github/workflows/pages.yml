@@ -84,6 +84,20 @@ jobs:
             sed -E "s#src=\"(assets/docs/$slug/)?media/([^\"]*)\"#src=\"{{ '/assets/docs/$slug/media/\2' | relative_url }}\"#g" \
               "/tmp/$slug.html" > "/tmp/$slug.body.html"
 
+            # --- Derive summary (first ~160 chars, plain text) ---
+            plain="$(sed -E 's/<(script|style)[^>]*>.*<\/\1>//g; s/<[^>]+>/ /g' /tmp/$slug.body.html | tr -s '[:space:]' ' ' | sed 's/^ //; s/ $//')"
+            summary="$(printf '%s' "$plain" | cut -c1-160)"
+            if [ ${#plain} -gt 160 ]; then summary="${summary% *}…"; fi
+            summary_esc="$(printf '%s' "$summary" | sed 's/\"/\\"/g')"
+
+            # --- First image as thumbnail (png/jpg/jpeg/webp/gif) ---
+            thumb_file="$(find "assets/docs/$slug/media" -maxdepth 1 -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.webp' -o -iname '*.gif' \) | head -n 1 || true)"
+            thumb_rel=""
+            if [ -n "$thumb_file" ]; then
+              # Store path without baseurl; template will do | relative_url
+              thumb_rel="/${thumb_file#./}"
+            fi
+
             # Write the post (date-only filename; time lives in front matter)
             out="_posts/$date_ymd-$slug.html"
             {
@@ -92,6 +106,8 @@ jobs:
               echo "title: \"$title\""
               echo "date: $date_iso"
               [ -n "$disp_time" ] && echo "display_time: \"$disp_time\""
+              [ -n "$summary_esc" ] && echo "summary: \"$summary_esc\""
+              [ -n "$thumb_rel" ] && echo "thumb: \"$thumb_rel\"" && echo "thumb_alt: \"$title\""
               echo '---'
               cat "/tmp/$slug.body.html"
             } > "$out"
