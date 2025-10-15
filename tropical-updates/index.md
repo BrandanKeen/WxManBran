@@ -11,20 +11,19 @@ permalink: /tropical-updates/
     <article class="card card--tight card--center">
       <a class="card__link" href="{{ post.url | relative_url }}">
 
-        <h3 class="card__title">{{ post.title }}</h3>
-
-        <!-- one “blank line” gap -->
-        <div class="card__gap" aria-hidden="true"></div>
-
-        <time class="card__date" datetime="{{ post.date | date_to_xmlschema }}">
+        <!-- 1) Date + hour from filename-derived post.date -->
+        <time class="card__date card__date--big" datetime="{{ post.date | date_to_xmlschema }}">
           {{ post.date | date: "%B %d, %Y %-I %p" }} ET
         </time>
 
-        {%- if post.thumb -%}
-          <img class="card__thumb card__thumb--small"
+        <!-- 2) Storm name only (from cleaned slug -> title) -->
+        <h3 class="card__title card__title--big">{{ post.title }}</h3>
+
+        {% if post.thumb %}
+          <img class="card__thumb card__thumb--medium"
                src="{{ post.thumb | relative_url }}"
                alt="{{ post.thumb_alt | default: post.title }}">
-        {%- endif -%}
+        {% endif %}
 
         <span class="card__cta">Read more →</span>
       </a>
