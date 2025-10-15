@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ page.title }} | {{ site.title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ '/assets/main.css' | relative_url }}">
+</head>
+<body>
+<header>
+  <nav style="display:flex; gap:1rem; padding:1rem 0;">
+    {% for item in site.data.nav %}
+      <a href="{{ item.url | relative_url }}">{{ item.title }}</a>
+    {% endfor %}
+  </nav>
+</header>
+<main class="container">
+  {{ content }}
+</main>
+<footer style="margin-top:3rem; font-size:.9rem;">
+  <p>&copy; {{ site.time | date: "%Y" }} WxManBran</p>
+</footer>
+</body>
+</html>
