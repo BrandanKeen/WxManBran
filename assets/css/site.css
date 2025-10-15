@@ -287,25 +287,31 @@ section {
   }
 }
 
-/* --- Tropical Updates tile tweaks --- */
+/* --- Tropical Updates: centered title + date --- */
 .card.card--tight { padding: 1rem; }
 
-.card__date--center {
-  display: block;
-  text-align: center;
-  margin: 0 0 .25rem;   /* small gap above title */
-  font-weight: 600;
+/* center all text in the card */
+.card--center { text-align: center; }
+
+.card__title {
+  margin: 0;                 /* no extra gap above */
+  font-weight: 700;
 }
 
-.card__title--center {
-  text-align: center;
-  margin: .25rem 0 .5rem;  /* "one space" between date and title */
+/* creates the "blank line" between title and date */
+.card__gap {
+  height: 1rem;              /* tune this to make the space bigger/smaller */
+}
+
+.card__date {
+  margin: 0 0 .75rem;        /* small gap below date before thumb */
+  font-weight: 600;
 }
 
 .card__thumb--small {
   display: block;
-  margin: 0 auto;
-  max-width: 220px;   /* adjust to taste (e.g., 180–260px) */
+  margin: 0.25rem auto 0.5rem;
+  max-width: 220px;          /* change to 160–260px to taste */
   width: 100%;
   height: auto;
   border-radius: 12px;
@@ -313,8 +319,6 @@ section {
 }
 
 .card__cta {
-  display: block;
-  text-align: center;
-  margin-top: .75rem;
+  display: inline-block;
   font-weight: 600;
 }
