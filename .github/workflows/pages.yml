@@ -50,58 +50,53 @@ jobs:
 
             # Try pattern with time first (e.g., 2025-09-26-4-30pm-invest-94l)
             if [[ "$base" =~ ^([0-9]{4})-([0-9]{2})-([0-9]{2})-([1-9]|1[0-2])(?:-?([0-5][0-9]))?-(am|pm)-(.+)$ ]]; then
-              yyyy="${BASH_REMATCH[1]}"
-              mm="${BASH_REMATCH[2]}"
-              dd="${BASH_REMATCH[3]}"
-              hh12="${BASH_REMATCH[4]}"
-              min="${BASH_REMATCH[5]}"
-              ap="${BASH_REMATCH[6]}"
-              slug="${BASH_REMATCH[7]}"
-              slug="${slug,,}"
+              yyyy="${BASH_REMATCH[1]}"; mm="${BASH_REMATCH[2]}"; dd="${BASH_REMATCH[3]}"
+              hh12="${BASH_REMATCH[4]}"; min="${BASH_REMATCH[5]}"; ap="${BASH_REMATCH[6]}"
+              slug="${BASH_REMATCH[7]}"; slug="${slug,,}"
               [ -z "${min:-}" ] && min="00"
 
-              # 12h -> 24h for the Jekyll timestamp
+              # 12h -> 24h for Jekyll timestamp (front matter only)
               hh12=$(printf "%d" "$hh12")
               if [ "$ap" = "pm" ] && [ "$hh12" -lt 12 ]; then hh24=$((hh12+12)); else hh24=$((hh12%12)); fi
               hh24=$(printf "%02d" "$hh24")
-              date="$yyyy-$mm-$dd $hh24:$min:00"
-
-              # Tiles should show only hour + AM/PM
+              date_iso="$yyyy-$mm-$dd $hh24:$min:00"
               disp_time="$(printf '%d %s' "$hh12" "$(echo "$ap" | tr a-z A-Z)")"
 
             # Fallback: original pattern (no time in filename)
             elif [[ "$base" =~ ^([0-9]{4})-([0-9]{2})-([0-9]{2})-(.+)$ ]]; then
               yyyy="${BASH_REMATCH[1]}"; mm="${BASH_REMATCH[2]}"; dd="${BASH_REMATCH[3]}"; slug="${BASH_REMATCH[4]}"
               slug="${slug,,}"
-              date="$yyyy-$mm-$dd 00:00:00"
+              date_iso="$yyyy-$mm-$dd 00:00:00"
               disp_time=""
             else
               echo "Skipping $f: filename must be YYYY-MM-DD[-H[-MM]am|pm]-slug.docx" >&2
               continue
             fi
 
-            # Title from slug (Cap Words)
+            date_ymd="$yyyy-$mm-$dd"   # filename MUST be date-only for Jekyll
             title="$(echo "$slug" | tr '-' ' ' | sed 's/\b\(.\)/\u\1/g')"
 
             # Convert DOCX -> HTML and extract images
             mkdir -p "assets/docs/$slug"
             pandoc "$f" -t html5 -o "/tmp/$slug.html" --extract-media="assets/docs/$slug" --wrap=none
 
-            # Normalize image src to use baseurl
+            # Normalize image src to respect baseurl
             sed -E "s#src=\"(assets/docs/$slug/)?media/([^\"]*)\"#src=\"{{ '/assets/docs/$slug/media/\2' | relative_url }}\"#g" \
               "/tmp/$slug.html" > "/tmp/$slug.body.html"
 
-            # Write the post with display_time (hour + AM/PM only)
-            out="_posts/$date-$slug.html"
+            # Write the post (date-only filename; time lives in front matter)
+            out="_posts/$date_ymd-$slug.html"
             {
               echo '---'
               echo 'layout: default'
               echo "title: \"$title\""
-              echo "date: $date"
+              echo "date: $date_iso"
               [ -n "$disp_time" ] && echo "display_time: \"$disp_time\""
               echo '---'
               cat "/tmp/$slug.body.html"
             } > "$out"
+
+            echo "Wrote $out"
           done
 
       - name: Build Jekyll site
