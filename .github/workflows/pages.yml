@@ -1,8 +1,7 @@
 name: Deploy Jekyll site to Pages
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   workflow_dispatch:
 
 permissions:
@@ -21,15 +20,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Convert uploaded DOCX into Jekyll posts (Tropical Updates)
       - name: Install pandoc
         run: |
           sudo apt-get update
           sudo apt-get install -y pandoc
 
       - name: Prepare folders
-        run: |
-          mkdir -p _posts assets/docs incoming/posts
+        run: mkdir -p _posts assets/docs incoming/posts
 
       - name: Convert incoming/posts/*.docx to _posts
         shell: bash
@@ -39,79 +36,62 @@ jobs:
 
           files=(incoming/posts/*.docx)
           if [ ${#files[@]} -eq 0 ]; then
-            echo "No DOCX posts found."
-            exit 0
+            echo "No DOCX posts found."; exit 0
           fi
 
           for f in "${files[@]}"; do
-            base="$(basename "$f" .docx)"  # supports:
-                                           # 1) YYYY-MM-DD-slug.docx
-                                           # 2) YYYY-MM-DD-H[-MM]am|pm-slug.docx
+            base="$(basename "$f" .docx)"
 
-            # Try pattern with time first (e.g., 2025-09-26-4-30pm-invest-94l)
+            # Pattern A: YYYY-MM-DD-H[-MM]am|pm-slug.docx
             if [[ "$base" =~ ^([0-9]{4})-([0-9]{2})-([0-9]{2})-([1-9]|1[0-2])(?:-?([0-5][0-9]))?-(am|pm)-(.+)$ ]]; then
               yyyy="${BASH_REMATCH[1]}"; mm="${BASH_REMATCH[2]}"; dd="${BASH_REMATCH[3]}"
               hh12="${BASH_REMATCH[4]}"; min="${BASH_REMATCH[5]}"; ap="${BASH_REMATCH[6]}"
-              slug="${BASH_REMATCH[7]}"; slug="${slug,,}"
-              [ -z "${min:-}" ] && min="00"
-
-              # 12h -> 24h for Jekyll timestamp (front matter only)
+              slug="${BASH_REMATCH[7]}"; slug="${slug,,}"; [ -z "${min:-}" ] && min="00"
               hh12=$(printf "%d" "$hh12")
               if [ "$ap" = "pm" ] && [ "$hh12" -lt 12 ]; then hh24=$((hh12+12)); else hh24=$((hh12%12)); fi
               hh24=$(printf "%02d" "$hh24")
               date_iso="$yyyy-$mm-$dd $hh24:$min:00"
-              disp_time="$(printf '%d %s' "$hh12" "$(echo "$ap" | tr a-z A-Z)")"
 
-            # Fallback: original pattern (no time in filename)
+            # Pattern B: YYYY-MM-DD-slug.docx (defensive: strip time-like prefix from slug)
             elif [[ "$base" =~ ^([0-9]{4})-([0-9]{2})-([0-9]{2})-(.+)$ ]]; then
               yyyy="${BASH_REMATCH[1]}"; mm="${BASH_REMATCH[2]}"; dd="${BASH_REMATCH[3]}"; slug="${BASH_REMATCH[4]}"
               slug="${slug,,}"
+              slug="$(echo "$slug" | sed -E 's/^([1-9]|1[0-2])(-?[0-5][0-9])?(am|pm)-//')"  # remove accidental time prefix
               date_iso="$yyyy-$mm-$dd 00:00:00"
-              disp_time=""
             else
-              echo "Skipping $f: filename must be YYYY-MM-DD[-H[-MM]am|pm]-slug.docx" >&2
+              echo "Skipping $f (bad name). Use YYYY-MM-DD[-H[-MM]am|pm]-slug.docx" >&2
               continue
             fi
 
-            date_ymd="$yyyy-$mm-$dd"   # filename MUST be date-only for Jekyll
+            date_ymd="$yyyy-$mm-$dd"  # filename must be date-only for Jekyll
             title="$(echo "$slug" | tr '-' ' ' | sed 's/\b\(.\)/\u\1/g')"
 
-            # Convert DOCX -> HTML and extract images
             mkdir -p "assets/docs/$slug"
             pandoc "$f" -t html5 -o "/tmp/$slug.html" --extract-media="assets/docs/$slug" --wrap=none
 
-            # Normalize image src to respect baseurl
             sed -E "s#src=\"(assets/docs/$slug/)?media/([^\"]*)\"#src=\"{{ '/assets/docs/$slug/media/\2' | relative_url }}\"#g" \
               "/tmp/$slug.html" > "/tmp/$slug.body.html"
 
-            # --- Derive summary (first ~160 chars, plain text) ---
+            # Summary for tiles
             plain="$(sed -E 's/<(script|style)[^>]*>.*<\/\1>//g; s/<[^>]+>/ /g' /tmp/$slug.body.html | tr -s '[:space:]' ' ' | sed 's/^ //; s/ $//')"
-            summary="$(printf '%s' "$plain" | cut -c1-160)"
-            if [ ${#plain} -gt 160 ]; then summary="${summary% *}…"; fi
+            summary="$(printf '%s' "$plain" | cut -c1-160)"; [ ${#plain} -gt 160 ] && summary="${summary% *}…"
             summary_esc="$(printf '%s' "$summary" | sed 's/\"/\\"/g')"
 
-            # --- First image as thumbnail (png/jpg/jpeg/webp/gif) ---
+            # First image -> thumb
             thumb_file="$(find "assets/docs/$slug/media" -maxdepth 1 -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.webp' -o -iname '*.gif' \) | head -n 1 || true)"
-            thumb_rel=""
-            if [ -n "$thumb_file" ]; then
-              # Store path without baseurl; template will do | relative_url
-              thumb_rel="/${thumb_file#./}"
-            fi
+            thumb_rel=""; [ -n "$thumb_file" ] && thumb_rel="/${thumb_file#./}"
 
-            # Write the post (date-only filename; time lives in front matter)
             out="_posts/$date_ymd-$slug.html"
             {
               echo '---'
               echo 'layout: default'
-              echo "title: \"$title\""
-              echo "date: $date_iso"
-              [ -n "$disp_time" ] && echo "display_time: \"$disp_time\""
+              echo "title: \"$title\""           # storm name only
+              echo "date: $date_iso"            # includes hour (for first line)
               [ -n "$summary_esc" ] && echo "summary: \"$summary_esc\""
               [ -n "$thumb_rel" ] && echo "thumb: \"$thumb_rel\"" && echo "thumb_alt: \"$title\""
               echo '---'
               cat "/tmp/$slug.body.html"
             } > "$out"
-
             echo "Wrote $out"
           done
 
