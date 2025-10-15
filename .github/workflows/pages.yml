@@ -22,6 +22,9 @@ jobs:
       - name: Install pandoc
         run: sudo apt-get update && sudo apt-get install -y pandoc
 
+      - name: Install DOCX fallback dependencies
+        run: pip install --user mammoth
+
       - name: Prepare folders
         run: |
           mkdir -p _posts assets/docs incoming/posts
@@ -50,20 +53,69 @@ jobs:
             date="$yyyy-$mm-$dd"
             title="$(python3 -c 'import sys; print(" ".join(w.capitalize() for w in sys.argv[1].split("-")))' "$slug")"
 
-            mkdir -p "assets/docs/$slug"
-            pandoc "$f" -t html5 -o "/tmp/$slug.html" --extract-media="assets/docs/$slug" --wrap=none
+            slug_dir="assets/docs/$slug"
+            media_dir="$slug_dir/media"
+            rm -rf "$slug_dir"
+            mkdir -p "$media_dir"
 
-            # Rewrite image paths to assets/docs/<slug>/media/<file>
-            sed -E "s#src=\"media/([^\"]*)\"#src=\"{{ '/assets/docs/$slug/media/\1' | relative_url }}\"#g" "/tmp/$slug.html" > "/tmp/$slug.body.html"
+            tmp_html="$(mktemp "/tmp/${slug}.XXXX.html")"
+            if pandoc "$f" -t html5 -o "$tmp_html" --extract-media="$slug_dir" --wrap=none; then
+              echo "Converted $f with pandoc"
+            else
+              status=$?
+              echo "Pandoc failed for $f (exit $status). Falling back to python-mammoth." >&2
+              rm -rf "$slug_dir"
+              python3 - "$f" "$slug" "$tmp_html" "$slug_dir" <<'PY'
+import sys
+import mimetypes
+import pathlib
+import shutil
+from mammoth import convert_to_html, images
 
-            cat > "_posts/$date-$slug.html" <<EOF2
+docx_path = pathlib.Path(sys.argv[1])
+slug = sys.argv[2]
+tmp_html = pathlib.Path(sys.argv[3])
+slug_dir = pathlib.Path(sys.argv[4])
+media_dir = slug_dir / "media"
+
+if slug_dir.exists():
+    shutil.rmtree(slug_dir)
+media_dir.mkdir(parents=True, exist_ok=True)
+
+counter = {"value": 0}
+
+def _image_converter(image):
+    counter["value"] += 1
+    ext = mimetypes.guess_extension(image.content_type or "") or ".bin"
+    filename = f"image{counter['value']}{ext}"
+    dest = media_dir / filename
+    with dest.open("wb") as fh:
+        fh.write(image.binary)
+    rel_path = "{{ '/" + dest.as_posix() + "' | relative_url }}"
+    return {"src": rel_path}
+
+with docx_path.open("rb") as docx_file:
+    result = convert_to_html(docx_file, convert_image=images.img_element(_image_converter))
+
+tmp_html.write_text(result.value, encoding="utf-8")
+
+for message in result.messages:
+    print(f"Mammoth: {message}", file=sys.stderr)
+PY
+            fi
+
+            body_tmp="/tmp/$slug.body.html"
+            sed -E "s#src=\"media/([^\"]*)\"#src=\"{{ '/assets/docs/$slug/media/\1' | relative_url }}\"#g" "$tmp_html" > "$body_tmp"
+
+            cat > "_posts/$date-$slug.html" <<EOF
 ---
 layout: default
 title: "$title"
 date: $date
 ---
-$(cat /tmp/$slug.body.html)
-EOF2
+$(cat "$body_tmp")
+EOF
+            rm -f "$tmp_html" "$body_tmp"
           done
 
       # Build and publish Jekyll
