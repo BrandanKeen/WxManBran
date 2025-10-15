@@ -1,0 +1,70 @@
+name: Deploy Jekyll site to Pages
+on:
+  push: { branches: [ "main" ] }
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Convert uploaded DOCX into Jekyll posts
+      - name: Install pandoc
+        run: sudo apt-get update && sudo apt-get install -y pandoc
+
+      - name: Prepare folders
+        run: |
+          mkdir -p _posts assets/docs incoming/posts
+
+      - name: Convert incoming/posts/*.docx to _posts
+        shell: bash
+        run: |
+          shopt -s nullglob
+          for f in incoming/posts/*.docx; do
+            base="$(basename "$f" .docx)"            # expect YYYY-MM-DD-slug.docx
+            yyyy="${base%%-*}"; rest="${base#*-}"
+            mm="${rest%%-*}"; dd="${rest#*-}"; dd="${dd%%-*}"
+            slug="${base#$yyyy-$mm-$dd-}"
+            date="$yyyy-$mm-$dd"
+            title="$(echo "$slug" | tr '-' ' ' | sed 's/\b\(.\)/\u\1/g')"
+
+            mkdir -p "assets/docs/$slug"
+            pandoc "$f" -t html5 -o "/tmp/$slug.html" --extract-media="assets/docs/$slug" --wrap=none
+
+            # Rewrite image paths to assets/docs/<slug>/media/<file>
+            sed -E "s#src=\"media/([^\"]*)\"#src=\"{{ '/assets/docs/$slug/media/\1' | relative_url }}\"#g" "/tmp/$slug.html" > "/tmp/$slug.body.html"
+
+            cat > "_posts/$date-$slug.html" <<EOF2
+---
+layout: default
+title: "$title"
+date: $date
+---
+$(cat /tmp/$slug.body.html)
+EOF2
+          done
+
+      # Build and publish Jekyll
+      - uses: actions/jekyll-build-pages@v1
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: ./_site }
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
