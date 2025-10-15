@@ -341,3 +341,47 @@ section {
   display: inline-block;
   font-weight: 600;
 }
+
+/* --- Layout: make tiles fit the thumbnail size nicely --- */
+.posts-grid.posts-grid--fit {
+  display: grid;
+  /* Each card spans from 420px up to 660px, centered and wrapping */
+  grid-template-columns: repeat(auto-fit, minmax(420px, 660px));
+  gap: 1.25rem;
+  justify-content: center;
+}
+
+/* Card width “hugs” the large thumbnail plus padding */
+.card--fit {
+  width: 100%;
+  max-width: 660px; /* keep in sync with grid max above */
+  margin: 0 auto;
+}
+
+/* Bigger thumbnail */
+.card__thumb--large {
+  display: block;
+  margin: 0.5rem auto 0.75rem;
+  max-width: 600px;  /* <- adjust this to your preferred image width */
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.1);
+}
+
+/* Slightly beefier text so it matches the bigger image */
+.card__date--big {
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+.card__title--big {
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+/* Optional: tighten the card’s inner padding a touch on small screens */
+@media (max-width: 480px) {
+  .card.card--tight { padding: 0.9rem; }
+  .posts-grid.posts-grid--fit { grid-template-columns: 1fr; }
+}
