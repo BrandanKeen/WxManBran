@@ -53,17 +53,17 @@ jobs:
             mkdir -p "assets/docs/$slug"
             pandoc "$f" -t html5 -o "/tmp/$slug.html" --extract-media="assets/docs/$slug" --wrap=none
 
-            body_tmp="/tmp/$slug.body.html"
-            sed -E "s#src=\"media/([^\"]*)\"#src=\"{{ '/assets/docs/$slug/media/\1' | relative_url }}\"#g" "/tmp/$slug.html" > "$body_tmp"
+            # Rewrite image paths to assets/docs/<slug>/media/<file>
+            sed -E "s#src=\"media/([^\"]*)\"#src=\"{{ '/assets/docs/$slug/media/\1' | relative_url }}\"#g" "/tmp/$slug.html" > "/tmp/$slug.body.html"
 
-            cat > "_posts/$date-$slug.html" <<EOF
+            cat > "_posts/$date-$slug.html" <<EOF2
 ---
 layout: default
 title: "$title"
 date: $date
 ---
-$(cat "$body_tmp")
-EOF
+$(cat /tmp/$slug.body.html)
+EOF2
           done
 
       # Build and publish Jekyll
