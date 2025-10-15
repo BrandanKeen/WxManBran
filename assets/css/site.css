@@ -286,3 +286,25 @@ section {
     visibility: visible;
   }
 }
+
+/* --- Tropical Updates tile tweaks --- */
+.card.card--tight { padding: 1rem; }
+.card__title--center { text-align: center; margin: 0 0 .5rem; }
+
+.card__thumb--small {
+  display: block;
+  margin: 0 auto;
+  max-width: 220px;   /* make the thumbnail small */
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.08);
+}
+
+.card__cta {
+  display: block;
+  text-align: center;
+  margin-top: .75rem;
+  font-weight: 600;
+}
+
