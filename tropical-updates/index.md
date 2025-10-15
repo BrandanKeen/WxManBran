@@ -4,23 +4,20 @@ title: Tropical Updates
 permalink: /tropical-updates/
 ---
 
-<div class="section-intro">
-  <h1>Tropical Updates</h1>
-  <p>Fresh analysis from the WxManBran desk. Posts appear with the newest update first.</p>
-</div>
-
-{% if site.posts.size > 0 %}
-<ul class="card-list">
+<div class="posts-grid">
   {% for post in site.posts %}
-  <li class="card">
-    <small>{{ post.date | date: '%B %d, %Y' }}</small>
-    <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-    {% if post.excerpt %}
-    <p>{{ post.excerpt | strip_html | truncate: 140 }}</p>
-    {% endif %}
-  </li>
+    <article class="card">
+      <a class="card__link" href="{{ post.url | relative_url }}">
+        <time class="card__date">
+          {{ post.date | date: "%B %d, %Y" }} ·
+          {% if post.display_time %}{{ post.display_time }}{% else %}{{ post.date | date: "%-I %p" }}{% endif %} ET
+        </time>
+        <h3 class="card__title">{{ post.title }}</h3>
+        <p class="card__summary">
+          {{ post.summary | default: post.excerpt | strip_html | truncate: 160 }}
+        </p>
+        <span class="card__cta">Read more →</span>
+      </a>
+    </article>
   {% endfor %}
-</ul>
-{% else %}
-<p>No updates yet. When you publish a new post in <code>_posts</code>, it will appear here automatically.</p>
-{% endif %}
+</div>
