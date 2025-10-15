@@ -1,0 +1,78 @@
+name: Deploy Jekyll site to Pages
+on:
+  push: { branches: [ "main" ] }
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Convert uploaded DOCX into Jekyll posts (Tropical Updates)
+      - name: Install pandoc
+        run: sudo apt-get update && sudo apt-get install -y pandoc
+
+      - name: Prepare folders
+        run: |
+          mkdir -p _posts assets/docs incoming/posts
+
+      - name: Convert incoming/posts/*.docx to _posts
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+
+          for f in incoming/posts/*.docx; do
+            base="$(basename "$f" .docx)"          # expect YYYY-MM-DD-slug.docx
+            yyyy="${base%%-*}"; rest="${base#*-}"
+            mm="${rest%%-*}"; dd="${rest#*-}"; dd="${dd%%-*}"
+            slug="${base#$yyyy-$mm-$dd-}"
+            date="$yyyy-$mm-$dd"
+
+            # Make a title from the slug: "invest-94l" -> "Invest 94l"
+            title="$(echo "$slug" | tr '-' ' ' | sed 's/\b\(.\)/\u\1/g')"
+
+            # Convert DOCX -> HTML and extract images to assets/docs/<slug>/media
+            mkdir -p "assets/docs/$slug"
+            pandoc "$f" -t html5 -o "/tmp/$slug.html" --extract-media="assets/docs/$slug" --wrap=none
+
+            # Rewrite src="media/..." -> src="{{ '/assets/docs/<slug>/media/...' | relative_url }}"
+            sed -E "s#src=\"media/([^\"]*)\"#src=\"{{ '/assets/docs/$slug/media/\1' | relative_url }}\"#g" \
+              "/tmp/$slug.html" > "/tmp/$slug.body.html"
+
+            # Write the Jekyll post (no heredocs to avoid EOF issues)
+            out="_posts/$date-$slug.html"
+            printf '%s\n' \
+              '---' \
+              'layout: default' \
+              "title: \"$title\"" \
+              "date: $date" \
+              '---' > "$out"
+            cat "/tmp/$slug.body.html" >> "$out"
+          done
+
+      # Build Jekyll and publish to GitHub Pages
+      - uses: actions/jekyll-build-pages@v1
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
