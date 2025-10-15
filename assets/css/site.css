@@ -287,37 +287,56 @@ section {
   }
 }
 
-/* --- Tropical Updates: centered title + date --- */
-.card.card--tight { padding: 1rem; }
+/* --- Tropical Updates tiles --- */
 
-/* center all text in the card */
+/* Card spacing + center all text */
+.card.card--tight { padding: 1.1rem; }
 .card--center { text-align: center; }
 
-.card__title {
-  margin: 0;                 /* no extra gap above */
-  font-weight: 700;
-}
-
-/* creates the "blank line" between title and date */
-.card__gap {
-  height: 1rem;              /* tune this to make the space bigger/smaller */
-}
-
-.card__date {
-  margin: 0 0 .75rem;        /* small gap below date before thumb */
-  font-weight: 600;
-}
-
-.card__thumb--small {
+/* DATE (first line) */
+.card__date,
+.card__date--big {
   display: block;
-  margin: 0.25rem auto 0.5rem;
-  max-width: 220px;          /* change to 160–260px to taste */
+  margin: 0 0 .4rem;
+  font-weight: 700;
+  font-size: 1.1rem;          /* larger date line */
+}
+
+/* TITLE (second line) */
+.card__title,
+.card__title--big {
+  margin: 0 0 .6rem;          /* space below title before image */
+  font-weight: 800;
+  font-size: 1.4rem;          /* larger storm name */
+  line-height: 1.2;
+}
+
+/* Optional blank line spacer from older template (safe to keep) */
+.card__gap { height: 1rem; }
+
+/* THUMBNAIL */
+.card__thumb--medium {
+  display: block;
+  margin: 0 auto .6rem;
+  max-width: 320px;           /* slightly larger thumb; tweak 280–360px to taste */
   width: 100%;
   height: auto;
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0,0,0,.08);
 }
 
+/* Backward compat: keep the small variant in case some cards still use it */
+.card__thumb--small {
+  display: block;
+  margin: 0.25rem auto 0.5rem;
+  max-width: 220px;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.08);
+}
+
+/* CTA */
 .card__cta {
   display: inline-block;
   font-weight: 600;
