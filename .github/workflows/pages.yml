@@ -32,7 +32,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          shopt -s nullglob
+          shopt -s nullglob extglob nocasematch
 
           files=(incoming/posts/*.docx)
           if [ ${#files[@]} -eq 0 ]; then
@@ -41,70 +41,99 @@ jobs:
           fi
 
           for f in "${files[@]}"; do
-            base="$(basename "$f" .docx)"  # supports:
-                                           # A) YYYY-MM-DD-H[-MM][am|pm]-slug.docx
-                                           #    - H 1..12
-                                           #    - minutes optional with '-' or ':'
-                                           #    - AM/PM any case, optional dash/space before it
-                                           # B) YYYY-MM-DD-slug.docx (no time -> 00:00)
+            base="$(basename "$f" .docx)"
 
-            # ERE-friendly pattern with optional minutes; case-insensitive AM/PM
-            if [[ "$base" =~ ^([0-9]{4})-([0-9]{2})-([0-9]{2})-([1-9]|1[0-2])[-:]?([0-5][0-9])?[-_ ]?([aA][mM]|[pP][mM])-(.+)$ ]]; then
-              yyyy="${BASH_REMATCH[1]}"; mm="${BASH_REMATCH[2]}"; dd="${BASH_REMATCH[3]}"
-              hh12="${BASH_REMATCH[4]}"; min="${BASH_REMATCH[5]}"; ap="${BASH_REMATCH[6]}"; slug="${BASH_REMATCH[7]}"
-              slug="${slug,,}"
-              [ -z "${min:-}" ] && min="00"
-              ap_u="$(echo "$ap" | tr '[:lower:]' '[:upper:]')"   # AM or PM
+            # --- Split YYYY-MM-DD and remainder (no regex) ---
+            yyyy="${base%%-*}"              # first token before '-'
+            rest="${base#*-}"               # after first '-'
+            mm="${rest%%-*}"
+            rest="${rest#*-}"
+            dd="${rest%%-*}"
+            rest="${rest#*-}"               # 'rest' now starts after YYYY-MM-DD-
 
-              hh12=$(printf "%d" "$hh12")
-              if [ "$ap_u" = "PM" ] && [ "$hh12" -lt 12 ]; then
-                hh24=$((hh12+12))
-              else
-                hh24=$((hh12%12))
-              fi
-              hh24=$(printf "%02d" "$hh24")
-              date_iso="$yyyy-$mm-$dd $hh24:$min:00"
-
-              echo "Parsed time from filename: $base -> $date_iso"
-
-            elif [[ "$base" =~ ^([0-9]{4})-([0-9]{2})-([0-9]{2})-(.+)$ ]]; then
-              # No time provided -> midnight
-              yyyy="${BASH_REMATCH[1]}"; mm="${BASH_REMATCH[2]}"; dd="${BASH_REMATCH[3]}"; slug="${BASH_REMATCH[4]}"
-              slug="${slug,,}"
-              # defensively strip any time-like prefix from slug if present
-              slug="$(echo "$slug" | sed -E 's/^([1-9]|1[0-2])[-:]?([0-5][0-9])?[-_ ]?([aA][mM]|[pP][mM])[-_ ]+//')"
-              date_iso="$yyyy-$mm-$dd 00:00:00"
-
-              echo "No time in filename: $base -> $date_iso"
-
-            else
-              echo "Skipping $f: Use YYYY-MM-DD[-H[-MM]][am|pm]-slug.docx" >&2
+            if [[ -z "$yyyy" || -z "$mm" || -z "$dd" || -z "$rest" ]]; then
+              echo "Skipping $base: expected YYYY-MM-DD-..." >&2
               continue
             fi
 
-            date_ymd="$yyyy-$mm-$dd"  # Jekyll requires date-only in filename
+            # --- Detect optional time token in 'rest' (first segment) ---
+            time_token="${rest%%-*}"        # first segment after date
+            slug="$rest"
 
-            # Title from slug (Cap Words)
+            # normalize time token: remove separators and lower-case
+            norm="$(echo "$time_token" | tr '[:upper:]' '[:lower:]' | tr -d ' :_')"
+            norm="${norm//-}"               # remove hyphens too
+
+            has_time=false
+            ap="am"
+            hour="12"
+            minute="00"
+
+            if [[ "$norm" == *am || "$norm" == *pm ]]; then
+              ap="${norm: -2}"              # last two chars
+              digits="${norm%??}"           # everything before am/pm
+
+              # digits can be H, HH, HMM, HHMM
+              if [[ -n "$digits" && "$digits" == +([0-9]) ]]; then
+                if (( ${#digits} <= 2 )); then
+                  hour="$digits"
+                  minute="00"
+                else
+                  minute="${digits: -2}"
+                  hour="${digits%??}"
+                fi
+
+                # validate hour/min
+                if ((10#$hour >= 1 && 10#$hour <= 12)) && ((10#$minute >= 0 && 10#$minute <= 59)); then
+                  has_time=true
+                  # convert to 24h
+                  h=$((10#$hour % 12))
+                  if [[ "$ap" == "pm" ]]; then h=$((h+12)); fi
+                  hh24=$(printf "%02d" "$h")
+                  mm24=$(printf "%02d" "$minute")
+                  date_iso="$yyyy-$mm-$dd $hh24:$mm24:00"
+
+                  # remove the time token from the slug
+                  slug="${rest#*-}"
+                fi
+              fi
+            fi
+
+            if [[ "$has_time" == false ]]; then
+              date_iso="$yyyy-$mm-$dd 00:00:00"
+              # defensively strip any leading time-like token that might be in slug
+              first_seg="${slug%%-*}"
+              tmp="$(echo "$first_seg" | tr '[:upper:]' '[:lower:]' | tr -d ' :_')"
+              tmp="${tmp//-}"
+              if [[ "$tmp" == *am || "$tmp" == *pm ]]; then
+                slug="${slug#*-}"
+              fi
+            fi
+
+            slug="${slug,,}"                # lowercase slug for paths
+            date_ymd="$yyyy-$mm-$dd"        # Jekyll filename must be date-only
+
+            # --- Human title from slug (Cap Words) ---
             title="$(echo "$slug" | tr '-' ' ' | sed 's/\b\(.\)/\u\1/g')"
 
-            # Convert DOCX -> HTML and extract images
+            # --- Convert DOCX -> HTML and extract images ---
             mkdir -p "assets/docs/$slug"
             pandoc "$f" -t html5 -o "/tmp/$slug.html" --extract-media="assets/docs/$slug" --wrap=none
 
-            # Normalize image paths to respect baseurl
+            # fix image paths to respect baseurl
             sed -E "s#src=\"(assets/docs/$slug/)?media/([^\"]*)\"#src=\"{{ '/assets/docs/$slug/media/\2' | relative_url }}\"#g" \
               "/tmp/$slug.html" > "/tmp/$slug.body.html"
 
-            # Summary (first ~160 chars, plain text)
+            # summary (first ~160 chars)
             plain="$(sed -E 's/<(script|style)[^>]*>.*<\/\1>//g; s/<[^>]+>/ /g' /tmp/$slug.body.html | tr -s '[:space:]' ' ' | sed 's/^ //; s/ $//')"
             summary="$(printf '%s' "$plain" | cut -c1-160)"; if [ ${#plain} -gt 160 ]; then summary="${summary% *}…"; fi
             summary_esc="$(printf '%s' "$summary" | sed 's/\"/\\"/g')"
 
-            # First image -> thumb
+            # first image as thumbnail
             thumb_file="$(find "assets/docs/$slug/media" -maxdepth 1 -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.webp' -o -iname '*.gif' \) | head -n 1 || true)"
             thumb_rel=""; [ -n "$thumb_file" ] && thumb_rel="/${thumb_file#./}"
 
-            # Write the post (date-only filename; full date/time in front matter)
+            # write Jekyll post (date-only filename; full datetime in front matter)
             out="_posts/$date_ymd-$slug.html"
             {
               echo '---'
