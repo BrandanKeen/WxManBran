@@ -402,3 +402,33 @@ section {
   .card.card--tight { padding: 0.9rem; }
   .posts-grid.posts-grid--fit { grid-template-columns: 1fr; }
 }
+
+/* === Read more → hover highlight (robust) === */
+/* Base pill styling (works for <a> or <span>) */
+a.card__cta,
+.card__cta {
+  display: inline-block;
+  font-weight: 600;
+  padding: .45rem .8rem;
+  border-radius: 9999px;
+  text-decoration: none;
+  transition: background-color .18s ease, box-shadow .18s ease, transform .06s ease;
+  cursor: pointer;
+}
+
+/* Highlight when hovering the pill itself (anchor or span) */
+a.card__cta:hover,
+a.card__cta:focus-visible,
+.card__cta:hover,
+.card__cta:focus-visible {
+  background: rgba(0,0,0,.06);
+  box-shadow: 0 0 0 1px rgba(0,0,0,.04) inset;
+  transform: translateY(-1px);
+}
+
+/* If your whole card is a link (.card__link), also highlight the pill on link hover/focus */
+.card__link:hover .card__cta,
+.card__link:focus-within .card__cta {
+  background: rgba(0,0,0,.06);
+  box-shadow: 0 0 0 1px rgba(0,0,0,.04) inset;
+}
