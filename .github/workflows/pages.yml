@@ -30,13 +30,25 @@ jobs:
         shell: bash
         run: |
           shopt -s nullglob
-          for f in incoming/posts/*.docx; do
-            base="$(basename "$f" .docx)"            # expect YYYY-MM-DD-slug.docx
-            yyyy="${base%%-*}"; rest="${base#*-}"
-            mm="${rest%%-*}"; dd="${rest#*-}"; dd="${dd%%-*}"
-            slug="${base#$yyyy-$mm-$dd-}"
+          files=(incoming/posts/*.docx)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No DOCX posts found."
+            exit 0
+          fi
+
+          for f in "${files[@]}"; do
+            base="$(basename "$f" .docx)"
+            if [[ ! "$base" =~ ^([0-9]{4})-([0-9]{2})-([0-9]{2})-(.+)$ ]]; then
+              echo "Skipping $f: filename must follow YYYY-MM-DD-slug.docx" >&2
+              continue
+            fi
+
+            yyyy="${BASH_REMATCH[1]}"
+            mm="${BASH_REMATCH[2]}"
+            dd="${BASH_REMATCH[3]}"
+            slug="${BASH_REMATCH[4]}"
             date="$yyyy-$mm-$dd"
-            title="$(echo "$slug" | tr '-' ' ' | sed 's/\b\(.\)/\u\1/g')"
+            title="$(python3 -c 'import sys; print(" ".join(w.capitalize() for w in sys.argv[1].split("-")))' "$slug")"
 
             mkdir -p "assets/docs/$slug"
             pandoc "$f" -t html5 -o "/tmp/$slug.html" --extract-media="assets/docs/$slug" --wrap=none
