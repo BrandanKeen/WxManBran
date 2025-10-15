@@ -31,7 +31,7 @@ jobs:
         run: |
           mkdir -p _posts assets/docs incoming/posts
 
-            - name: Convert incoming/posts/*.docx to _posts
+      - name: Convert incoming/posts/*.docx to _posts
         shell: bash
         run: |
           set -euo pipefail
@@ -57,15 +57,17 @@ jobs:
             date="$yyyy-$mm-$dd"
             title="$(echo "$slug" | tr '-' ' ' | sed 's/\b\(.\)/\u\1/g')"
 
+            # Convert DOCX -> HTML and extract images
             mkdir -p "assets/docs/$slug"
             pandoc "$f" -t html5 -o "/tmp/$slug.html" --extract-media="assets/docs/$slug" --wrap=none
 
-            # IMPORTANT: normalize both forms to Liquid + baseurl
-            #   - src="media/xxx"                       (Pandoc variant 1)
-            #   - src="assets/docs/$slug/media/xxx"    (Pandoc variant 2)
+            # Normalize image src to use Jekyll baseurl:
+            #  - src="media/xxx"                       (pandoc variant 1)
+            #  - src="assets/docs/$slug/media/xxx"    (pandoc variant 2)
             sed -E "s#src=\"(assets/docs/$slug/)?media/([^\"]*)\"#src=\"{{ '/assets/docs/$slug/media/\2' | relative_url }}\"#g" \
               "/tmp/$slug.html" > "/tmp/$slug.body.html"
 
+            # Write the Jekyll post (no heredocs)
             out="_posts/$date-$slug.html"
             {
               echo '---'
@@ -76,7 +78,6 @@ jobs:
               cat "/tmp/$slug.body.html"
             } > "$out"
           done
-
 
       - name: Build Jekyll site
         uses: actions/jekyll-build-pages@v1
