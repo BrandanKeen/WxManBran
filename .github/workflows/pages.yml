@@ -110,11 +110,20 @@ jobs:
               fi
             fi
 
-            slug="${slug,,}"                # lowercase slug for paths
+            # Keep a copy of original-case slug for the human title
+            slug_raw="$slug"
+            # Lowercase slug for paths/dirs and filenames
+            slug="${slug,,}"
+
             date_ymd="$yyyy-$mm-$dd"        # Jekyll filename must be date-only
 
-            # --- Human title from slug (Cap Words) ---
-            title="$(echo "$slug" | tr '-' ' ' | sed 's/\b\(.\)/\u\1/g')"
+            # --- Human title from original slug (Cap Words) + force 94L style ---
+            title="$(
+              echo "$slug_raw" \
+              | tr '-' ' ' \
+              | sed 's/\b\(.\)/\u\1/g' \
+              | sed -E 's/\b([0-9]+)[lL]\b/\1L/g'
+            )"
 
             # --- Convert DOCX -> HTML and extract images ---
             mkdir -p "assets/docs/$slug"
