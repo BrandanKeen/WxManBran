@@ -289,12 +289,23 @@ section {
 
 /* --- Tropical Updates tile tweaks --- */
 .card.card--tight { padding: 1rem; }
-.card__title--center { text-align: center; margin: 0 0 .5rem; }
+
+.card__date--center {
+  display: block;
+  text-align: center;
+  margin: 0 0 .25rem;   /* small gap above title */
+  font-weight: 600;
+}
+
+.card__title--center {
+  text-align: center;
+  margin: .25rem 0 .5rem;  /* "one space" between date and title */
+}
 
 .card__thumb--small {
   display: block;
   margin: 0 auto;
-  max-width: 220px;   /* make the thumbnail small */
+  max-width: 220px;   /* adjust to taste (e.g., 180–260px) */
   width: 100%;
   height: auto;
   border-radius: 12px;
@@ -307,4 +318,3 @@ section {
   margin-top: .75rem;
   font-weight: 600;
 }
-
