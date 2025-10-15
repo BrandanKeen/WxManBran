@@ -1,6 +1,8 @@
 name: Deploy Jekyll site to Pages
 on:
-  push: { branches: [ "main" ] }
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -9,21 +11,21 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: pages
   cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      # Convert uploaded DOCX into Jekyll posts
+      # Convert uploaded DOCX into Jekyll posts (Tropical Updates)
       - name: Install pandoc
-        run: sudo apt-get update && sudo apt-get install -y pandoc
-
-      - name: Install DOCX fallback dependencies
-        run: pip install --user mammoth
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc
 
       - name: Prepare folders
         run: |
@@ -32,7 +34,9 @@ jobs:
       - name: Convert incoming/posts/*.docx to _posts
         shell: bash
         run: |
+          set -euo pipefail
           shopt -s nullglob
+
           files=(incoming/posts/*.docx)
           if [ ${#files[@]} -eq 0 ]; then
             echo "No DOCX posts found."
@@ -40,7 +44,7 @@ jobs:
           fi
 
           for f in "${files[@]}"; do
-            base="$(basename "$f" .docx)"
+            base="$(basename "$f" .docx)"  # expect YYYY-MM-DD-slug.docx
             if [[ ! "$base" =~ ^([0-9]{4})-([0-9]{2})-([0-9]{2})-(.+)$ ]]; then
               echo "Skipping $f: filename must follow YYYY-MM-DD-slug.docx" >&2
               continue
@@ -51,84 +55,42 @@ jobs:
             dd="${BASH_REMATCH[3]}"
             slug="${BASH_REMATCH[4]}"
             date="$yyyy-$mm-$dd"
-            title="$(python3 -c 'import sys; print(" ".join(w.capitalize() for w in sys.argv[1].split("-")))' "$slug")"
+            title="$(echo "$slug" | tr '-' ' ' | sed 's/\b\(.\)/\u\1/g')"
 
-            slug_dir="assets/docs/$slug"
-            media_dir="$slug_dir/media"
-            rm -rf "$slug_dir"
-            mkdir -p "$media_dir"
+            # Convert DOCX -> HTML and extract images
+            mkdir -p "assets/docs/$slug"
+            pandoc "$f" -t html5 -o "/tmp/$slug.html" --extract-media="assets/docs/$slug" --wrap=none
 
-            tmp_html="$(mktemp "/tmp/${slug}.XXXX.html")"
-            if pandoc "$f" -t html5 -o "$tmp_html" --extract-media="$slug_dir" --wrap=none; then
-              echo "Converted $f with pandoc"
-            else
-              status=$?
-              echo "Pandoc failed for $f (exit $status). Falling back to python-mammoth." >&2
-              rm -rf "$slug_dir"
-              python3 - "$f" "$slug" "$tmp_html" "$slug_dir" <<'PY'
-import sys
-import mimetypes
-import pathlib
-import shutil
-from mammoth import convert_to_html, images
+            # Fix image paths for Jekyll
+            sed -E "s#src=\"media/([^\"]*)\"#src=\"{{ '/assets/docs/$slug/media/\1' | relative_url }}\"#g" \
+              "/tmp/$slug.html" > "/tmp/$slug.body.html"
 
-docx_path = pathlib.Path(sys.argv[1])
-slug = sys.argv[2]
-tmp_html = pathlib.Path(sys.argv[3])
-slug_dir = pathlib.Path(sys.argv[4])
-media_dir = slug_dir / "media"
-
-if slug_dir.exists():
-    shutil.rmtree(slug_dir)
-media_dir.mkdir(parents=True, exist_ok=True)
-
-counter = {"value": 0}
-
-def _image_converter(image):
-    counter["value"] += 1
-    ext = mimetypes.guess_extension(image.content_type or "") or ".bin"
-    filename = f"image{counter['value']}{ext}"
-    dest = media_dir / filename
-    with dest.open("wb") as fh:
-        fh.write(image.binary)
-    rel_path = "{{ '/" + dest.as_posix() + "' | relative_url }}"
-    return {"src": rel_path}
-
-with docx_path.open("rb") as docx_file:
-    result = convert_to_html(docx_file, convert_image=images.img_element(_image_converter))
-
-tmp_html.write_text(result.value, encoding="utf-8")
-
-for message in result.messages:
-    print(f"Mammoth: {message}", file=sys.stderr)
-PY
-            fi
-
-            body_tmp="/tmp/$slug.body.html"
-            sed -E "s#src=\"media/([^\"]*)\"#src=\"{{ '/assets/docs/$slug/media/\1' | relative_url }}\"#g" "$tmp_html" > "$body_tmp"
-
-            cat > "_posts/$date-$slug.html" <<EOF
----
-layout: default
-title: "$title"
-date: $date
----
-$(cat "$body_tmp")
-EOF
-            rm -f "$tmp_html" "$body_tmp"
+            # Write the Jekyll post (no heredocs)
+            out="_posts/$date-$slug.html"
+            {
+              echo '---'
+              echo 'layout: default'
+              echo "title: \"$title\""
+              echo "date: $date"
+              echo '---'
+              cat "/tmp/$slug.body.html"
+            } > "$out"
           done
 
-      # Build and publish Jekyll
-      - uses: actions/jekyll-build-pages@v1
-      - uses: actions/upload-pages-artifact@v3
-        with: { path: ./_site }
+      - name: Build Jekyll site
+        uses: actions/jekyll-build-pages@v1
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - id: deployment
+      - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
