@@ -659,3 +659,37 @@ section {
   outline: 3px solid var(--brandAccent);
   outline-offset: 3px;
 }
+
+/* Pair container spans two columns in the outer posts grid */
+.post-pair {
+  grid-column: span 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+/* Stack on narrow screens */
+@media (max-width: 900px) {
+  .post-pair {
+    grid-column: span 1;
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Keep blog thumbnails consistent */
+.post-card__thumb {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* YouTube player footprint matches thumbnail area visually */
+.post-card__video iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: 8px;
+}
