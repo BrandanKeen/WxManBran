@@ -94,25 +94,6 @@ body.site {
   border-radius: 999px;
   font-weight: 500;
   transition: background 0.2s ease, transform 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.site-nav__icon {
-  width: 1.1rem;
-  height: 1.1rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.site-nav__icon svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-  fill: currentColor;
 }
 
 .site-nav__links a:hover,
@@ -304,4 +285,150 @@ section {
     opacity: 1;
     visibility: visible;
   }
+}
+
+/* --- Tropical Updates tiles --- */
+
+/* Card spacing + center all text */
+.card.card--tight { padding: 1.1rem; }
+.card--center { text-align: center; }
+
+/* DATE (first line) */
+.card__date,
+.card__date--big {
+  display: block;
+  margin: 0 0 .4rem;
+  font-weight: 700;
+  font-size: 1.1rem;          /* larger date line */
+}
+
+/* TITLE (second line) */
+.card__title,
+.card__title--big {
+  margin: 0 0 .6rem;          /* space below title before image */
+  font-weight: 800;
+  font-size: 1.4rem;          /* larger storm name */
+  line-height: 1.2;
+}
+
+/* Optional blank line spacer from older template (safe to keep) */
+.card__gap { height: 1rem; }
+
+/* THUMBNAIL */
+.card__thumb--medium {
+  display: block;
+  margin: 0 auto .6rem;
+  max-width: 320px;           /* slightly larger thumb; tweak 280–360px to taste */
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.08);
+}
+
+/* Backward compat: keep the small variant in case some cards still use it */
+.card__thumb--small {
+  display: block;
+  margin: 0.25rem auto 0.5rem;
+  max-width: 220px;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.08);
+}
+
+/* --- Read more hover highlight --- */
+.card__link { text-decoration: none; }
+
+.card__cta {
+  display: inline-block;
+  font-weight: 600;
+  padding: .45rem .8rem;          /* pill padding */
+  border-radius: 9999px;           /* pill shape */
+  transition: background-color .18s ease, box-shadow .18s ease, transform .06s ease;
+}
+
+.card__link:hover .card__cta,
+.card__link:focus-visible .card__cta {
+  background: rgba(0,0,0,.06);     /* subtle highlight */
+  box-shadow: 0 0 0 1px rgba(0,0,0,.04) inset;
+}
+
+.card__link:hover .card__cta { transform: translateY(-1px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .card__cta { transition: none; }
+}
+
+/* --- Layout: make tiles fit the thumbnail size nicely --- */
+.posts-grid.posts-grid--fit {
+  display: grid;
+  /* Each card spans from 420px up to 660px, centered and wrapping */
+  grid-template-columns: repeat(auto-fit, minmax(420px, 660px));
+  gap: 1.25rem;
+  justify-content: center;
+}
+
+/* Card width “hugs” the large thumbnail plus padding */
+.card--fit {
+  width: 100%;
+  max-width: 660px; /* keep in sync with grid max above */
+  margin: 0 auto;
+}
+
+/* Bigger thumbnail */
+.card__thumb--large {
+  display: block;
+  margin: 0.5rem auto 0.75rem;
+  max-width: 600px;  /* <- adjust this to your preferred image width */
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.1);
+}
+
+/* Slightly beefier text so it matches the bigger image */
+.card__date--big {
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+.card__title--big {
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+/* Optional: tighten the card’s inner padding a touch on small screens */
+@media (max-width: 480px) {
+  .card.card--tight { padding: 0.9rem; }
+  .posts-grid.posts-grid--fit { grid-template-columns: 1fr; }
+}
+
+/* === Read more → hover highlight (robust) === */
+/* Base pill styling (works for <a> or <span>) */
+a.card__cta,
+.card__cta {
+  display: inline-block;
+  font-weight: 600;
+  padding: .45rem .8rem;
+  border-radius: 9999px;
+  text-decoration: none;
+  transition: background-color .18s ease, box-shadow .18s ease, transform .06s ease;
+  cursor: pointer;
+}
+
+/* Highlight when hovering the pill itself (anchor or span) */
+a.card__cta:hover,
+a.card__cta:focus-visible,
+.card__cta:hover,
+.card__cta:focus-visible {
+  background: rgba(0,0,0,.06);
+  box-shadow: 0 0 0 1px rgba(0,0,0,.04) inset;
+  transform: translateY(-1px);
+}
+
+/* If your whole card is a link (.card__link), also highlight the pill on link hover/focus */
+.card__link:hover .card__cta,
+.card__link:focus-within .card__cta {
+  background: rgba(0,0,0,.06);
+  box-shadow: 0 0 0 1px rgba(0,0,0,.04) inset;
 }
