@@ -660,19 +660,19 @@ section {
   outline-offset: 3px;
 }
 
-/* Pair container spans two columns in the outer posts grid */
+/* Pair container spans entire outer grid; two equal columns inside */
 .post-pair {
-  grid-column: span 2;
+  grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(320px, 1fr));
   gap: 1.25rem;
   align-items: start;
 }
 
-/* Stack on narrow screens */
-@media (max-width: 900px) {
+/* Stack only on small phones */
+@media (max-width: 700px) {
   .post-pair {
-    grid-column: span 1;
+    grid-column: 1 / -1;
     grid-template-columns: 1fr;
   }
 }
@@ -685,7 +685,7 @@ section {
   border-radius: 8px;
 }
 
-/* YouTube player footprint matches thumbnail area visually */
+/* Make the YouTube player match the thumbnail footprint */
 .post-card__video iframe {
   display: block;
   width: 100%;
