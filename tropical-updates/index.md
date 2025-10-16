@@ -11,7 +11,7 @@ permalink: /tropical-updates/
 
     {%- if post.youtube_id -%}
     <div class="post-pair">
-      <!-- Left: existing Blog Post card (unchanged) -->
+      @-- Left: existing Blog Post card (unchanged) --
       <article class="post-card">
         <header class="post-card__header">
           <time class="post-date" datetime="{{ post.date | date_to_xmlschema }}">
@@ -35,7 +35,7 @@ permalink: /tropical-updates/
         </p>
       </article>
 
-      <!-- Right: Video Discussion card -->
+      @-- Right: Video Discussion card --
       <article class="post-card">
         <header class="post-card__header">
           <time class="post-date" datetime="{{ post.date | date_to_xmlschema }}">
@@ -58,7 +58,7 @@ permalink: /tropical-updates/
     </div>
     {%- else -%}
 
-    <!-- No youtube_id: render a single Blog card exactly as before -->
+    @-- No youtube_id: render the single Blog card exactly as before --
     <article class="post-card">
       <header class="post-card__header">
         <time class="post-date" datetime="{{ post.date | date_to_xmlschema }}">
