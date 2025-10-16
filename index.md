@@ -775,12 +775,6 @@ document.addEventListener('visibilitychange', () => {
 
 
 
-<div class="hero">
-  <h1>WxManBran: Tropical Weather, Made Clear</h1>
-  <p>Trusted insights on hurricanes and tropical storms for the Gulf Coast and beyond. Stay ahead of the cone with concise updates and eye-catching visuals.</p>
-  <a class="button" href="{{ '/tropical-updates/' | relative_url }}">Read the latest update</a>
-</div>
-
 <section>
   <h2>What to Expect</h2>
   <ul class="card-list">
