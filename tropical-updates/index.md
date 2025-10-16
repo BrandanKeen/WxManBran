@@ -35,16 +35,19 @@ permalink: /tropical-updates/
           </p>
         </article>
 
-        <!-- Right: Video Discussion card -->
-        <article class="post-card">
-          <header class="post-card__header">
-            <time class="post-date" datetime="{{ post.date | date_to_xmlschema }}">
-              {{ post.date | date: "%B %d, %Y %-I %p" }} ET
-            </time>
-            <h2 class="post-title">
-              <span class="link-chip">{{ post.title }}: Briefing </span>
-            </h2>
-          </header>
+        <!-- Right: Brief card -->
+<article class="post-card">
+  <header class="post-card__header">
+    <time class="post-date" datetime="{{ post.date | date_to_xmlschema }}">
+      {{ post.date | date: "%B %d, %Y %-I %p" }} ET
+    </time>
+    <h2 class="post-title">
+      <a class="link-chip" href="https://www.youtube.com/watch?v={{ post.youtube_id }}" target="_blank" rel="noopener">
+        {{ post.video_title | default: post.title | append: ": Brief" }}
+      </a>
+    </h2>
+  </header>
+
 
           <div class="post-card__video">
             <iframe
