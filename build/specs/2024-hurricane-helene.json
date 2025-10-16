@@ -1,0 +1,315 @@
+[
+  {
+    "outfile": "Hurricane_Helene_MultiPanel.png",
+    "title": "Hurricane Helene (Perry, FL)",
+    "xlabel": null,
+    "x_tickformat": "%m-%d\n%I:%M %p",
+    "type": "grid",
+    "rows": 2,
+    "cols": 2,
+    "sharex": true,
+    "subplots": [
+      {
+        "key": "axs[0,0]",
+        "row": 1,
+        "col": 1,
+        "title": "Temperature & Dewpoint",
+        "xlabel": null,
+        "ylabel": "\u00b0F",
+        "legend_loc": "upper right",
+        "grid": true,
+        "series": [
+          {
+            "label": "Temperature",
+            "column": "Temp",
+            "color": "red",
+            "linestyle": "-",
+            "secondary_y": false
+          },
+          {
+            "label": "Dewpoint",
+            "column": "Dew",
+            "color": "green",
+            "linestyle": "-",
+            "secondary_y": false
+          }
+        ]
+      },
+      {
+        "key": "axs[0,1]",
+        "row": 1,
+        "col": 2,
+        "title": "Wind Speed",
+        "xlabel": null,
+        "ylabel": "mph",
+        "legend_loc": "upper right",
+        "grid": true,
+        "series": [
+          {
+            "label": "Sustained (1-min Avg)",
+            "column": "Wind Speed",
+            "color": "purple",
+            "linestyle": "-",
+            "secondary_y": false,
+            "alpha": 0.4
+          },
+          {
+            "label": "Gust (1-min Max)",
+            "column": "Hi Speed",
+            "color": "blue",
+            "linestyle": "-",
+            "secondary_y": false
+          }
+        ]
+      },
+      {
+        "key": "axs[1,0]",
+        "row": 2,
+        "col": 1,
+        "title": "Rain Rate",
+        "xlabel": null,
+        "ylabel": "in/hr",
+        "legend_loc": "upper right",
+        "grid": true,
+        "series": [
+          {
+            "label": "Rain Rate",
+            "column": "Rain Rate",
+            "color": "indigo",
+            "linestyle": "-",
+            "secondary_y": false
+          }
+        ]
+      },
+      {
+        "key": "axs[1,1]",
+        "row": 2,
+        "col": 2,
+        "title": "Pressure and Tendency (30-min)",
+        "xlabel": null,
+        "ylabel": "Pressure (mb)",
+        "legend_loc": "upper left",
+        "grid": true,
+        "series": [
+          {
+            "label": "Pressure",
+            "column": "Bar",
+            "color": "black",
+            "linestyle": "-",
+            "secondary_y": false
+          }
+        ],
+        "yaxis_color": "black",
+        "ylabel_color": "black",
+        "secondary_ylabel": "dP/dt (mb/30 min)",
+        "secondary_yaxis_color": "orange",
+        "secondary_ylabel_color": "orange",
+        "secondary_grid": false
+      }
+    ]
+  },
+  {
+    "outfile": "Hurricane_Helene_MSLP.png",
+    "title": "Pressure",
+    "xlabel": null,
+    "x_tickformat": "%m-%d\n%I:%M %p",
+    "type": "single",
+    "ylabel": "mb",
+    "legend_loc": "lower right",
+    "grid": true,
+    "series": [
+      {
+        "label": "Pressure",
+        "column": "Bar",
+        "color": "black",
+        "linestyle": "-",
+        "secondary_y": false
+      }
+    ],
+    "yaxis_color": null,
+    "ylabel_color": null
+  },
+  {
+    "outfile": "Hurricane_Helene_PTendency_5min.png",
+    "title": "Pressure Tendency (5 min)",
+    "xlabel": null,
+    "x_tickformat": "%m-%d\n%I:%M %p",
+    "type": "single",
+    "ylabel": "mb / 5 min",
+    "legend_loc": "upper right",
+    "grid": true,
+    "series": [
+      {
+        "label": "dP/dt (5 min)",
+        "column": "Pressure_Tendency_5min",
+        "color": "red",
+        "linestyle": "-",
+        "secondary_y": false
+      }
+    ],
+    "yaxis_color": null,
+    "ylabel_color": null
+  },
+  {
+    "outfile": "Hurricane_Helene_PTendency_10min.png",
+    "title": "Pressure Tendency (10 min)",
+    "xlabel": null,
+    "x_tickformat": "%m-%d\n%I:%M %p",
+    "type": "single",
+    "ylabel": "mb / 10 min",
+    "legend_loc": "upper right",
+    "grid": true,
+    "series": [
+      {
+        "label": "dP/dt (10 min)",
+        "column": "Pressure_Tendency_10min",
+        "color": "blue",
+        "linestyle": "-",
+        "secondary_y": false
+      }
+    ],
+    "yaxis_color": null,
+    "ylabel_color": null
+  },
+  {
+    "outfile": "Hurricane_Helene_PTendency_15min.png",
+    "title": "Pressure Tendency (15 min)",
+    "xlabel": null,
+    "x_tickformat": "%m-%d\n%I:%M %p",
+    "type": "single",
+    "ylabel": "mb / 15 min",
+    "legend_loc": "upper right",
+    "grid": true,
+    "series": [
+      {
+        "label": "dP/dt (15 min)",
+        "column": "Pressure_Tendency_15min",
+        "color": "green",
+        "linestyle": "-",
+        "secondary_y": false
+      }
+    ],
+    "yaxis_color": null,
+    "ylabel_color": null
+  },
+  {
+    "outfile": "Hurricane_Helene_PTendency_30min.png",
+    "title": "Pressure Tendency (30 min)",
+    "xlabel": null,
+    "x_tickformat": "%m-%d\n%I:%M %p",
+    "type": "single",
+    "ylabel": "mb / 30 min",
+    "legend_loc": "upper right",
+    "grid": true,
+    "series": [
+      {
+        "label": "dP/dt (30 min)",
+        "column": "Pressure_Tendency_30min",
+        "color": "darkorange",
+        "linestyle": "-",
+        "secondary_y": false
+      }
+    ],
+    "yaxis_color": null,
+    "ylabel_color": null
+  },
+  {
+    "outfile": "Hurricane_Helene_PTendency_1hour.png",
+    "title": "Pressure Tendency (1 hour)",
+    "xlabel": null,
+    "x_tickformat": "%m-%d\n%I:%M %p",
+    "type": "single",
+    "ylabel": "mb / hour",
+    "legend_loc": "upper right",
+    "grid": true,
+    "series": [
+      {
+        "label": "dP/dt (1 hour)",
+        "column": "Pressure_Tendency_60min",
+        "color": "purple",
+        "linestyle": "-",
+        "secondary_y": false
+      }
+    ],
+    "yaxis_color": null,
+    "ylabel_color": null
+  },
+  {
+    "outfile": "Hurricane_Helene_WindSpeed.png",
+    "title": "Wind Speed",
+    "xlabel": null,
+    "x_tickformat": "%m-%d\n%I:%M %p",
+    "type": "single",
+    "ylabel": "mph",
+    "legend_loc": "upper right",
+    "grid": true,
+    "series": [
+      {
+        "label": "Sustained (1-min Avg)",
+        "column": "Wind Speed",
+        "color": "purple",
+        "linestyle": "-",
+        "secondary_y": false,
+        "alpha": 0.4
+      },
+      {
+        "label": "Gust (1-min Max)",
+        "column": "Hi Speed",
+        "color": "blue",
+        "linestyle": "-",
+        "secondary_y": false
+      }
+    ],
+    "yaxis_color": null,
+    "ylabel_color": null
+  },
+  {
+    "outfile": "Hurricane_Helene_Temp_Dew.png",
+    "title": "Temperature & Dewpoint",
+    "xlabel": null,
+    "x_tickformat": "%m-%d\n%I:%M %p",
+    "type": "single",
+    "ylabel": "\u00b0F",
+    "legend_loc": "upper right",
+    "grid": true,
+    "series": [
+      {
+        "label": "Temperature",
+        "column": "Temp",
+        "color": "red",
+        "linestyle": "-",
+        "secondary_y": false
+      },
+      {
+        "label": "Dewpoint",
+        "column": "Dew",
+        "color": "green",
+        "linestyle": "-",
+        "secondary_y": false
+      }
+    ],
+    "yaxis_color": null,
+    "ylabel_color": null
+  },
+  {
+    "outfile": "Hurricane_Helene_RainRate.png",
+    "title": "Rain Rate",
+    "xlabel": null,
+    "x_tickformat": "%m-%d\n%I:%M %p",
+    "type": "single",
+    "ylabel": "in/hr",
+    "legend_loc": "upper right",
+    "grid": true,
+    "series": [
+      {
+        "label": "Rain Rate",
+        "column": "Rain Rate",
+        "color": "indigo",
+        "linestyle": "-",
+        "secondary_y": false
+      }
+    ],
+    "yaxis_color": null,
+    "ylabel_color": null
+  }
+]
