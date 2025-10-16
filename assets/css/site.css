@@ -107,64 +107,73 @@ a:focus {
 }
 
 .site-nav {
-  background: var(--brandPrimary);
   display: flex;
   justify-content: center;
   width: 100%;
+  padding: 0.75rem 0;
 }
 
 .site-nav__links {
   display: flex;
-  gap: 1.25rem;
   align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
   list-style: none;
   margin: 0;
-  padding: 0.75rem 1rem;
+  padding: 0;
 }
 
 .site-nav__links a {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  color: #fff;
-  opacity: 0.92;
+  color: color-mix(in srgb, var(--surface) 90%, transparent);
   font-size: 1.125rem;
   line-height: 1.2;
   text-decoration: none;
-  padding: 0.25rem 0.25rem 0.5rem;
-  border-bottom: 3px solid transparent;
-  transition: opacity 0.15s ease;
+  border-bottom: 2px solid transparent;
+  padding-bottom: 0.25rem;
+  transition: color 0.15s ease, border-color 0.15s ease;
 }
 
 .site-nav__links a:hover,
-.site-nav__links a:focus,
-.site-nav__links a:focus-visible {
-  color: #fff;
-  opacity: 1;
-  text-decoration: underline;
-  text-underline-offset: 4px;
+.site-nav__links a:focus {
+  color: var(--surface);
+  border-color: var(--brandAccent);
 }
 
-.site-nav__links a[aria-current="page"],
-.site-nav__links a.is-active {
-  color: #fff;
-  opacity: 1;
-  border-bottom: 3px solid var(--brandAccent);
-}
-
-.site-nav__links svg {
-  width: 1.1em;
-  height: 1.1em;
-  fill: currentColor;
-  stroke: currentColor;
+.site-nav__links a[aria-current="page"] {
+  color: var(--surface);
+  border-color: var(--brandAccent);
 }
 
 .site-nav__links .nav-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 1.35em;
+  height: 1.35em;
+  margin-right: 0.5rem;
   line-height: 0;
+  vertical-align: -0.15em;
+}
+
+.site-nav__links .nav-icon,
+.site-nav__links .nav-icon svg {
   color: currentColor;
+}
+
+.site-nav__links .nav-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+.site-nav__links .nav-icon svg [fill] {
+  fill: currentColor !important;
+}
+
+.site-nav__links .nav-icon svg [stroke] {
+  stroke: currentColor !important;
 }
 
 .site-nav__links .nav-label {
@@ -378,87 +387,6 @@ section {
   font-size: 1.5rem;
 }
 
-/* CARD CENTERING */
-.post-card {
-  background: #fff;
-  border: 1px solid color-mix(in srgb, var(--brandMuted) 40%, transparent);
-  border-radius: 12px;
-  padding: 1.25rem;
-  margin-block: 1.25rem;
-  box-shadow: 0 10px 24px color-mix(in srgb, var(--brandPrimary) 12%, transparent);
-  width: min(100%, 660px);
-  margin-inline: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-  color: var(--ink);
-}
-
-.post-card header {
-  width: 100%;
-}
-
-.post-card .post-card__date {
-  display: block;
-  margin: 0;
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: var(--inkAlt);
-  text-align: center;
-}
-
-.post-card .post-title {
-  margin: 0.35rem 0 0;
-  font-size: clamp(1.45rem, 2vw, 1.75rem);
-  line-height: 1.25;
-  text-align: center;
-}
-
-.post-card .post-title a {
-  color: var(--inkAlt);
-  text-decoration: none;
-}
-
-.post-card .post-title a:hover,
-.post-card .post-title a:focus-visible {
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-
-.post-card .post-card__thumb-link {
-  display: inline-flex;
-  justify-content: center;
-}
-
-.post-card .post-card__thumb {
-  width: 100%;
-  height: auto;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px color-mix(in srgb, var(--ink) 8%, transparent);
-}
-
-.post-card .read-more-wrap {
-  margin-top: 0.5rem;
-  text-align: center;
-}
-
-.post-card .read-more {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  color: var(--brandAccent);
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.post-card .read-more:hover,
-.post-card .read-more:focus-visible {
-  color: var(--brandAccentAlt);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
 /* Alerts */
 .alert-danger {
   background: color-mix(in srgb, var(--brandAccent) 10%, var(--surface));
@@ -511,9 +439,10 @@ section {
     font-size: 1.05rem;
   }
 
-  .site-nav__links svg {
-    width: 1em;
-    height: 1em;
+  .site-nav__links .nav-icon {
+    width: 1.2em;
+    height: 1.2em;
+    margin-right: 0.45rem;
   }
 }
 
@@ -542,4 +471,88 @@ section {
     transition: none !important;
     animation: none !important;
   }
+}
+
+
+/* Center the entire top navigation */
+.site-nav {
+  display: flex;
+  justify-content: center;   /* centers the <ul> block in the header */
+  width: 100%;
+}
+
+/* Make the list horizontal and centered */
+.site-nav__links {
+  display: flex;
+  align-items: center;
+  justify-content: center;   /* centers the menu items within the ul */
+  gap: 1.25rem;              /* adjust spacing between items as desired */
+  list-style: none;
+  margin: 0 auto;            /* centers the ul within the nav container */
+  padding: 0;
+}
+
+/* Base, hover, and active colors for links and icons */
+:root {
+  --nav-link: #111111;       /* base text color */
+  --nav-hover: #c0392b;      /* hover color */
+  --nav-active: #c0392b;     /* active/selected color */
+}
+
+/* Increase link text size by a few steps and wire up colors */
+.site-nav__links a {
+  font-size: 1.125rem;       /* bump from ~16px to ~18px; adjust to 1.2–1.25rem if desired */
+  line-height: 1.2;
+  text-decoration: none;
+  color: var(--nav-link);
+  transition: color .15s ease;
+}
+
+.site-nav__links a:hover {
+  color: var(--nav-hover);
+}
+
+.site-nav__links a[aria-current="page"] {
+  color: var(--nav-active);
+}
+
+/* Increase SVG icon size slightly above the text size */
+.site-nav__links .nav-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.35em;             /* up from ~1.1em */
+  height: 1.35em;
+  margin-right: 0.5rem;
+  line-height: 0;
+  vertical-align: -0.15em;
+}
+
+/* Make SVG icons always match link color in all states */
+.site-nav__links .nav-icon,
+.site-nav__links .nav-icon svg {
+  color: currentColor;       /* sets the CSS color that fill/stroke will inherit */
+}
+
+/* Ensure inline SVG scales and inherits color */
+.site-nav__links .nav-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+/* Robust override in case individual shapes have hardcoded fill/stroke */
+.site-nav__links .nav-icon svg [fill]  { fill: currentColor !important; }
+.site-nav__links .nav-icon svg [stroke]{ stroke: currentColor !important; }
+
+/* Keep labels inline next to icons */
+.site-nav__links .nav-label {
+  display: inline-block;
+}
+
+/* Optional: tune sizes for small screens so the nav does not wrap awkwardly */
+@media (max-width: 640px) {
+  .site-nav__links a { font-size: 1.05rem; }
+  .site-nav__links .nav-icon { width: 1.2em; height: 1.2em; margin-right: 0.45rem; }
+  .site-nav__links { gap: 1rem; }
 }

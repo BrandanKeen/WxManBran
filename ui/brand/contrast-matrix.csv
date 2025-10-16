@@ -1,11 +1,28 @@
-foreground,background,contrast_ratio,aa_normal,aa_large
-ink,surface,14.88:1,Pass,Pass
-inkAlt,surface,15.49:1,Pass,Pass
-surface,brandPrimary,14.42:1,Pass,Pass
-surface,brandSecondary,14.94:1,Pass,Pass
-surface,brandTertiary,12.65:1,Pass,Pass
-brandAccent,surface,6.15:1,Pass,Pass
-brandAccentAlt,surface,6.27:1,Pass,Pass
-brandMuted,surface,3.26:1,Fail,Pass
-brandAccent,brandPrimary,2.34:1,Fail,Fail
-brandAccent,brandSecondary,2.43:1,Fail,Fail
+Foreground,Background,Contrast,AA Normal (4.5:1),AA Large (3:1),AAA Normal (7:1)
+Text Dark (#1f2346),Surface (#fdfdfd),14.88,PASS,PASS,PASS
+Text Dark (#1f2346),SurfaceAlt (#f8f8f8),14.26,PASS,PASS,PASS
+Text Dark (#1f2346),SurfaceAlt2 (#fdfcfc),14.78,PASS,PASS,PASS
+Text Dark (#1f2346),Primary (#192064),1.03,FAIL,FAIL,FAIL
+Text Dark (#1f2346),Secondary (#1e2345),1.0,FAIL,FAIL,FAIL
+Text Dark (#1f2346),Tertiary (#2a1198),1.18,FAIL,FAIL,FAIL
+Text Dark (#1f2346),Accent (#bd1c25),2.42,FAIL,FAIL,FAIL
+Text Dark (#1f2346),AccentAlt (#bc1823),2.37,FAIL,FAIL,FAIL
+Text Dark (#1f2346),Muted (#8d8aa7),4.56,PASS,PASS,FAIL
+Text Dark Alt (#162143),Surface (#fdfdfd),15.49,PASS,PASS,PASS
+Text Dark Alt (#162143),SurfaceAlt (#f8f8f8),14.84,PASS,PASS,PASS
+Text Dark Alt (#162143),SurfaceAlt2 (#fdfcfc),15.39,PASS,PASS,PASS
+Text Dark Alt (#162143),Primary (#192064),1.07,FAIL,FAIL,FAIL
+Text Dark Alt (#162143),Secondary (#1e2345),1.04,FAIL,FAIL,FAIL
+Text Dark Alt (#162143),Tertiary (#2a1198),1.22,FAIL,FAIL,FAIL
+Text Dark Alt (#162143),Accent (#bd1c25),2.52,FAIL,FAIL,FAIL
+Text Dark Alt (#162143),AccentAlt (#bc1823),2.47,FAIL,FAIL,FAIL
+Text Dark Alt (#162143),Muted (#8d8aa7),4.75,PASS,PASS,FAIL
+Text Light (#ffffff),Surface (#fdfdfd),1.02,FAIL,FAIL,FAIL
+Text Light (#ffffff),SurfaceAlt (#f8f8f8),1.06,FAIL,FAIL,FAIL
+Text Light (#ffffff),SurfaceAlt2 (#fdfcfc),1.02,FAIL,FAIL,FAIL
+Text Light (#ffffff),Primary (#192064),14.67,PASS,PASS,PASS
+Text Light (#ffffff),Secondary (#1e2345),15.2,PASS,PASS,PASS
+Text Light (#ffffff),Tertiary (#2a1198),12.87,PASS,PASS,PASS
+Text Light (#ffffff),Accent (#bd1c25),6.26,PASS,PASS,FAIL
+Text Light (#ffffff),AccentAlt (#bc1823),6.38,PASS,PASS,FAIL
+Text Light (#ffffff),Muted (#8d8aa7),3.32,FAIL,PASS,FAIL

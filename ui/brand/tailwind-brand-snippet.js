@@ -1,3 +1,4 @@
+// tailwind.config.js (merge this into your config)
 module.exports = {
   theme: {
     extend: {
@@ -13,9 +14,9 @@ module.exports = {
           inkAlt: '#162143',
           surface: '#fdfdfd',
           surfaceAlt: '#f8f8f8',
-          surfaceAlt2: '#fdfcfc'
-        }
+          surfaceAlt2: '#fdfcfc',
+        },
       }
     }
   }
-};
+}
