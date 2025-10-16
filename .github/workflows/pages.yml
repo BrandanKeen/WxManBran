@@ -133,6 +133,17 @@ jobs:
             sed -E "s#src=\"(assets/docs/$slug/)?media/([^\"]*)\"#src=\"{{ '/assets/docs/$slug/media/\2' | relative_url }}\"#g" \
               "/tmp/$slug.html" > "/tmp/$slug.body.html"
 
+            # Detect first YouTube URL in the converted HTML and extract video ID
+            yt_url="$(grep -Eo 'https?://(www\.)?(youtube\.com/watch\?v=[A-Za-z0-9_-]{11}([^'"'"'[:space:]]*)?|youtu\.be/[A-Za-z0-9_-]{11}([^'"'"'[:space:]]*)?)' "/tmp/$slug.body.html" | head -n1 || true)"
+            yt_id=""
+            if [ -n "$yt_url" ]; then
+              if [[ "$yt_url" =~ youtu\.be/([A-Za-z0-9_-]{11}) ]]; then
+                yt_id="${BASH_REMATCH[1]}"
+              elif [[ "$yt_url" =~ v=([A-Za-z0-9_-]{11}) ]]; then
+                yt_id="${BASH_REMATCH[1]}"
+              fi
+            fi
+
             # summary (first ~160 chars)
             plain="$(sed -E 's/<(script|style)[^>]*>.*<\/\1>//g; s/<[^>]+>/ /g' /tmp/$slug.body.html | tr -s '[:space:]' ' ' | sed 's/^ //; s/ $//')"
             summary="$(printf '%s' "$plain" | cut -c1-160)"; if [ ${#plain} -gt 160 ]; then summary="${summary% *}…"; fi
@@ -151,6 +162,7 @@ jobs:
               echo "date: $date_iso"
               [ -n "$summary_esc" ] && echo "summary: \"$summary_esc\""
               [ -n "$thumb_rel" ] && echo "thumb: \"$thumb_rel\"" && echo "thumb_alt: \"$title\""
+              [ -n "$yt_id" ] && echo "youtube_id: \"$yt_id\""
               echo '---'
               cat "/tmp/$slug.body.html"
             } > "$out"
