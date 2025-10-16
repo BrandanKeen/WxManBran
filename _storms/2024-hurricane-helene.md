@@ -4,6 +4,7 @@ title: Hurricane Helene
 season: 2024
 landfall: September 26, 2024 &mdash; near Cedar Key, FL
 permalink: /storms/hurricane-helene-2024/
+sort_date: 2024-09-26
 ---
 
 # Hurricane Helene (2024)

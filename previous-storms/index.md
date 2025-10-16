@@ -22,17 +22,19 @@ permalink: /previous-storms/
   {% if season_group %}
     {% assign storms_for_season = season_group.items | where_exp: "storm", "storm.placeholder != true" %}
     {% if storms_for_season.size > 0 %}
-    <ul class="card-list">
-      {% assign storms_sorted = storms_for_season | sort: 'title' %}
+    <ul class="card-list storm-card-list">
+      {% assign storms_sorted = storms_for_season | sort: 'sort_date' | reverse %}
       {% for storm in storms_sorted %}
-      <li class="card">
-        <a href="{{ storm.url | relative_url }}">{{ storm.title }}</a>
-        {% if storm.landfall %}
-        <small>Landfall: {{ storm.landfall }}</small>
-        {% endif %}
-        {% if storm.excerpt %}
-        <p>{{ storm.excerpt | strip_html | truncate: 160 }}</p>
-        {% endif %}
+      {% assign storm_thumbnail = storm.thumbnail | default: storm.thumb | default: storm.image %}
+      <li class="storm-card">
+        <a class="storm-card__link" href="{{ storm.url | relative_url }}">
+          <div class="storm-card__thumb{% unless storm_thumbnail %} storm-card__thumb--empty{% endunless %}">
+            {% if storm_thumbnail %}
+            <img src="{{ storm_thumbnail | relative_url }}" alt="{{ storm.title }} thumbnail">
+            {% endif %}
+          </div>
+          <h3 class="storm-card__title">{{ storm.title }}</h3>
+        </a>
       </li>
       {% endfor %}
     </ul>

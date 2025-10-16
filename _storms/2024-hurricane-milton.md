@@ -4,6 +4,7 @@ title: Hurricane Milton
 season: 2024
 landfall: October 9, 2024 &mdash; Cedar Key, FL
 permalink: /storms/hurricane-milton-2024/
+sort_date: 2024-10-09
 ---
 
 # Hurricane Milton (2024)
