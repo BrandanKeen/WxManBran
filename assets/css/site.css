@@ -385,7 +385,7 @@ section {
 /* Grid helpers */
 .posts-grid.posts-grid--fit {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(420px, 660px));
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
   gap: 1.25rem;
   justify-content: center;
 }
@@ -658,4 +658,38 @@ section {
 :focus-visible {
   outline: 3px solid var(--brandAccent);
   outline-offset: 3px;
+}
+
+/* Pair container spans entire outer grid; two equal columns inside */
+.post-pair {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(320px, 1fr));
+  gap: 1.25rem;
+  align-items: start;
+}
+
+/* Stack only on small phones */
+@media (max-width: 700px) {
+  .post-pair {
+    grid-column: 1 / -1;
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Keep blog thumbnails consistent */
+.post-card__thumb {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* Make the YouTube player match the thumbnail footprint */
+.post-card__video iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: 8px;
 }
