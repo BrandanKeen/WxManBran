@@ -20,7 +20,7 @@ Hurricane Helene formed in the northwestern Caribbean on September 24 and rapidl
 - **Storm Intensity:** Category 4 at landfall
 - **Max Winds:** 140 mph (120 kt)
 - **Formation:** September 24, 2024 over the northwestern Caribbean Sea
-- **Landfall:** 0310 UTC September 27 near Perry, Florida (≈10 miles SW)
+- **Landfall:** 11:10 EDT September 27 near Perry, Florida
 - **Minimum Pressure:** 939 mb at landfall
 
 ## Timeline
