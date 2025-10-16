@@ -187,6 +187,9 @@ a:focus {
   border-radius: 12px;
   padding: 1rem;
   margin-block: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .post-card__header {
@@ -214,7 +217,8 @@ a:focus {
 
 .read-more-wrap {
   text-align: center;
-  margin-top: 0.5rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
 }
 
 .read-more {
@@ -666,7 +670,7 @@ section {
   display: grid;
   grid-template-columns: repeat(2, minmax(320px, 1fr));
   gap: 1.25rem;
-  align-items: start;
+  align-items: stretch;
 }
 
 /* Stack only on small phones */
@@ -681,8 +685,18 @@ section {
 .post-card__thumb {
   display: block;
   width: 100%;
-  height: auto;
   border-radius: 8px;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.post-card__video,
+.post-card__thumb-link {
+  margin-top: 0.75rem;
+}
+
+.post-card__video {
+  display: flex;
 }
 
 /* Make the YouTube player match the thumbnail footprint */
@@ -693,3 +707,4 @@ section {
   border: 0;
   border-radius: 8px;
 }
+
