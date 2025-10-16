@@ -50,12 +50,31 @@ A lightweight Jekyll site for tropical weather storytelling. Everything is desig
 
 The site uses GitHub Pages default plugins (`jekyll-feed` and `jekyll-sitemap`) for syndication and search indexing. No extra setup needed.
 
-## Local Preview (Optional)
+## Testing & Visualizing Changes
 
-If you want to preview locally, install Ruby and run:
+### Local preview
+
+1. Install Ruby (>= 3.1) and Bundler.
+2. Install dependencies:
+
+   ```bash
+   bundle install
+   ```
+
+3. Start the live preview server:
+
+   ```bash
+   bundle exec jekyll serve --livereload --host 0.0.0.0 --port 4000
+   ```
+
+   Visit <http://localhost:4000> to confirm your updates before committing. The `--livereload` flag automatically refreshes the browser as you edit.
+
+### Continuous integration check
+
+Every pull request automatically runs `.github/workflows/jekyll-ci.yml`, which installs the Gem bundle and executes:
 
 ```bash
-bundle exec jekyll serve
+bundle exec jekyll build
 ```
 
-But this is optional—GitHub’s editor and preview tabs are usually all you need.
+This mirrors the production Pages build, so you’ll know a change is safe to merge as soon as CI passes.
