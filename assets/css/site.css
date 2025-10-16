@@ -456,3 +456,86 @@ a.card__cta:focus-visible,
   display: inline-block;
 }
 
+
+/* Center the entire top navigation */
+.site-nav {
+  display: flex;
+  justify-content: center;   /* centers the <ul> block in the header */
+  width: 100%;
+}
+
+/* Make the list horizontal and centered */
+.site-nav__links {
+  display: flex;
+  align-items: center;
+  justify-content: center;   /* centers the menu items within the ul */
+  gap: 1.25rem;              /* adjust spacing between items as desired */
+  list-style: none;
+  margin: 0 auto;            /* centers the ul within the nav container */
+  padding: 0;
+}
+
+/* Base, hover, and active colors for links and icons */
+:root {
+  --nav-link: #111111;       /* base text color */
+  --nav-hover: #c0392b;      /* hover color */
+  --nav-active: #c0392b;     /* active/selected color */
+}
+
+/* Increase link text size by a few steps and wire up colors */
+.site-nav__links a {
+  font-size: 1.125rem;       /* bump from ~16px to ~18px; adjust to 1.2–1.25rem if desired */
+  line-height: 1.2;
+  text-decoration: none;
+  color: var(--nav-link);
+  transition: color .15s ease;
+}
+
+.site-nav__links a:hover {
+  color: var(--nav-hover);
+}
+
+.site-nav__links a[aria-current="page"] {
+  color: var(--nav-active);
+}
+
+/* Increase SVG icon size slightly above the text size */
+.site-nav__links .nav-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.35em;             /* up from ~1.1em */
+  height: 1.35em;
+  margin-right: 0.5rem;
+  line-height: 0;
+  vertical-align: -0.15em;
+}
+
+/* Make SVG icons always match link color in all states */
+.site-nav__links .nav-icon,
+.site-nav__links .nav-icon svg {
+  color: currentColor;       /* sets the CSS color that fill/stroke will inherit */
+}
+
+/* Ensure inline SVG scales and inherits color */
+.site-nav__links .nav-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+/* Robust override in case individual shapes have hardcoded fill/stroke */
+.site-nav__links .nav-icon svg [fill]  { fill: currentColor !important; }
+.site-nav__links .nav-icon svg [stroke]{ stroke: currentColor !important; }
+
+/* Keep labels inline next to icons */
+.site-nav__links .nav-label {
+  display: inline-block;
+}
+
+/* Optional: tune sizes for small screens so the nav does not wrap awkwardly */
+@media (max-width: 640px) {
+  .site-nav__links a { font-size: 1.05rem; }
+  .site-nav__links .nav-icon { width: 1.2em; height: 1.2em; margin-right: 0.45rem; }
+  .site-nav__links { gap: 1rem; }
+}
