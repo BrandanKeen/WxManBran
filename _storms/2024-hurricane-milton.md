@@ -11,9 +11,10 @@ sort_date: 2024-10-09
 
 Hurricane Milton produced a compact but intense wind field as it curved toward the Big Bend of Florida. This page is a placeholder for the full intercept summary once radar loops, drone flights, and forecast discussions are curated.
 
-## At a Glance
+## Overview
 
-- **Storm Type:** Category 4 hurricane at landfall (max winds 140 mph)
+- **Storm Intensity:** Category 4 hurricane at landfall
+- **Max Winds:** 140 mph
 - **Formation:** October 7, 2024 over the central Gulf of Mexico
 - **Landfall:** {{ page.landfall }}
 - **Minimum Pressure:** 947 mb

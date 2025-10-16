@@ -11,9 +11,10 @@ sort_date: 2024-09-26
 
 Helene swept inland along the Gulf Coast with a large wind field and widespread rainfall that stretched well into the Appalachian foothills. Detailed chase logs, remote sensing products, and post-storm reports will live here once processing is complete.
 
-## At a Glance
+## Overview
 
-- **Storm Type:** Category 4 hurricane at landfall (max winds 140 mph)
+- **Storm Intensity:** Category 4 hurricane at landfall
+- **Max Winds:** 140 mph
 - **Formation:** September 23, 2024 over the eastern Gulf of Mexico
 - **Landfall:** {{ page.landfall }}
 - **Minimum Pressure:** 942 mb
