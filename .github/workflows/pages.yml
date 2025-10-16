@@ -144,6 +144,10 @@ jobs:
               fi
             fi
 
+            # Remove any YouTube anchor tags and bare URLs from the HTML body
+            perl -0777 -pe 's#<a[^>]+href="https?://(?:www\.)?(?:youtube\.com[^"]*|youtu\.be/[^"]*)"[^>]*>.*?</a>##gis' -i "/tmp/$slug.body.html"
+            perl -0777 -pe 's#https?://(?:www\.)?(?:youtube\.com\S*|youtu\.be/\S*)##g' -i "/tmp/$slug.body.html"
+
             # summary (first ~160 chars)
             plain="$(sed -E 's/<(script|style)[^>]*>.*<\/\1>//g; s/<[^>]+>/ /g' /tmp/$slug.body.html | tr -s '[:space:]' ' ' | sed 's/^ //; s/ $//')"
             summary="$(printf '%s' "$plain" | cut -c1-160)"; if [ ${#plain} -gt 160 ]; then summary="${summary% *}…"; fi
