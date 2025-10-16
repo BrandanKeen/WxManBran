@@ -16,8 +16,6 @@ permalink: /
   <link rel="apple-touch-icon" href="/Images/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="192x192" href="/Images/icon-192.png">
   <link rel="icon" type="image/png" sizes="512x512" href="/Images/icon-512.png">
-  <link rel="stylesheet" href="https://unpkg.com/github-markdown-css@5.8.1/github-markdown-light.css">
-
   <style>
     :root{
       --card:#fff; --bg:#f6f7f9; --text:#0b1220; --muted:#667085; --border:#e6e8ee; --shadow:0 6px 16px rgba(0,0,0,.06);
@@ -98,10 +96,6 @@ permalink: /
     .needle{fill:var(--needle);stroke:var(--needle)}
     #wx-needle,#wx-needle2{transform-box:view-box;transform-origin:50px 50px;transition:transform 140ms ease-out}
 
-    /* README area */
-    .markdown-body{box-sizing:border-box;padding:0}
-    #app{ margin-top:48px; }
-
 /* Phones */
 @media (max-width: 480px){
   .container{margin:10px auto 20px}
@@ -137,7 +131,7 @@ permalink: /
 </head>
 <body class="theme-classic" data-color="values">
   <div class="container">
-    <img class="hero" src="/Images/WxManBran_Logo.png" alt="Two red hurricane warning flags" loading="lazy">
+    <img class="hero" src="{{ '/assets/images/hurricane-warning-flags.svg' | relative_url }}" alt="Two red hurricane warning flags" loading="lazy">
 
     <main id="wx-dashboard" aria-label="Live weather dashboard">
       <header class="site-header"><div id="wx-conn">Status: Offline</div></header>
@@ -315,49 +309,7 @@ permalink: /
       </section>
     </main>
 
-    <!-- Rest of the website (README.md rendered below) -->
-    <article class="markdown-body" id="app">Loading…</article>
   </div>
-
-  <!-- Render README.md under the dashboard -->
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script>
-    (async ()=>{ 
-      const container=document.getElementById('app');
-      try{
-        const res=await fetch('README.md', {cache:'no-store'}); 
-        if(!res.ok) throw 0;
-        container.innerHTML=marked.parse(await res.text());
-      }catch{ container.textContent=''; }
-
-      // Tiny helper: make every image link open itself in a new tab
-      function enhanceImages(root){
-        root.querySelectorAll('img').forEach(img=>{
-          if (img.closest('.yt-embed')) return;
-          const link = img.closest('a');
-          const targetHref = img.currentSrc || img.src;
-          if (link){ link.href = targetHref; link.target = '_blank'; link.rel='noopener'; return; }
-          const a=document.createElement('a'); a.href=targetHref; a.target='_blank'; a.rel='noopener';
-          img.parentNode.insertBefore(a,img); a.appendChild(img);
-        });
-      }
-
-      // Under each "Plots" heading, open links in new tabs
-      function makePlotsLinksNewTab(root){
-        const heads = Array.from(root.querySelectorAll('h1,h2,h3,h4,h5,h6')).filter(h => /plots/i.test(h.textContent));
-        heads.forEach(h=>{
-          for (let el = h.nextElementSibling; el && !/^H[1-6]$/.test(el.tagName); el = el.nextElementSibling){
-            el.querySelectorAll('a[href]').forEach(a=>{ a.target='_blank'; a.rel='noopener'; });
-          }
-        });
-      }
-
-      try{
-        enhanceImages(container);
-        makePlotsLinksNewTab(container);
-      }catch(e){ console && console.warn && console.warn('README enhancement skipped:', e); }
-    })();
-  </script>
 
   <!-- Live engine -->
   <script>
