@@ -1,0 +1,9 @@
+{% comment %}
+Renders an inline SVG by short name from _data/nav.yml via include.name
+Valid names: home, updates, storm
+{% endcomment %}
+{% case include.name %}
+  {% when 'home' %}{% include icons/home.svg %}
+  {% when 'updates' %}{% include icons/updates.svg %}
+  {% when 'storm' %}{% include icons/storm.svg %}
+{% endcase %}

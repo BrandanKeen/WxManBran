@@ -1,8 +1,11 @@
 - title: Home
   url: /
+  icon: home
 - title: Tropical Updates
   url: /tropical-updates/
+  icon: updates
 - title: Previous Storms
   url: /previous-storms/
+  icon: storm
 - title: About
   url: /about/
