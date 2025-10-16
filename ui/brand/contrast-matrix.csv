@@ -1,0 +1,11 @@
+foreground,background,contrast_ratio,aa_normal,aa_large
+ink,surface,14.88:1,Pass,Pass
+inkAlt,surface,15.49:1,Pass,Pass
+surface,brandPrimary,14.42:1,Pass,Pass
+surface,brandSecondary,14.94:1,Pass,Pass
+surface,brandTertiary,12.65:1,Pass,Pass
+brandAccent,surface,6.15:1,Pass,Pass
+brandAccentAlt,surface,6.27:1,Pass,Pass
+brandMuted,surface,3.26:1,Fail,Pass
+brandAccent,brandPrimary,2.34:1,Fail,Fail
+brandAccent,brandSecondary,2.43:1,Fail,Fail
