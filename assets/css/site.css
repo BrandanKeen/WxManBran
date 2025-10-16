@@ -712,7 +712,7 @@ section {
 .post-card__thumb {
   width: 100%;
   height: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 3 / 2;       /* slightly taller frame for a larger presence */
   object-fit: contain;       /* show whole image without cropping */
   object-position: center;
   display: block;
@@ -723,6 +723,7 @@ section {
 /* Increase vertical space between rows in the grid */
 .posts-grid.posts-grid--fit {
   row-gap: 2rem;            /* adjust value as desired */
+  padding-bottom: 2.5rem;   /* ensure the grid clears surrounding content */
 }
 
 /* Safety margin below each pair of cards */
