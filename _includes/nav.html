@@ -6,7 +6,9 @@
       {% assign normalized_current = current | replace: '//', '/' %}
       {% assign normalized_item = item_url | replace: '//', '/' %}
       <li>
-        <a href="{{ item_url }}"{% if normalized_current == normalized_item %} aria-current="page"{% endif %}>
+        <a href="{{ item_url }}"
+           class="nav-link{% if normalized_current == normalized_item %} is-active{% endif %}"
+           {% if normalized_current == normalized_item %}aria-current="page"{% endif %}>
           {% if item.icon %}
             <span class="nav-icon" aria-hidden="true">{% include icon.html name=item.icon %}</span>
           {% endif %}

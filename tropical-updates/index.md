@@ -9,13 +9,13 @@ permalink: /tropical-updates/
 <div class="posts-grid posts-grid--fit">
   {%- for post in posts_sorted -%}
     <article class="post-card">
-      <header>
-        <time class="post-card__date" datetime="{{ post.date | date_to_xmlschema }}">
+      <header class="post-card__header">
+        <time class="post-date" datetime="{{ post.date | date_to_xmlschema }}">
           {{ post.date | date: "%B %d, %Y %-I %p" }} ET
         </time>
 
         <h2 class="post-title">
-          <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+          <a class="link-chip" href="{{ post.url | relative_url }}">{{ post.title }}</a>
         </h2>
       </header>
 
@@ -28,7 +28,7 @@ permalink: /tropical-updates/
       {% endif %}
 
       <p class="read-more-wrap">
-        <a class="read-more" href="{{ post.url | relative_url }}">Read more →</a>
+        <a class="read-more link-chip" href="{{ post.url | relative_url }}">Read more →</a>
       </p>
     </article>
   {%- endfor -%}
