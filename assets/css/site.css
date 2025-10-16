@@ -561,30 +561,6 @@ section {
   padding: 0;
 }
 
-/* Base, hover, and active colors for links and icons */
-:root {
-  --nav-link: #111111;       /* base text color */
-  --nav-hover: #c0392b;      /* hover color */
-  --nav-active: #c0392b;     /* active/selected color */
-}
-
-/* Increase link text size by a few steps and wire up colors */
-.site-nav__links a {
-  font-size: 1.125rem;       /* bump from ~16px to ~18px; adjust to 1.2–1.25rem if desired */
-  line-height: 1.2;
-  text-decoration: none;
-  color: var(--nav-link);
-  transition: color .15s ease;
-}
-
-.site-nav__links a:hover {
-  color: var(--nav-hover);
-}
-
-.site-nav__links a[aria-current="page"] {
-  color: var(--nav-active);
-}
-
 /* Increase SVG icon size slightly above the text size */
 .site-nav__links .nav-icon {
   display: inline-flex;
@@ -624,4 +600,62 @@ section {
   .site-nav__links a { font-size: 1.05rem; }
   .site-nav__links .nav-icon { width: 1.2em; height: 1.2em; margin-right: 0.45rem; }
   .site-nav__links { gap: 1rem; }
+}
+
+/* === FINAL NAV COLORS AND HIGHLIGHTS (authoritative) === */
+
+/* White links on navy bar */
+.site-header,
+.site-nav { background: var(--brandPrimary); }
+
+.site-header .site-nav__links a,
+.site-nav__links a {
+  color: #fff !important;
+  opacity: .95;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  line-height: 1.2;
+  border-radius: 9999px;   /* pill shape */
+  padding: .35rem .65rem;  /* so the highlight wraps the text */
+  transition: background-color .18s ease, color .18s ease, opacity .18s ease;
+}
+
+/* Hover: pill highlight around text */
+.site-header .site-nav__links a:hover,
+.site-header .site-nav__links a:focus-visible,
+.site-nav__links a:hover,
+.site-nav__links a:focus-visible {
+  background: color-mix(in srgb, var(--brandAccent) 30%, transparent);
+  color: #fff !important;
+  opacity: 1;
+  outline: none;
+  text-decoration: none;
+}
+
+/* Selected (current) page keeps the highlight */
+.site-header .site-nav__links a[aria-current="page"],
+.site-header .site-nav__links a.is-active,
+.site-nav__links a[aria-current="page"],
+.site-nav__links a.is-active {
+  background: color-mix(in srgb, var(--brandAccent) 45%, transparent);
+  color: #fff !important;
+  opacity: 1;
+}
+
+/* Icons always match the link color, including hover/active */
+.site-header .site-nav__links .nav-icon svg {
+  width: 1.1em;
+  height: 1.1em;
+  fill: currentColor;
+  stroke: currentColor;
+}
+.site-header .site-nav__links .nav-icon svg [fill]  { fill: currentColor !important; }
+.site-header .site-nav__links .nav-icon svg [stroke]{ stroke: currentColor !important; }
+
+/* Keyboard focus ring */
+:focus-visible {
+  outline: 3px solid var(--brandAccent);
+  outline-offset: 3px;
 }
