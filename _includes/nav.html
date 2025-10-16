@@ -10,12 +10,17 @@
     <ul id="site-nav-links" class="site-nav__links">
       {% assign current = page.url | default: '/' | relative_url %}
       {% for item in site.data.nav %}
-      {% assign item_url = item.url | relative_url %}
-      {% assign normalized_current = current | replace: '//', '/' %}
-      {% assign normalized_item = item_url | replace: '//', '/' %}
-      <li>
-        <a href="{{ item_url }}"{% if normalized_current == normalized_item %} aria-current="page"{% endif %}>{{ item.title }}</a>
-      </li>
+        {% assign item_url = item.url | relative_url %}
+        {% assign normalized_current = current | replace: '//', '/' %}
+        {% assign normalized_item = item_url | replace: '//', '/' %}
+        <li>
+          <a href="{{ item_url }}"{% if normalized_current == normalized_item %} aria-current="page"{% endif %}>
+            {% if item.icon %}
+              <span class="nav-icon" aria-hidden="true">{% include icon.html name=item.icon %}</span>
+            {% endif %}
+            <span class="nav-label">{{ item.title }}</span>
+          </a>
+        </li>
       {% endfor %}
     </ul>
   </div>
