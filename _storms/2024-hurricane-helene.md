@@ -2,32 +2,41 @@
 layout: default
 title: Hurricane Helene
 season: 2024
-landfall: September 26, 2024 &mdash; near Cedar Key, FL
+landfall: September 27, 2024 &mdash; near Perry, FL
+landfall_date: 2024-09-27
 permalink: /storms/hurricane-helene-2024/
-sort_date: 2024-09-26
+sort_date: 2024-09-27
 overview: >-
-  Helene swept inland along the Gulf Coast with a large wind field and widespread rainfall that stretched well into the
-  Appalachian foothills.
+  Rapidly intensifying over the Gulf of Mexico, Helene struck Florida's Big Bend as a Category 4 hurricane before racing
+  inland with destructive surge, wind, flooding, and tornadoes from the Gulf Coast to the Appalachians.
 ---
 
 # Hurricane Helene (2024)
 
-Helene swept inland along the Gulf Coast with a large wind field and widespread rainfall that stretched well into the Appalachian foothills. Detailed chase logs, remote sensing products, and post-storm reports will live here once processing is complete.
+Helene formed in the northwestern Caribbean on September 24 and rapidly intensified over the exceptionally warm Gulf of Mexico before making a destructive Category 4 landfall in Florida's Big Bend. The hurricane's fast forward speed spread hurricane-force gusts, damaging storm surge, and prolific rainfall far inland through the southern Appalachians.
 
 ## Overview
 
-- **Storm Intensity:** Category 4 hurricane at landfall
-- **Max Winds:** 140 mph
-- **Formation:** September 23, 2024 over the eastern Gulf of Mexico
-- **Landfall:** {{ page.landfall }}
-- **Minimum Pressure:** 942 mb
+- **Storm Intensity:** Category 4 at landfall
+- **Max Winds:** 140 mph (120 kt)
+- **Formation:** September 24, 2024 over the northwestern Caribbean Sea
+- **Landfall:** 0310 UTC September 27 near Perry, Florida (≈10 miles SW)
+- **Minimum Pressure:** 939 mb at landfall
 
 ## Timeline
 
-1. *September 23:* Helene organizes from a sprawling gyre and begins drifting northward.
-2. *September 24:* Rapid intensification underway; the eye clears out on satellite imagery.
-3. *September 26:* Landfall occurs just south of Cedar Key with destructive winds and surge.
-4. *September 27:* Helene transitions inland, spreading flooding rainfall into Georgia and the Carolinas.
+1. *September 24:* Tropical storm forms in the northwestern Caribbean and moves toward the Gulf.
+2. *September 26:* Rapid intensification over the Gulf; becomes a major hurricane by evening.
+3. *Early September 27:* Landfall in Florida's Big Bend as a Category 4 hurricane; life-threatening storm surge.
+4. *September 27–28:* Races inland and weakens; dissipates over Tennessee on September 28.
+
+## Impacts
+
+- **Storm surge:** 12–16 ft inundation in parts of Florida's Big Bend, with severe damage around Keaton Beach.
+- **Wind:** Fast forward speed spread hurricane-force gusts far inland, toppling trees and causing massive power outages across Georgia, South Carolina, and North Carolina.
+- **Rain and flooding:** Catastrophic freshwater flooding and landslides across western North Carolina and the southern Appalachians.
+- **Tornadoes:** At least 33 tornadoes while Helene remained tropical (39 including post-tropical reports).
+- **Fatalities:** At least 249 deaths in the United States (175 direct, 71 indirect, 3 pending classification).
 
 ## Graphics & Media
 
@@ -36,6 +45,14 @@ Add future imagery such as chase video, LiDAR transects, and radar composites. U
 ```
 ![Helene Radar Loop]({{ '/assets/2024/helene/radar-loop.gif' | relative_url }})
 ```
+
+## Media
+
+MediaComingSoon
+
+## Data
+
+DataComingSoon
 
 ## Post-Storm Notes
 
