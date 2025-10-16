@@ -708,3 +708,92 @@ section {
   border-radius: 8px;
 }
 
+/* Blog post thumbnail should show the full image */
+.post-card__thumb {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 3 / 2;       /* slightly taller frame for a larger presence */
+  object-fit: contain;       /* show whole image without cropping */
+  object-position: center;
+  display: block;
+  background: #f5f7fb;      /* subtle letterbox behind image edges */
+  border-radius: 8px;
+}
+
+/* Increase vertical space between rows in the grid */
+.posts-grid.posts-grid--fit {
+  row-gap: 2rem;            /* adjust value as desired */
+  padding-bottom: 2.5rem;   /* ensure the grid clears surrounding content */
+}
+
+/* Safety margin below each pair of cards */
+.post-pair {
+  margin-bottom: 2rem;
+}
+
+/* Previous storms archive cards */
+.storm-card-list {
+  gap: 2rem;
+}
+
+.storm-card {
+  margin: 0;
+}
+
+.storm-card__link {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 100%;
+  padding: 1.5rem;
+  border-radius: 16px;
+  background: var(--surface);
+  border: 1px solid color-mix(in srgb, var(--brandMuted) 32%, transparent);
+  box-shadow: 0 12px 24px color-mix(in srgb, var(--ink) 7%, transparent);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+}
+
+.storm-card__link:hover,
+.storm-card__link:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 32px color-mix(in srgb, var(--ink) 12%, transparent);
+  border-color: color-mix(in srgb, var(--brandAccent) 35%, transparent);
+}
+
+.storm-card__thumb {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--brandMuted) 15%, var(--surfaceAlt));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.storm-card__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.storm-card__thumb--empty {
+  background: repeating-linear-gradient(
+      45deg,
+      color-mix(in srgb, var(--brandMuted) 20%, transparent),
+      color-mix(in srgb, var(--brandMuted) 20%, transparent) 10px,
+      color-mix(in srgb, var(--surfaceAlt) 80%, transparent) 10px,
+      color-mix(in srgb, var(--surfaceAlt) 80%, transparent) 20px
+    );
+}
+
+.storm-card__title {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--brandPrimary);
+}
