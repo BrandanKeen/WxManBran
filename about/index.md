@@ -6,7 +6,7 @@ permalink: /about/
 
 <div class="section-intro">
   <h1>About WxManBran</h1>
-  <p>WxManBran is Brandan Keen’s home on the web for tropical weather storytelling—mixing expert meteorology with visuals that resonate with Gulf Coast communities.</p>
+  <p>WeatherManBran was founded by Meteorologist Brandan Keen to provide reliable, trustworthy, and educational coverage of the tropics and hurricanes. The goal is simple: help people from every community stay informed while learning the key factors that shape each forecast and its potential impacts.</p>
 </div>
 
 <section>
