@@ -6,6 +6,11 @@ permalink: /tropical-updates/
 
 {%- assign posts_sorted = site.posts | sort: "date" | reverse -%}
 
+<div class="section-intro">
+  <h1>Tropical Updates</h1>
+  <p>Stay tuned for the latest tropical weather discussions, video briefings, and detailed intercept plans as they become available.</p>
+</div>
+
 <div class="posts-grid posts-grid--fit">
   {%- for post in posts_sorted -%}
 
