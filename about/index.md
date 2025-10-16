@@ -28,5 +28,5 @@ permalink: /about/
 
 <section>
   <h2>Connect</h2>
-  <p>Have an idea or suggestion to make this website even better? I'd love to hear from you! Write to me at Email <a href="mailto:hello@wxmanbran.com">hello@wxmanbran.com</a>.</p>
+  <p>Have an idea or suggestion to make this website even better? I'd love to hear from you! Write to me at <a href="mailto:connect@wxmanbran.com">hello@wxmanbran.com</a>.</p>
 </section>
