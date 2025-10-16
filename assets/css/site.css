@@ -797,3 +797,9 @@ section {
   font-weight: 800;
   color: var(--brandPrimary);
 }
+
+.storm-card__meta {
+  margin: 0;
+  font-size: 0.95rem;
+  color: color-mix(in srgb, var(--ink) 65%, transparent);
+}

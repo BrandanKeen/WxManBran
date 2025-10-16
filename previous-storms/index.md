@@ -34,6 +34,10 @@ permalink: /previous-storms/
             {% endif %}
           </div>
           <h3 class="storm-card__title">{{ storm.title }}</h3>
+          {% assign landfall_date_source = storm.landfall_date | default: storm.sort_date %}
+          {% if landfall_date_source %}
+          <p class="storm-card__meta">{{ landfall_date_source | date: "%B %-d" }}</p>
+          {% endif %}
         </a>
       </li>
       {% endfor %}
