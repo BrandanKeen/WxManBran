@@ -5,6 +5,9 @@ season: 2024
 landfall: September 26, 2024 &mdash; near Cedar Key, FL
 permalink: /storms/hurricane-helene-2024/
 sort_date: 2024-09-26
+overview: >-
+  Helene swept inland along the Gulf Coast with a large wind field and widespread rainfall that stretched well into the
+  Appalachian foothills.
 ---
 
 # Hurricane Helene (2024)
