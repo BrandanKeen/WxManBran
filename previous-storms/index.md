@@ -33,10 +33,16 @@ permalink: /previous-storms/
             <img src="{{ storm_thumbnail | relative_url }}" alt="{{ storm.title }} thumbnail">
             {% endif %}
           </div>
-          <h3 class="storm-card__title">{{ storm.title }}</h3>
           {% assign landfall_date_source = storm.landfall_date | default: storm.sort_date %}
-          {% if landfall_date_source %}
-          <p class="storm-card__meta">{{ landfall_date_source | date: "%B %-d" }}</p>
+          <h3 class="storm-card__title">
+            {{ storm.title }}
+            {% if landfall_date_source %}
+            <span class="storm-card__date">&mdash; {{ landfall_date_source | date: "%B %-d" }}</span>
+            {% endif %}
+          </h3>
+          {% assign overview_text = storm.overview | default: storm.excerpt %}
+          {% if overview_text %}
+          <p class="storm-card__overview">{{ overview_text | strip_html | strip }}</p>
           {% endif %}
         </a>
       </li>

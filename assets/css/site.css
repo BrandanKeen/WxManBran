@@ -734,6 +734,7 @@ section {
 /* Previous storms archive cards */
 .storm-card-list {
   gap: 2rem;
+  grid-template-columns: 1fr;
 }
 
 .storm-card {
@@ -798,8 +799,16 @@ section {
   color: var(--brandPrimary);
 }
 
-.storm-card__meta {
+.storm-card__date {
+  color: inherit;
+  font-weight: 600;
+  margin-left: 0.35rem;
+}
+
+.storm-card__overview {
   margin: 0;
-  font-size: 0.95rem;
-  color: color-mix(in srgb, var(--ink) 65%, transparent);
+  margin-top: 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--ink) 75%, transparent);
 }
