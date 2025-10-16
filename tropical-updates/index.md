@@ -42,7 +42,7 @@ permalink: /tropical-updates/
               {{ post.date | date: "%B %d, %Y %-I %p" }} ET
             </time>
             <h2 class="post-title">
-              <span class="link-chip">{{ post.title }}: Video Discussion</span>
+              <span class="link-chip">{{ post.title }}: Briefing </span>
             </h2>
           </header>
 
