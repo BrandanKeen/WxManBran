@@ -8,23 +8,28 @@ permalink: /tropical-updates/
 
 <div class="posts-grid posts-grid--fit">
   {%- for post in posts_sorted -%}
-    <article class="card card--tight card--center card--fit">
-      <a class="card__link" href="{{ post.url | relative_url }}">
-
-        <time class="card__date card__date--big" datetime="{{ post.date | date_to_xmlschema }}">
+    <article class="post-card">
+      <header>
+        <time class="post-card__date" datetime="{{ post.date | date_to_xmlschema }}">
           {{ post.date | date: "%B %d, %Y %-I %p" }} ET
         </time>
 
-        <h3 class="card__title card__title--big">{{ post.title }}</h3>
+        <h2 class="post-title">
+          <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        </h2>
+      </header>
 
-        {% if post.thumb %}
-          <img class="card__thumb card__thumb--large"
+      {% if post.thumb %}
+        <a class="post-card__thumb-link" href="{{ post.url | relative_url }}">
+          <img class="post-card__thumb"
                src="{{ post.thumb | relative_url }}"
                alt="{{ post.thumb_alt | default: post.title }}">
-        {% endif %}
+        </a>
+      {% endif %}
 
-        <span class="card__cta">Read more →</span>
-      </a>
+      <p class="read-more-wrap">
+        <a class="read-more" href="{{ post.url | relative_url }}">Read more →</a>
+      </p>
     </article>
   {%- endfor -%}
 </div>
