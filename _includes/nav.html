@@ -14,17 +14,7 @@
       {% assign normalized_current = current | replace: '//', '/' %}
       {% assign normalized_item = item_url | replace: '//', '/' %}
       <li>
-        <a href="{{ item_url }}"{% if normalized_current == normalized_item %} aria-current="page"{% endif %}>
-          {% case item.title %}
-          {% when 'Home' %}
-          <span class="site-nav__icon" aria-hidden="true">{% include icons/home.svg %}</span>
-          {% when 'Tropical Updates' %}
-          <span class="site-nav__icon" aria-hidden="true">{% include icons/updates.svg %}</span>
-          {% when 'Previous Storms' %}
-          <span class="site-nav__icon" aria-hidden="true">{% include icons/storm.svg %}</span>
-          {% endcase %}
-          <span>{{ item.title }}</span>
-        </a>
+        <a href="{{ item_url }}"{% if normalized_current == normalized_item %} aria-current="page"{% endif %}>{{ item.title }}</a>
       </li>
       {% endfor %}
     </ul>
