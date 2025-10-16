@@ -6,7 +6,7 @@ permalink: /about/
 
 <div class="section-intro">
   <h1>About WxManBran</h1>
-  <p>WeatherManBran was founded by Meteorologist Brandan Keen to provide reliable, trustworthy, and educational coverage of the tropics and hurricanes. The goal is simple: help people from every community stay informed while learning the key factors that shape each forecast and its potential impacts.</p>
+  <p>WxManBran.com was founded by Meteorologist Brandan Keen to provide reliable, trustworthy, and educational coverage of the tropics and hurricanes. The goal is simple: help people from every community stay informed while learning the key factors that shape each forecast and its potential impacts.</p>
 </div>
 
 <section>
@@ -21,5 +21,5 @@ permalink: /about/
 
 <section>
   <h2>Connect</h2>
-  <p>Have a radar loop, model snapshot, or impact photo to share? Email <a href="mailto:hello@wxmanbran.com">hello@wxmanbran.com</a> and we can feature it in the next update.</p>
+  <p>Have an idea or suggestion to make this website even better? I'd love to hear from you! Write to me at Email <a href="mailto:hello@wxmanbran.com">hello@wxmanbran.com</a>.</p>
 </section>
