@@ -6,12 +6,12 @@ permalink: /about/
 
 <div class="section-intro">
   <h1>About WxManBran</h1>
-  <p>WxManBran.com was founded by Meteorologist Brandan Keen to provide reliable, trustworthy, and educational coverage of the tropics and hurricanes. The goal is simple: help people from every community stay informed while learning the key factors that shape each forecast and its potential impacts.</p>
+  <p></p>
 </div>
 
 <section>
   <h2>Why This Site Exists</h2>
-  <p>During the heart of hurricane season, information overload is real. WxManBran filters the noise, delivering the bottom line in plain language and focusing on what families and emergency managers need to know.</p>
+  <p>WxManBran.com, founded by Meteorologist Brandan Keen, provides reliable, trustworthy, and educational coverage of the tropics and hurricanes so people in every community can stay informed and understand the key factors behind each forecast. During the heart of hurricane season, when information overload is real and hype spreads across social media, WxManBran cuts through the noise with plain language and a clear bottom line, focusing on what families and emergency managers need to make confident decisions.</p>
 </section>
 
 <section>
