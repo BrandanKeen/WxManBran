@@ -6,12 +6,12 @@ permalink: /about/
 
 <div class="section-intro">
   <h1>About WxManBran</h1>
-  <p>WxManBran is Brandan Keen’s home on the web for tropical weather storytelling—mixing expert meteorology with visuals that resonate with Gulf Coast communities.</p>
+  <p></p>
 </div>
 
 <section>
   <h2>Why This Site Exists</h2>
-  <p>During the heart of hurricane season, information overload is real. WxManBran filters the noise, delivering the bottom line in plain language and focusing on what families and emergency managers need to know.</p>
+  <p>WxManBran.com, founded by Meteorologist Brandan Keen, provides reliable, trustworthy, and educational coverage of the tropics and hurricanes so people in every community can stay informed and understand the key factors behind each forecast. During the heart of hurricane season, when information overload is real and hype spreads across social media, WxManBran cuts through the noise with plain language and a clear bottom line, focusing on what families and emergency managers need to make confident decisions.</p>
 </section>
 
 <section>
@@ -21,5 +21,5 @@ permalink: /about/
 
 <section>
   <h2>Connect</h2>
-  <p>Have a radar loop, model snapshot, or impact photo to share? Email <a href="mailto:hello@wxmanbran.com">hello@wxmanbran.com</a> and we can feature it in the next update.</p>
+  <p>Have an idea or suggestion to make this website even better? I'd love to hear from you! Write to me at Email <a href="mailto:hello@wxmanbran.com">hello@wxmanbran.com</a>.</p>
 </section>

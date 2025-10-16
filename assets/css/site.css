@@ -659,35 +659,3 @@ section {
   outline: 3px solid var(--brandAccent);
   outline-offset: 3px;
 }
-
-/* Pair the blog card with its video card */
-.post-pair {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.25rem;
-  align-items: start;
-}
-
-/* Stack on smaller screens */
-@media (max-width: 900px) {
-  .post-pair {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Ensure blog thumbnails scale consistently */
-.post-card__thumb {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-}
-
-/* Video player should match the thumbnail footprint */
-.post-card__video iframe {
-  display: block;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  border: 0;
-  border-radius: 8px;
-}
