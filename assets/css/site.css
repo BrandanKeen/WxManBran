@@ -708,3 +708,24 @@ section {
   border-radius: 8px;
 }
 
+/* Blog post thumbnail should show the full image */
+.post-card__thumb {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;       /* show whole image without cropping */
+  object-position: center;
+  display: block;
+  background: #f5f7fb;      /* subtle letterbox behind image edges */
+  border-radius: 8px;
+}
+
+/* Increase vertical space between rows in the grid */
+.posts-grid.posts-grid--fit {
+  row-gap: 2rem;            /* adjust value as desired */
+}
+
+/* Safety margin below each pair of cards */
+.post-pair {
+  margin-bottom: 2rem;
+}
