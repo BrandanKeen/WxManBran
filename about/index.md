@@ -15,7 +15,7 @@ permalink: /about/
 </section>
 
 <section>
-  <h2>Built for RAPID Updates</h2>
+  <h2>Built for RAPID™ Updates</h2>
   <p><p>
   This site is connected to a live Weather Data Dashboard. During landfalling hurricanes,
   a truck-mounted weather station streams various meteorological parameters to the site in real time.
