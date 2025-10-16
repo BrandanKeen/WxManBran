@@ -385,7 +385,7 @@ section {
 /* Grid helpers */
 .posts-grid.posts-grid--fit {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(420px, 660px));
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
   gap: 1.25rem;
   justify-content: center;
 }
