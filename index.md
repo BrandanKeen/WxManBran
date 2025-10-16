@@ -4,6 +4,728 @@ title: Home
 permalink: /
 ---
 
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Weatherman Bran</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#e11d48">
+
+  <link rel="icon" type="image/svg+xml" href="/Images/favicon.svg">
+  <link rel="apple-touch-icon" href="/Images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/Images/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/Images/icon-512.png">
+  <style>
+    :root{
+      --card:#fff; --bg:#f6f7f9; --text:#0b1220; --muted:#667085; --border:#e6e8ee; --shadow:0 6px 16px rgba(0,0,0,.06);
+      /* value colors */
+      --temp:#d62728; --dew:#2ca02c; --rh:#b58900; --slp:#111111; --rainrate:#6f3fa4; --raintotal:#7b3f00; --solar:#f97316; --uv:#1e1b4b;
+      --accent:#2563eb; --title-ink:#111; --needle:#2f2f2f;
+      --title-scale:1.35;
+    }
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);color:var(--text);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";}
+
+    .container{max-width:1100px;margin:20px auto 48px;padding:0 16px}
+    .hero{display:block;margin:0 auto 1rem auto;max-width:420px;width:55%;min-width:240px;height:auto}
+
+    #wx-dashboard{display:grid;gap:22px;margin-bottom:56px;}
+    header.site-header{display:flex;justify-content:flex-end;align-items:center}
+    #wx-conn{font-size:13px;color:var(--muted)}
+
+    /* Center the two cards on wide screens */
+    .cards{display:grid;gap:22px;justify-content:center}
+    @media (min-width:880px){
+      .cards{grid-template-columns:repeat(2,minmax(360px,520px))}
+    }
+    @media (max-width:879.98px){
+      .cards{grid-template-columns:minmax(280px,700px)}
+    }
+
+    .card{position:relative;background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);padding:34px 22px 60px}
+    .card h2{margin:0 0 26px;text-align:center;font-weight:800;font-size:calc(clamp(18px,2.2vw,22px) * var(--title-scale))}
+
+    .gear{position:absolute;right:12px;bottom:12px}
+    .gear summary{list-style:none;cursor:pointer;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#fff;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.06)}
+    .gear summary::-webkit-details-marker{display:none}
+    .gear[open] summary{box-shadow:0 6px 18px rgba(0,0,0,.12)}
+    .gear .panel{position:absolute;right:0;bottom:40px;min-width:290px;background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:0 16px 34px rgba(0,0,0,.16);padding:10px;display:grid;gap:10px}
+    .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px;font-size:13px}
+    .menu-grid label{display:flex;align-items:center;gap:6px}
+    /* push Total rain selector to the right column */
+    .menu-grid label.total-right{grid-column:2}
+
+    /* Conditions layout; “snake” order when items are hidden */
+    .cond-grid{   display:grid;   gap:32px 34px;   grid-template-columns:repeat(2,minmax(0,1fr));   grid-auto-flow:row dense; /* keeps 1–8 row-major and fills gaps */   margin-top:22px; }
+    .cond-item{direction:ltr}
+    .cond-item .label{font-weight:800;font-size:clamp(15px,1.9vw,19px); color:var(--title-ink)}
+    .cond-item .value{font-weight:800;letter-spacing:.2px;font-variant-numeric:tabular-nums;font-size:clamp(28px,4.4vw,40px)}
+    .value-temp{color:var(--temp)} .value-dew{color:var(--dew)} .value-rh{color:var(--rh)} .value-slp{color:var(--slp)}
+    .value-rainrate{color:var(--rainrate)} .value-raintoday{color:var(--raintotal)} .value-solar{color:var(--solar)} .value-uv{color:var(--uv)}
+    .asof{position:absolute;left:22px;bottom:14px;color:var(--muted);font-size:12px}
+    .hidden{display:none!important}
+
+/* Wind — original cosmetics */
+.wind-wrap{display:grid;grid-template-columns:1fr;justify-items:center;gap:14px}
+.wind-main{ text-align:center; }
+.wind-speed{
+  font-weight:900;
+  font-size:clamp(40px,6.6vw,60px);
+  line-height:1.05;
+  color:#2563eb;
+}
+.wind-cardinal{
+  margin-top:8px;
+  font-weight:800;
+  font-size:18px;
+  color:#64748b;
+}
+.wind-line{ margin-top:16px; font-size:20px; }
+.wind-line .label{ font-weight:800; color:#111; }
+.wind-number{ color:#2563eb; font-weight:800; }
+
+
+    /* Compass */
+    .compass{width:100%;max-width:340px;min-width:220px;aspect-ratio:1/1;overflow:visible;}
+    .ring{fill:none;stroke:#dfe5ee;stroke-width:2}
+    .tick{stroke:#cdd3dc;stroke-width:1}
+    .tick.major{stroke:#b7bfca;stroke-width:1.4}
+    .labels{fill:#4a5568;font-size:6px;font-weight:700}
+    .needle{fill:var(--needle);stroke:var(--needle)}
+    #wx-needle,#wx-needle2{transform-box:view-box;transform-origin:50px 50px;transition:transform 140ms ease-out}
+
+/* Phones */
+@media (max-width: 480px){
+  .container{margin:10px auto 20px}
+  .hero{max-width:170px;width:42%;margin:.2rem auto .6rem}
+  #wx-dashboard{gap:14px;margin-bottom:44px;}
+  .cards{gap:14px}
+  .card{padding:16px 12px 42px}
+  .card h2{font-size:calc(clamp(14px,4.0vw,18px) * 1.06)}
+  .cond-grid{gap:16px 18px}
+  .cond-item .label{font-size:clamp(12px,3.4vw,14px)}
+  .cond-item .value{font-size:clamp(20px,5.6vw,26px)}
+  .asof{left:12px;bottom:10px;font-size:11px}
+  .compass{max-width:220px;min-width:170px}
+  .wind-values{max-width:300px}
+  .wind-values .speed{font-size:clamp(20px,6.2vw,28px)}
+}
+
+/* Keep the two cards side-by-side on iPhone (and small phones) in landscape */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+  .cards {
+    grid-template-columns: 1fr 1fr;   /* two columns */
+    gap: 16px;
+    justify-content: center;
+  }
+  .card {
+    max-width: none;                  /* allow cards to shrink to fit */
+    padding: 24px 16px 52px;          /* slightly tighter padding */
+  }
+  .container { padding: 0 10px; }     /* a bit more edge room */
+}
+
+  </style>
+</head>
+<body class="theme-classic" data-color="values">
+  <div class="container">
+    <img class="hero" src="{{ '/assets/images/hurricane-warning-flags.svg' | relative_url }}" alt="Two red hurricane warning flags" loading="lazy">
+
+    <main id="wx-dashboard" aria-label="Live weather dashboard">
+      <header class="site-header"><div id="wx-conn">Status: Offline</div></header>
+
+      <section class="cards">
+        <!-- Conditions -->
+        <article class="card" aria-label="Current Conditions">
+          <h2>Conditions</h2>
+
+          <div id="wx-values" class="cond-grid" aria-live="polite">
+            <!-- Order is fixed row-major (1→8) -->
+            <div id="item-temp" class="cond-item"><div class="label">Temperature</div><div id="wx-temp" class="value value-temp">--</div></div>
+            <div id="item-slp" class="cond-item"><div class="label">Pressure</div><div id="wx-slp" class="value value-slp">--</div></div>
+            <div id="item-dew" class="cond-item"><div class="label">Dewpoint</div><div id="wx-dew" class="value value-dew">--</div></div>
+            <div id="item-rh" class="cond-item"><div class="label">Relative Humidity</div><div id="wx-rh" class="value value-rh">--</div></div>
+            <div id="item-rainrate" class="cond-item"><div class="label">Rain Rate</div><div id="wx-rainrate" class="value value-rainrate">--</div></div>
+            <div id="item-raintoday" class="cond-item"><div class="label">Total Accumulation</div><div id="wx-raintoday" class="value value-raintoday">--</div></div>
+            <div id="item-solar" class="cond-item"><div class="label">Solar</div><div id="wx-solar" class="value value-solar">--</div></div>
+            <div id="item-uv" class="cond-item"><div class="label">UV</div><div id="wx-uv" class="value value-uv">--</div></div>
+          </div>
+
+          <div class="asof">As of <span id="wx-asof">--</span></div>
+
+          <!-- Conditions settings (units & visibility) -->
+          <details class="gear" id="gear-conditions">
+            <summary aria-label="Conditions settings">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 8.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7Z" stroke="#334155" stroke-width="1.6"/>
+                <path d="M20 12a8 8 0 0 0-.09-1.2l2.01-1.56-2-3.46-2.42.7a8 8 0 0 0-2.08-1.2L15 2h-6l-.42 2.28a8 8 0 0 0-2.08 1.2l-2.42-.7-2 3.46L4.09 10.8A8 8 0 0 0 4 12c0 .41.03.81.09 1.2l-2.01 1.56 2 3.46 2.42-.7c.63.49 1.32.9 2.08 1.2L9 22h6l.42-2.28c.76-.3 1.45-.71 2.08-1.2l2.42.7 2-3.46-2.01-1.56c.06-.39.09-.79.09-1.2Z" stroke="#334155" stroke-width="1.2" opacity=".5"/>
+              </svg>
+            </summary>
+            <div class="panel">
+              <!-- Units in the card order 1,2,3,5,6 -->
+              <div class="menu-grid">
+                <label>Temperature
+                  <select id="uTempCard">
+                    <option value="F" selected>°F</option>
+                    <option value="C">°C</option>
+                  </select>
+                </label>
+                <label>Pressure
+                  <select id="uSLPCard">
+                    <option value="mb" selected>mb</option>
+                    <option value="hPa">hPa</option>
+                    <option value="inHg">inHg</option>
+                  </select>
+                </label>
+                <label>Dewpoint
+                  <select id="uDewCard">
+                    <option value="F" selected>°F</option>
+                    <option value="C">°C</option>
+                  </select>
+                </label>
+                <label>Rain rate
+                  <select id="uRainRateCard">
+                    <option value="inphr" selected>in/hr</option>
+                    <option value="mmphr">mm/hr</option>
+                  </select>
+                </label>
+                <label class="total-right">Total rain
+                  <select id="uRainCard">
+                    <option value="in" selected>in</option>
+                    <option value="mm">mm</option>
+                  </select>
+                </label>
+              </div>
+
+              <hr style="border:none;border-top:1px solid var(--border);margin:6px 2px">
+
+              <!-- Visibility checkboxes in the exact 1→8 order -->
+              <div class="menu-grid">
+                <label><input type="checkbox" data-target="item-temp" checked> Temperature</label>
+                <label><input type="checkbox" data-target="item-slp" checked> Pressure</label>
+                <label><input type="checkbox" data-target="item-dew" checked> Dewpoint</label>
+                <label><input type="checkbox" data-target="item-rh" checked> Relative Humidity</label>
+                <label><input type="checkbox" data-target="item-rainrate" checked> Rain Rate</label>
+                <label><input type="checkbox" data-target="item-raintoday" checked> Total Accumulation</label>
+                <label><input type="checkbox" data-target="item-solar" checked> Solar</label>
+                <label><input type="checkbox" data-target="item-uv" checked> UV</label>
+              </div>
+            </div>
+          </details>
+        </article>
+
+        <!-- Wind -->
+        <article class="card" aria-label="Wind">
+          <h2>Wind</h2>
+          <div class="wind-wrap">
+            <svg id="wx-wind-compass" class="compass" viewBox="0 0 100 100" role="img" aria-label="Wind compass">
+              <circle class="ring" cx="50" cy="50" r="44" />
+              <g id="ticks">
+                <line class="tick major" x1="50" y1="6" x2="50" y2="12" />
+                <line class="tick" x1="50" y1="6" x2="50" y2="10" transform="rotate(22.5 50 50)" />
+                <line class="tick" x1="50" y1="6" x2="50" y2="10" transform="rotate(45 50 50)" />
+                <line class="tick" x1="50" y1="6" x2="50" y2="10" transform="rotate(67.5 50 50)" />
+                <line class="tick major" x1="50" y1="6" x2="50" y2="12" transform="rotate(90 50 50)" />
+                <line class="tick" x1="50" y1="6" x2="50" y2="10" transform="rotate(112.5 50 50)" />
+                <line class="tick" x1="50" y1="6" x2="50" y2="10" transform="rotate(135 50 50)" />
+                <line class="tick" x1="50" y1="6" x2="50" y2="10" transform="rotate(157.5 50 50)" />
+                <line class="tick major" x1="50" y1="6" x2="50" y2="12" transform="rotate(180 50 50)" />
+                <line class="tick" x1="50" y1="6" x2="50" y2="10" transform="rotate(202.5 50 50)" />
+                <line class="tick" x1="50" y1="6" x2="50" y2="10" transform="rotate(225 50 50)" />
+                <line class="tick" x1="50" y1="6" x2="50" y2="10" transform="rotate(247.5 50 50)" />
+                <line class="tick major" x1="50" y1="6" x2="50" y2="12" transform="rotate(270 50 50)" />
+                <line class="tick" x1="50" y1="6" x2="50" y2="10" transform="rotate(292.5 50 50)" />
+                <line class="tick" x1="50" y1="6" x2="50" y2="10" transform="rotate(315 50 50)" />
+                <line class="tick" x1="50" y1="6" x2="50" y2="10" transform="rotate(337.5 50 50)" />
+              </g>
+              
+<!-- Cardinal labels (8-point) -->
+<g class="labels">
+  <g transform="rotate(0 50 50)"><text  x="50" y="50" text-anchor="middle" dominant-baseline="middle" transform="translate(0,-47)">N</text></g>
+  <g transform="rotate(45 50 50)"><text x="50" y="50" text-anchor="middle" dominant-baseline="middle" transform="translate(0,-47)">NE</text></g>
+  <g transform="rotate(90 50 50)"><text x="50" y="50" text-anchor="middle" dominant-baseline="middle" transform="translate(0,-47)">E</text></g>
+  <g transform="rotate(135 50 50)"><text x="50" y="50" text-anchor="middle" dominant-baseline="middle" transform="translate(0,-47)">SE</text></g>
+  <g transform="rotate(180 50 50)"><text x="50" y="50" text-anchor="middle" dominant-baseline="middle" transform="translate(0,-47)">S</text></g>
+  <g transform="rotate(225 50 50)"><text x="50" y="50" text-anchor="middle" dominant-baseline="middle" transform="translate(0,-47)">SW</text></g>
+  <g transform="rotate(270 50 50)"><text x="50" y="50" text-anchor="middle" dominant-baseline="middle" transform="translate(0,-47)">W</text></g>
+  <g transform="rotate(315 50 50)"><text x="50" y="50" text-anchor="middle" dominant-baseline="middle" transform="translate(0,-47)">NW</text></g>
+</g>
+
+
+              <g id="wx-needle" class="needle">
+                <polygon points="50,38 57,6 43,6" />
+              </g>
+            </svg>
+
+<div class="wind-main">
+  <div id="wx-wind-speed" class="wind-speed">--</div>
+  <div id="wx-wind-cardinal" class="wind-cardinal">--</div>
+
+  <div class="wind-line">
+    <span class="label">Sustained</span> (<span id="wx-wind-period">--</span>):
+    <span id="wx-wind-avg" class="wind-number">--</span>
+  </div>
+  <div class="wind-line">
+    <span class="label">Gust</span> (<span id="wx-wind-period2">--</span>):
+    <span id="wx-wind-gust" class="wind-number">--</span>
+  </div>
+</div>
+
+
+            <details class="gear" id="gear-wind">
+              <summary aria-label="Wind settings">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <circle cx="12" cy="12" r="8" stroke="#334155" stroke-width="1.6"/>
+                  <path d="M12 7v5l3 2" stroke="#334155" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </summary>
+              <div class="panel">
+                <div class="menu-grid">
+                  <label>Wind units
+                    <select id="uWindCard">
+                      <option value="mph" selected>mph</option>
+                      <option value="kt">kt</option>
+                      <option value="kmh">km/h</option>
+                      <option value="mps">m/s</option>
+                    </select>
+                  </label>
+                  <label>Sustained/Gust Period
+                    <select id="windPeriodCard">
+                      <option value="1" selected>1 min</option>
+                      <option value="2">2 min</option>
+                      <option value="5">5 min</option>
+                      <option value="10">10 min</option>
+                      <option value="15">15 min</option>
+                      <option value="60">60 min</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+            </details>
+          </div>
+        </article>
+      </section>
+    </main>
+
+  </div>
+
+  <!-- Live engine -->
+  <script>
+    (() => {
+      const API = "https://api.wxmanbran.com/latest";
+      const conn = document.getElementById('wx-conn');
+
+      const units = { temp:'F', dew:'F', slp:'mb', wind:'mph', rainrate:'inphr', rain:'in' };
+
+      /* --- utilities --- */
+      const f2c=f=>(f-32)*5/9, inHg2hPa=i=>i*33.8638866667, in2mm=i=>i*25.4, mph2kt=m=>m*0.868976, mph2kmh=m=>m*1.609344, mph2mps=m=>m*0.44704;
+      const nfix = v => Number.isFinite(+v) ? +v : NaN;
+
+      function toMs(x){
+        if (x==null) return 0;
+        if (typeof x === 'number') return x < 1e12 ? x*1000 : x;
+        const asNum = /^\d+$/.test(x) ? +x : NaN;
+        if (Number.isFinite(asNum)) return asNum < 1e12 ? asNum*1000 : asNum;
+        const t = Date.parse(x);
+        return Number.isFinite(t) ? t : 0;
+      }
+      function bestStamp(d){
+        const cands = [d.ts, d.timestamp, d.time, d.mb_ts, d.mb_stamp, d.received_at, d.server_time];
+        return Math.max(...cands.map(toMs), 0);
+      }
+
+      function bindUnitSelect(id,key){
+        const s=document.getElementById(id); if(!s) return;
+        s.addEventListener('change',()=>{ units[key]=s.value; if (lastData) render(lastData); });
+      }
+      bindUnitSelect('uTempCard','temp');
+      bindUnitSelect('uDewCard','dew');
+      bindUnitSelect('uSLPCard','slp');
+      bindUnitSelect('uRainRateCard','rainrate');
+      bindUnitSelect('uRainCard','rain');
+      bindUnitSelect('uWindCard','wind');
+
+      const windNum = m => units.wind==='kt'?mph2kt(m):units.wind==='kmh'?mph2kmh(m):units.wind==='mps'?mph2mps(m):m;
+      const windUnit= () => units.wind==='kt'?'kt':units.wind==='kmh'?'km/h':units.wind==='mps'?'m/s':'mph';
+
+      const fmtTemp=(v,key)=>Number.isFinite(nfix(v))?(units[key]==='C'?`${(f2c(nfix(v))).toFixed(1)} °C`:`${nfix(v).toFixed(1)} °F`):'--';
+const fmtPress = v =>
+  Number.isFinite(nfix(v))
+    ? ((units.slp === 'hPa' || units.slp === 'mb')
+        ? `${(inHg2hPa(nfix(v))).toFixed(1)} ${units.slp}`   // 1 decimal for hPa/mb
+        : `${nfix(v).toFixed(3)} inHg`)
+    : '--';
+
+      const fmtRainRate=v=>Number.isFinite(nfix(v))?(units.rainrate==='mmphr'?`${in2mm(nfix(v)).toFixed(2)} mm/hr`:`${nfix(v).toFixed(2)} in/hr`):'--';
+      const fmtRain=v=>Number.isFinite(nfix(v))?(units.rain==='mm'?`${in2mm(nfix(v)).toFixed(2)} mm`:`${nfix(v).toFixed(2)} in`):'--';
+      const fmtWind=v=>Number.isFinite(nfix(v))?`${windNum(nfix(v)).toFixed(1)} ${windUnit()}`:'--';
+      const toCard = d=>['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'][Math.round((((nfix(d)%360)+360)%360)/22.5)%16];
+
+      /* Prefer server-computed windows from /latest, with sensible fallbacks */
+      function serverFieldsFor(mins, d){
+        if (!d || typeof d !== 'object') return null;
+        const keyAvg  = `wind_avg_${mins}m_mph`;
+        const keyGust = `wind_gust_${mins}m_mph`;
+        let avg  = Number.isFinite(+d[keyAvg])  ? +d[keyAvg]  : NaN;
+        let gust = Number.isFinite(+d[keyGust]) ? +d[keyGust] : NaN;
+        // Legacy back-compat mirrors
+        if (mins === 1  && !Number.isFinite(avg)  && Number.isFinite(+d.iss_wavg_mph))     avg  = +d.iss_wavg_mph;
+        if (mins === 10 && !Number.isFinite(gust) && Number.isFinite(+d.iss_wgust10_mph))  gust = +d.iss_wgust10_mph;
+        return (Number.isFinite(avg) || Number.isFinite(gust)) ? { avg, gust } : null;
+      }
+
+      /* needle rotation */
+      function needleRotator(el){
+        let last=0;
+        return (deg)=>{
+          const d = ((deg%360)+360)%360;
+          const delta = Math.abs(d-last);
+          const short = delta>180 ? (d>last?d-360:d+360) : d;
+          last = d;
+          el.style.transform = `rotate(${short}deg)`;
+          el.setAttribute('transform',`rotate(${short} 50 50)`);
+        };
+      }
+      const rotate1 = needleRotator(document.getElementById('wx-needle'));
+
+      /* toggle panels close on outside click/esc */
+      (function(){
+        const gears = () => Array.from(document.querySelectorAll('details.gear'));
+        document.addEventListener('click', e=>{ gears().forEach(d=>{ if(d.open && !d.contains(e.target)) d.removeAttribute('open'); }); });
+        document.addEventListener('keydown', e=>{ if (e.key==='Escape') gears().forEach(d=>d.removeAttribute('open')); });
+        gears().forEach(d=> d.addEventListener('toggle', ()=>{ if(d.open) gears().forEach(o=>{ if(o!==d) o.removeAttribute('open'); }); }));
+      })();
+
+      /* Conditions visibility — keep original places & snake-fill when hidden */
+      (function(){
+        const grid = document.getElementById('wx-values');
+        if (!grid.__order) grid.__order = Array.from(grid.children).map(el=>el.id);
+        const order = grid.__order;
+        function isVisible(el){ return el && !el.classList.contains('hidden'); }
+        function insertAtOriginalPosition(el){
+          const idx = order.indexOf(el.id);
+          for (let j = idx+1; j < order.length; j++){
+            const next = document.getElementById(order[j]);
+            if (isVisible(next)) { grid.insertBefore(el, next); return; }
+          }
+          grid.appendChild(el);
+        }
+        document.querySelectorAll('#gear-conditions input[type="checkbox"][data-target]').forEach(cb=>{
+          cb.addEventListener('change', ()=>{
+            const el = document.getElementById(cb.dataset.target);
+            if(!el) return;
+            if(cb.checked){ insertAtOriginalPosition(el); el.classList.remove('hidden'); }
+            else { el.classList.add('hidden'); }
+          });
+        });
+      })();
+
+      /* Wind stats buffer/period */
+const windPeriodSel = document.getElementById('windPeriodCard');
+let _windPeriodMin = 1;
+
+// Read the committed value reliably on iOS Safari
+function readPeriodSelect(){
+  if (!windPeriodSel) return 1;
+  const opt = windPeriodSel.options[windPeriodSel.selectedIndex];
+  const v = (windPeriodSel.value || (opt && opt.value) || '1') + '';
+  const m = parseInt(v, 10);
+  return Number.isFinite(m) && m > 0 ? m : 1;
+}
+
+// Getter the rest of the code uses
+function windPeriodMinutes(){ return _windPeriodMin; }
+
+// Apply selection: update labels + recompute averages/gust
+function applyPeriod(){
+  _windPeriodMin = readPeriodSelect();
+  const txt = `${_windPeriodMin} min`;
+  const p1 = document.getElementById('wx-wind-period');  if (p1) p1.textContent = txt;
+  const p2 = document.getElementById('wx-wind-period2'); if (p2) p2.textContent = txt; // safe if missing
+  updateWindStats();
+}
+
+// On iPhone, fire after the picker closes/commits; desktop also fine
+['change','input','click','touchend','pointerup','blur'].forEach(ev=>{
+  windPeriodSel?.addEventListener(ev, () => { requestAnimationFrame(applyPeriod); }, { passive: true });
+});
+
+// Buffers must exist before first compute
+let windBuf1 = [];
+
+// Initialize once on load (after buffers)
+applyPeriod();
+
+      function pushWind(buf, mph){ const now = Date.now(); buf.push({t:now, v:Number.isFinite(+mph)?+mph:0}); const cutoff = now - 60*60*1000; while(buf.length && buf[0].t < cutoff) buf.shift(); }
+      function computeAvgAndGust(buf, minutes){ const cutoff = Date.now() - minutes*60*1000; const win = buf.filter(s=>s.t>=cutoff); if (!win.length) return {avg:NaN, gust:NaN}; const avg = win.reduce((a,s)=>a+s.v,0)/win.length; const gust = win.reduce((m,s)=> s.v>m?s.v:m, 0); return {avg, gust}; }
+      /* Use server history so numbers are consistent across devices/reloads */
+const USE_SERVER_WINDOW = true;
+
+// Returns {avg, gust} when usable history exists, otherwise null to trigger fallback
+async function computeWindowFromServer(minutes, endTsMs){
+  const end = Number.isFinite(endTsMs) && endTsMs > 0 ? endTsMs : Date.now();
+  const since = end - minutes * 60 * 1000;
+
+  const urls = [
+    API.replace(/\/latest$/, '/history') + `?since=${since}`,
+    API + `?since=${since}`
+  ];
+
+  for (const url of urls){
+    try{
+      const r = await fetch(url, { cache:'no-store' });
+      if (!r.ok) continue;
+
+      const ct = (r.headers.get('content-type') || '').toLowerCase();
+
+      // NDJSON snapshot
+      if (ct.includes('ndjson') || ct.includes('x-ndjson')){
+        const text = await r.text();
+        const lines = text.trim() ? text.trim().split(/\n+/) : [];
+        const speeds = lines.map(s => {
+          try { const o = JSON.parse(s); return Number.isFinite(+o.iss_wind_mph) ? +o.iss_wind_mph : NaN; }
+          catch { return NaN; }
+        }).filter(Number.isFinite);
+        if (!speeds.length) continue; // no usable data, try next url
+        const avg  = speeds.reduce((a,b)=>a+b,0) / speeds.length;
+        const gust = Math.max(...speeds);
+        return { avg, gust };
+      }
+
+      // JSON array or {data:[...]} — ignore single-object responses
+      const body = await r.json();
+      const rows = Array.isArray(body) ? body
+                  : (body && Array.isArray(body.data) ? body.data : null);
+      if (!rows || !rows.length) continue;
+
+      const speeds = rows.map(o => Number.isFinite(+o.iss_wind_mph) ? +o.iss_wind_mph : NaN)
+                         .filter(Number.isFinite);
+      if (!speeds.length) continue;
+
+      const avg  = speeds.reduce((a,b)=>a+b,0) / speeds.length;
+      const gust = Math.max(...speeds);
+      return { avg, gust };
+    }catch(e){
+      // try next url shape
+    }
+  }
+
+  // No supported history → tell caller to fall back to local buffer
+  return null;
+}
+
+
+      function set(el,txt){ if(el && el.textContent !== txt) el.textContent = txt; }
+
+      const STALE_MS = 120000;  // 2 minutes
+      let lastTs = 0, lastData = null;
+
+      function isStale(){ return !lastTs || (Date.now() - lastTs) > STALE_MS; }
+      let usingStream = false;
+      function setStatus(){
+        conn.textContent = isStale()
+          ? 'Status: Offline'
+          : `Status: Live (${usingStream ? 'Streaming' : 'Polling'})`;
+      }
+
+
+      function blankAll(){
+        ['wx-temp','wx-slp','wx-dew','wx-rh','wx-rainrate','wx-raintoday','wx-solar','wx-uv',
+         'wx-wind-speed','wx-wind-cardinal','wx-wind-avg','wx-wind-gust'].forEach(id=>{
+          const el=document.getElementById(id); if(el) el.textContent='--';
+        });
+      }
+      // watchdog: blank once when we enter stale, restore on fresh data
+let _staleHold = false;
+setInterval(() => {
+  const stale = isStale();
+  if (stale && !_staleHold) {
+    blankAll();
+    _staleHold = true;   // prevent repeated blanking
+  }
+  if (!stale && _staleHold) {
+    _staleHold = false;  // fresh sample arrived, allow rendering again
+  }
+  setStatus();
+}, 1000);
+
+      function render(d){
+  if (!d || typeof d!=='object') return;
+  const stamp = bestStamp(d);
+  if (stamp && stamp >= lastTs - 2000) lastTs = Math.max(lastTs, stamp);
+
+  // Do not repaint values while stale — avoids flicker with watchdog blanking
+  if (isStale()){
+    set(document.getElementById('wx-asof'), new Date(lastTs || Date.now()).toLocaleString());
+    lastData = d;
+    setStatus();
+    return;
+  }
+
+        set(document.getElementById('wx-temp'), fmtTemp(d.iss_temp_F, 'temp'));
+        set(document.getElementById('wx-dew'),  fmtTemp(d.iss_dew_F,  'dew'));
+        set(document.getElementById('wx-rh'),   Number.isFinite(nfix(d.iss_rh)) ? `${Math.round(nfix(d.iss_rh))} %` : '--');
+        set(document.getElementById('wx-slp'),  fmtPress(d.iss_slp_inHg));
+        set(document.getElementById('wx-rainrate'),  fmtRainRate(d.iss_rainrate_inphr));
+        set(document.getElementById('wx-raintoday'), fmtRain(d.iss_raintoday_in));
+        set(document.getElementById('wx-solar'), Number.isFinite(nfix(d.iss_solar_wm2)) ? `${Math.round(nfix(d.iss_solar_wm2))} W/m²` : '--');
+        set(document.getElementById('wx-uv'),   Number.isFinite(nfix(d.iss_uv)) ? (nfix(d.iss_uv)).toFixed(1) : '--');
+
+        const dir1 = nfix(d.iss_wdir_deg), spd1 = nfix(d.iss_wind_mph);
+        if (Number.isFinite(dir1)) rotate1(dir1);
+        if (Number.isFinite(spd1)) pushWind(windBuf1, spd1);
+        set(document.getElementById('wx-wind-speed'), fmtWind(spd1));
+        set(document.getElementById('wx-wind-cardinal'), Number.isFinite(dir1) ? `${toCard(dir1)} ${Math.round(((dir1%360)+360)%360)}°` : '--');
+
+        updateWindStats();
+        set(document.getElementById('wx-asof'), new Date(lastTs || Date.now()).toLocaleString());
+        lastData = d;
+        window.lastData = d; // expose for serverFieldsFor() path
+        setStatus();
+      }
+
+// cache server window by lastTs + period to avoid re-fetching every tick
+let _serverWinCache = { ts: 0, minutes: 0, stats: null };
+
+async function updateWindStats(){
+  const mins = windPeriodMinutes();
+
+  // 1) Prefer server-computed windows embedded in /latest
+  let stats = null;
+  if (typeof serverFieldsFor === 'function' && window.lastData) {
+    const sf = serverFieldsFor(mins, window.lastData);
+    if (sf){
+      stats = {
+        avg:  Number.isFinite(+sf.avg)  ? +sf.avg  : NaN,
+        gust: Number.isFinite(+sf.gust) ? +sf.gust : NaN
+      };
+    }
+  }
+
+  // 2) Fallback: compute from API history (keeps page robust if server windows absent)
+  if (!stats || (isNaN(stats.avg) && isNaN(stats.gust))){
+    if (USE_SERVER_WINDOW){
+      const canReuse = (_serverWinCache.ts === lastTs && _serverWinCache.minutes === mins && _serverWinCache.stats);
+      if (canReuse){
+        stats = _serverWinCache.stats;
+      } else {
+        const s = await computeWindowFromServer(mins, lastTs);
+        if (s){ _serverWinCache = { ts: lastTs, minutes: mins, stats: s }; }
+        stats = s;
+      }
+    }
+  }
+
+  // 3) Last resort: local buffer
+  if (!stats || (isNaN(stats.avg) && isNaN(stats.gust))){
+    stats = computeAvgAndGust(windBuf1, mins);
+  }
+
+  const avgTxt  = isNaN(stats.avg)  ? '--' : `${windNum(stats.avg).toFixed(1)} ${windUnit()}`;
+  const gustTxt = isNaN(stats.gust) ? '--' : `${windNum(stats.gust).toFixed(1)} ${windUnit()}`;
+
+  set(document.getElementById('wx-wind-avg'),  avgTxt);
+  set(document.getElementById('wx-wind-gust'), gustTxt);
+
+  const ptxt = `${mins} min`;
+  set(document.getElementById('wx-wind-period'),  ptxt);
+  set(document.getElementById('wx-wind-period2'), ptxt);
+}
+
+
+// Faster fallback polling (1s when live, 3s when stale/offline)
+const POLL_MS_ACTIVE = 1000;
+const POLL_MS_STALE  = 3000;
+
+function startPolling(){
+  usingStream = false;
+  const tick = async ()=>{
+    if (usingStream) return; // streaming took over
+    try{
+      const r = await fetch(API, { cache: 'no-store' });
+      if (r.ok) render(await r.json());
+      else setStatus();
+    }catch{
+      setStatus();
+    }finally{
+      const delay = isStale() ? POLL_MS_STALE : POLL_MS_ACTIVE;
+      setTimeout(tick, delay);
+    }
+  };
+  tick();
+}
+
+
+async function startStream(){
+  try{
+    usingStream = true;
+    const resp = await fetch(API + '?stream=1', { cache: 'no-store' });
+    if (!resp.ok) throw new Error('bad status');
+
+    const ct = (resp.headers.get('content-type') || '').toLowerCase();
+
+    // If the server returned regular JSON (not a stream), render once and fall back.
+    if (!ct.includes('ndjson') && !ct.includes('x-ndjson') && !ct.includes('event-stream')) {
+      usingStream = false;
+      try { render(await resp.json()); } catch {}
+      startPolling();
+      return;
+    }
+
+    // NDJSON or SSE stream
+    const reader  = resp.body.getReader();
+    const decoder = new TextDecoder();
+    const isSSE   = ct.includes('event-stream');
+    let buffer = '';
+
+    for(;;){
+      const { value, done } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+
+      let nl;
+      while ((nl = buffer.indexOf('\n')) !== -1){
+        let line = buffer.slice(0, nl); buffer = buffer.slice(nl + 1);
+        line = line.trim();
+        if (!line) continue;
+
+        if (isSSE) {
+          // Only process SSE data lines
+          if (!line.startsWith('data:')) continue;
+          line = line.slice(5).trim();
+        }
+        try { render(JSON.parse(line)); } catch {}
+      }
+    }
+
+    // Stream ended gracefully — try to restart.
+    usingStream = false;
+    setTimeout(startStream, 250);
+  }catch(e){
+    // Streaming unavailable or failed — fall back to polling.
+    usingStream = false;
+    startPolling();
+  }
+}
+
+
+// Start in streaming mode if possible; otherwise polling will take over.
+startStream();
+
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden){
+    // On focus, try to upgrade to streaming again.
+    if (!usingStream) startStream();
+  }
+});
+
+    })();
+  </script>
+</body>
+</html>
+
 <div class="hero">
   <h1>WxManBran: Tropical Weather, Made Clear</h1>
   <p>Trusted insights on hurricanes and tropical storms for the Gulf Coast and beyond. Stay ahead of the cone with concise updates and eye-catching visuals.</p>
