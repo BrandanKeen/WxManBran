@@ -5,7 +5,7 @@ import json
 import os
 import re
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Set
 
 
 @dataclass
@@ -50,12 +50,13 @@ class AxisSpec:
 
 
 class FigureParser:
-    def __init__(self, source: str):
+    def __init__(self, source: str, dataframe_names: Optional[Set[str]] = None):
         self.source = source
         self.current_fig: Optional[Dict[str, object]] = None
         self.axis_alias: Dict[str, str] = {}
         self.axis_specs: Dict[str, AxisSpec] = {}
         self.var_to_column: Dict[str, str] = {}
+        self.dataframe_names: Set[str] = set(dataframe_names or {"df"})
         self.specs: List[Dict[str, object]] = []
 
     def normalize_axis_expr(self, expr: str) -> str:
@@ -159,6 +160,8 @@ class FigureParser:
                     if isinstance(target, ast.Name):
                         self.var_to_column[target.id] = column
                 return
+            if isinstance(value.value, ast.Call):
+                self.process_call(value.value)
             base_expr = ast.get_source_segment(self.source, value)
             for target in node.targets:
                 if isinstance(target, ast.Name):
@@ -166,6 +169,21 @@ class FigureParser:
             return
         if isinstance(value, ast.Call):
             func = value.func
+            if isinstance(func, ast.Attribute):
+                callee = func.value
+                if isinstance(callee, ast.Name):
+                    if callee.id == "pd" and func.attr in {"read_csv", "read_excel"}:
+                        for target in node.targets:
+                            if isinstance(target, ast.Name):
+                                self.dataframe_names.add(target.id)
+                    elif callee.id in self.dataframe_names:
+                        for target in node.targets:
+                            if isinstance(target, ast.Name):
+                                self.dataframe_names.add(target.id)
+            elif isinstance(func, ast.Name) and func.id in self.dataframe_names:
+                for target in node.targets:
+                    if isinstance(target, ast.Name):
+                        self.dataframe_names.add(target.id)
             if isinstance(func, ast.Attribute) and func.attr == "twinx":
                 base_expr = ast.get_source_segment(self.source, func.value)
                 base_key = self.resolve_axis(base_expr)
@@ -180,6 +198,8 @@ class FigureParser:
                     axis_target = node.targets[0].elts[1]
                 self.start_new_figure(value, axis_target)
                 return
+            self.process_call(value)
+            return
         # Handle simple tuple assignment from plt.subplots without call detection (rare)
 
     def map_linestyle(self, value: Optional[str]) -> Optional[str]:
@@ -449,10 +469,12 @@ def main() -> None:
 
     cell_sources = load_notebook(args.notebook)
     all_specs: List[Dict[str, object]] = []
+    known_dataframes: Set[str] = {"df"}
     for source in cell_sources:
-        figure_parser = FigureParser(source)
+        figure_parser = FigureParser(source, dataframe_names=known_dataframes)
         specs = figure_parser.parse()
         all_specs.extend(specs)
+        known_dataframes.update(figure_parser.dataframe_names)
     json.dump(all_specs, fp=os.fdopen(os.dup(1), "w"), indent=2)
 
 

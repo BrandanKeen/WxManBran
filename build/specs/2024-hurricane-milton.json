@@ -90,7 +90,22 @@
         "ylabel": "Pressure (mb)",
         "legend_loc": "best",
         "grid": true,
-        "series": [],
+        "series": [
+          {
+            "label": "Pressure (mb)",
+            "column": "Bar",
+            "color": "black",
+            "linestyle": "-",
+            "secondary_y": false
+          },
+          {
+            "label": "dP/dt (mb/30 min)",
+            "column": "Pressure_Tendency_30min",
+            "color": "orange",
+            "linestyle": "-",
+            "secondary_y": true
+          }
+        ],
         "ylabel_color": "black",
         "secondary_ylabel": "dP/dt (mb/30 min)",
         "secondary_yaxis_color": "orange",

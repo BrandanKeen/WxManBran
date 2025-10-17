@@ -10,7 +10,7 @@ overview: >-
   Category 5 before making a destructive landfall near Siesta Key, Florida.
 ---
 
-# Hurricane Milton (2024)
+# Hurricane Milton
 
 Hurricane Milton was one of the most powerful hurricanes ever recorded in the Atlantic Basin. After forming in the southwestern Gulf of Mexico in early October, Milton rapidly intensified into a Category 5 hurricane with estimated winds of about 180 mph. The storm tracked unusually eastward across the Gulf before making landfall near Siesta Key, Florida, as a Category 3 hurricane. Despite weakening before landfall, Milton caused major coastal damage, widespread flooding, and dozens of tornadoes across Florida’s peninsula.
 
@@ -50,7 +50,7 @@ MediaComingSoon
 <div class="storm-data">
   <div class="storm-plot">
     <h3>Hurricane Milton (Sarasota, FL)</h3>
-    <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_MultiPanel.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+    <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_MultiPanel.html' | relative_url }}" width="100%" height="640" loading="lazy" style="border:0"></iframe>
   </div>
   <div class="storm-plot">
     <h3>Pressure</h3>
