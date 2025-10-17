@@ -214,6 +214,13 @@ def extract_units(label: Optional[str]) -> str:
     return cleaned
 
 
+def hover_time_format(tickformat: Optional[str]) -> str:
+    if not tickformat:
+        return "%Y-%m-%d %H:%M"
+    sanitized = tickformat.replace("\n", " ").strip()
+    return sanitized or "%Y-%m-%d %H:%M"
+
+
 def map_linestyle(style: Optional[str]) -> str:
     if not style:
         return "solid"
@@ -447,6 +454,7 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
     }
     layout["spikedistance"] = -1
     layout["hoverdistance"] = -1
+    time_fmt = hover_time_format(spec.x_tickformat)
     if spec.title:
         layout["title"] = spec.title
     legend_count = 0
@@ -476,17 +484,21 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
                 subplot.title,
             )
             hover_format = pressure_hover_format(is_pressure)
+            label = series.label or series.column
             trace = {
                 "type": "scatter",
                 "mode": "lines",
                 "x": data.times,
                 "y": column_values,
-                "name": series.label or series.column,
+                "name": label,
                 "line": {"color": series.color, "dash": map_linestyle(series.linestyle)},
                 "opacity": series.alpha if series.alpha is not None else 1.0,
                 "xaxis": axis_ref("x", index),
                 "yaxis": axis_ref("y", index),
-                "hovertemplate": f"{series.label or series.column}: %{{y{hover_format}}}{unit_suffix}<extra></extra>",
+                "hovertemplate": (
+                    f"Time: %{{x|{time_fmt}}}<br>"
+                    f"{label}: %{{y{hover_format}}}{unit_suffix}<extra></extra>"
+                ),
             }
             if series.secondary_y:
                 secondary_counter += 1
