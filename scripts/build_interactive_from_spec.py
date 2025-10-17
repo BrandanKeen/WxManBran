@@ -161,21 +161,43 @@ def parse_float(value: str) -> Optional[float]:
         return None
 
 
+TIME_COLUMN_CANDIDATES = [
+    "Date Time",
+    "Datetime",
+    "DateTime",
+    "Timestamp",
+]
+
+
 def load_data(csv_path: Path) -> StormData:
     times: List[str] = []
     columns: Dict[str, List[Optional[float]]] = {}
     with open(csv_path, "r", encoding="utf-8") as f:
         reader = csv.DictReader(f)
+        if not reader.fieldnames:
+            return StormData(times=times, columns=columns)
+
+        time_key = next(
+            (name for name in TIME_COLUMN_CANDIDATES if name in reader.fieldnames),
+            None,
+        )
+        if not time_key:
+            raise ValueError(
+                "Could not determine time column in CSV. Expected one of: "
+                + ", ".join(TIME_COLUMN_CANDIDATES)
+            )
+
         for row in reader:
-            raw_time = row.get("Date Time")
+            raw_time = row.get(time_key)
             if not raw_time:
                 continue
             dt = datetime.strptime(raw_time.strip(), "%m/%d/%Y %H:%M")
             times.append(dt.isoformat())
             for key, value in row.items():
-                if key == "Date Time" or key is None:
+                if key in {time_key, None}:
                     continue
-                columns.setdefault(key, []).append(parse_float(value.strip()))
+                cell = value.strip() if isinstance(value, str) else value
+                columns.setdefault(key, []).append(parse_float(cell))
     return StormData(times=times, columns=columns)
 
 

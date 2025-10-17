@@ -1,0 +1,49 @@
+name: Generate storm plots
+
+on:
+  push:
+    paths:
+      - 'data/storms/**'
+      - 'analysis/notebooks/**'
+      - 'scripts/**'
+      - '_storms/**'
+      - '.github/workflows/generate-storm-plots.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Generate interactive storm plots
+        run: python scripts/process_storm.py --all
+
+      - name: Commit and create pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore: update storm plots'
+          title: 'Automated storm plot updates'
+          body: |
+            This automated workflow generated the latest interactive storm plots from uploaded datasets and notebooks.
+          branch: auto/storm-plot-updates
+          delete-branch: true
+          add-paths: |
+            assets/plots
+            build/specs
+            _storms
