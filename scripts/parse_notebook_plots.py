@@ -131,10 +131,18 @@ class FigureParser:
 
     def extract_df_column(self, node: ast.Subscript) -> Optional[str]:
         value = node.value
-        if isinstance(value, ast.Name) and value.id == "df":
+        # Allow any dataframe-like variable (not just a literal "df") to surface
+        # the column name so storms that use a different variable (e.g. "data")
+        # still record the mapping in the plot spec.
+        if isinstance(value, ast.Name):
             slice_node = node.slice
             if isinstance(slice_node, ast.Constant) and isinstance(slice_node.value, str):
                 return slice_node.value
+            # Python < 3.9 wraps slices in ast.Index nodes.
+            if hasattr(ast, "Index") and isinstance(slice_node, ast.Index):  # pragma: no cover
+                inner = slice_node.value
+                if isinstance(inner, ast.Constant) and isinstance(inner.value, str):
+                    return inner.value
         return None
 
     def set_alias(self, name: str, value_expr: str) -> None:
