@@ -85,9 +85,21 @@ fill="currentColor" stroke="none">
               aria-label="Switch to dark mode"
               title="Switch to dark mode">
         <span class="theme-toggle__track" aria-hidden="true">
-          <span class="theme-toggle__icon theme-toggle__icon--sun">☀️</span>
-          <span class="theme-toggle__thumb"></span>
-          <span class="theme-toggle__icon theme-toggle__icon--moon">🌙</span>
+          <span class="theme-toggle__label theme-toggle__label--day">Day Mode</span>
+          <span class="theme-toggle__thumb">
+            <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="presentation" focusable="false">
+                <circle cx="12" cy="12" r="4.25" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M12 2.5v3.2M12 18.3v3.2M4.54 4.54l2.26 2.26M17.2 17.2l2.26 2.26M2.5 12h3.2M18.3 12h3.2M4.54 19.46l2.26-2.26M17.2 6.8l2.26-2.26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="presentation" focusable="false">
+                <path d="M21 14.25a8.26 8.26 0 0 1-10.78-10.5 8.27 8.27 0 1 0 10.78 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+          </span>
+          <span class="theme-toggle__label theme-toggle__label--night">Night Mode</span>
         </span>
         <span class="visually-hidden" data-theme-toggle-text>Switch to dark mode</span>
       </button>
