@@ -123,10 +123,6 @@ permalink: /
     .needle{fill:var(--needle);stroke:var(--needle)}
     #wx-needle,#wx-needle2{transform-box:view-box;transform-origin:50px 50px;transition:transform 140ms ease-out}
 
-    /* README area */
-    .markdown-body{box-sizing:border-box;padding:0}
-    #app{ margin-top:48px; }
-
 /* Phones */
 @media (max-width: 480px){
   .container{margin:10px auto 20px}
@@ -346,49 +342,7 @@ permalink: /
       </section>
     </main>
 
-    <!-- Rest of the website (README.md rendered below) -->
-    <article class="markdown-body" id="app">Loading…</article>
   </div>
-
-  <!-- Render README.md under the dashboard -->
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script>
-    (async ()=>{ 
-      const container=document.getElementById('app');
-      try{
-        const res=await fetch('README.md', {cache:'no-store'}); 
-        if(!res.ok) throw 0;
-        container.innerHTML=marked.parse(await res.text());
-      }catch{ container.textContent=''; }
-
-      // Tiny helper: make every image link open itself in a new tab
-      function enhanceImages(root){
-        root.querySelectorAll('img').forEach(img=>{
-          if (img.closest('.yt-embed')) return;
-          const link = img.closest('a');
-          const targetHref = img.currentSrc || img.src;
-          if (link){ link.href = targetHref; link.target = '_blank'; link.rel='noopener'; return; }
-          const a=document.createElement('a'); a.href=targetHref; a.target='_blank'; a.rel='noopener';
-          img.parentNode.insertBefore(a,img); a.appendChild(img);
-        });
-      }
-
-      // Under each "Plots" heading, open links in new tabs
-      function makePlotsLinksNewTab(root){
-        const heads = Array.from(root.querySelectorAll('h1,h2,h3,h4,h5,h6')).filter(h => /plots/i.test(h.textContent));
-        heads.forEach(h=>{
-          for (let el = h.nextElementSibling; el && !/^H[1-6]$/.test(el.tagName); el = el.nextElementSibling){
-            el.querySelectorAll('a[href]').forEach(a=>{ a.target='_blank'; a.rel='noopener'; });
-          }
-        });
-      }
-
-      try{
-        enhanceImages(container);
-        makePlotsLinksNewTab(container);
-      }catch(e){ console && console.warn && console.warn('README enhancement skipped:', e); }
-    })();
-  </script>
 
   <!-- Live engine -->
   <script>
