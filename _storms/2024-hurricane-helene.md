@@ -45,7 +45,7 @@ MediaComingSoon
 <div class="storm-data">
   <div class="storm-plot">
     <h3>Hurricane Helene (Perry, FL)</h3>
-    <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_MultiPanel.html' | relative_url }}" width="100%" height="640" loading="lazy" style="border:0"></iframe>
+    <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_MultiPanel.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
   </div>
   <div class="storm-plot">
     <h3>Pressure</h3>
