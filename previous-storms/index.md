@@ -22,32 +22,37 @@ permalink: /previous-storms/
   {% if season_group %}
     {% assign storms_for_season = season_group.items | where_exp: "storm", "storm.placeholder != true" %}
     {% if storms_for_season.size > 0 %}
-    <ul class="card-list storm-card-list">
+    <div class="posts-grid posts-grid--fit">
       {% assign storms_sorted = storms_for_season | sort: 'sort_date' | reverse %}
       {% for storm in storms_sorted %}
       {% assign storm_thumbnail = storm.thumbnail | default: storm.thumb | default: storm.image %}
-      <li class="storm-card">
-        <a class="storm-card__link" href="{{ storm.url | relative_url }}">
-          <div class="storm-card__thumb{% unless storm_thumbnail %} storm-card__thumb--empty{% endunless %}">
-            {% if storm_thumbnail %}
-            <img src="{{ storm_thumbnail | relative_url }}" alt="{{ storm.title }} thumbnail">
-            {% endif %}
-          </div>
-          {% assign landfall_date_source = storm.landfall_date | default: storm.sort_date %}
-          <h3 class="storm-card__title">
-            {{ storm.title }}
-            {% if landfall_date_source %}
-            <span class="storm-card__date">&mdash; {{ landfall_date_source | date: "%B %-d" }}</span>
-            {% endif %}
-          </h3>
-          {% assign overview_text = storm.overview | default: storm.excerpt %}
-          {% if overview_text %}
-          <p class="storm-card__overview">{{ overview_text | strip_html | strip }}</p>
+      {% assign landfall_date_source = storm.landfall_date | default: storm.sort_date %}
+      <article class="post-card">
+        <header class="post-card__header">
+          {% if landfall_date_source %}
+          <time class="post-date" datetime="{{ landfall_date_source | date_to_xmlschema }}">
+            {{ landfall_date_source | date: "%B %-d, %Y" }}
+          </time>
           {% endif %}
+          <h3 class="post-title">
+            <a class="link-chip" href="{{ storm.url | relative_url }}">{{ storm.title }}</a>
+          </h3>
+        </header>
+        {% if storm_thumbnail %}
+        <a class="post-card__thumb-link" href="{{ storm.url | relative_url }}">
+          <img class="post-card__thumb" src="{{ storm_thumbnail | relative_url }}" alt="{{ storm.title }} thumbnail">
         </a>
-      </li>
+        {% endif %}
+        {% assign overview_text = storm.overview | default: storm.excerpt %}
+        {% if overview_text %}
+        <p>{{ overview_text | strip_html | strip }}</p>
+        {% endif %}
+        <p class="read-more-wrap">
+          <a class="read-more link-chip" href="{{ storm.url | relative_url }}">Explore storm →</a>
+        </p>
+      </article>
       {% endfor %}
-    </ul>
+    </div>
     {% endif %}
   {% endif %}
 </section>
