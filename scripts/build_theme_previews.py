@@ -5,6 +5,7 @@ from __future__ import annotations
 import datetime as _dt
 from pathlib import Path
 import textwrap
+from typing import Dict, List
 
 ROOT = Path(__file__).resolve().parents[1]
 PREVIEW_DIR = ROOT / "ui" / "previews"
@@ -32,9 +33,9 @@ def _load_page_content() -> str:
     return content.rstrip() + "\n"
 
 
-def _load_icons() -> dict[str, str]:
+def _load_icons() -> Dict[str, str]:
     icon_dir = ROOT / "_includes" / "icons"
-    icons: dict[str, str] = {}
+    icons: Dict[str, str] = {}
     for item in NAV_ITEMS:
         name = item.get("icon")
         if not name:
@@ -45,8 +46,8 @@ def _load_icons() -> dict[str, str]:
     return icons
 
 
-def _build_nav(theme: str, icons: dict[str, str]) -> str:
-    parts: list[str] = ["<nav class=\"site-nav\">", "  <ul class=\"site-nav__links\">"]
+def _build_nav(theme: str, icons: Dict[str, str]) -> str:
+    parts: List[str] = ["<nav class=\"site-nav\">", "  <ul class=\"site-nav__links\">"]
     current_url = "/"
     for item in NAV_ITEMS:
         url = item["url"]
@@ -89,7 +90,7 @@ def _build_nav(theme: str, icons: dict[str, str]) -> str:
     return "\n".join(parts)
 
 
-def _build_page(theme: str, page_content: str, icons: dict[str, str]) -> str:
+def _build_page(theme: str, page_content: str, icons: Dict[str, str]) -> str:
     nav_html = _build_nav(theme, icons)
     mode_title = "Light" if theme == "light" else "Dark"
     year = _dt.datetime.now().year
