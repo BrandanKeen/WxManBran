@@ -21,12 +21,14 @@
         "series": [
           {
             "label": "Temp",
+            "column": "Temp",
             "color": "red",
             "linestyle": "-",
             "secondary_y": false
           },
           {
             "label": "Dewpoint",
+            "column": "Dew",
             "color": "green",
             "linestyle": "-",
             "secondary_y": false
@@ -45,12 +47,14 @@
         "series": [
           {
             "label": "Gust (1-min Max)",
+            "column": "Hi Speed",
             "color": "blue",
             "linestyle": "-",
             "secondary_y": false
           },
           {
             "label": "Sustained (1-min Avg)",
+            "column": "Wind Speed",
             "color": "purple",
             "linestyle": "-",
             "secondary_y": false,
@@ -70,6 +74,7 @@
         "series": [
           {
             "label": "Rain Rate",
+            "column": "Rain Rate",
             "color": "purple",
             "linestyle": "-",
             "secondary_y": false
@@ -85,7 +90,22 @@
         "ylabel": "Pressure (mb)",
         "legend_loc": "best",
         "grid": true,
-        "series": [],
+        "series": [
+          {
+            "label": "Pressure (mb)",
+            "column": "Bar",
+            "color": "black",
+            "linestyle": "-",
+            "secondary_y": false
+          },
+          {
+            "label": "dP/dt (mb/30 min)",
+            "column": "Pressure_Tendency_30min",
+            "color": "orange",
+            "linestyle": "-",
+            "secondary_y": true
+          }
+        ],
         "ylabel_color": "black",
         "secondary_ylabel": "dP/dt (mb/30 min)",
         "secondary_yaxis_color": "orange",
