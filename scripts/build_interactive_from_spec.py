@@ -214,6 +214,13 @@ def extract_units(label: Optional[str]) -> str:
     return cleaned
 
 
+def hover_time_format(tickformat: Optional[str]) -> str:
+    if not tickformat:
+        return "%Y-%m-%d %H:%M"
+    sanitized = tickformat.replace("\n", " ").strip()
+    return sanitized or "%Y-%m-%d %H:%M"
+
+
 def map_linestyle(style: Optional[str]) -> str:
     if not style:
         return "solid"
@@ -447,6 +454,7 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
     }
     layout["spikedistance"] = -1
     layout["hoverdistance"] = -1
+    time_fmt = hover_time_format(spec.x_tickformat)
     if spec.title:
         layout["title"] = spec.title
     legend_count = 0
@@ -476,17 +484,21 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
                 subplot.title,
             )
             hover_format = pressure_hover_format(is_pressure)
+            label = series.label or series.column
             trace = {
                 "type": "scatter",
                 "mode": "lines",
                 "x": data.times,
                 "y": column_values,
-                "name": series.label or series.column,
+                "name": label,
                 "line": {"color": series.color, "dash": map_linestyle(series.linestyle)},
                 "opacity": series.alpha if series.alpha is not None else 1.0,
                 "xaxis": axis_ref("x", index),
                 "yaxis": axis_ref("y", index),
-                "hovertemplate": f"{series.label or series.column}: %{{y{hover_format}}}{unit_suffix}<extra></extra>",
+                "hovertemplate": (
+                    f"Time: %{{x|{time_fmt}}}<br>"
+                    f"{label}: %{{y{hover_format}}}{unit_suffix}<extra></extra>"
+                ),
             }
             if series.secondary_y:
                 secondary_counter += 1
@@ -685,11 +697,12 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
         }});
       }});
       const addHighlights = highlightTraces.length ? Plotly.addTraces(gd, highlightTraces) : Promise.resolve();
-      const dataLookup = originalTraces.map((trace) => {{
+      const dataLookup = originalTraces.map((trace, curveNumber) => {{
         if (!trace.x || !trace.y) {{
           return [];
         }}
         const entries = [];
+        const subplotRef = (trace.xaxis || 'x') + (trace.yaxis || 'y');
         for (let i = 0; i < trace.x.length; i += 1) {{
           const xValue = trace.x[i];
           const yValue = trace.y[i];
@@ -700,10 +713,11 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
           if (!Number.isFinite(timestamp)) {{
             continue;
           }}
-          entries.push({{ time: timestamp, x: xValue, y: yValue }});
+          entries.push({{ time: timestamp, x: xValue, y: yValue, index: i, curveNumber, subplot: subplotRef }});
         }}
         return entries;
       }});
+      let suppressSyntheticHover = false;
       function hideHighlights() {{
         highlightIndexMap.forEach((highlightIdx) => {{
           if (highlightIdx === null) {{
@@ -734,6 +748,9 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
           return;
         }}
         gd.on('plotly_hover', (event) => {{
+          if (suppressSyntheticHover) {{
+            return;
+          }}
           if (!event.points || !event.points.length) {{
             hideHighlights();
             return;
@@ -743,6 +760,7 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
             hideHighlights();
             return;
           }}
+          const hoverPoints = [];
           highlightIndexMap.forEach((highlightIdx, sourceIdx) => {{
             if (highlightIdx === null) {{
               return;
@@ -758,10 +776,34 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
               return;
             }}
             Plotly.restyle(gd, {{ x: [[match.x]], y: [[match.y]], visible: true }}, highlightIdx);
+            hoverPoints.push({{ curveNumber: match.curveNumber, pointNumber: match.index, subplot: match.subplot }});
           }});
+          if (!suppressSyntheticHover) {{
+            suppressSyntheticHover = true;
+            const uniquePoints = hoverPoints.filter((point, idx, arr) =>
+              arr.findIndex(
+                (p) =>
+                  p.curveNumber === point.curveNumber &&
+                  p.pointNumber === point.pointNumber &&
+                  p.subplot === point.subplot
+              ) === idx
+            );
+            if (uniquePoints.length) {{
+              Plotly.Fx.hover(gd, uniquePoints);
+              setTimeout(() => {{
+                suppressSyntheticHover = false;
+              }}, 0);
+            }} else {{
+              suppressSyntheticHover = false;
+              Plotly.Fx.unhover(gd);
+            }}
+          }}
         }});
         gd.on('plotly_unhover', () => {{
           hideHighlights();
+          if (!suppressSyntheticHover) {{
+            Plotly.Fx.unhover(gd);
+          }}
         }});
       }});
     }});

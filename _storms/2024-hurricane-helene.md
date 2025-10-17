@@ -6,6 +6,7 @@ landfall: September 26, 2024 &mdash; near Perry, FL
 landfall_date: 2024-09-26
 permalink: /storms/hurricane-helene-2024/
 sort_date: 2024-09-26
+thumbnail: /assets/images/storms/2024-hurricane-helene/Helene_animated.gif
 overview: >-
   Rapidly intensifying over the Gulf of Mexico, Helene struck Florida's Big Bend as a Category 4 hurricane before racing
   inland with destructive surge, wind, flooding, and tornadoes from the Gulf Coast to the Appalachians.
@@ -44,7 +45,7 @@ MediaComingSoon
 <div class="storm-data">
   <div class="storm-plot">
     <h3>Hurricane Helene (Perry, FL)</h3>
-    <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_MultiPanel.html' | relative_url }}" width="100%" height="640" loading="lazy" style="border:0"></iframe>
+    <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_MultiPanel.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
   </div>
   <div class="storm-plot">
     <h3>Pressure</h3>
