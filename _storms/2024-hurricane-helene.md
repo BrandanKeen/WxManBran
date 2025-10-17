@@ -11,7 +11,7 @@ overview: >-
   inland with destructive surge, wind, flooding, and tornadoes from the Gulf Coast to the Appalachians.
 ---
 
-# Hurricane Helene (2024)
+# Hurricane Helene
 
 Hurricane Helene formed in the northwestern Caribbean on September 24 and rapidly intensified over very warm Gulf waters with low wind shear, growing in size as it accelerated toward Florida’s Big Bend. Helene made Category 4 landfall near Perry late on September 26, driving life-threatening storm surge of 12 to 16 feet in parts of the Big Bend and producing hurricane-force gusts far inland because of its fast forward speed. The storm then raced through Georgia and the Carolinas, unleashing catastrophic freshwater flooding and landslides across the southern Appalachians, spawning dozens of tornadoes, and causing widespread power outages and infrastructure damage from the Gulf Coast to the Mid-Atlantic.
 
@@ -38,7 +38,7 @@ Hurricane Helene formed in the northwestern Caribbean on September 24 and rapidl
 ## Media
 MediaComingSoon
 
-## Data
+
 <!-- DATA-SECTION:START -->
 <h2>Data</h2>
 <div class="storm-data">
