@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse
+import html
 import json
 import os
 from pathlib import Path
@@ -21,6 +22,7 @@ def render_iframe_block(spec: List[dict], public_dir: Path) -> str:
         if not outfile:
             continue
         title = entry.get("title") or Path(outfile).stem.replace("_", " ")
+        title = html.escape(title)
         html_name = Path(outfile).with_suffix(".html").name
         rel_path = (public_dir / html_name).as_posix().lstrip("/")
         rel_url = f"/{rel_path}"
@@ -42,6 +44,15 @@ def render_iframe_block(spec: List[dict], public_dir: Path) -> str:
 
 def update_markdown(path: Path, block: str) -> None:
     text = path.read_text(encoding="utf-8")
+
+    # Strip placeholder markers so the rendered block replaces any temporary
+    # "DataComingSoon" text that may have been left in a freshly created
+    # container page.
+    placeholder = "DataComingSoon"
+    if placeholder in text:
+        text = text.replace(f"\n{placeholder}\n", "\n")
+        text = text.replace(placeholder, "")
+
     if MARKER_START in text and MARKER_END in text:
         start_idx = text.index(MARKER_START) + len(MARKER_START)
         end_idx = text.index(MARKER_END)
