@@ -813,40 +813,10 @@ section {
   color: color-mix(in srgb, var(--ink) 75%, transparent);
 }
 
-/* Four-panel storm plot gallery */
-.storm-overview-gallery {
-  display: grid;
-  gap: 2.5rem;
-  margin-top: 3rem;
-}
-
-.storm-overview-gallery__item {
-  background: color-mix(in srgb, var(--surface) 94%, #ffffff 6%);
-  border-radius: 18px;
-  padding: 1.75rem;
-  box-shadow: 0 16px 32px color-mix(in srgb, var(--ink) 8%, transparent);
-  border: 1px solid color-mix(in srgb, var(--brandMuted) 28%, transparent);
-}
-
-.storm-overview-gallery__title {
-  margin-top: 0;
-  margin-bottom: 1rem;
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: color-mix(in srgb, var(--brandPrimary) 78%, var(--ink));
-}
-
-.storm-overview-gallery__frame {
-  border-radius: 12px;
-  background: color-mix(in srgb, var(--surfaceAlt) 85%, transparent);
-}
-
-@media (max-width: 640px) {
-  .storm-overview-gallery__item {
-    padding: 1.25rem;
-  }
-
-  .storm-overview-gallery__title {
-    font-size: 1.15rem;
-  }
+.storm-page__title {
+  margin: 0 0 1.5rem;
+  text-align: center;
+  font-size: clamp(2.25rem, 3vw + 1.5rem, 3rem);
+  font-weight: 800;
+  color: var(--ink);
 }
