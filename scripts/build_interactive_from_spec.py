@@ -282,7 +282,7 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             "name": series.label or series.column,
             "line": {"color": series.color, "dash": map_linestyle(series.linestyle)},
             "opacity": series.alpha if series.alpha is not None else 1.0,
-            "hovertemplate": f"{series.label or series.column}: %{{{{y}}}}{unit_suffix}<extra></extra>",
+            "hovertemplate": f"{series.label or series.column}: %{{y}}{unit_suffix}<extra></extra>",
         }
         if series.secondary_y:
             trace["yaxis"] = "y2"
@@ -428,7 +428,7 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
                 "opacity": series.alpha if series.alpha is not None else 1.0,
                 "xaxis": axis_ref("x", index),
                 "yaxis": axis_ref("y", index),
-                "hovertemplate": f"{series.label or series.column}: %{{{{y}}}}{unit_suffix}<extra></extra>",
+                "hovertemplate": f"{series.label or series.column}: %{{y}}{unit_suffix}<extra></extra>",
             }
             if series.secondary_y:
                 secondary_counter += 1
