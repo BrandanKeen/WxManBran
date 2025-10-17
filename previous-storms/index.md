@@ -48,6 +48,30 @@ permalink: /previous-storms/
       </li>
       {% endfor %}
     </ul>
+    {% assign plot_index = site.data.storm_plot_index %}
+    {% if plot_index %}
+    <div class="storm-overview-gallery">
+      {% for storm in storms_sorted %}
+      {% assign storm_slug = storm.path | split: '/' | last | split: '.' | first %}
+      {% assign plot_info = plot_index[storm_slug] %}
+      {% if plot_info and plot_info.multi_panel %}
+      {% assign plot_src = '/assets/plots/' | append: storm_slug | append: '/' | append: plot_info.multi_panel %}
+      <article class="storm-overview-gallery__item">
+        <h3 class="storm-overview-gallery__title">{{ storm.title }} &mdash; Four-Panel Overview</h3>
+        <iframe
+          class="storm-overview-gallery__frame"
+          src="{{ plot_src | relative_url }}"
+          title="{{ storm.title }} four-panel interactive plot"
+          loading="lazy"
+          width="100%"
+          height="640"
+          style="border:0"
+        ></iframe>
+      </article>
+      {% endif %}
+      {% endfor %}
+    </div>
+    {% endif %}
     {% endif %}
   {% endif %}
 </section>
