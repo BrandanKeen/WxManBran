@@ -9,6 +9,32 @@
     {% elsif site.description %}
     <meta name="description" content="{{ site.description | escape }}">
     {% endif %}
+    <script>
+      (function() {
+        var root = document.documentElement;
+        if (!root) { return; }
+        var storageKey = 'wx-theme-preference';
+        var fallbackTheme = 'light';
+        if (typeof window === 'undefined') {
+          root.dataset.theme = fallbackTheme;
+          return;
+        }
+        var storedTheme = null;
+        try {
+          storedTheme = window.localStorage.getItem(storageKey);
+        } catch (error) {
+          storedTheme = null;
+        }
+        var prefersDark = false;
+        try {
+          prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        } catch (error) {
+          prefersDark = false;
+        }
+        var theme = storedTheme || (prefersDark ? 'dark' : fallbackTheme);
+        root.dataset.theme = theme;
+      })();
+    </script>
     {% include head.html %}
     <link rel="stylesheet" href="{{ '/assets/main.css' | relative_url }}">
     <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
@@ -30,5 +56,81 @@
         <p><a href="mailto:hello@wxmanbran.com">Contact</a></p>
       </div>
     </footer>
+    <script>
+      (function() {
+        var root = document.documentElement;
+        var storageKey = 'wx-theme-preference';
+        if (!root || typeof window === 'undefined') { return; }
+
+        function getStoredTheme() {
+          try {
+            return window.localStorage.getItem(storageKey);
+          } catch (error) {
+            return null;
+          }
+        }
+
+        function setStoredTheme(theme) {
+          try {
+            window.localStorage.setItem(storageKey, theme);
+          } catch (error) {
+            /* no-op */
+          }
+        }
+
+        function resolveTheme(theme) {
+          return theme === 'dark' ? 'dark' : 'light';
+        }
+
+        var toggle = document.querySelector('[data-theme-toggle]');
+        if (!toggle) { return; }
+        var gear = document.querySelector('[data-theme-gear]');
+        var textNode = toggle.querySelector('[data-theme-toggle-text]');
+        var mediaQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+
+        function applyTheme(theme, shouldPersist) {
+          var normalized = resolveTheme(theme);
+          root.dataset.theme = normalized;
+          var isDark = normalized === 'dark';
+          toggle.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+          toggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+          toggle.setAttribute('title', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+          if (textNode) {
+            textNode.textContent = isDark ? 'Switch to light mode' : 'Switch to dark mode';
+          }
+          if (shouldPersist) {
+            setStoredTheme(normalized);
+          }
+        }
+
+        var initialTheme = root.dataset.theme || getStoredTheme();
+        if (!initialTheme && mediaQuery) {
+          initialTheme = mediaQuery.matches ? 'dark' : 'light';
+        }
+        applyTheme(initialTheme, false);
+
+        toggle.addEventListener('click', function() {
+          var nextTheme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+          applyTheme(nextTheme, true);
+          if (gear && gear.hasAttribute('open')) {
+            gear.removeAttribute('open');
+          }
+        });
+
+        if (mediaQuery) {
+          var mediaHandler = function(event) {
+            if (getStoredTheme()) {
+              return;
+            }
+            applyTheme(event.matches ? 'dark' : 'light', false);
+          };
+          if (typeof mediaQuery.addEventListener === 'function') {
+            mediaQuery.addEventListener('change', mediaHandler);
+          } else if (typeof mediaQuery.addListener === 'function') {
+            mediaQuery.addListener(mediaHandler);
+          }
+        }
+      })();
+    </script>
   </body>
 </html>
