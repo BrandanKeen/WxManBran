@@ -284,7 +284,7 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
         "spikemode": "across",
         "spikethickness": 1,
         "spikedash": "solid",
-        "spikesnap": "cursor",
+        "spikesnap": "hovered data",
     }
     if spec.ylabel_color:
         yaxis["tickfont"] = {"color": spec.ylabel_color}
@@ -306,7 +306,7 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             "spikemode": "across",
             "spikethickness": 1,
             "spikedash": "solid",
-            "spikesnap": "cursor",
+            "spikesnap": "hovered data",
         }
         if spec.secondary_ylabel_color:
             yaxis2["tickfont"] = {"color": spec.secondary_ylabel_color}
@@ -326,9 +326,35 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
         "spikemode": "across",
         "spikethickness": 1,
         "spikedash": "solid",
-        "spikesnap": "cursor",
-        "rangeslider": {"visible": True, "bgcolor": "#f0f0f0"},
+        "spikesnap": "hovered data",
+        "rangeslider": {"visible": True, "bgcolor": "#f0f0f0", "thickness": 0.12},
     }
+    if spec.sharex:
+        layout["xaxis"] = {
+            "domain": [0.0, 1.0],
+            "anchor": "free",
+            "position": 0.0,
+            "showgrid": False,
+            "showline": False,
+            "ticks": "",
+            "showticklabels": False,
+            "visible": False,
+            "type": "date",
+            "rangeslider": {"visible": True, "bgcolor": "#f0f0f0", "thickness": 0.12},
+        }
+    if spec.sharex:
+        layout["xaxis"] = {
+            "domain": [0.0, 1.0],
+            "anchor": "free",
+            "position": 0.0,
+            "showgrid": False,
+            "showline": False,
+            "ticks": "",
+            "showticklabels": False,
+            "visible": False,
+            "type": "date",
+            "rangeslider": {"visible": True, "bgcolor": "#f0f0f0", "thickness": 0.12},
+        }
     config = {
         "responsive": True,
         "displaylogo": False,
@@ -358,7 +384,7 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
         "hovermode": "x unified",
         "plot_bgcolor": "#ffffff",
         "paper_bgcolor": "#ffffff",
-        "margin": {"l": 60, "r": 60, "t": 60 if spec.title else 40, "b": 60},
+        "margin": {"l": 60, "r": 60, "t": 60 if spec.title else 40, "b": 80},
         "font": {"family": "Arial", "size": 12},
         "grid": {"rows": rows, "columns": cols, "pattern": "independent", "roworder": "top to bottom"},
     }
@@ -417,12 +443,10 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             "spikemode": "across",
             "spikethickness": 1,
             "spikedash": "solid",
-            "spikesnap": "cursor",
+            "spikesnap": "hovered data",
         }
-        if spec.sharex and index != 1:
+        if spec.sharex:
             layout[xaxis_name]["matches"] = "x"
-        if index == 1:
-            layout[xaxis_name]["rangeslider"] = {"visible": True, "bgcolor": "#f0f0f0"}
         primary_axis = {
             "domain": y_domain,
             "anchor": axis_ref("x", index),
@@ -438,7 +462,7 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             "spikemode": "across",
             "spikethickness": 1,
             "spikedash": "solid",
-            "spikesnap": "cursor",
+            "spikesnap": "hovered data",
         }
         if subplot.ylabel_color:
             primary_axis["titlefont"] = {"color": subplot.ylabel_color}
@@ -464,7 +488,7 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
                 "spikemode": "across",
                 "spikethickness": 1,
                 "spikedash": "solid",
-                "spikesnap": "cursor",
+                "spikesnap": "hovered data",
             }
             if subplot.secondary_grid is not None and not subplot.secondary_grid:
                 secondary_axis["showgrid"] = False
@@ -472,6 +496,19 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
                 secondary_axis["titlefont"] = {"color": subplot.secondary_ylabel_color}
                 secondary_axis["tickfont"] = {"color": subplot.secondary_ylabel_color}
             layout[secondary_name] = secondary_axis
+    if spec.sharex:
+        layout["xaxis"] = {
+            "domain": [0.0, 1.0],
+            "anchor": "free",
+            "position": 0.0,
+            "showgrid": False,
+            "showline": False,
+            "ticks": "",
+            "showticklabels": False,
+            "visible": False,
+            "type": "date",
+            "rangeslider": {"visible": True, "bgcolor": "#f0f0f0", "thickness": 0.12},
+        }
     config = {
         "responsive": True,
         "displaylogo": False,
@@ -509,7 +546,127 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
   <script>
     const figure = {figure_json};
     const config = {config_json};
-    Plotly.newPlot('chart', figure.data, figure.layout, config);
+    const toTimestamp = (value) => {{
+      if (value === null || value === undefined) {{
+        return NaN;
+      }}
+      if (typeof value === 'number') {{
+        return value;
+      }}
+      const parsed = Date.parse(value);
+      return Number.isNaN(parsed) ? NaN : parsed;
+    }};
+    Plotly.newPlot('chart', figure.data, figure.layout, config).then((gd) => {{
+      const originalCount = gd.data.length;
+      const originalTraces = gd.data.slice(0, originalCount);
+      const highlightTraces = [];
+      const highlightIndexMap = new Map();
+      originalTraces.forEach((trace, index) => {{
+        if (trace.type !== 'scatter') {{
+          highlightIndexMap.set(index, null);
+          return;
+        }}
+        const color = trace.line && trace.line.color ? trace.line.color : '#1f77b4';
+        highlightIndexMap.set(index, originalCount + highlightTraces.length);
+        highlightTraces.push({{
+          x: [trace.x && trace.x.length ? trace.x[0] : null],
+          y: [trace.y && trace.y.length ? trace.y[0] : null],
+          mode: 'markers',
+          marker: {{
+            size: 8,
+            color,
+            symbol: 'circle',
+            line: {{ color: '#ffffff', width: 1.5 }},
+            opacity: 1
+          }},
+          showlegend: false,
+          hoverinfo: 'skip',
+          xaxis: trace.xaxis,
+          yaxis: trace.yaxis,
+          visible: false
+        }});
+      }});
+      const addHighlights = highlightTraces.length ? Plotly.addTraces(gd, highlightTraces) : Promise.resolve();
+      const dataLookup = originalTraces.map((trace) => {{
+        if (!trace.x || !trace.y) {{
+          return [];
+        }}
+        const entries = [];
+        for (let i = 0; i < trace.x.length; i += 1) {{
+          const xValue = trace.x[i];
+          const yValue = trace.y[i];
+          if (yValue === null || typeof yValue === 'undefined') {{
+            continue;
+          }}
+          const timestamp = toTimestamp(xValue);
+          if (!Number.isFinite(timestamp)) {{
+            continue;
+          }}
+          entries.push({{ time: timestamp, x: xValue, y: yValue }});
+        }}
+        return entries;
+      }});
+      function hideHighlights() {{
+        highlightIndexMap.forEach((highlightIdx) => {{
+          if (highlightIdx === null) {{
+            return;
+          }}
+          Plotly.restyle(gd, {{ visible: false }}, highlightIdx);
+        }});
+      }}
+      function findMatch(entries, targetTime) {{
+        let exact = null;
+        let best = null;
+        let bestDiff = Infinity;
+        for (const entry of entries) {{
+          const diff = Math.abs(entry.time - targetTime);
+          if (diff === 0) {{
+            exact = entry;
+            break;
+          }}
+          if (diff < bestDiff) {{
+            bestDiff = diff;
+            best = entry;
+          }}
+        }}
+        return exact || best;
+      }}
+      addHighlights.then(() => {{
+        if (!highlightTraces.length) {{
+          return;
+        }}
+        gd.on('plotly_hover', (event) => {{
+          if (!event.points || !event.points.length) {{
+            hideHighlights();
+            return;
+          }}
+          const targetTime = toTimestamp(event.points[0].x);
+          if (!Number.isFinite(targetTime)) {{
+            hideHighlights();
+            return;
+          }}
+          highlightIndexMap.forEach((highlightIdx, sourceIdx) => {{
+            if (highlightIdx === null) {{
+              return;
+            }}
+            const entries = dataLookup[sourceIdx];
+            if (!entries || !entries.length) {{
+              Plotly.restyle(gd, {{ visible: false }}, highlightIdx);
+              return;
+            }}
+            const match = findMatch(entries, targetTime);
+            if (!match) {{
+              Plotly.restyle(gd, {{ visible: false }}, highlightIdx);
+              return;
+            }}
+            Plotly.restyle(gd, {{ x: [[match.x]], y: [[match.y]], visible: true }}, highlightIdx);
+          }});
+        }});
+        gd.on('plotly_unhover', () => {{
+          hideHighlights();
+        }});
+      }});
+    }});
   </script>
 </body>
 </html>
