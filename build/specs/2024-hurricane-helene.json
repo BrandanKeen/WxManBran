@@ -7,7 +7,7 @@
     "type": "grid",
     "rows": 2,
     "cols": 2,
-    "sharex": true,
+    "sharex": false,
     "subplots": [
       {
         "key": "axs[0,0]",
