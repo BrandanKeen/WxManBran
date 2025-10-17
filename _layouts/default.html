@@ -112,9 +112,6 @@
         toggle.addEventListener('click', function() {
           var nextTheme = root.dataset.theme === 'dark' ? 'light' : 'dark';
           applyTheme(nextTheme, true);
-          if (gear && gear.hasAttribute('open')) {
-            gear.removeAttribute('open');
-          }
         });
 
         if (mediaQuery) {
