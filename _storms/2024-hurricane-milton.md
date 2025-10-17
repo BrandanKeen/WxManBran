@@ -8,6 +8,7 @@ sort_date: 2024-10-09
 overview: >-
   Hurricane Milton was one of the most powerful hurricanes ever recorded in the Atlantic Basin, rapidly intensifying to a
   Category 5 before making a destructive landfall near Siesta Key, Florida.
+thumbnail: /assets/images/storms/2024-hurricane-milton/front-card.jpg
 ---
 
 <h1 class="storm-page__title">Hurricane Milton</h1>
