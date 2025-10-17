@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import argparse
+from argparse import ArgumentParser
 import ast
 import json
 import os
@@ -455,7 +455,7 @@ def load_notebook(path: str) -> List[str]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Parse notebook Matplotlib plots into a spec")
+    parser = ArgumentParser(description="Parse notebook Matplotlib plots into a spec")
     parser.add_argument("notebook", help="Path to the .ipynb notebook")
     args = parser.parse_args()
 
