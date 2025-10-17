@@ -16,5 +16,20 @@
         </a>
       </li>
     {% endfor %}
+    <li class="site-nav__theme">
+      <button type="button"
+              class="nav-link theme-toggle__button"
+              data-theme-toggle
+              aria-pressed="false"
+              aria-label="Switch to dark mode"
+              title="Switch to dark mode">
+        <span class="theme-toggle__track" aria-hidden="true">
+          <span class="theme-toggle__icon theme-toggle__icon--sun">☀️</span>
+          <span class="theme-toggle__thumb"></span>
+          <span class="theme-toggle__icon theme-toggle__icon--moon">🌙</span>
+        </span>
+        <span class="visually-hidden" data-theme-toggle-text>Switch to dark mode</span>
+      </button>
+    </li>
   </ul>
 </nav>
