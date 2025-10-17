@@ -9,7 +9,7 @@ permalink: /
       --card:#fff; --bg:#f6f7f9; --text:#0b1220; --muted:#667085; --border:#e6e8ee; --shadow:0 6px 16px rgba(0,0,0,.06);
       /* value colors */
       --temp:#d62728; --dew:#2ca02c; --rh:#b58900; --slp:#111111; --rainrate:#6f3fa4; --raintotal:#7b3f00; --solar:#f97316; --uv:#1e1b4b;
-      --accent:#2563eb; --title-ink:#111; --needle:#2f2f2f;
+      --accent:#2563eb; --title-ink:#111; --needle:var(--title-ink);
       --title-scale:1.35;
     }
     html,body{height:100%}
@@ -52,6 +52,11 @@ permalink: /
     .cond-item .value{font-weight:800;letter-spacing:.2px;font-variant-numeric:tabular-nums;font-size:clamp(28px,4.4vw,40px)}
     .value-temp{color:var(--temp)} .value-dew{color:var(--dew)} .value-rh{color:var(--rh)} .value-slp{color:var(--slp)}
     .value-rainrate{color:var(--rainrate)} .value-raintoday{color:var(--raintotal)} .value-solar{color:var(--solar)} .value-uv{color:var(--uv)}
+    :root[data-theme='dark'] .cond-item .label{color:var(--ink)}
+    :root[data-theme='dark'] .wind-line .label{color:var(--ink)}
+    :root[data-theme='dark'] .value-slp{color:#fff}
+    :root[data-theme='dark'] .value-uv{color:#4f46e5}
+    :root[data-theme='dark']{--needle:var(--ink)}
     .asof{position:absolute;left:22px;bottom:14px;color:var(--muted);font-size:12px}
     .hidden{display:none!important}
 
@@ -71,7 +76,7 @@ permalink: /
   color:#64748b;
 }
 .wind-line{ margin-top:16px; font-size:20px; }
-.wind-line .label{ font-weight:800; color:#111; }
+.wind-line .label{ font-weight:800; color:var(--title-ink); }
 .wind-number{ color:#2563eb; font-weight:800; }
 
 
