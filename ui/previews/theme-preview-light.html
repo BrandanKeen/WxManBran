@@ -145,7 +145,7 @@ fill="currentColor" stroke="none">
 
           #wx-dashboard{display:grid;gap:22px;margin-bottom:56px;}
           header.site-header{display:flex;justify-content:flex-end;align-items:center}
-          #wx-conn{font-size:13px;color:var(--muted)}
+          #wx-conn{font-size:13px;color:var(--title-ink)}
 
           /* Center the two cards on wide screens */
           .cards{display:grid;gap:22px;justify-content:center}
@@ -202,6 +202,7 @@ fill="currentColor" stroke="none">
             --gear-field-text:#f8f9ff;
             --gear-field-focus:rgba(189,28,37,.55);
             --gear-checkbox-accent:#bd1c25;
+            --title-ink:var(--ink);
           }
           :root[data-theme='dark'] .cond-item .label{color:var(--ink)}
           :root[data-theme='dark'] .wind-line .label{color:var(--ink)}
@@ -237,7 +238,7 @@ fill="currentColor" stroke="none">
           .ring{fill:none;stroke:#dfe5ee;stroke-width:2}
           .tick{stroke:#cdd3dc;stroke-width:1}
           .tick.major{stroke:#b7bfca;stroke-width:1.4}
-          .labels{fill:#4a5568;font-size:6px;font-weight:700}
+          .labels{fill:var(--title-ink);font-size:6px;font-weight:700}
           .needle{fill:var(--needle);stroke:var(--needle)}
           #wx-needle,#wx-needle2{transform-box:view-box;transform-origin:50px 50px;transition:transform 140ms ease-out}
 
