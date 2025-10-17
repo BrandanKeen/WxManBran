@@ -812,3 +812,11 @@ section {
   line-height: 1.5;
   color: color-mix(in srgb, var(--ink) 75%, transparent);
 }
+
+.storm-page__title {
+  margin: 0 0 1.5rem;
+  text-align: center;
+  font-size: clamp(2.25rem, 3vw + 1.5rem, 3rem);
+  font-weight: 800;
+  color: var(--ink);
+}
