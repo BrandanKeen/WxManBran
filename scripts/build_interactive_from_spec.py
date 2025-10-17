@@ -9,7 +9,7 @@ import os
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 
 
 LINESTYLE_MAP = {
@@ -179,6 +179,19 @@ def load_data(csv_path: Path) -> StormData:
     return StormData(times=times, columns=columns)
 
 
+def extract_units(label: Optional[str]) -> str:
+    if not label:
+        return ""
+    cleaned = label.strip()
+    if not cleaned:
+        return ""
+    if cleaned.endswith(")") and "(" in cleaned:
+        inner = cleaned[cleaned.rfind("(") + 1 : -1].strip()
+        if inner:
+            return inner
+    return cleaned
+
+
 def map_linestyle(style: Optional[str]) -> str:
     if not style:
         return "solid"
@@ -246,6 +259,8 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
         "margin": {"l": 60, "r": 60, "t": 60 if spec.title else 40, "b": 60},
         "font": {"family": "Arial", "size": 12},
     }
+    layout["spikedistance"] = -1
+    layout["hoverdistance"] = -1
     if spec.title:
         layout["title"] = spec.title
     if spec.legend_loc:
@@ -257,6 +272,8 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
         column_values = data.columns.get(series.column)
         if column_values is None:
             continue
+        primary_units = extract_units(spec.secondary_ylabel if series.secondary_y else spec.ylabel)
+        unit_suffix = f" {primary_units}" if primary_units else ""
         trace: Dict[str, object] = {
             "type": "scatter",
             "mode": "lines",
@@ -265,6 +282,7 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             "name": series.label or series.column,
             "line": {"color": series.color, "dash": map_linestyle(series.linestyle)},
             "opacity": series.alpha if series.alpha is not None else 1.0,
+            "hovertemplate": f"{series.label or series.column}: %{{{{y}}}}{unit_suffix}<extra></extra>",
         }
         if series.secondary_y:
             trace["yaxis"] = "y2"
@@ -281,7 +299,7 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
         "zeroline": False,
         "mirror": False,
         "showspikes": True,
-        "spikemode": "across",
+        "spikemode": "across+marker",
         "spikethickness": 1,
         "spikedash": "solid",
         "spikesnap": "hovered data",
@@ -303,7 +321,7 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             "zeroline": False,
             "mirror": False,
             "showspikes": True,
-            "spikemode": "across",
+            "spikemode": "across+marker",
             "spikethickness": 1,
             "spikedash": "solid",
             "spikesnap": "hovered data",
@@ -323,7 +341,7 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
         "zeroline": False,
         "mirror": False,
         "showspikes": True,
-        "spikemode": "across",
+        "spikemode": "across+marker",
         "spikethickness": 1,
         "spikedash": "solid",
         "spikesnap": "hovered data",
@@ -341,19 +359,8 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             "visible": False,
             "type": "date",
             "rangeslider": {"visible": True, "bgcolor": "#f0f0f0", "thickness": 0.12},
-        }
-    if spec.sharex:
-        layout["xaxis"] = {
-            "domain": [0.0, 1.0],
-            "anchor": "free",
-            "position": 0.0,
-            "showgrid": False,
-            "showline": False,
-            "ticks": "",
-            "showticklabels": False,
-            "visible": False,
-            "type": "date",
-            "rangeslider": {"visible": True, "bgcolor": "#f0f0f0", "thickness": 0.12},
+            "spikemode": "across+marker",
+            "showspikes": False,
         }
     config = {
         "responsive": True,
@@ -384,10 +391,12 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
         "hovermode": "x unified",
         "plot_bgcolor": "#ffffff",
         "paper_bgcolor": "#ffffff",
-        "margin": {"l": 60, "r": 60, "t": 60 if spec.title else 40, "b": 80},
+        "margin": {"l": 60, "r": 60, "t": 60 if spec.title else 40, "b": 110},
         "font": {"family": "Arial", "size": 12},
         "grid": {"rows": rows, "columns": cols, "pattern": "independent", "roworder": "top to bottom"},
     }
+    layout["spikedistance"] = -1
+    layout["hoverdistance"] = -1
     if spec.title:
         layout["title"] = spec.title
     legend_count = 0
@@ -407,6 +416,8 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             column_values = data.columns.get(series.column)
             if column_values is None:
                 continue
+            ylabel = extract_units(subplot.secondary_ylabel if series.secondary_y else subplot.ylabel)
+            unit_suffix = f" {ylabel}" if ylabel else ""
             trace = {
                 "type": "scatter",
                 "mode": "lines",
@@ -417,6 +428,7 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
                 "opacity": series.alpha if series.alpha is not None else 1.0,
                 "xaxis": axis_ref("x", index),
                 "yaxis": axis_ref("y", index),
+                "hovertemplate": f"{series.label or series.column}: %{{{{y}}}}{unit_suffix}<extra></extra>",
             }
             if series.secondary_y:
                 secondary_counter += 1
@@ -440,11 +452,13 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             "zeroline": False,
             "mirror": False,
             "showspikes": True,
-            "spikemode": "across",
+            "spikemode": "across+marker",
             "spikethickness": 1,
             "spikedash": "solid",
             "spikesnap": "hovered data",
         }
+        if spec.sharex:
+            layout[xaxis_name]["rangeslider"] = {"visible": False}
         if spec.sharex:
             layout[xaxis_name]["matches"] = "x"
         primary_axis = {
@@ -459,7 +473,7 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             "zeroline": False,
             "mirror": False,
             "showspikes": True,
-            "spikemode": "across",
+            "spikemode": "across+marker",
             "spikethickness": 1,
             "spikedash": "solid",
             "spikesnap": "hovered data",
@@ -485,7 +499,7 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
                 "zeroline": False,
                 "mirror": False,
                 "showspikes": True,
-                "spikemode": "across",
+                "spikemode": "across+marker",
                 "spikethickness": 1,
                 "spikedash": "solid",
                 "spikesnap": "hovered data",
@@ -508,7 +522,14 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             "visible": False,
             "type": "date",
             "rangeslider": {"visible": True, "bgcolor": "#f0f0f0", "thickness": 0.12},
+            "spikemode": "across+marker",
+            "showspikes": False,
         }
+        layout["spikedistance"] = -1
+        layout["hoverdistance"] = -1
+    else:
+        layout["spikedistance"] = -1
+        layout["hoverdistance"] = -1
     config = {
         "responsive": True,
         "displaylogo": False,
@@ -573,17 +594,18 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
           y: [trace.y && trace.y.length ? trace.y[0] : null],
           mode: 'markers',
           marker: {{
-            size: 8,
+            size: 10,
             color,
             symbol: 'circle',
-            line: {{ color: '#ffffff', width: 1.5 }},
+            line: {{ color: 'rgba(0, 0, 0, 0.85)', width: 2 }},
             opacity: 1
           }},
           showlegend: false,
           hoverinfo: 'skip',
           xaxis: trace.xaxis,
           yaxis: trace.yaxis,
-          visible: false
+          visible: false,
+          cliponaxis: false
         }});
       }});
       const addHighlights = highlightTraces.length ? Plotly.addTraces(gd, highlightTraces) : Promise.resolve();
