@@ -271,6 +271,22 @@ def legend_position(loc: Optional[str], x_domain: List[float], y_domain: List[fl
     }
 
 
+def is_pressure_context(*parts: Optional[str]) -> bool:
+    for part in parts:
+        if not part:
+            continue
+        lowered = part.lower()
+        if "pressure" in lowered:
+            return True
+        if lowered.strip() in {"mb", "millibar", "millibars"}:
+            return True
+    return False
+
+
+def pressure_hover_format(is_pressure: bool) -> str:
+    return ":.1f" if is_pressure else ""
+
+
 def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
     traces: List[Dict[str, object]] = []
     legend_name = None
@@ -296,6 +312,14 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             continue
         primary_units = extract_units(spec.secondary_ylabel if series.secondary_y else spec.ylabel)
         unit_suffix = f" {primary_units}" if primary_units else ""
+        is_pressure = is_pressure_context(
+            series.label,
+            series.column,
+            unit_suffix,
+            spec.ylabel,
+            spec.title,
+        )
+        hover_format = pressure_hover_format(is_pressure)
         trace: Dict[str, object] = {
             "type": "scatter",
             "mode": "lines",
@@ -304,7 +328,7 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             "name": series.label or series.column,
             "line": {"color": series.color, "dash": map_linestyle(series.linestyle)},
             "opacity": series.alpha if series.alpha is not None else 1.0,
-            "hovertemplate": f"{series.label or series.column}: %{{y}}{unit_suffix}<extra></extra>",
+            "hovertemplate": f"{series.label or series.column}: %{{y{hover_format}}}{unit_suffix}<extra></extra>",
         }
         if series.secondary_y:
             trace["yaxis"] = "y2"
@@ -326,6 +350,8 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
         "spikedash": "solid",
         "spikesnap": "hovered data",
     }
+    if is_pressure_context(spec.ylabel, spec.title):
+        yaxis["separatethousands"] = False
     if spec.ylabel_color:
         yaxis["tickfont"] = {"color": spec.ylabel_color}
         yaxis["titlefont"] = {"color": spec.ylabel_color}
@@ -348,6 +374,8 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             "spikedash": "solid",
             "spikesnap": "hovered data",
         }
+        if is_pressure_context(spec.secondary_ylabel, spec.title):
+            yaxis2["separatethousands"] = False
         if spec.secondary_ylabel_color:
             yaxis2["tickfont"] = {"color": spec.secondary_ylabel_color}
             yaxis2["titlefont"] = {"color": spec.secondary_ylabel_color}
@@ -440,6 +468,14 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
                 continue
             ylabel = extract_units(subplot.secondary_ylabel if series.secondary_y else subplot.ylabel)
             unit_suffix = f" {ylabel}" if ylabel else ""
+            is_pressure = is_pressure_context(
+                series.label,
+                series.column,
+                unit_suffix,
+                subplot.ylabel,
+                subplot.title,
+            )
+            hover_format = pressure_hover_format(is_pressure)
             trace = {
                 "type": "scatter",
                 "mode": "lines",
@@ -450,7 +486,7 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
                 "opacity": series.alpha if series.alpha is not None else 1.0,
                 "xaxis": axis_ref("x", index),
                 "yaxis": axis_ref("y", index),
-                "hovertemplate": f"{series.label or series.column}: %{{y}}{unit_suffix}<extra></extra>",
+                "hovertemplate": f"{series.label or series.column}: %{{y{hover_format}}}{unit_suffix}<extra></extra>",
             }
             if series.secondary_y:
                 secondary_counter += 1
@@ -500,6 +536,8 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             "spikedash": "solid",
             "spikesnap": "hovered data",
         }
+        if is_pressure_context(subplot.ylabel, subplot.title):
+            primary_axis["separatethousands"] = False
         if subplot.ylabel_color:
             primary_axis["titlefont"] = {"color": subplot.ylabel_color}
             primary_axis["tickfont"] = {"color": subplot.ylabel_color}
@@ -528,10 +566,26 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             }
             if subplot.secondary_grid is not None and not subplot.secondary_grid:
                 secondary_axis["showgrid"] = False
+            if is_pressure_context(subplot.secondary_ylabel, subplot.title):
+                secondary_axis["separatethousands"] = False
             if subplot.secondary_ylabel_color:
                 secondary_axis["titlefont"] = {"color": subplot.secondary_ylabel_color}
                 secondary_axis["tickfont"] = {"color": subplot.secondary_ylabel_color}
             layout[secondary_name] = secondary_axis
+        if subplot.title:
+            layout.setdefault("annotations", []).append(
+                {
+                    "text": subplot.title,
+                    "xref": "paper",
+                    "yref": "paper",
+                    "x": sum(x_domain) / 2,
+                    "y": min(y_domain[1] + 0.04, 0.99),
+                    "xanchor": "center",
+                    "yanchor": "bottom",
+                    "showarrow": False,
+                    "font": {"size": 13},
+                }
+            )
     if spec.sharex:
         layout["xaxis"] = {
             "domain": [0.0, 1.0],

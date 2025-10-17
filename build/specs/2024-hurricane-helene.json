@@ -97,6 +97,13 @@
             "color": "black",
             "linestyle": "-",
             "secondary_y": false
+          },
+          {
+            "label": "dP/dt (30 min)",
+            "column": "Pressure_Tendency_30min",
+            "color": "darkorange",
+            "linestyle": "-",
+            "secondary_y": true
           }
         ],
         "yaxis_color": "black",
