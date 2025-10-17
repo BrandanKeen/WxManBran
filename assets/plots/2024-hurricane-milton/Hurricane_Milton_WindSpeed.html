@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.plot.ly/plotly-2.31.1.min.js"></script>
+  <style>
+    body { margin: 0; padding: 0; }
+    #chart { width: 100%; height: 100vh; }
+  </style>
+</head>
+<body>
+  <div id="chart"></div>
+  <script>
+    const figure = {"data": [], "layout": {"hovermode": "x unified", "plot_bgcolor": "#ffffff", "paper_bgcolor": "#ffffff", "margin": {"l": 60, "r": 60, "t": 60, "b": 60}, "font": {"family": "Arial", "size": 12}, "spikedistance": -1, "hoverdistance": -1, "title": "Wind Speed", "legend": {"x": 0.99, "y": 0.99, "xanchor": "right", "yanchor": "top", "bgcolor": "rgba(255,255,255,0.8)", "bordercolor": "rgba(0,0,0,0)", "borderwidth": 0, "tracegroupgap": 0}, "yaxis": {"title": "mph", "showline": true, "linecolor": "black", "ticks": "outside", "showgrid": true, "gridcolor": "#d3d3d3", "zeroline": false, "mirror": false, "showspikes": true, "spikemode": "across+marker", "spikethickness": 1, "spikedash": "solid", "spikesnap": "hovered data"}, "xaxis": {"title": null, "tickformat": "%m-%d\n%I:%M %p", "showline": true, "linecolor": "black", "ticks": "outside", "showgrid": true, "gridcolor": "#d3d3d3", "zeroline": false, "mirror": false, "showspikes": true, "spikemode": "across+marker", "spikethickness": 1, "spikedash": "solid", "spikesnap": "hovered data", "rangeslider": {"visible": true, "bgcolor": "#f0f0f0", "thickness": 0.12}}}};
+    const config = {"responsive": true, "displaylogo": false, "modeBarButtonsToRemove": ["resetScale2d", "lasso2d", "select2d"]};
+    const toTimestamp = (value) => {
+      if (value === null || value === undefined) {
+        return NaN;
+      }
+      if (typeof value === 'number') {
+        return value;
+      }
+      const parsed = Date.parse(value);
+      return Number.isNaN(parsed) ? NaN : parsed;
+    };
+    Plotly.newPlot('chart', figure.data, figure.layout, config).then((gd) => {
+      const originalCount = gd.data.length;
+      const originalTraces = gd.data.slice(0, originalCount);
+      const highlightTraces = [];
+      const highlightIndexMap = new Map();
+      originalTraces.forEach((trace, index) => {
+        if (trace.type !== 'scatter') {
+          highlightIndexMap.set(index, null);
+          return;
+        }
+        const color = trace.line && trace.line.color ? trace.line.color : '#1f77b4';
+        highlightIndexMap.set(index, originalCount + highlightTraces.length);
+        highlightTraces.push({
+          x: [trace.x && trace.x.length ? trace.x[0] : null],
+          y: [trace.y && trace.y.length ? trace.y[0] : null],
+          mode: 'markers',
+          marker: {
+            size: 10,
+            color,
+            symbol: 'circle',
+            line: { color: 'rgba(0, 0, 0, 0.85)', width: 2 },
+            opacity: 1
+          },
+          showlegend: false,
+          hoverinfo: 'skip',
+          xaxis: trace.xaxis,
+          yaxis: trace.yaxis,
+          visible: false,
+          cliponaxis: false
+        });
+      });
+      const addHighlights = highlightTraces.length ? Plotly.addTraces(gd, highlightTraces) : Promise.resolve();
+      const dataLookup = originalTraces.map((trace) => {
+        if (!trace.x || !trace.y) {
+          return [];
+        }
+        const entries = [];
+        for (let i = 0; i < trace.x.length; i += 1) {
+          const xValue = trace.x[i];
+          const yValue = trace.y[i];
+          if (yValue === null || typeof yValue === 'undefined') {
+            continue;
+          }
+          const timestamp = toTimestamp(xValue);
+          if (!Number.isFinite(timestamp)) {
+            continue;
+          }
+          entries.push({ time: timestamp, x: xValue, y: yValue });
+        }
+        return entries;
+      });
+      function hideHighlights() {
+        highlightIndexMap.forEach((highlightIdx) => {
+          if (highlightIdx === null) {
+            return;
+          }
+          Plotly.restyle(gd, { visible: false }, highlightIdx);
+        });
+      }
+      function findMatch(entries, targetTime) {
+        let exact = null;
+        let best = null;
+        let bestDiff = Infinity;
+        for (const entry of entries) {
+          const diff = Math.abs(entry.time - targetTime);
+          if (diff === 0) {
+            exact = entry;
+            break;
+          }
+          if (diff < bestDiff) {
+            bestDiff = diff;
+            best = entry;
+          }
+        }
+        return exact || best;
+      }
+      addHighlights.then(() => {
+        if (!highlightTraces.length) {
+          return;
+        }
+        gd.on('plotly_hover', (event) => {
+          if (!event.points || !event.points.length) {
+            hideHighlights();
+            return;
+          }
+          const targetTime = toTimestamp(event.points[0].x);
+          if (!Number.isFinite(targetTime)) {
+            hideHighlights();
+            return;
+          }
+          highlightIndexMap.forEach((highlightIdx, sourceIdx) => {
+            if (highlightIdx === null) {
+              return;
+            }
+            const entries = dataLookup[sourceIdx];
+            if (!entries || !entries.length) {
+              Plotly.restyle(gd, { visible: false }, highlightIdx);
+              return;
+            }
+            const match = findMatch(entries, targetTime);
+            if (!match) {
+              Plotly.restyle(gd, { visible: false }, highlightIdx);
+              return;
+            }
+            Plotly.restyle(gd, { x: [[match.x]], y: [[match.y]], visible: true }, highlightIdx);
+          });
+        });
+        gd.on('plotly_unhover', () => {
+          hideHighlights();
+        });
+      });
+    });
+  </script>
+</body>
+</html>
