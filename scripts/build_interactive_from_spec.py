@@ -315,12 +315,68 @@ def format_unit_suffix(unit: str) -> str:
     return f" {unit}" if unit else ""
 
 
+def _is_cumulative_series(values: List[Optional[float]]) -> bool:
+    prev: Optional[float] = None
+    for value in values:
+        if value is None:
+            continue
+        if prev is not None and value < prev - 1e-6:
+            return False
+        prev = value
+    return True
+
+
+def _forward_fill(values: List[Optional[float]]) -> List[Optional[float]]:
+    filled: List[Optional[float]] = []
+    last: Optional[float] = None
+    for value in values:
+        if value is None:
+            filled.append(last)
+        else:
+            last = value
+            filled.append(last)
+    return filled
+
+
+def _accumulate_incremental(values: List[Optional[float]]) -> List[Optional[float]]:
+    totals: List[Optional[float]] = []
+    running: Optional[float] = None
+    for value in values:
+        if value is None:
+            totals.append(running)
+            continue
+        running = (running or 0.0) + value
+        totals.append(running)
+    return totals
+
+
 def find_rain_accumulation_column(
     columns: Dict[str, List[Optional[float]]]
 ) -> Optional[Tuple[str, List[Optional[float]]]]:
     for key, values in columns.items():
-        if key and "rain accum" in key.lower():
-            return key, values
+        if not key or "rain accum" not in key.lower():
+            continue
+
+        non_null_values = [value for value in values if value is not None]
+        if not non_null_values:
+            continue
+
+        # Columns with only a single non-null entry are unlikely to capture the
+        # evolution of rainfall over time. Skip them unless they explicitly
+        # represent a running total.
+        if len(non_null_values) <= 1 and "total" not in key.lower():
+            continue
+
+        if "total" in key.lower() or _is_cumulative_series(values):
+            totals = _forward_fill(values)
+            label = key
+        else:
+            totals = _accumulate_incremental(values)
+            label = "Rain Accumulation"
+
+        if any(value is not None for value in totals):
+            return label, totals
+
     return None
 
 
