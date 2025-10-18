@@ -1082,7 +1082,8 @@ section {
   line-height: 1.3;
 }
 
-.storm-plot-summary {
+.storm-plot-summary,
+.toggle-summary {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -1111,11 +1112,13 @@ section {
   z-index: 1;
 }
 
-.storm-plot-summary::-webkit-details-marker {
+.storm-plot-summary::-webkit-details-marker,
+.toggle-summary::-webkit-details-marker {
   display: none;
 }
 
-.storm-plot-summary::before {
+.storm-plot-summary::before,
+.toggle-summary::before {
   content: "\25B6";
   display: inline-block;
   font-size: 0.8em;
@@ -1124,8 +1127,33 @@ section {
   transition: transform 0.2s ease;
 }
 
-details[open] > .storm-plot-summary::before {
+details[open] > .storm-plot-summary::before,
+details[open] > .toggle-summary::before {
   transform: rotate(90deg);
+}
+
+.storm-season {
+  margin: 2rem 0;
+  padding: 1rem 1.25rem 1.5rem;
+  border: 1px solid color-mix(in srgb, var(--brandMuted) 25%, transparent);
+  border-radius: 1rem;
+  background-color: color-mix(in srgb, var(--paper) 90%, transparent);
+}
+
+.storm-season__content {
+  margin-top: 0.75rem;
+}
+
+.about-section {
+  margin: 2rem 0;
+  padding: 1rem 1.25rem 1.5rem;
+  border: 1px solid color-mix(in srgb, var(--brandMuted) 25%, transparent);
+  border-radius: 1rem;
+  background-color: color-mix(in srgb, var(--paper) 90%, transparent);
+}
+
+.about-section__content {
+  margin-top: 0.75rem;
 }
 
 .storm-multi-panels {
