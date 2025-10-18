@@ -43,62 +43,45 @@ MediaComingSoon
 <!-- DATA-SECTION:START -->
 <h2>Data</h2>
 <div class="storm-data">
-  <details class="storm-plot-group" open>
-    <summary class="storm-plot-summary">Pressure (MSLP)</summary>
-    <div class="storm-plot">
-
-      <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_MSLP.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
-    </div>
-  </details>
-  <details class="storm-plot-group">
-    <summary class="storm-plot-summary">Pressure Tendencies</summary>
-    <div class="storm-plot">
-      
-      <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_5min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
-    </div>
-    <div class="storm-plot">
-      
-      <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_10min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
-    </div>
-    <div class="storm-plot">
-      
-      <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_15min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
-    </div>
-    <div class="storm-plot">
-      
-      <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_30min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
-    </div>
-    <div class="storm-plot">
-      
-      <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_1hour.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
-    </div>
-  </details>
-  <details class="storm-plot-group" open>
-    <summary class="storm-plot-summary">Wind Speed</summary>
-    <div class="storm-plot">
-
-      <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_WindSpeed.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
-    </div>
-  </details>
-  <details class="storm-plot-group" open>
-    <summary class="storm-plot-summary">Temperature &amp; Dewpoint</summary>
-    <div class="storm-plot">
-
-      <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_Temp_Dew.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
-    </div>
-  </details>
-  <details class="storm-plot-group" open>
-    <summary class="storm-plot-summary">Rain Rate</summary>
-    <div class="storm-plot">
-
-      <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_RainRate.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
-    </div>
-  </details>
-  <div class="storm-multi-panels">
-    <h2>Multi-Panel Plots</h2>
-    <div class="storm-multi-panels__frame storm-plot">
-      <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_MultiPanel.html' | relative_url }}" loading="lazy" title="Hurricane Helene multi-panel plot" style="border:0; width: min(100%, 960px); aspect-ratio: 4769 / 3070; display: block;"></iframe>
-    </div>
+  <div class="storm-plot">
+    <h3>Hurricane Helene (Perry, FL)</h3>
+    <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_MultiPanel.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+  </div>
+  <div class="storm-plot">
+    <h3>Pressure</h3>
+    <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_MSLP.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+  </div>
+  <div class="storm-plot">
+    <h3>Pressure Tendency (5 min)</h3>
+    <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_5min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+  </div>
+  <div class="storm-plot">
+    <h3>Pressure Tendency (10 min)</h3>
+    <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_10min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+  </div>
+  <div class="storm-plot">
+    <h3>Pressure Tendency (15 min)</h3>
+    <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_15min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+  </div>
+  <div class="storm-plot">
+    <h3>Pressure Tendency (30 min)</h3>
+    <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_30min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+  </div>
+  <div class="storm-plot">
+    <h3>Pressure Tendency (1 hour)</h3>
+    <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_1hour.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+  </div>
+  <div class="storm-plot">
+    <h3>Wind Speed</h3>
+    <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_WindSpeed.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+  </div>
+  <div class="storm-plot">
+    <h3>Temperature &amp; Dewpoint</h3>
+    <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_Temp_Dew.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+  </div>
+  <div class="storm-plot">
+    <h3>Rain Rate</h3>
+    <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_RainRate.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
   </div>
 </div>
 <!-- DATA-SECTION:END -->
