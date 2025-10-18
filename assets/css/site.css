@@ -1105,8 +1105,7 @@ section {
   right: 1rem;
   font-size: 0.9rem;
   font-weight: 700;
-  color: var(--text-on-light);
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+  color: #000;
   pointer-events: none;
   z-index: 1;
 }
