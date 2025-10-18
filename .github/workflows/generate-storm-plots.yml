@@ -8,7 +8,18 @@ on:
       - 'scripts/**'
       - '_storms/**'
       - '.github/workflows/generate-storm-plots.yml'
+  pull_request:
+    paths:
+      - 'data/storms/**'
+      - 'analysis/notebooks/**'
+      - 'scripts/**'
+      - '_storms/**'
+      - '.github/workflows/generate-storm-plots.yml'
   workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   build:
@@ -38,6 +49,7 @@ jobs:
         run: .venv/bin/python scripts/process_storm.py --all
 
       - name: Commit and create pull request
+        if: github.event_name != 'pull_request'
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
