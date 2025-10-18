@@ -52,6 +52,24 @@
   --brandAccent-900: #801319;
   --text-on-dark: #fdfdfd;
   --text-on-light: #1f2346;
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --surface: #0f1431;
+  --surfaceAlt: #151b3f;
+  --surfaceAlt2: #1c2454;
+  --ink: #e4e7ff;
+  --inkAlt: #c9cfff;
+  --brandMuted: #525784;
+  --brandPrimary: #12184c;
+  --brandSecondary: #10163a;
+  --brandTertiary: #23106c;
+  --brandAccent: #bd1c25;
+  --brandAccentAlt: #bc1823;
+  --text-on-dark: #fdfdfd;
+  --text-on-light: #1f2346;
 }
 
 /* Example usage */
