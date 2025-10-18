@@ -46,6 +46,23 @@ class SeriesEntry:
 
 
 @dataclass
+class ProcessedSeries:
+    series: SeriesEntry
+    values: List[Optional[float]]
+    label: str
+    unit: str
+    hover_format: str
+
+
+@dataclass
+class HoverEntry:
+    label: str
+    values: List[Optional[float]]
+    unit: str
+    hover_format: str
+
+
+@dataclass
 class SubplotEntry:
     row: int
     col: int
@@ -294,6 +311,57 @@ def pressure_hover_format(is_pressure: bool) -> str:
     return ":.1f" if is_pressure else ""
 
 
+def format_unit_suffix(unit: str) -> str:
+    return f" {unit}" if unit else ""
+
+
+def find_rain_accumulation_column(
+    columns: Dict[str, List[Optional[float]]]
+) -> Optional[Tuple[str, List[Optional[float]]]]:
+    for key, values in columns.items():
+        if key and "rain accum" in key.lower():
+            return key, values
+    return None
+
+
+def accumulation_unit_from_rate(rate_unit: str) -> str:
+    if not rate_unit:
+        return ""
+    if "/" in rate_unit:
+        prefix = rate_unit.split("/", 1)[0].strip()
+        if prefix:
+            return prefix
+    return rate_unit
+
+
+def build_hover_details(
+    base_label: str,
+    base_format: str,
+    base_unit: str,
+    time_fmt: str,
+    values_length: int,
+    extras: List[HoverEntry],
+) -> Tuple[str, Optional[List[List[Optional[float]]]]]:
+    extra_template = ""
+    customdata: Optional[List[List[Optional[float]]]] = None
+    if extras:
+        customdata = [
+            [entry.values[i] if i < len(entry.values) else None for entry in extras]
+            for i in range(values_length)
+        ]
+        for idx, entry in enumerate(extras):
+            extra_template += (
+                f"<br>{entry.label}: %{{customdata[{idx}]{entry.hover_format}}}"
+                f"{format_unit_suffix(entry.unit)}"
+            )
+    hovertemplate = (
+        f"Time: %{{x|{time_fmt}}}<br>"
+        f"{base_label}: %{{y{base_format}}}{format_unit_suffix(base_unit)}"
+        f"{extra_template}<extra></extra>"
+    )
+    return hovertemplate, customdata
+
+
 def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
     traces: List[Dict[str, object]] = []
     legend_name = None
@@ -303,6 +371,7 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
         "paper_bgcolor": "#ffffff",
         "margin": {"l": 60, "r": 60, "t": 60 if spec.title else 40, "b": 60},
         "font": {"family": "Arial", "size": 12},
+        "hoverlabel": {"bgcolor": "#f0f0f0"},
     }
     layout["spikedistance"] = -1
     layout["hoverdistance"] = -1
@@ -314,34 +383,77 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             layout["legend"] = legend_settings
             legend_name = "legend"
     time_fmt = hover_time_format(spec.x_tickformat)
+    processed_series: List[ProcessedSeries] = []
     for series in spec.series or []:
         column_values = data.columns.get(series.column)
         if column_values is None:
             continue
-        primary_units = extract_units(spec.secondary_ylabel if series.secondary_y else spec.ylabel)
-        unit_suffix = f" {primary_units}" if primary_units else ""
+        label = series.label or series.column
+        base_unit = extract_units(spec.secondary_ylabel if series.secondary_y else spec.ylabel)
         is_pressure = is_pressure_context(
-            series.label,
+            label,
             series.column,
-            unit_suffix,
+            format_unit_suffix(base_unit),
             spec.ylabel,
             spec.title,
+            spec.secondary_ylabel,
         )
         hover_format = pressure_hover_format(is_pressure)
+        processed_series.append(
+            ProcessedSeries(
+                series=series,
+                values=column_values,
+                label=label,
+                unit=base_unit,
+                hover_format=hover_format,
+            )
+        )
+    rain_accum_column = find_rain_accumulation_column(data.columns)
+    for meta in processed_series:
+        extras: List[HoverEntry] = []
+        if len(processed_series) > 1:
+            for other in processed_series:
+                if other is meta:
+                    continue
+                extras.append(
+                    HoverEntry(
+                        label=other.label,
+                        values=other.values,
+                        unit=other.unit,
+                        hover_format=other.hover_format,
+                    )
+                )
+        if rain_accum_column and "rain rate" in meta.series.column.lower():
+            accum_label, accum_values = rain_accum_column
+            extras.append(
+                HoverEntry(
+                    label=accum_label,
+                    values=accum_values,
+                    unit=accumulation_unit_from_rate(meta.unit),
+                    hover_format=":.2f",
+                )
+            )
+        hovertemplate, customdata = build_hover_details(
+            meta.label,
+            meta.hover_format,
+            meta.unit,
+            time_fmt,
+            len(meta.values),
+            extras,
+        )
         trace: Dict[str, object] = {
             "type": "scatter",
             "mode": "lines",
             "x": data.times,
-            "y": column_values,
-            "name": series.label or series.column,
-            "line": {"color": series.color, "dash": map_linestyle(series.linestyle)},
-            "opacity": series.alpha if series.alpha is not None else 1.0,
-            "hovertemplate": (
-                f"Time: %{{x|{time_fmt}}}<br>"
-                f"{series.label or series.column}: %{{y{hover_format}}}{unit_suffix}<extra></extra>"
-            ),
+            "y": meta.values,
+            "name": meta.label,
+            "line": {"color": meta.series.color, "dash": map_linestyle(meta.series.linestyle)},
+            "opacity": meta.series.alpha if meta.series.alpha is not None else 1.0,
+            "hovertemplate": hovertemplate,
         }
-        if series.secondary_y:
+        if customdata is not None:
+            trace["customdata"] = customdata
+        if meta.series.secondary_y:
             trace["yaxis"] = "y2"
         if legend_name:
             trace["legend"] = legend_name
@@ -455,6 +567,7 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
         "margin": {"l": 60, "r": 60, "t": 60 if spec.title else 40, "b": 110},
         "font": {"family": "Arial", "size": 12},
         "grid": {"rows": rows, "columns": cols, "pattern": "independent", "roworder": "top to bottom"},
+        "hoverlabel": {"bgcolor": "#f0f0f0"},
     }
     layout["spikedistance"] = -1
     layout["hoverdistance"] = -1
@@ -464,6 +577,7 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
     legend_count = 0
     total_axes = rows * cols
     secondary_counter = 0
+    rain_accum_column = find_rain_accumulation_column(data.columns)
     for subplot in spec.subplots or []:
         index = (subplot.row - 1) * cols + subplot.col
         x_domain, y_domain = domains[(subplot.row, subplot.col)]
@@ -474,37 +588,78 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             key = "legend" if legend_count == 1 else f"legend{legend_count}"
             layout[key] = legend_settings
             legend_name = key
+        subplot_series: List[ProcessedSeries] = []
         for series in subplot.series:
             column_values = data.columns.get(series.column)
             if column_values is None:
                 continue
-            ylabel = extract_units(subplot.secondary_ylabel if series.secondary_y else subplot.ylabel)
-            unit_suffix = f" {ylabel}" if ylabel else ""
+            label = series.label or series.column
+            base_unit = extract_units(subplot.secondary_ylabel if series.secondary_y else subplot.ylabel)
             is_pressure = is_pressure_context(
-                series.label,
+                label,
                 series.column,
-                unit_suffix,
+                format_unit_suffix(base_unit),
                 subplot.ylabel,
                 subplot.title,
+                subplot.secondary_ylabel,
             )
             hover_format = pressure_hover_format(is_pressure)
-            label = series.label or series.column
+            subplot_series.append(
+                ProcessedSeries(
+                    series=series,
+                    values=column_values,
+                    label=label,
+                    unit=base_unit,
+                    hover_format=hover_format,
+                )
+            )
+        for meta in subplot_series:
+            extras: List[HoverEntry] = []
+            if len(subplot_series) > 1:
+                for other in subplot_series:
+                    if other is meta:
+                        continue
+                    extras.append(
+                        HoverEntry(
+                            label=other.label,
+                            values=other.values,
+                            unit=other.unit,
+                            hover_format=other.hover_format,
+                        )
+                    )
+            if rain_accum_column and "rain rate" in meta.series.column.lower():
+                accum_label, accum_values = rain_accum_column
+                extras.append(
+                    HoverEntry(
+                        label=accum_label,
+                        values=accum_values,
+                        unit=accumulation_unit_from_rate(meta.unit),
+                        hover_format=":.2f",
+                    )
+                )
+            hovertemplate, customdata = build_hover_details(
+                meta.label,
+                meta.hover_format,
+                meta.unit,
+                time_fmt,
+                len(meta.values),
+                extras,
+            )
             trace = {
                 "type": "scatter",
                 "mode": "lines",
                 "x": data.times,
-                "y": column_values,
-                "name": label,
-                "line": {"color": series.color, "dash": map_linestyle(series.linestyle)},
-                "opacity": series.alpha if series.alpha is not None else 1.0,
+                "y": meta.values,
+                "name": meta.label,
+                "line": {"color": meta.series.color, "dash": map_linestyle(meta.series.linestyle)},
+                "opacity": meta.series.alpha if meta.series.alpha is not None else 1.0,
                 "xaxis": axis_ref("x", index),
                 "yaxis": axis_ref("y", index),
-                "hovertemplate": (
-                    f"Time: %{{x|{time_fmt}}}<br>"
-                    f"{label}: %{{y{hover_format}}}{unit_suffix}<extra></extra>"
-                ),
+                "hovertemplate": hovertemplate,
             }
-            if series.secondary_y:
+            if customdata is not None:
+                trace["customdata"] = customdata
+            if meta.series.secondary_y:
                 secondary_counter += 1
                 sec_index = total_axes + secondary_counter
                 trace["yaxis"] = axis_ref("y", sec_index)
