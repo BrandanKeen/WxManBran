@@ -52,7 +52,7 @@ MediaComingSoon
     <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_MSLP.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
   </div>
   <details class="storm-plot-group">
-    <summary>Pressure Tendency Plots</summary>
+    <summary class="storm-plot-summary">Pressure Tendencies</summary>
     <div class="storm-plot">
       <h3>Pressure Tendency (5 min)</h3>
       <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_PTendency_5min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
