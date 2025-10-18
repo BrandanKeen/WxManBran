@@ -9,24 +9,30 @@ permalink: /about/
   <p></p>
 </div>
 
-<section>
-  <h2>Why WxManBran.com?</h2>
-  <p>WxManBran.com, founded by Meteorologist Brandan Keen, provides reliable, trustworthy, and educational coverage of the tropics and hurricanes so people in every community can stay informed while also understanding the key factors behind each forecast. During the heart of hurricane season, when information overload is real and hype spreads across social media, WxManBran cuts through the noise with plain language and a clear bottom line, focusing on what families and emergency managers need to make confident decisions.</p>
-</section>
+<details class="about-section" open>
+  <summary class="toggle-summary">Why WxManBran.com?</summary>
+  <div class="about-section__content">
+    <p>WxManBran.com, founded by Meteorologist Brandan Keen, provides reliable, trustworthy, and educational coverage of the tropics and hurricanes so people in every community can stay informed while also understanding the key factors behind each forecast. During the heart of hurricane season, when information overload is real and hype spreads across social media, WxManBran cuts through the noise with plain language and a clear bottom line, focusing on what families and emergency managers need to make confident decisions.</p>
+  </div>
+</details>
 
-<section>
-  <h2>Built for RAPID™ Updates</h2>
-  <p><p>
-  This site is connected to a live Weather Data Dashboard. During landfalling hurricanes,
-  a truck-mounted weather station streams various meteorological parameters to the site in real time.
-  Connectivity is maintained via a Starlink satellite dish to avoid cellular outages.
-  These observations provide ground truth and real-time updates, improving critical timing and
-  operational decision-making for emergency management agencies and utility providers.
-</p>
-</p>
-</section>
+<details class="about-section" open>
+  <summary class="toggle-summary">Built for RAPID™ Updates</summary>
+  <div class="about-section__content">
+    <p><p>
+    This site is connected to a live Weather Data Dashboard. During landfalling hurricanes,
+    a truck-mounted weather station streams various meteorological parameters to the site in real time.
+    Connectivity is maintained via a Starlink satellite dish to avoid cellular outages.
+    These observations provide ground truth and real-time updates, improving critical timing and
+    operational decision-making for emergency management agencies and utility providers.
+  </p>
+  </p>
+  </div>
+</details>
 
-<section>
-  <h2>Connect</h2>
-  <p>Have an idea or suggestion to make this website even better? I'd love to hear from you! Write to me at <a href="mailto:connect@wxmanbran.com">connect@wxmanbran.com</a>.</p>
-</section>
+<details class="about-section" open>
+  <summary class="toggle-summary">Connect</summary>
+  <div class="about-section__content">
+    <p>Have an idea or suggestion to make this website even better? I'd love to hear from you! Write to me at <a href="mailto:connect@wxmanbran.com">connect@wxmanbran.com</a>.</p>
+  </div>
+</details>
