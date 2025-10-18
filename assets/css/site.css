@@ -1091,19 +1091,41 @@ section {
   font-weight: 700;
   color: var(--ink);
   cursor: pointer;
+  list-style: none;
+}
+
+.storm-plot {
+  position: relative;
+}
+
+.storm-plot::after {
+  content: "WxManBran.com";
+  position: absolute;
+  top: 0.75rem;
+  right: 1rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--ink) 80%, transparent);
+  text-shadow: 0 0 8px color-mix(in srgb, var(--paper) 90%, transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.storm-plot-summary::-webkit-details-marker {
+  display: none;
 }
 
 .storm-plot-summary::before {
-  content: "\25B2";
+  content: "\25B6";
   display: inline-block;
   font-size: 0.8em;
   line-height: 1;
-  transform: rotate(180deg);
+  transform: rotate(0deg);
   transition: transform 0.2s ease;
 }
 
 details[open] > .storm-plot-summary::before {
-  transform: rotate(0deg);
+  transform: rotate(90deg);
 }
 
 .storm-multi-panels {
