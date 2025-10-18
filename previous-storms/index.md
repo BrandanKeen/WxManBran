@@ -16,8 +16,9 @@ permalink: /previous-storms/
 {% assign all_seasons = all_seasons | uniq | sort | reverse %}
 
 {% for season in all_seasons %}
-<section class="storm-season">
-  <h2>{{ season }} Season</h2>
+<details class="storm-season" open>
+  <summary class="toggle-summary">{{ season }} Season</summary>
+  <div class="storm-season__content">
   {% assign season_group = storms_by_season | where: "name", season | first %}
   {% if season_group %}
     {% assign storms_for_season = season_group.items | where_exp: "storm", "storm.placeholder != true" %}
@@ -51,7 +52,8 @@ permalink: /previous-storms/
     </div>
     {% endif %}
   {% endif %}
-</section>
+</div>
+</details>
 {% endfor %}
 
 {% if all_seasons == empty %}

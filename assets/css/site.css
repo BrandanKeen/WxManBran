@@ -732,7 +732,7 @@ section {
 .site-footer {
   margin-top: auto;
   background: var(--brandSecondary);
-  color: var(--surface);
+  color: var(--text-on-dark);
   padding: 2rem 0;
 }
 
@@ -746,7 +746,7 @@ section {
 }
 
 .site-footer a {
-  color: var(--surface);
+  color: var(--text-on-dark);
   text-decoration: underline;
   text-underline-offset: 4px;
 }

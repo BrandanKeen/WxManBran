@@ -51,25 +51,32 @@ MediaComingSoon
     </div>
   </details>
   <details class="storm-plot-group">
-    <summary class="storm-plot-summary">Pressure Tendencies</summary>
+    <summary class="storm-plot-summary">Pressure Tendency (5 min)</summary>
     <div class="storm-plot">
-      
       <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_5min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
     </div>
+  </details>
+  <details class="storm-plot-group">
+    <summary class="storm-plot-summary">Pressure Tendency (10 min)</summary>
     <div class="storm-plot">
-      
       <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_10min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
     </div>
+  </details>
+  <details class="storm-plot-group">
+    <summary class="storm-plot-summary">Pressure Tendency (15 min)</summary>
     <div class="storm-plot">
-      
       <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_15min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
     </div>
+  </details>
+  <details class="storm-plot-group">
+    <summary class="storm-plot-summary">Pressure Tendency (30 min)</summary>
     <div class="storm-plot">
-      
       <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_30min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
     </div>
+  </details>
+  <details class="storm-plot-group">
+    <summary class="storm-plot-summary">Pressure Tendency (1 hour)</summary>
     <div class="storm-plot">
-      
       <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_1hour.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
     </div>
   </details>
