@@ -1098,6 +1098,10 @@ section {
   position: relative;
 }
 
+details.storm-plot-group .storm-plot + .storm-plot {
+  margin-top: 1.5rem;
+}
+
 .storm-plot-summary::-webkit-details-marker {
   display: none;
 }
