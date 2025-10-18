@@ -464,7 +464,7 @@ a:focus {
 
 .read-more-wrap {
   text-align: center;
-  margin-top: auto;
+  margin-top: 0.75rem;
   padding-top: 0.5rem;
 }
 
