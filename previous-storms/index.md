@@ -43,10 +43,6 @@ permalink: /previous-storms/
           <img class="post-card__thumb" src="{{ storm_thumbnail | relative_url }}" alt="{{ storm.title }} thumbnail">
         </a>
         {% endif %}
-        {% assign overview_text = storm.overview | default: storm.excerpt %}
-        {% if overview_text %}
-        <p>{{ overview_text | strip_html | strip }}</p>
-        {% endif %}
         <p class="read-more-wrap">
           <a class="read-more link-chip" href="{{ storm.url | relative_url }}">Explore storm →</a>
         </p>
