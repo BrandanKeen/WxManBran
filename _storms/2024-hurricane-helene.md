@@ -44,74 +44,66 @@ MediaComingSoon
 <h2>Data</h2>
 <div class="storm-data">
   <details class="storm-plot-group" open>
-    <summary class="storm-plot-summary">Pressure (MSLP)</summary>
+    <summary class="storm-plot-summary">Multi-Panel Plots</summary>
+    <div class="storm-plot storm-multi-panels">
+      <figure class="storm-multi-panels__figure">
+        <img src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_MultiPanel.svg' | relative_url }}" alt="Multi-panel plot for Hurricane Helene (Perry, FL)" loading="lazy">
+      </figure>
+    </div>
+  </details>
+  <details class="storm-plot-group">
+    <summary class="storm-plot-summary">Pressure</summary>
     <div class="storm-plot">
-
       <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_MSLP.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
     </div>
   </details>
   <details class="storm-plot-group">
-    <summary class="storm-plot-summary">Pressure Tendencies</summary>
+    <summary class="storm-plot-summary">Pressure Tendency (5 min)</summary>
     <div class="storm-plot">
-      
       <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_5min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
     </div>
+  </details>
+  <details class="storm-plot-group">
+    <summary class="storm-plot-summary">Pressure Tendency (10 min)</summary>
     <div class="storm-plot">
-      
       <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_10min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
     </div>
+  </details>
+  <details class="storm-plot-group">
+    <summary class="storm-plot-summary">Pressure Tendency (15 min)</summary>
     <div class="storm-plot">
-      
       <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_15min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
     </div>
+  </details>
+  <details class="storm-plot-group">
+    <summary class="storm-plot-summary">Pressure Tendency (30 min)</summary>
     <div class="storm-plot">
-      
       <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_30min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
     </div>
+  </details>
+  <details class="storm-plot-group">
+    <summary class="storm-plot-summary">Pressure Tendency (1 hour)</summary>
     <div class="storm-plot">
-      
       <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_1hour.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
     </div>
   </details>
-  <details class="storm-plot-group" open>
+  <details class="storm-plot-group">
     <summary class="storm-plot-summary">Wind Speed</summary>
     <div class="storm-plot">
-
       <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_WindSpeed.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
     </div>
   </details>
-  <details class="storm-plot-group" open>
+  <details class="storm-plot-group">
     <summary class="storm-plot-summary">Temperature &amp; Dewpoint</summary>
     <div class="storm-plot">
-
       <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_Temp_Dew.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
     </div>
   </details>
-  <details class="storm-plot-group" open>
+  <details class="storm-plot-group">
     <summary class="storm-plot-summary">Rain Rate</summary>
     <div class="storm-plot">
-
       <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_RainRate.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
     </div>
   </details>
-{% assign helene_multi_panel = site.static_files | where: "relative_path", "/assets/images/previous-storms/multi-panels/Hurricane_Helene_MultiPanel.png" | first %}
-{% if helene_multi_panel %}
-  <div class="storm-multi-panels storm-plot">
-    <h2>Multi-Panel Plots</h2>
-    <figure class="storm-multi-panels__figure">
-      <img src="{{ helene_multi_panel.path | relative_url }}" alt="Multi-panel plot for Hurricane Helene" loading="lazy">
-    </figure>
-  </div>
-{% endif %}
 </div>
 <!-- DATA-SECTION:END -->
-
-{% assign helene_multi_panel = site.static_files | where: "name", "Hurricane_Helene_MultiPanel.png" | where_exp: "file", "file.path contains '/assets/images/previous-storms/multi-panels/'" %}
-{% if helene_multi_panel.size > 0 %}
-<div class="storm-multi-panels">
-  <h2>Multi-Panel Plots</h2>
-  <figure class="storm-multi-panels__figure">
-    <img src="{{ helene_multi_panel[0].path | relative_url }}" alt="Multi-panel plot for Hurricane Helene" loading="lazy">
-  </figure>
-</div>
-{% endif %}
