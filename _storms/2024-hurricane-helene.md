@@ -82,6 +82,15 @@ MediaComingSoon
     
     <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_RainRate.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
   </div>
+{% assign helene_multi_panel = site.static_files | where: "relative_path", "/assets/images/previous-storms/multi-panels/Hurricane_Helene_MultiPanel.png" | first %}
+{% if helene_multi_panel %}
+  <div class="storm-multi-panels storm-plot">
+    <h2>Multi-Panel Plots</h2>
+    <figure class="storm-multi-panels__figure">
+      <img src="{{ helene_multi_panel.path | relative_url }}" alt="Multi-panel plot for Hurricane Helene" loading="lazy">
+    </figure>
+  </div>
+{% endif %}
 </div>
 <!-- DATA-SECTION:END -->
 
