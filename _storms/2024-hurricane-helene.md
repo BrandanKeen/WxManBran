@@ -84,3 +84,13 @@ MediaComingSoon
   </div>
 </div>
 <!-- DATA-SECTION:END -->
+
+{% assign helene_multi_panel = site.static_files | where: "name", "Hurricane_Helene_MultiPanel.png" | where_exp: "file", "file.path contains '/assets/images/previous-storms/multi-panels/'" %}
+{% if helene_multi_panel.size > 0 %}
+<div class="storm-multi-panels">
+  <h2>Multi-Panel Plots</h2>
+  <figure class="storm-multi-panels__figure">
+    <img src="{{ helene_multi_panel[0].path | relative_url }}" alt="Multi-panel plot for Hurricane Helene" loading="lazy">
+  </figure>
+</div>
+{% endif %}
