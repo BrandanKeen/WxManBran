@@ -27,7 +27,7 @@ permalink: /
 
     #wx-dashboard{display:grid;gap:22px;margin-bottom:56px;}
     header.site-header{display:flex;justify-content:flex-end;align-items:center}
-    #wx-conn{font-size:13px;color:var(--title-ink)}
+    #wx-conn{font-size:13px;color:var(--accent)}
 
     /* Center the two cards on wide screens */
     .cards{display:grid;gap:22px;justify-content:center}
@@ -91,7 +91,7 @@ permalink: /
     :root[data-theme='dark'] .value-slp{color:#fff}
     :root[data-theme='dark'] .value-uv{color:#4f46e5}
     :root[data-theme='dark']{--needle:var(--ink)}
-    .asof{position:absolute;left:22px;bottom:14px;color:var(--title-ink);font-size:12px}
+    .asof{position:absolute;left:22px;bottom:14px;color:var(--accent);font-size:12px}
     .hidden{display:none!important}
 
 /* Wind — original cosmetics */
@@ -118,8 +118,9 @@ permalink: /
     .compass{width:100%;max-width:340px;min-width:220px;aspect-ratio:1/1;overflow:visible;}
     .ring{fill:none;stroke:#dfe5ee;stroke-width:2}
     .tick{stroke:#cdd3dc;stroke-width:1}
+    .compass .labels text{fill:var(--accent);}
     .tick.major{stroke:#b7bfca;stroke-width:1.4}
-    .labels{fill:var(--title-ink);font-size:6px;font-weight:700}
+    .labels{fill:var(--accent);font-size:6px;font-weight:700}
     .needle{fill:var(--needle);stroke:var(--needle)}
     #wx-needle,#wx-needle2{transform-box:view-box;transform-origin:50px 50px;transition:transform 140ms ease-out}
 

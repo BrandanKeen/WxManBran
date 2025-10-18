@@ -209,13 +209,13 @@ a:focus {
 
 .nav-gear__button:hover,
 .nav-gear__button:focus-visible {
-  background: color-mix(in srgb, var(--brandAccent) 30%, transparent);
+  background: color-mix(in srgb, var(--brandPrimary) 35%, transparent);
   color: #fff;
   opacity: 1;
 }
 
 .nav-gear[open] .nav-gear__button {
-  background: color-mix(in srgb, var(--brandAccent) 45%, transparent);
+  background: color-mix(in srgb, var(--brandPrimary) 45%, transparent);
   color: #fff;
   opacity: 1;
 }
