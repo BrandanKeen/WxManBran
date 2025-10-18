@@ -183,6 +183,23 @@ def run_build(csv_path: Path, spec: Path, public_dir: Path) -> None:
     )
 
 
+def run_build_static(csv_path: Path, spec: Path, public_dir: Path) -> None:
+    public_dir.mkdir(parents=True, exist_ok=True)
+    subprocess.run(
+        [
+            sys.executable,
+            str(SCRIPTS_DIR / "build_static_from_spec.py"),
+            "--csv",
+            str(csv_path),
+            "--spec",
+            str(spec),
+            "--out",
+            str(public_dir),
+        ],
+        check=True,
+    )
+
+
 def run_embed(spec: Path, storm_md: Path, public_dir: Path) -> None:
     subprocess.run(
         [
@@ -209,6 +226,7 @@ def process_storm(slug: str) -> None:
 
     run_parse(notebook, spec_path)
     run_build(csv_path, spec_path, public_dir)
+    run_build_static(csv_path, spec_path, public_dir)
     run_embed(spec_path, storm_md, public_dir)
     print(f"Completed {slug}.")
 

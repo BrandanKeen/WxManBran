@@ -4,6 +4,7 @@ import ast
 import json
 import os
 import re
+from pathlib import Path
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Set
 
@@ -363,8 +364,12 @@ class FigureParser:
                 ])
             subplots.append(subplot_entry)
         subplots.sort(key=lambda x: (x["row"], x["col"]))
+        output_name = filename
+        suffix = Path(output_name).suffix.lower()
+        if suffix in {".png", ".jpg", ".jpeg"}:
+            output_name = str(Path(output_name).with_suffix(".svg"))
         figure_spec = {
-            "outfile": filename,
+            "outfile": output_name,
             "title": self.current_fig.get("title"),
             "xlabel": self.current_fig.get("xlabel"),
             "x_tickformat": self.current_fig.get("x_tickformat"),
