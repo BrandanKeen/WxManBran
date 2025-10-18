@@ -138,6 +138,7 @@
             hoverPoints.push({ curveNumber: match.curveNumber, pointNumber: match.index, subplot: match.subplot });
           });
           if (!suppressSyntheticHover) {
+            suppressSyntheticHover = true;
             const uniquePoints = hoverPoints.filter((point, idx, arr) =>
               arr.findIndex(
                 (p) =>
@@ -146,23 +147,13 @@
                   p.subplot === point.subplot
               ) === idx
             );
-            const hoveredKeys = new Set(
-              (event.points || []).map((pt) => {
-                const xref = pt.xaxis || (pt.fullData && pt.fullData.xaxis) || 'x';
-                const yref = pt.yaxis || (pt.fullData && pt.fullData.yaxis) || 'y';
-                return `${pt.curveNumber}:${pt.pointNumber}:${xref}${yref}`;
-              })
-            );
-            const requiresSyntheticHover =
-              uniquePoints.some((pt) => !hoveredKeys.has(`${pt.curveNumber}:${pt.pointNumber}:${pt.subplot}`)) ||
-              hoveredKeys.size !== uniquePoints.length;
-            if (requiresSyntheticHover && uniquePoints.length) {
-              suppressSyntheticHover = true;
+            if (uniquePoints.length) {
               Plotly.Fx.hover(gd, uniquePoints);
               setTimeout(() => {
                 suppressSyntheticHover = false;
               }, 0);
-            } else if (!uniquePoints.length) {
+            } else {
+              suppressSyntheticHover = false;
               Plotly.Fx.unhover(gd);
             }
           }
