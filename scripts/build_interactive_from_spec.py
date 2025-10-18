@@ -371,6 +371,7 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
         "paper_bgcolor": "#ffffff",
         "margin": {"l": 60, "r": 60, "t": 60 if spec.title else 40, "b": 60},
         "font": {"family": "Arial", "size": 12},
+        "hoverlabel": {"bgcolor": "#f0f0f0"},
     }
     layout["spikedistance"] = -1
     layout["hoverdistance"] = -1
@@ -566,6 +567,7 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
         "margin": {"l": 60, "r": 60, "t": 60 if spec.title else 40, "b": 110},
         "font": {"family": "Arial", "size": 12},
         "grid": {"rows": rows, "columns": cols, "pattern": "independent", "roworder": "top to bottom"},
+        "hoverlabel": {"bgcolor": "#f0f0f0"},
     }
     layout["spikedistance"] = -1
     layout["hoverdistance"] = -1
