@@ -44,16 +44,9 @@ MediaComingSoon
 <h2>Data</h2>
 <div class="storm-data">
   <details class="storm-plot-group" open>
-    <summary class="storm-plot-summary">Multi-Panel Plots</summary>
-    <div class="storm-plot storm-multi-panels">
-      <figure class="storm-multi-panels__figure">
-        <img src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_MultiPanel.svg' | relative_url }}" alt="Multi-panel plot for Hurricane Milton (Sarasota, FL)" loading="lazy">
-      </figure>
-    </div>
-  </details>
-  <details class="storm-plot-group">
-    <summary class="storm-plot-summary">Pressure</summary>
+    <summary class="storm-plot-summary">Pressure (MSLP)</summary>
     <div class="storm-plot">
+
       <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_MSLP.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
     </div>
   </details>
@@ -87,23 +80,39 @@ MediaComingSoon
       <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_PTendency_1hour.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
     </div>
   </details>
-  <details class="storm-plot-group">
+  <details class="storm-plot-group" open>
     <summary class="storm-plot-summary">Wind Speed</summary>
     <div class="storm-plot">
+
       <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_WindSpeed.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
     </div>
   </details>
-  <details class="storm-plot-group">
+  <details class="storm-plot-group" open>
     <summary class="storm-plot-summary">Temperature &amp; Dewpoint</summary>
     <div class="storm-plot">
+
       <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_Temp_Dew.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
     </div>
   </details>
-  <details class="storm-plot-group">
+  <details class="storm-plot-group" open>
     <summary class="storm-plot-summary">Rain Rate</summary>
     <div class="storm-plot">
+
       <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_RainRate.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
     </div>
   </details>
+  <div class="storm-multi-panels">
+    <h2>Multi-Panel Plots</h2>
+    <div class="storm-multi-panels__frame storm-plot">
+      <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_MultiPanel.html' | relative_url }}" loading="lazy" title="Hurricane Milton multi-panel plot" style="border:0; width: min(100%, 960px); aspect-ratio: 4765 / 3539; display: block;"></iframe>
+    </div>
+  </div>
 </div>
 <!-- DATA-SECTION:END -->
+
+<div class="storm-multi-panels">
+  <h2>Multi-Panel Plots</h2>
+  <div class="storm-multi-panels__frame storm-plot">
+    <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_MultiPanel.html' | relative_url }}" loading="lazy" title="Hurricane Milton multi-panel plot" style="border:0; width: min(100%, 960px); aspect-ratio: 4765 / 3539; display: block;"></iframe>
+  </div>
+</div>
