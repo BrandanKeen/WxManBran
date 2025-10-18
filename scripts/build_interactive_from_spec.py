@@ -814,7 +814,6 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
             hoverPoints.push({{ curveNumber: match.curveNumber, pointNumber: match.index, subplot: match.subplot }});
           }});
           if (!suppressSyntheticHover) {{
-            suppressSyntheticHover = true;
             const uniquePoints = hoverPoints.filter((point, idx, arr) =>
               arr.findIndex(
                 (p) =>
@@ -823,13 +822,23 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
                   p.subplot === point.subplot
               ) === idx
             );
-            if (uniquePoints.length) {{
+            const hoveredKeys = new Set(
+              (event.points || []).map((pt) => {{
+                const xref = pt.xaxis || (pt.fullData && pt.fullData.xaxis) || 'x';
+                const yref = pt.yaxis || (pt.fullData && pt.fullData.yaxis) || 'y';
+                return `${{pt.curveNumber}}:${{pt.pointNumber}}:${{xref}}${{yref}}`;
+              }})
+            );
+            const requiresSyntheticHover =
+              uniquePoints.some((pt) => !hoveredKeys.has(`${{pt.curveNumber}}:${{pt.pointNumber}}:${{pt.subplot}}`)) ||
+              hoveredKeys.size !== uniquePoints.length;
+            if (requiresSyntheticHover && uniquePoints.length) {{
+              suppressSyntheticHover = true;
               Plotly.Fx.hover(gd, uniquePoints);
               setTimeout(() => {{
                 suppressSyntheticHover = false;
               }}, 0);
-            }} else {{
-              suppressSyntheticHover = false;
+            }} else if (!uniquePoints.length) {{
               Plotly.Fx.unhover(gd);
             }}
           }}
