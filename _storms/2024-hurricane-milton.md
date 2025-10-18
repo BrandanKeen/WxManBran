@@ -44,43 +44,46 @@ MediaComingSoon
 <h2>Data</h2>
 <div class="storm-data">
   <div class="storm-plot">
-    <h3>Hurricane Milton (Sarasota, FL)</h3>
+    
     <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_MultiPanel.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
   </div>
   <div class="storm-plot">
-    <h3>Pressure</h3>
+    
     <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_MSLP.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
   </div>
+  <details class="storm-plot-group">
+    <summary class="storm-plot-summary">Pressure Tendencies</summary>
+    <div class="storm-plot">
+      
+      <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_PTendency_5min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+    </div>
+    <div class="storm-plot">
+      
+      <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_PTendency_10min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+    </div>
+    <div class="storm-plot">
+      
+      <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_PTendency_15min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+    </div>
+    <div class="storm-plot">
+      
+      <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_PTendency_30min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+    </div>
+    <div class="storm-plot">
+      
+      <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_PTendency_1hour.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+    </div>
+  </details>
   <div class="storm-plot">
-    <h3>Pressure Tendency (5 min)</h3>
-    <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_PTendency_5min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
-  </div>
-  <div class="storm-plot">
-    <h3>Pressure Tendency (10 min)</h3>
-    <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_PTendency_10min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
-  </div>
-  <div class="storm-plot">
-    <h3>Pressure Tendency (15 min)</h3>
-    <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_PTendency_15min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
-  </div>
-  <div class="storm-plot">
-    <h3>Pressure Tendency (30 min)</h3>
-    <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_PTendency_30min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
-  </div>
-  <div class="storm-plot">
-    <h3>Pressure Tendency (1 hour)</h3>
-    <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_PTendency_1hour.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
-  </div>
-  <div class="storm-plot">
-    <h3>Wind Speed</h3>
+    
     <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_WindSpeed.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
   </div>
   <div class="storm-plot">
-    <h3>Temperature &amp; Dewpoint</h3>
+    
     <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_Temp_Dew.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
   </div>
   <div class="storm-plot">
-    <h3>Rain Rate</h3>
+    
     <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_RainRate.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
   </div>
 </div>
