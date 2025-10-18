@@ -17,19 +17,25 @@
     figure.layout = {};
   }
   const existingAnnotations = Array.isArray(figure.layout.annotations) ? figure.layout.annotations : [];
-  const filteredAnnotations = existingAnnotations.filter((annotation) => annotation && annotation.text !== 'WxManBran.com');
+  const filteredAnnotations = existingAnnotations.filter((annotation) => {
+    if (!annotation || typeof annotation.text !== 'string') {
+      return true;
+    }
+    return annotation.text.trim().toLowerCase() !== 'wxmanbran.com';
+  });
   filteredAnnotations.push({
     text: 'WxManBran.com',
     x: 1,
-    y: 1,
+    y: 1.08,
     xref: 'paper',
     yref: 'paper',
     xanchor: 'right',
-    yanchor: 'bottom',
+    yanchor: 'top',
+    xshift: -10,
     yshift: 0,
     font: {
-      color: '#000',
-      size: 12,
+      color: '#000000',
+      size: 14,
       family: (figure.layout.font && figure.layout.font.family) || 'Arial, sans-serif'
     },
     showarrow: false,
@@ -49,6 +55,7 @@
       return Number.isNaN(parsed) ? NaN : parsed;
     };
     Plotly.newPlot('chart', figure.data, figure.layout, config).then((gd) => {
+      Plotly.relayout(gd, { annotations: filteredAnnotations });
       const originalCount = gd.data.length;
       const originalTraces = gd.data.slice(0, originalCount);
       const highlightTraces = [];
