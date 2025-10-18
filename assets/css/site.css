@@ -1083,11 +1083,27 @@ section {
 }
 
 .storm-plot-summary {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   margin: 1.5rem 0;
   font-size: 1.35rem;
   font-weight: 700;
   color: var(--ink);
+  cursor: pointer;
+}
+
+.storm-plot-summary::before {
+  content: "\25B2";
+  display: inline-block;
+  font-size: 0.8em;
+  line-height: 1;
+  transform: rotate(180deg);
+  transition: transform 0.2s ease;
+}
+
+details[open] > .storm-plot-summary::before {
+  transform: rotate(0deg);
 }
 
 .storm-multi-panels {
