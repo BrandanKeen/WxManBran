@@ -298,7 +298,7 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
     traces: List[Dict[str, object]] = []
     legend_name = None
     layout: Dict[str, object] = {
-        "hovermode": "x unified",
+        "hovermode": "closest",
         "plot_bgcolor": "#ffffff",
         "paper_bgcolor": "#ffffff",
         "margin": {"l": 60, "r": 60, "t": 60 if spec.title else 40, "b": 60},
@@ -313,6 +313,7 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
         if legend_settings:
             layout["legend"] = legend_settings
             legend_name = "legend"
+    time_fmt = hover_time_format(spec.x_tickformat)
     for series in spec.series or []:
         column_values = data.columns.get(series.column)
         if column_values is None:
@@ -335,7 +336,10 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             "name": series.label or series.column,
             "line": {"color": series.color, "dash": map_linestyle(series.linestyle)},
             "opacity": series.alpha if series.alpha is not None else 1.0,
-            "hovertemplate": f"{series.label or series.column}: %{{y{hover_format}}}{unit_suffix}<extra></extra>",
+            "hovertemplate": (
+                f"Time: %{{x|{time_fmt}}}<br>"
+                f"{series.label or series.column}: %{{y{hover_format}}}{unit_suffix}<extra></extra>"
+            ),
         }
         if series.secondary_y:
             trace["yaxis"] = "y2"
@@ -445,7 +449,7 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
     domains = compute_domains(rows, cols)
     traces: List[Dict[str, object]] = []
     layout: Dict[str, object] = {
-        "hovermode": "x unified",
+        "hovermode": "closest",
         "plot_bgcolor": "#ffffff",
         "paper_bgcolor": "#ffffff",
         "margin": {"l": 60, "r": 60, "t": 60 if spec.title else 40, "b": 110},
