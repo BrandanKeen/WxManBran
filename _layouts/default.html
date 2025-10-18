@@ -114,6 +114,18 @@
           applyTheme(nextTheme, true);
         });
 
+        if (gear) {
+          document.addEventListener('click', function(event) {
+            if (!gear.open) {
+              return;
+            }
+            if (gear.contains(event.target)) {
+              return;
+            }
+            gear.open = false;
+          });
+        }
+
         if (mediaQuery) {
           var mediaHandler = function(event) {
             if (getStoredTheme()) {
