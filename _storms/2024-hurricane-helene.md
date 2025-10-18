@@ -44,11 +44,7 @@ MediaComingSoon
 <h2>Data</h2>
 <div class="storm-data">
   <div class="storm-plot">
-    
-    <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_MultiPanel.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
-  </div>
-  <div class="storm-plot">
-    
+
     <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_MSLP.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
   </div>
   <details class="storm-plot-group">

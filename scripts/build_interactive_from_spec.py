@@ -214,6 +214,13 @@ def extract_units(label: Optional[str]) -> str:
     return cleaned
 
 
+def hover_time_format(tickformat: Optional[str]) -> str:
+    if not tickformat:
+        return "%Y-%m-%d %H:%M"
+    sanitized = tickformat.replace("\n", " ").strip()
+    return sanitized or "%Y-%m-%d %H:%M"
+
+
 def map_linestyle(style: Optional[str]) -> str:
     if not style:
         return "solid"
@@ -287,50 +294,11 @@ def pressure_hover_format(is_pressure: bool) -> str:
     return ":.1f" if is_pressure else ""
 
 
-def _normalize_hover_key(value: Optional[str]) -> Optional[str]:
-    if not value:
-        return None
-    cleaned = value.strip().lower()
-    return cleaned or None
-
-
-CUSTOM_HOVER_TEMPLATES = {
-    "temperature": "Temperature: %{y} \u00b0F<extra></extra>",
-    "temp": "Temperature: %{y} \u00b0F<extra></extra>",
-    "dewpoint": "Dewpoint: %{y} \u00b0F<extra></extra>",
-    "dew": "Dewpoint: %{y} \u00b0F<extra></extra>",
-    "rain rate": "Rain Rate: %{y} in/hr<extra></extra>",
-    "wind speed": "Wind Speed: %{y} mph<extra></extra>",
-    "sustained (1-min avg)": "Wind Speed: %{y} mph<extra></extra>",
-    "gust (1-min max)": "Gust (1-min Max): %{y} mph<extra></extra>",
-    "pressure": "Pressure: %{y:.1f} mb<extra></extra>",
-    "pressure (mb)": "Pressure: %{y:.1f} mb<extra></extra>",
-    "bar": "Pressure: %{y:.1f} mb<extra></extra>",
-    "pressure_tendency_30min": "dP/dt (30 min): %{y:.1f} mb / 30 min<extra></extra>",
-    "dp/dt (30 min)": "dP/dt (30 min): %{y:.1f} mb / 30 min<extra></extra>",
-    "dp/dt (mb/30 min)": "dP/dt (30 min): %{y:.1f} mb / 30 min<extra></extra>",
-}
-
-
-def custom_hovertemplate(label: Optional[str], column: Optional[str]) -> Optional[str]:
-    keys = []
-    label_key = _normalize_hover_key(label)
-    column_key = _normalize_hover_key(column)
-    if label_key:
-        keys.append(label_key)
-    if column_key:
-        keys.append(column_key)
-    for key in keys:
-        if key in CUSTOM_HOVER_TEMPLATES:
-            return CUSTOM_HOVER_TEMPLATES[key]
-    return None
-
-
 def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
     traces: List[Dict[str, object]] = []
     legend_name = None
     layout: Dict[str, object] = {
-        "hovermode": "x unified",
+        "hovermode": "closest",
         "plot_bgcolor": "#ffffff",
         "paper_bgcolor": "#ffffff",
         "margin": {"l": 60, "r": 60, "t": 60 if spec.title else 40, "b": 60},
@@ -345,6 +313,7 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
         if legend_settings:
             layout["legend"] = legend_settings
             legend_name = "legend"
+    time_fmt = hover_time_format(spec.x_tickformat)
     for series in spec.series or []:
         column_values = data.columns.get(series.column)
         if column_values is None:
@@ -359,19 +328,18 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             spec.title,
         )
         hover_format = pressure_hover_format(is_pressure)
-        label = series.label or series.column
-        hovertemplate = custom_hovertemplate(series.label, series.column)
-        if not hovertemplate:
-            hovertemplate = f"{label}: %{{y{hover_format}}}{unit_suffix}<extra></extra>"
         trace: Dict[str, object] = {
             "type": "scatter",
             "mode": "lines",
             "x": data.times,
             "y": column_values,
-            "name": label,
+            "name": series.label or series.column,
             "line": {"color": series.color, "dash": map_linestyle(series.linestyle)},
             "opacity": series.alpha if series.alpha is not None else 1.0,
-            "hovertemplate": hovertemplate,
+            "hovertemplate": (
+                f"Time: %{{x|{time_fmt}}}<br>"
+                f"{series.label or series.column}: %{{y{hover_format}}}{unit_suffix}<extra></extra>"
+            ),
         }
         if series.secondary_y:
             trace["yaxis"] = "y2"
@@ -481,7 +449,7 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
     domains = compute_domains(rows, cols)
     traces: List[Dict[str, object]] = []
     layout: Dict[str, object] = {
-        "hovermode": "x unified",
+        "hovermode": "closest",
         "plot_bgcolor": "#ffffff",
         "paper_bgcolor": "#ffffff",
         "margin": {"l": 60, "r": 60, "t": 60 if spec.title else 40, "b": 110},
@@ -490,6 +458,7 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
     }
     layout["spikedistance"] = -1
     layout["hoverdistance"] = -1
+    time_fmt = hover_time_format(spec.x_tickformat)
     if spec.title:
         layout["title"] = spec.title
     legend_count = 0
@@ -520,9 +489,6 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             )
             hover_format = pressure_hover_format(is_pressure)
             label = series.label or series.column
-            hovertemplate = custom_hovertemplate(series.label, series.column)
-            if not hovertemplate:
-                hovertemplate = f"{label}: %{{y{hover_format}}}{unit_suffix}<extra></extra>"
             trace = {
                 "type": "scatter",
                 "mode": "lines",
@@ -533,7 +499,10 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
                 "opacity": series.alpha if series.alpha is not None else 1.0,
                 "xaxis": axis_ref("x", index),
                 "yaxis": axis_ref("y", index),
-                "hovertemplate": hovertemplate,
+                "hovertemplate": (
+                    f"Time: %{{x|{time_fmt}}}<br>"
+                    f"{label}: %{{y{hover_format}}}{unit_suffix}<extra></extra>"
+                ),
             }
             if series.secondary_y:
                 secondary_counter += 1
@@ -814,6 +783,7 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
             hoverPoints.push({{ curveNumber: match.curveNumber, pointNumber: match.index, subplot: match.subplot }});
           }});
           if (!suppressSyntheticHover) {{
+            suppressSyntheticHover = true;
             const uniquePoints = hoverPoints.filter((point, idx, arr) =>
               arr.findIndex(
                 (p) =>
@@ -822,23 +792,13 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
                   p.subplot === point.subplot
               ) === idx
             );
-            const hoveredKeys = new Set(
-              (event.points || []).map((pt) => {{
-                const xref = pt.xaxis || (pt.fullData && pt.fullData.xaxis) || 'x';
-                const yref = pt.yaxis || (pt.fullData && pt.fullData.yaxis) || 'y';
-                return `${{pt.curveNumber}}:${{pt.pointNumber}}:${{xref}}${{yref}}`;
-              }})
-            );
-            const requiresSyntheticHover =
-              uniquePoints.some((pt) => !hoveredKeys.has(`${{pt.curveNumber}}:${{pt.pointNumber}}:${{pt.subplot}}`)) ||
-              hoveredKeys.size !== uniquePoints.length;
-            if (requiresSyntheticHover && uniquePoints.length) {{
-              suppressSyntheticHover = true;
+            if (uniquePoints.length) {{
               Plotly.Fx.hover(gd, uniquePoints);
               setTimeout(() => {{
                 suppressSyntheticHover = false;
               }}, 0);
-            }} else if (!uniquePoints.length) {{
+            }} else {{
+              suppressSyntheticHover = false;
               Plotly.Fx.unhover(gd);
             }}
           }}
