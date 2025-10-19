@@ -1094,7 +1094,8 @@ section {
   list-style: none;
 }
 
-details.storm-season > .toggle-summary {
+details.storm-season > .toggle-summary,
+details.about-section > .toggle-summary {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -1106,11 +1107,13 @@ details.storm-season > .toggle-summary {
   list-style: none;
 }
 
-details.storm-season > .toggle-summary::-webkit-details-marker {
+details.storm-season > .toggle-summary::-webkit-details-marker,
+details.about-section > .toggle-summary::-webkit-details-marker {
   display: none;
 }
 
-details.storm-season > .toggle-summary::before {
+details.storm-season > .toggle-summary::before,
+details.about-section > .toggle-summary::before {
   content: "\25B6";
   display: inline-block;
   font-size: 0.8em;
@@ -1119,7 +1122,8 @@ details.storm-season > .toggle-summary::before {
   transition: transform 0.2s ease;
 }
 
-details.storm-season[open] > .toggle-summary::before {
+details.storm-season[open] > .toggle-summary::before,
+details.about-section[open] > .toggle-summary::before {
   transform: rotate(90deg);
 }
 
