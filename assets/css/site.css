@@ -224,13 +224,14 @@ a:focus {
 }
 
 .site-nav__brand-text {
-  font-size: 1.55rem;
+  font-size: 1.85rem;
   line-height: 1;
+  color: var(--brandAccent);
 }
 
 .site-nav__brand-image {
   display: block;
-  width: 1.5rem;
+  width: 1.75rem;
   height: auto;
 }
 
@@ -950,11 +951,11 @@ section {
     gap: 0.45rem;
   }
   .site-nav__brand-text {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     letter-spacing: 0.07rem;
   }
   .site-nav__brand-image {
-    width: 1.25rem;
+    width: 1.45rem;
   }
 }
 
