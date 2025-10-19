@@ -1094,7 +1094,7 @@ section {
   list-style: none;
 }
 
-details.storm-season > .toggle-summary {
+.toggle-summary {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -1106,20 +1106,27 @@ details.storm-season > .toggle-summary {
   list-style: none;
 }
 
-details.storm-season > .toggle-summary::-webkit-details-marker {
+details > .toggle-summary::-webkit-details-marker,
+details > .toggle-summary::marker {
   display: none;
 }
 
-details.storm-season > .toggle-summary::before {
-  content: "\25B6";
+details > .toggle-summary::before {
+  content: "";
   display: inline-block;
-  font-size: 0.8em;
-  line-height: 1;
+  flex: 0 0 auto;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0.4em 0 0.4em 0.6em;
+  border-color: transparent transparent transparent currentColor;
+  margin-inline-end: 0.5rem;
   transform: rotate(0deg);
+  transform-origin: 45% 50%;
   transition: transform 0.2s ease;
 }
 
-details.storm-season[open] > .toggle-summary::before {
+details[open] > .toggle-summary::before {
   transform: rotate(90deg);
 }
 
