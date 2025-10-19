@@ -57,8 +57,22 @@
 
       .storm-multi-panels__figure {
         margin: 0;
-        display: flex;
-        justify-content: center;
+        position: relative;
+        width: min(100%, 960px);
+        margin-inline: auto;
+        --storm-multi-panel-offset-top: min(calc(90vw * 0.01), 10px);
+        --storm-multi-panel-offset-right: min(calc(90vw * 0.018), 18px);
+      }
+
+      .storm-multi-panels__watermark {
+        position: absolute;
+        top: var(--storm-multi-panel-offset-top);
+        right: var(--storm-multi-panel-offset-right);
+        color: #666666;
+        font-size: 0.875rem;
+        font-family: inherit;
+        line-height: 1;
+        pointer-events: none;
       }
 
       .storm-multi-panels__figure img {
@@ -84,6 +98,7 @@
         <section class="preview">
           <h2>Hurricane Helene</h2>
           <figure class="storm-multi-panels__figure">
+            <span class="storm-multi-panels__watermark" aria-hidden="true">WxManBran.com</span>
             <img
               src="../../assets/plots/2024-hurricane-helene/Hurricane_Helene_MultiPanel.svg"
               alt="Multi-panel plot for Hurricane Helene"
@@ -94,6 +109,7 @@
         <section class="preview">
           <h2>Hurricane Milton</h2>
           <figure class="storm-multi-panels__figure">
+            <span class="storm-multi-panels__watermark" aria-hidden="true">WxManBran.com</span>
             <img
               src="../../assets/plots/2024-hurricane-milton/Hurricane_Milton_MultiPanel.svg"
               alt="Multi-panel plot for Hurricane Milton"
