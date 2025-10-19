@@ -1106,6 +1106,18 @@ details.storm-season > .toggle-summary {
   list-style: none;
 }
 
+details.about-section > .toggle-summary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1.5rem 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+  list-style: none;
+}
+
 details.storm-season > .toggle-summary::-webkit-details-marker {
   display: none;
 }
