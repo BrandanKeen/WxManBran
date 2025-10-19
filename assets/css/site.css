@@ -109,21 +109,29 @@ a:focus {
 }
 
 .site-nav {
+  --nav-bar-height: 4.75rem;
   background: var(--brandPrimary);
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
-  padding: 1.15rem 1.75rem;
+  padding: 0 1.75rem;
+  min-height: var(--nav-bar-height);
   position: relative;
 }
 
 .site-nav__links {
   display: flex;
   gap: 1.5rem;
-  align-items: center;
+  align-items: stretch;
   list-style: none;
   margin: 0;
   padding: 0;
+  height: 100%;
+}
+
+.site-nav__links > li {
+  display: flex;
+  height: 100%;
 }
 
 .site-nav__links > li > a,
@@ -133,15 +141,17 @@ a:focus {
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  gap: 0.65rem;
-  line-height: 1.2;
+  justify-content: center;
+  gap: 0.75rem;
+  line-height: 1.1;
   border-radius: 9999px;
-  padding: 0.55rem 0.95rem;
+  padding: 0 1.2rem;
   transition: background-color 0.18s ease, color 0.18s ease, opacity 0.18s ease;
-  font-size: 1.4rem;
+  font-size: 1.55rem;
   border: none;
   background: transparent;
   cursor: pointer;
+  height: 100%;
 }
 
 .site-nav__links > li > a:hover,
@@ -167,24 +177,28 @@ a:focus {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.6em;
-  height: 1.6em;
+  width: calc(var(--nav-bar-height) - 1.6rem);
+  height: calc(var(--nav-bar-height) - 1.6rem);
+  max-width: 3rem;
+  max-height: 3rem;
   line-height: 0;
 }
 
 .site-nav__theme {
   position: absolute;
   right: 1.75rem;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0;
+  bottom: 0;
+  transform: none;
   display: flex;
-  align-items: center;
+  align-items: stretch;
 }
 
 .nav-gear {
   position: relative;
-  display: inline-flex;
-  align-items: center;
+  display: flex;
+  align-items: stretch;
+  height: 100%;
 }
 
 .nav-gear[open] {
@@ -196,15 +210,18 @@ a:focus {
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 0.65rem;
-  padding: 0.55rem 0.95rem;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0 1.2rem;
   border-radius: 9999px;
   border: none;
   background: transparent;
   color: inherit;
-  font-size: 1.4rem;
+  font-size: 1.55rem;
   opacity: 0.95;
   transition: background-color 0.18s ease, color 0.18s ease, opacity 0.18s ease;
+  height: 100%;
+  min-height: var(--nav-bar-height);
 }
 
 .nav-gear__button:hover,
@@ -230,8 +247,10 @@ a:focus {
 }
 
 .nav-gear__icon svg {
-  width: 1.35em;
-  height: 1.35em;
+  width: calc(var(--nav-bar-height) - 1.9rem);
+  height: calc(var(--nav-bar-height) - 1.9rem);
+  max-width: 3rem;
+  max-height: 3rem;
   display: block;
   stroke: currentColor;
   line-height: 0;
@@ -407,8 +426,8 @@ a:focus {
 }
 
 .site-nav__links svg {
-  width: 1.1em;
-  height: 1.1em;
+  width: 100%;
+  height: 100%;
   fill: currentColor;
   stroke: currentColor;
 }
@@ -759,13 +778,18 @@ section {
 }
 
 @media (max-width: 640px) {
-  .site-nav__links a {
-    font-size: 1.05rem;
+  .site-nav { --nav-bar-height: 4.2rem; }
+
+  .site-nav__links > li > a,
+  .site-nav__links > li > button,
+  .nav-gear__button {
+    font-size: 1.3rem;
+    padding: 0 0.95rem;
   }
 
   .site-nav__links .nav-icon {
-    width: 1.2em;
-    height: 1.2em;
+    width: calc(var(--nav-bar-height) - 1.5rem);
+    height: calc(var(--nav-bar-height) - 1.5rem);
     margin-right: 0.45rem;
   }
 }
@@ -808,12 +832,18 @@ section {
 /* Make the list horizontal and centered */
 .site-nav__links {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;   /* centers the menu items within the ul */
   gap: 1.25rem;              /* adjust spacing between items as desired */
   list-style: none;
   margin: 0 auto;            /* centers the ul within the nav container */
   padding: 0;
+  height: 100%;
+}
+
+.site-nav__links > li {
+  display: flex;
+  height: 100%;
 }
 
 /* Increase SVG icon size slightly above the text size */
@@ -821,8 +851,10 @@ section {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.35em;             /* up from ~1.1em */
-  height: 1.35em;
+  width: calc(var(--nav-bar-height) - 1.6rem);             /* up from ~1.1em */
+  height: calc(var(--nav-bar-height) - 1.6rem);
+  max-width: 3rem;
+  max-height: 3rem;
   margin-right: 0.5rem;
   line-height: 0;
   vertical-align: -0.15em;
@@ -852,8 +884,18 @@ section {
 
 /* Optional: tune sizes for small screens so the nav does not wrap awkwardly */
 @media (max-width: 640px) {
-  .site-nav__links a { font-size: 1.05rem; }
-  .site-nav__links .nav-icon { width: 1.2em; height: 1.2em; margin-right: 0.45rem; }
+  .site-nav { --nav-bar-height: 4.2rem; }
+  .site-nav__links a,
+  .site-nav__links button,
+  .nav-gear__button {
+    font-size: 1.3rem;
+    padding: 0 0.95rem;
+  }
+  .site-nav__links .nav-icon {
+    width: calc(var(--nav-bar-height) - 1.5rem);
+    height: calc(var(--nav-bar-height) - 1.5rem);
+    margin-right: 0.45rem;
+  }
   .site-nav__links { gap: 1rem; }
 }
 
@@ -872,14 +914,17 @@ section {
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  gap: .5rem;
-  line-height: 1.2;
+  justify-content: center;
+  gap: .75rem;
+  line-height: 1.1;
   border-radius: 9999px;   /* pill shape */
-  padding: .35rem .65rem;  /* so the highlight wraps the text */
+  padding: 0 1.2rem;       /* so the highlight wraps the text */
   transition: background-color .18s ease, color .18s ease, opacity .18s ease;
   border: none;
   background: transparent;
   cursor: pointer;
+  font-size: 1.55rem;
+  height: 100%;
 }
 
 /* Hover: pill highlight around text */
@@ -912,8 +957,8 @@ section {
 
 /* Icons always match the link color, including hover/active */
 .site-header .site-nav__links .nav-icon svg {
-  width: 1.1em;
-  height: 1.1em;
+  width: 100%;
+  height: 100%;
   fill: currentColor;
   stroke: currentColor;
 }
