@@ -226,7 +226,8 @@ a:focus {
 .site-nav__brand-text {
   font-size: 1.85rem;
   line-height: 1;
-  color: color-mix(in srgb, var(--brandAccent) 30%, transparent);
+  font-family: 'Times New Roman', Times, serif;
+  color: var(--brandAccent);
 }
 
 .site-nav__brand-image {
