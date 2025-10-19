@@ -231,7 +231,7 @@ a:focus {
 
 .site-nav__brand-image {
   display: block;
-  width: 1.75rem;
+  width: 2.25rem;
   height: auto;
 }
 
@@ -955,7 +955,7 @@ section {
     letter-spacing: 0.07rem;
   }
   .site-nav__brand-image {
-    width: 1.45rem;
+    width: 1.8rem;
   }
 }
 
