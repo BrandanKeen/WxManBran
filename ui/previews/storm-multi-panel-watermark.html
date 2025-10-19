@@ -55,14 +55,19 @@
         text-align: center;
       }
 
-      .preview iframe {
+      .storm-multi-panels__figure {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+      }
+
+      .storm-multi-panels__figure img {
         width: min(100%, 960px);
         border: 1px solid color-mix(in srgb, var(--brandMuted) 30%, transparent);
         border-radius: 12px;
         box-shadow: 0 18px 32px color-mix(in srgb, var(--ink) 8%, transparent);
         background-color: #fff;
         display: block;
-        margin: 0 auto;
       }
 
       @media (min-width: 960px) {
@@ -78,21 +83,23 @@
       <div class="preview-grid">
         <section class="preview">
           <h2>Hurricane Helene</h2>
-          <iframe
-            src="../../assets/plots/2024-hurricane-helene/Hurricane_Helene_MultiPanel.html"
-            style="aspect-ratio: 4769 / 3070; border: 0;"
-            loading="lazy"
-            title="Hurricane Helene multi-panel watermark preview"
-          ></iframe>
+          <figure class="storm-multi-panels__figure">
+            <img
+              src="../../assets/plots/2024-hurricane-helene/Hurricane_Helene_MultiPanel.svg"
+              alt="Multi-panel plot for Hurricane Helene"
+              loading="lazy"
+            />
+          </figure>
         </section>
         <section class="preview">
           <h2>Hurricane Milton</h2>
-          <iframe
-            src="../../assets/plots/2024-hurricane-milton/Hurricane_Milton_MultiPanel.html"
-            style="aspect-ratio: 4765 / 3539; border: 0;"
-            loading="lazy"
-            title="Hurricane Milton multi-panel watermark preview"
-          ></iframe>
+          <figure class="storm-multi-panels__figure">
+            <img
+              src="../../assets/plots/2024-hurricane-milton/Hurricane_Milton_MultiPanel.svg"
+              alt="Multi-panel plot for Hurricane Milton"
+              loading="lazy"
+            />
+          </figure>
         </section>
       </div>
     </main>
