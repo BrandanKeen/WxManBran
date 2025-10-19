@@ -228,17 +228,17 @@ a:focus {
   line-height: 1;
   font-family: 'Times New Roman', Times, serif;
   color: #a61127;
-  -webkit-text-stroke: 3px #ffffff;
-  text-stroke: 3px #ffffff;
+  -webkit-text-stroke: 1px #ffffff;
+  text-stroke: 1px #ffffff;
   text-shadow:
-    2px 0 0 #ffffff,
-    -2px 0 0 #ffffff,
-    0 2px 0 #ffffff,
-    0 -2px 0 #ffffff,
-    1.5px 1.5px 0 #ffffff,
-    -1.5px 1.5px 0 #ffffff,
-    1.5px -1.5px 0 #ffffff,
-    -1.5px -1.5px 0 #ffffff;
+    1px 0 0 #ffffff,
+    -1px 0 0 #ffffff,
+    0 1px 0 #ffffff,
+    0 -1px 0 #ffffff,
+    0.75px 0.75px 0 #ffffff,
+    -0.75px 0.75px 0 #ffffff,
+    0.75px -0.75px 0 #ffffff,
+    -0.75px -0.75px 0 #ffffff;
 }
 
 .site-nav__brand-image {
