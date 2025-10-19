@@ -1094,6 +1094,35 @@ section {
   list-style: none;
 }
 
+details.storm-season > .toggle-summary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1.5rem 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+  list-style: none;
+}
+
+details.storm-season > .toggle-summary::-webkit-details-marker {
+  display: none;
+}
+
+details.storm-season > .toggle-summary::before {
+  content: "\25B6";
+  display: inline-block;
+  font-size: 0.8em;
+  line-height: 1;
+  transform: rotate(0deg);
+  transition: transform 0.2s ease;
+}
+
+details.storm-season[open] > .toggle-summary::before {
+  transform: rotate(90deg);
+}
+
 .storm-plot {
   position: relative;
 }
