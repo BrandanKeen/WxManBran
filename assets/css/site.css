@@ -224,21 +224,21 @@ a:focus {
 }
 
 .site-nav__brand-text {
-  font-size: 2.4rem;
+  font-size: 3.2rem;
   line-height: 1;
   font-family: 'Times New Roman', Times, serif;
   color: #a61127;
-  -webkit-text-stroke: 3px #ffffff;
-  text-stroke: 3px #ffffff;
+  -webkit-text-stroke: 0.5px #ffffff;
+  text-stroke: 0.5px #ffffff;
   text-shadow:
-    2px 0 0 #ffffff,
-    -2px 0 0 #ffffff,
-    0 2px 0 #ffffff,
-    0 -2px 0 #ffffff,
-    1.5px 1.5px 0 #ffffff,
-    -1.5px 1.5px 0 #ffffff,
-    1.5px -1.5px 0 #ffffff,
-    -1.5px -1.5px 0 #ffffff;
+    0.45px 0 0 #ffffff,
+    -0.45px 0 0 #ffffff,
+    0 0.45px 0 #ffffff,
+    0 -0.45px 0 #ffffff,
+    0.3px 0.3px 0 #ffffff,
+    -0.3px 0.3px 0 #ffffff,
+    0.3px -0.3px 0 #ffffff,
+    -0.3px -0.3px 0 #ffffff;
 }
 
 .site-nav__brand-image {
@@ -963,7 +963,7 @@ section {
     gap: 0.45rem;
   }
   .site-nav__brand-text {
-    font-size: 1.9rem;
+    font-size: 2.2rem;
     letter-spacing: 0.07rem;
   }
   .site-nav__brand-image {
