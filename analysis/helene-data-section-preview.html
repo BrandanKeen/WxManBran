@@ -76,6 +76,22 @@
     }
     .storm-multi-panels__figure {
       margin: 0;
+      position: relative;
+      width: min(100%, 960px);
+      margin-inline: auto;
+      --storm-multi-panel-offset-top: min(calc(90vw * 0.01), 10px);
+      --storm-multi-panel-offset-right: min(calc(90vw * 0.018), 18px);
+    }
+    .storm-multi-panels__figure::after {
+      content: "WxManBran.com";
+      position: absolute;
+      top: var(--storm-multi-panel-offset-top);
+      right: var(--storm-multi-panel-offset-right);
+      color: #666666;
+      font-size: 0.875rem;
+      font-family: inherit;
+      line-height: 1;
+      pointer-events: none;
     }
     .storm-multi-panels__figure img {
       width: 100%;

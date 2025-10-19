@@ -1164,8 +1164,23 @@ details[open] > .storm-plot-summary::before {
 
 .storm-multi-panels__figure {
   margin: 0;
-  display: flex;
-  justify-content: center;
+  position: relative;
+  width: min(100%, 960px);
+  margin-inline: auto;
+  --storm-multi-panel-offset-top: min(calc(90vw * 0.01), 10px);
+  --storm-multi-panel-offset-right: min(calc(90vw * 0.018), 18px);
+}
+
+.storm-multi-panels__figure::after {
+  content: "WxManBran.com";
+  position: absolute;
+  top: var(--storm-multi-panel-offset-top);
+  right: var(--storm-multi-panel-offset-right);
+  color: #666666;
+  font-size: 0.875rem;
+  font-family: inherit;
+  line-height: 1;
+  pointer-events: none;
 }
 
 .storm-multi-panels__figure img {
@@ -1175,6 +1190,7 @@ details[open] > .storm-plot-summary::before {
   border-radius: 12px;
   box-shadow: 0 18px 32px color-mix(in srgb, var(--ink) 8%, transparent);
   border: 1px solid color-mix(in srgb, var(--brandMuted) 30%, transparent);
+  display: block;
 }
 
 .storm-multi-panels__frame {
