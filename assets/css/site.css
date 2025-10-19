@@ -112,7 +112,7 @@ a:focus {
   --nav-bar-height: 4.75rem;
   background: var(--brandPrimary);
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   padding: 0 1.75rem;
   min-height: var(--nav-bar-height);
@@ -837,7 +837,7 @@ section {
 /* Make the list horizontal and centered */
 .site-nav__links {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;   /* centers the menu items within the ul */
   gap: 1.25rem;              /* adjust spacing between items as desired */
   list-style: none;
