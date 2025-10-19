@@ -1171,8 +1171,7 @@ details[open] > .storm-plot-summary::before {
   --storm-multi-panel-offset-right: min(calc(90vw * 0.018), 18px);
 }
 
-.storm-multi-panels__figure::after {
-  content: "WxManBran.com";
+.storm-multi-panels__watermark {
   position: absolute;
   top: var(--storm-multi-panel-offset-top);
   right: var(--storm-multi-panel-offset-right);
