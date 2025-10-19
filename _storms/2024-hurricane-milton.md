@@ -45,10 +45,10 @@ MediaComingSoon
 <div class="storm-data">
   <details class="storm-plot-group" open>
     <summary class="storm-plot-summary">Multi-Panel Plots</summary>
-    <div class="storm-multi-panels">
-      <div class="storm-multi-panels__frame storm-plot">
-        <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_MultiPanel.html' | relative_url }}" loading="lazy" title="Hurricane Milton multi-panel plot" style="border:0; width: min(100%, 960px); aspect-ratio: 4765 / 3539; display: block;"></iframe>
-      </div>
+    <div class="storm-plot storm-multi-panels">
+      <figure class="storm-multi-panels__figure">
+        <img src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_MultiPanel.svg' | relative_url }}" alt="Multi-panel plot for Hurricane Milton" loading="lazy">
+      </figure>
     </div>
   </details>
   <details class="storm-plot-group" open>
