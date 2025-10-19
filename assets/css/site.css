@@ -113,13 +113,13 @@ a:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 1rem;
+  padding: 1.15rem 1.75rem;
   position: relative;
 }
 
 .site-nav__links {
   display: flex;
-  gap: 1.25rem;
+  gap: 1.5rem;
   align-items: center;
   list-style: none;
   margin: 0;
@@ -133,12 +133,12 @@ a:focus {
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.65rem;
   line-height: 1.2;
   border-radius: 9999px;
-  padding: 0.35rem 0.65rem;
+  padding: 0.55rem 0.95rem;
   transition: background-color 0.18s ease, color 0.18s ease, opacity 0.18s ease;
-  font-size: 1.125rem;
+  font-size: 1.4rem;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -167,14 +167,14 @@ a:focus {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.1em;
-  height: 1.1em;
+  width: 1.6em;
+  height: 1.6em;
   line-height: 0;
 }
 
 .site-nav__theme {
   position: absolute;
-  right: 1rem;
+  right: 1.75rem;
   top: 50%;
   transform: translateY(-50%);
   display: flex;
@@ -196,13 +196,13 @@ a:focus {
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.35rem 0.65rem;
+  gap: 0.65rem;
+  padding: 0.55rem 0.95rem;
   border-radius: 9999px;
   border: none;
   background: transparent;
   color: inherit;
-  font-size: 1.125rem;
+  font-size: 1.4rem;
   opacity: 0.95;
   transition: background-color 0.18s ease, color 0.18s ease, opacity 0.18s ease;
 }
@@ -230,8 +230,8 @@ a:focus {
 }
 
 .nav-gear__icon svg {
-  width: 1.1em;
-  height: 1.1em;
+  width: 1.35em;
+  height: 1.35em;
   display: block;
   stroke: currentColor;
   line-height: 0;
