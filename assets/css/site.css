@@ -138,7 +138,7 @@ a:focus {
   border-radius: 9999px;
   padding: 0.55rem 0.95rem;
   transition: background-color 0.18s ease, color 0.18s ease, opacity 0.18s ease;
-  font-size: 1.25rem;
+  font-size: 1.4rem;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -167,8 +167,8 @@ a:focus {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.35em;
-  height: 1.35em;
+  width: 1.6em;
+  height: 1.6em;
   line-height: 0;
 }
 
@@ -202,7 +202,7 @@ a:focus {
   border: none;
   background: transparent;
   color: inherit;
-  font-size: 1.25rem;
+  font-size: 1.4rem;
   opacity: 0.95;
   transition: background-color 0.18s ease, color 0.18s ease, opacity 0.18s ease;
 }
