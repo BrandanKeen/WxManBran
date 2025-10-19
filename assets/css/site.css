@@ -116,13 +116,14 @@ a:focus {
   justify-content: center;
   padding: 0 1.75rem;
   min-height: var(--nav-bar-height);
+  height: var(--nav-bar-height);
   position: relative;
 }
 
 .site-nav__links {
   display: flex;
   gap: 1.5rem;
-  align-items: stretch;
+  align-items: center;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -131,6 +132,7 @@ a:focus {
 
 .site-nav__links > li {
   display: flex;
+  align-items: center;
   height: 100%;
 }
 
@@ -191,13 +193,14 @@ a:focus {
   bottom: 0;
   transform: none;
   display: flex;
-  align-items: stretch;
+  align-items: center;
+  height: 100%;
 }
 
 .nav-gear {
   position: relative;
   display: flex;
-  align-items: stretch;
+  align-items: center;
   height: 100%;
 }
 
@@ -826,7 +829,9 @@ section {
 .site-nav {
   display: flex;
   justify-content: center;   /* centers the <ul> block in the header */
+  align-items: center;
   width: 100%;
+  height: var(--nav-bar-height);
 }
 
 /* Make the list horizontal and centered */
@@ -843,6 +848,7 @@ section {
 
 .site-nav__links > li {
   display: flex;
+  align-items: center;
   height: 100%;
 }
 
