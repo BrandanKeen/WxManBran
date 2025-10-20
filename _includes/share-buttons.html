@@ -1,9 +1,37 @@
 {% assign share_url = page.url | absolute_url %}
 {% assign share_title = page.title | default: site.title %}
+{% assign heading = include.title %}
+{% assign subheading = include.subtitle %}
+{% assign aria_label = include.aria_label %}
+
+{% if heading == nil or heading == '' %}
+  {% if page.collection == 'posts' %}
+    {% assign heading = 'Share this update' %}
+  {% else %}
+    {% assign heading = 'Share This Page' %}
+  {% endif %}
+{% endif %}
+
+{% if subheading == nil or subheading == '' %}
+  {% if page.collection == 'posts' %}
+    {% assign subheading = 'Send the latest Tropical Update to friends and family.' %}
+  {% elsif page.collection == 'storms' %}
+    {% assign subheading = 'Send this storm page to friends and family.' %}
+  {% else %}
+    {% assign subheading = 'Share this page with friends and family.' %}
+  {% endif %}
+{% endif %}
+
+{% if aria_label == nil or aria_label == '' %}
+  {% assign aria_label = heading %}
+{% endif %}
+
 <div class="share-panel" data-share-panel>
-  <h2 class="share-panel__title">Share this update</h2>
-  <p class="share-panel__subtitle">Send the latest Tropical Update to friends and family.</p>
-  <div class="share-panel__buttons" role="group" aria-label="Share this update">
+  <h2 class="share-panel__title">{{ heading }}</h2>
+  {% if subheading %}
+  <p class="share-panel__subtitle">{{ subheading }}</p>
+  {% endif %}
+  <div class="share-panel__buttons" role="group" aria-label="{{ aria_label }}">
     <a class="share-button share-button--facebook"
        href="https://www.facebook.com/sharer/sharer.php?u={{ share_url | uri_escape }}"
        target="_blank"
