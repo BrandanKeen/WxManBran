@@ -62,6 +62,12 @@ permalink: /tropical-updates/
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen></iframe>
           </div>
+          <div class="post-card__share">
+            <span class="post-card__share-label">Share:</span>
+            <a class="link-chip" href="https://www.facebook.com/sharer/sharer.php?u=https://youtu.be/{{ post.youtube_id }}" target="_blank" rel="noopener">Facebook</a>
+            <a class="link-chip" href="https://twitter.com/intent/tweet?url=https://youtu.be/{{ post.youtube_id }}" target="_blank" rel="noopener">X (Twitter)</a>
+            <a class="link-chip" href="mailto:?subject={{ post.video_title | default: post.title | append: ' Brief' | uri_escape }}&body={{ 'Check out this tropical weather brief: https://youtu.be/' | append: post.youtube_id | uri_escape }}">Email</a>
+          </div>
         </article>
       </div>
     {%- else -%}
