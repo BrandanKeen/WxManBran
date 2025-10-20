@@ -1480,6 +1480,27 @@ details[open] > .storm-plot-summary::before {
   color: color-mix(in srgb, var(--brandAccent) 70%, var(--text-on-dark));
 }
 
+:root[data-theme='dark'] .storm-plot__control {
+  background-color: color-mix(in srgb, var(--surfaceAlt) 78%, transparent);
+  border-color: color-mix(in srgb, var(--brandMuted) 45%, transparent);
+  color: var(--text-on-dark);
+}
+
+:root[data-theme='dark'] .storm-plot__control:hover:not(:disabled),
+:root[data-theme='dark'] .storm-plot__control:focus-visible {
+  background-color: color-mix(in srgb, var(--brandPrimary) 24%, var(--surfaceAlt));
+  border-color: color-mix(in srgb, var(--brandPrimary) 60%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brandPrimary) 35%, transparent);
+}
+
+:root[data-theme='dark'] .storm-plot__control:active:not(:disabled) {
+  background-color: color-mix(in srgb, var(--brandPrimary) 32%, var(--surfaceAlt));
+}
+
+:root[data-theme='dark'] .storm-plot__control:disabled {
+  color: color-mix(in srgb, var(--text-on-dark) 60%, transparent);
+}
+
 :root[data-theme='dark'] .storm-multi-panels__figure img {
   border-color: color-mix(in srgb, var(--brandMuted) 65%, transparent);
   box-shadow: 0 20px 36px color-mix(in srgb, var(--brandSecondary-900) 45%, transparent);
