@@ -548,10 +548,47 @@ a:focus {
   padding-top: 0.5rem;
 }
 
-.read-more {
+.read-more { 
   color: var(--brandAccent);
   text-decoration: none;
   font-weight: 600;
+}
+
+.post-card__share {
+  margin-top: auto;
+}
+
+.post-card__share-label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-weight: 600;
+  color: var(--inkAlt);
+}
+
+.post-card__share-links {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.share-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--brandAccent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.share-link__icon {
+  width: 1em;
+  height: 1em;
+}
+
+.share-link__icon path {
+  fill: currentColor;
 }
 
 /* Highlight around text (no underline) for title and read-more */
