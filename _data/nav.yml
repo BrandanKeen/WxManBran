@@ -4,9 +4,15 @@
 - title: Tropical Updates
   url: /tropical-updates/
   icon: updates
+- title: Data
+  url: /data/
+  icon: data
 - title: Previous Storms
   url: /previous-storms/
   icon: storm
+- title: Learn
+  url: /learn/
+  icon: learn
 - title: About
   url: /about/
   icon: about
