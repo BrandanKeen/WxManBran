@@ -146,11 +146,15 @@ fill="currentColor" stroke="none">
           .hero{display:block;margin:0 auto 1rem auto;max-width:420px;width:55%;min-width:240px;height:auto}
 
           :root{--status-banner-height:3rem;}
-          #wx-dashboard{display:grid;gap:22px;margin-bottom:56px;padding-top:calc(var(--nav-bar-height,4.75rem) + 20px + var(--status-banner-height));}
+          #wx-dashboard{display:grid;gap:22px;margin-bottom:56px;padding-top:calc(var(--status-banner-height) + 22px);}
           header.site-header{display:flex;justify-content:flex-end;align-items:center}
           #wx-dashboard > header.site-header{
+            position:relative;
+            z-index:1;
+          }
+          #wx-dashboard > header.site-header.is-fixed{
             position:fixed;
-            top:calc(var(--nav-bar-height,4.75rem) + 20px);
+            top:var(--status-fixed-top);
             left:50%;
             transform:translateX(-50%);
             width:min(100%,calc(1100px + 32px));
@@ -263,7 +267,7 @@ fill="currentColor" stroke="none">
       @media (max-width: 480px){
         .container{margin:10px auto 20px}
         .hero{max-width:170px;width:42%;margin:.2rem auto .6rem}
-        #wx-dashboard{gap:14px;margin-bottom:44px;padding-top:calc(var(--nav-bar-height,4.75rem) + 20px + var(--status-banner-height));}
+        #wx-dashboard{gap:14px;margin-bottom:44px;padding-top:calc(var(--status-banner-height) + 14px);}
         .cards{gap:14px}
         .card{padding:16px 12px 42px}
         .card h2{font-size:calc(clamp(14px,4.0vw,18px) * 1.06)}
@@ -296,6 +300,13 @@ fill="currentColor" stroke="none">
         document.addEventListener('DOMContentLoaded', () => {
           document.body.classList.add('theme-classic');
           document.body.dataset.color = 'values';
+
+          const statusHeader = document.querySelector('#wx-dashboard > header.site-header');
+          if (statusHeader) {
+            const { top } = statusHeader.getBoundingClientRect();
+            document.documentElement.style.setProperty('--status-fixed-top', `${top}px`);
+            statusHeader.classList.add('is-fixed');
+          }
         });
       </script>
 
