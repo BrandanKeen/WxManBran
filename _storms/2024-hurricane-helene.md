@@ -45,17 +45,10 @@ MediaComingSoon
 <div class="storm-data">
   <details class="storm-plot-group" open>
     <summary class="storm-plot-summary">Multi-Panel Plots</summary>
-    <div class="storm-plot storm-multi-panels storm-plot--zoomable" data-zoom-container>
-      <div class="storm-plot__controls" role="group" aria-label="Zoom controls for the multi-panel plot">
-        <button type="button" class="storm-plot__control" data-zoom-out aria-label="Zoom out">−</button>
-        <button type="button" class="storm-plot__control" data-zoom-reset aria-label="Reset zoom">Reset</button>
-        <button type="button" class="storm-plot__control" data-zoom-in aria-label="Zoom in">+</button>
-      </div>
+    <div class="storm-plot storm-multi-panels">
       <figure class="storm-multi-panels__figure">
         <span class="storm-multi-panels__watermark" aria-hidden="true">WxManBran.com</span>
-        <div class="storm-plot__viewport" data-zoom-viewport>
-          <img src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_MultiPanel.svg' | relative_url }}" alt="Multi-panel plot for Hurricane Helene" loading="lazy" data-zoom-target>
-        </div>
+        <img src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_MultiPanel.svg' | relative_url }}" alt="Multi-panel plot for Hurricane Helene" loading="lazy">
       </figure>
     </div>
   </details>
