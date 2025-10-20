@@ -16,7 +16,7 @@ permalink: /about/
   </div>
 </details>
 
-<details class="about-section" open>
+<details class="about-section">
   <summary class="toggle-summary">Recent Developments</summary>
   <div class="about-section__content">
     <p>Keep an eye on this space for the newest features, field projects, and technology upgrades rolling out across WxManBran.</p>
@@ -37,7 +37,7 @@ permalink: /about/
   </div>
 </details>
 
-<details class="about-section" open>
+<details class="about-section">
   <summary class="toggle-summary">Recent Developments</summary>
   <div class="about-section__content">
     <p>Keep an eye on this space for the newest features, field projects, and technology upgrades rolling out across WxManBran.</p>
