@@ -51,6 +51,9 @@
     </header>
     <main id="content" class="site-content">
       {{ content }}
+      {% if page.collection == 'posts' or page.collection == 'storms' %}
+        {% include share-buttons.html %}
+      {% endif %}
     </main>
     <footer class="site-footer">
       <div class="site-footer__inner">
@@ -143,5 +146,81 @@
         }
       })();
     </script>
+    {% if page.collection == 'posts' or page.collection == 'storms' %}
+    <script>
+      (function() {
+        var panels = document.querySelectorAll('[data-share-panel]');
+        if (!panels.length) { return; }
+        panels.forEach(function(panel) {
+          var copyButton = panel.querySelector('[data-share-copy]');
+          if (!copyButton) { return; }
+          var feedback = panel.querySelector('[data-share-feedback]');
+
+          function showFeedback(message, isError) {
+            if (!feedback) { return; }
+            feedback.textContent = message;
+            feedback.hidden = false;
+            if (isError) {
+              feedback.classList.add('share-panel__feedback--error');
+            } else {
+              feedback.classList.remove('share-panel__feedback--error');
+            }
+            window.clearTimeout(feedback._timeoutId || 0);
+            feedback._timeoutId = window.setTimeout(function() {
+              feedback.hidden = true;
+            }, 3000);
+          }
+
+          copyButton.addEventListener('click', function() {
+            var url = copyButton.getAttribute('data-share-url');
+            if (!url) {
+              showFeedback('Link unavailable.', true);
+              return;
+            }
+
+            function fallbackCopy() {
+              var textarea = document.createElement('textarea');
+              textarea.value = url;
+              textarea.setAttribute('readonly', '');
+              textarea.style.position = 'absolute';
+              textarea.style.left = '-9999px';
+              document.body.appendChild(textarea);
+              textarea.select();
+              var successful = false;
+              try {
+                successful = document.execCommand('copy');
+              } catch (error) {
+                successful = false;
+              }
+              document.body.removeChild(textarea);
+              return successful;
+            }
+
+            function handleSuccess() {
+              showFeedback('Link copied to clipboard.', false);
+            }
+
+            function handleFailure() {
+              showFeedback('Unable to copy the link. Please copy it manually.', true);
+            }
+
+            if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+              navigator.clipboard.writeText(url).then(handleSuccess).catch(function() {
+                if (!fallbackCopy()) {
+                  handleFailure();
+                } else {
+                  handleSuccess();
+                }
+              });
+            } else if (!fallbackCopy()) {
+              handleFailure();
+            } else {
+              handleSuccess();
+            }
+          });
+        });
+      })();
+    </script>
+    {% endif %}
   </body>
 </html>

@@ -1,0 +1,41 @@
+{% assign share_url = page.url | absolute_url %}
+{% assign share_title = page.title | default: site.title %}
+<div class="share-panel" data-share-panel>
+  <h2 class="share-panel__title">Share this update</h2>
+  <p class="share-panel__subtitle">Send the latest Tropical Update to friends and family.</p>
+  <div class="share-panel__buttons" role="group" aria-label="Share this update">
+    <a class="share-button share-button--facebook"
+       href="https://www.facebook.com/sharer/sharer.php?u={{ share_url | uri_escape }}"
+       target="_blank"
+       rel="noopener"
+       title="Share on Facebook">
+      <span aria-hidden="true">📘</span>
+      <span class="share-button__label">Facebook</span>
+    </a>
+    <a class="share-button share-button--x"
+       href="https://twitter.com/intent/tweet?url={{ share_url | uri_escape }}&text={{ share_title | uri_escape }}"
+       target="_blank"
+       rel="noopener"
+       title="Share on X (formerly Twitter)">
+      <span aria-hidden="true">𝕏</span>
+      <span class="share-button__label">Share on X</span>
+    </a>
+    <a class="share-button share-button--email"
+       href="mailto:?subject={{ share_title | uri_escape }}&body={{ share_title | uri_escape }}%0A%0A{{ share_url | uri_escape }}"
+       title="Share via email">
+      <span aria-hidden="true">✉️</span>
+      <span class="share-button__label">Email</span>
+    </a>
+    <a class="share-button share-button--sms"
+       href="sms:?&body={{ share_title | uri_escape }}%20-%20{{ share_url | uri_escape }}"
+       title="Share via text message">
+      <span aria-hidden="true">💬</span>
+      <span class="share-button__label">Text</span>
+    </a>
+    <button class="share-button share-button--copy" type="button" data-share-copy data-share-url="{{ share_url }}">
+      <span aria-hidden="true">🔗</span>
+      <span class="share-button__label">Copy link</span>
+    </button>
+  </div>
+  <p class="share-panel__feedback" data-share-feedback hidden>Link copied to clipboard.</p>
+</div>

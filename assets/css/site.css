@@ -1443,3 +1443,93 @@ details[open] > .storm-plot-summary::before {
   box-shadow: 0 20px 36px color-mix(in srgb, var(--brandSecondary-900) 45%, transparent);
   background-color: color-mix(in srgb, var(--ink) 6%, var(--brandSecondary-50));
 }
+
+/* ===== Share panel ===== */
+.share-panel {
+  margin: 3rem 0 0;
+  padding: 1.75rem;
+  border-radius: 16px;
+  border: 1px solid color-mix(in srgb, var(--inkAlt) 12%, transparent);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  box-shadow: 0 18px 36px color-mix(in srgb, var(--brandPrimary) 12%, transparent);
+}
+
+.share-panel__title {
+  margin: 0 0 0.35rem;
+  font-size: clamp(1.35rem, 2vw + 1rem, 1.75rem);
+}
+
+.share-panel__subtitle {
+  margin: 0;
+  color: color-mix(in srgb, var(--inkAlt) 65%, var(--surface));
+}
+
+.share-panel__buttons {
+  margin-top: 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.share-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--brandPrimary) 35%, transparent);
+  background: color-mix(in srgb, var(--brandPrimary) 10%, var(--surface));
+  color: var(--inkAlt);
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+
+.share-button:hover,
+.share-button:focus {
+  text-decoration: none;
+  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--brandAccent) 20%, var(--surface));
+  border-color: color-mix(in srgb, var(--brandAccent) 55%, transparent);
+  color: var(--inkAlt);
+}
+
+.share-button:focus-visible {
+  outline: 3px solid var(--brandAccent);
+  outline-offset: 2px;
+}
+
+.share-button--copy {
+  cursor: pointer;
+}
+
+.share-button--copy:active {
+  transform: scale(0.98);
+}
+
+.share-button__label {
+  white-space: nowrap;
+}
+
+.share-panel__feedback {
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--brandPrimary) 60%, var(--inkAlt));
+}
+
+.share-panel__feedback--error {
+  color: color-mix(in srgb, #ff5a5a 80%, var(--ink));
+}
+
+@media (max-width: 640px) {
+  .share-panel {
+    padding: 1.5rem;
+  }
+
+  .share-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
