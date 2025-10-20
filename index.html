@@ -34,7 +34,7 @@ permalink: /
     #wx-dashboard{display:grid;gap:22px;margin-bottom:56px;padding-top:calc(var(--status-banner-height) + 22px);}
     header.site-header{display:flex;justify-content:flex-end;align-items:center}
     #wx-dashboard > header.site-header{
-      position:relative;
+      position:fixed;
       z-index:1;
     }
     #wx-dashboard > header.site-header.is-fixed{
@@ -45,7 +45,7 @@ permalink: /
       min-height:var(--status-banner-height);
       z-index:950;
     }
-    #wx-conn{font-size:17px;color:var(--inkAlt);margin-right:5ch}
+    #wx-conn{font-size:17px;color:var(--inkAlt);margin-right:2ch}
     :root:not([data-theme='dark']) #wx-conn{color:#ffffff}
 
     /* Center the two cards on wide screens */
