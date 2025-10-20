@@ -1373,6 +1373,11 @@ details[open] > .storm-plot-summary::before {
   color: color-mix(in srgb, var(--ink) 65%, transparent);
 }
 
+:root[data-theme='dark'] .post-content ul > li,
+:root[data-theme='dark'] .post-content ol > li {
+  color: color-mix(in srgb, var(--text-on-dark) 82%, transparent);
+}
+
 :root[data-theme='dark'] a {
   color: color-mix(in srgb, var(--brandAccent) 68%, var(--text-on-dark));
 }
