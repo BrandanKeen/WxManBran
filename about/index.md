@@ -10,20 +10,6 @@ permalink: /about/
 </div>
 
 <details class="about-section" open>
-  <summary class="toggle-summary">Why WxManBran.com?</summary>
-  <div class="about-section__content">
-    <p>WxManBran.com, founded by Meteorologist Brandan Keen, provides reliable, trustworthy, and educational coverage of the tropics and hurricanes so people in every community can stay informed while also understanding the key factors behind each forecast. During the heart of hurricane season, when information overload is real and hype spreads across social media, WxManBran cuts through the noise with plain language and a clear bottom line, focusing on what families and emergency managers need to make confident decisions.</p>
-  </div>
-</details>
-
-<details class="about-section">
-  <summary class="toggle-summary">Recent Developments</summary>
-  <div class="about-section__content">
-    <p>Keep an eye on this space for the newest features, field projects, and technology upgrades rolling out across WxManBran.</p>
-  </div>
-</details>
-
-<details class="about-section" open>
   <summary class="toggle-summary">Built for RAPID™ Updates</summary>
   <div class="about-section__content">
     <p><p>
@@ -34,13 +20,6 @@ permalink: /about/
     operational decision-making for emergency management agencies and utility providers.
   </p>
   </p>
-  </div>
-</details>
-
-<details class="about-section">
-  <summary class="toggle-summary">Recent Developments</summary>
-  <div class="about-section__content">
-    <p>Keep an eye on this space for the newest features, field projects, and technology upgrades rolling out across WxManBran.</p>
   </div>
 </details>
 
