@@ -1375,7 +1375,7 @@ details[open] > .storm-plot-summary::before {
 
 :root[data-theme='dark'] .post-content ul > li,
 :root[data-theme='dark'] .post-content ol > li {
-  color: color-mix(in srgb, var(--text-on-dark) 82%, transparent);
+  color: color-mix(in srgb, var(--text-on-dark) 68%, transparent);
 }
 
 :root[data-theme='dark'] a {

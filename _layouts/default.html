@@ -50,7 +50,15 @@
       {% include nav.html %}
     </header>
     <main id="content" class="site-content">
-      {{ content }}
+      {% assign rendered_content = content %}
+      {% if page.collection == 'posts' %}
+        {% assign rendered_content = rendered_content
+          | replace: '— Weather Man Bran', '— WxManBran'
+          | replace: '&mdash; Weather Man Bran', '&mdash; WxManBran'
+          | replace: '—Weather Man Bran', '— WxManBran'
+          | replace: '&mdash;Weather Man Bran', '&mdash; WxManBran' %}
+      {% endif %}
+      {{ rendered_content }}
       {% if page.collection == 'posts' or page.collection == 'storms' %}
         {% include share-buttons.html %}
       {% endif %}
