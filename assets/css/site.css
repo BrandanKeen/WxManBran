@@ -249,8 +249,8 @@ a:focus {
 
 .site-nav__brand-image {
   display: block;
-  width: 2.25rem;
-  height: auto;
+  height: calc(var(--nav-bar-height) - 0.5rem);
+  width: auto;
   flex-shrink: 0;
 }
 
@@ -974,7 +974,8 @@ section {
     letter-spacing: 0.07rem;
   }
   .site-nav__brand-image {
-    width: 1.8rem;
+    height: calc(var(--nav-bar-height) - 0.75rem);
+    width: auto;
   }
 }
 
