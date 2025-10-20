@@ -31,20 +31,8 @@ permalink: /
       --status-fixed-left:0px;
       --status-fixed-width:min(100%,1100px);
     }
-    #wx-dashboard{display:grid;gap:22px;margin-bottom:56px;padding-top:calc(var(--status-banner-height) + 22px);}
+    #wx-dashboard{display:grid;gap:22px;margin-bottom:56px;padding-top:0;}
     header.site-header{display:flex;justify-content:flex-end;align-items:center}
-    #wx-dashboard > header.site-header{
-      position:fixed;
-      z-index:1;
-    }
-    #wx-dashboard > header.site-header.is-fixed{
-      position:fixed;
-      top:var(--status-fixed-top);
-      left:var(--status-fixed-left);
-      width:var(--status-fixed-width);
-      min-height:var(--status-banner-height);
-      z-index:950;
-    }
     #wx-conn{font-size:17px;color:var(--inkAlt);margin-right:2ch}
     :root:not([data-theme='dark']) #wx-conn{color:#ffffff}
 
@@ -150,7 +138,7 @@ permalink: /
   }
   .container{margin:10px auto 20px}
   .hero{max-width:170px;width:42%;margin:.2rem auto .6rem}
-  #wx-dashboard{gap:14px;margin-bottom:44px;padding-top:calc(var(--status-banner-height) + 14px);}
+  #wx-dashboard{gap:14px;margin-bottom:44px;padding-top:0;}
   .cards{gap:14px}
   .card{padding:16px 12px 42px}
   .card h2{font-size:calc(clamp(14px,4.0vw,18px) * 1.06)}
@@ -177,6 +165,16 @@ permalink: /
   .container { padding: 0 10px; }     /* a bit more edge room */
 }
 
+    /* Status banner should be static in normal flow */
+    #wx-dashboard > header.site-header,
+    #wx-dashboard > header.site-header.is-fixed {
+      position:static !important;
+      inset:auto !important;
+      width:100% !important;
+      z-index:auto !important;
+      margin:0 0 0.75rem 0;
+    }
+
   </style>
 
 <script>
@@ -186,33 +184,7 @@ permalink: /
 
     const statusHeader = document.querySelector('#wx-dashboard > header.site-header');
     if (statusHeader) {
-      const container = statusHeader.closest('.container') || document.querySelector('.container');
-      const initialOffset = statusHeader.offsetTop;
-      const updateStatusBannerMetrics = () => {
-        if (!container) {
-          return;
-        }
-        const containerRect = container.getBoundingClientRect();
-        const containerStyle = window.getComputedStyle(container);
-        const paddingLeft = parseFloat(containerStyle.paddingLeft) || 0;
-        const paddingRight = parseFloat(containerStyle.paddingRight) || 0;
-        const contentWidth = Math.max(containerRect.width - paddingLeft - paddingRight, 0);
-        const contentLeft = containerRect.left + paddingLeft;
-
-        const containerDocumentTop = containerRect.top + window.scrollY;
-        const fixedTop = containerDocumentTop + initialOffset;
-        document.documentElement.style.setProperty('--status-fixed-top', `${fixedTop}px`);
-
-        document.documentElement.style.setProperty('--status-fixed-left', `${contentLeft}px`);
-        document.documentElement.style.setProperty('--status-fixed-width', `${contentWidth}px`);
-        document.documentElement.style.setProperty('--status-banner-height', `${statusHeader.offsetHeight}px`);
-      };
-
-      updateStatusBannerMetrics();
-      statusHeader.classList.add('is-fixed');
-      updateStatusBannerMetrics();
-
-      window.addEventListener('resize', updateStatusBannerMetrics);
+      statusHeader.classList.remove('is-fixed');
     }
   });
 </script>
