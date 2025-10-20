@@ -7,6 +7,7 @@ body.site {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  padding-top: var(--nav-bar-height, 4.75rem);
   transition: background 0.35s ease, color 0.35s ease;
 }
 
@@ -99,12 +100,15 @@ a:focus {
 }
 
 /* Header and navigation */
-.site-header {
+.site > header.site-header {
   background: var(--brandPrimary);
   color: var(--surface);
   box-shadow: 0 12px 24px color-mix(in srgb, var(--brandPrimary) 18%, transparent);
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
   z-index: 1000;
 }
 
