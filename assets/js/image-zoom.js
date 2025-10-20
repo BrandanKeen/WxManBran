@@ -3,60 +3,88 @@
     return;
   }
 
-  function setupZoomToggle(container) {
+  function clamp(value, min, max) {
+    return Math.min(Math.max(value, min), max);
+  }
+
+  function setupZoom(container) {
     var target = container.querySelector('[data-zoom-target]');
-    var figure = container.querySelector('.storm-multi-panels__figure');
-    if (!target) {
+    var viewport = container.querySelector('[data-zoom-viewport]');
+    if (!target || !viewport) {
       return;
     }
 
-    container.setAttribute('role', 'button');
-    container.setAttribute('aria-pressed', 'false');
-    container.setAttribute('aria-label', 'Toggle zoom on storm plot');
-    if (!container.hasAttribute('tabindex')) {
-      container.setAttribute('tabindex', '0');
-    }
+    var zoomInButton = container.querySelector('[data-zoom-in]');
+    var zoomOutButton = container.querySelector('[data-zoom-out]');
+    var resetButton = container.querySelector('[data-zoom-reset]');
 
-    function setZoomState(isZoomed) {
-      if (isZoomed) {
-        container.classList.add('is-zoomed');
-        container.setAttribute('aria-pressed', 'true');
-      } else {
-        container.classList.remove('is-zoomed');
-        container.setAttribute('aria-pressed', 'false');
-        if (figure) {
-          figure.scrollTop = 0;
-          figure.scrollLeft = 0;
+    var scale = 1;
+    var minScale = 1;
+    var maxScale = 3;
+    var step = 0.25;
+
+    function applyScale() {
+      target.style.transform = 'scale(' + scale + ')';
+      if (scale === 1) {
+        if (typeof viewport.scrollTo === 'function') {
+          viewport.scrollTo({ top: 0, left: 0 });
+        } else {
+          viewport.scrollTop = 0;
+          viewport.scrollLeft = 0;
         }
       }
-    }
-
-    function toggleZoom() {
-      var nextState = !container.classList.contains('is-zoomed');
-      setZoomState(nextState);
-    }
-
-    container.addEventListener('click', function(event) {
-      if (event.button !== undefined && event.button !== 0) {
-        return;
+      if (resetButton) {
+        resetButton.disabled = scale === 1;
       }
-      toggleZoom();
-    });
+      if (zoomOutButton) {
+        zoomOutButton.disabled = scale <= minScale;
+      }
+      if (zoomInButton) {
+        zoomInButton.disabled = scale >= maxScale;
+      }
+    }
+
+    function changeScale(delta) {
+      scale = clamp(scale + delta, minScale, maxScale);
+      applyScale();
+    }
+
+    if (zoomInButton) {
+      zoomInButton.addEventListener('click', function() {
+        changeScale(step);
+      });
+    }
+
+    if (zoomOutButton) {
+      zoomOutButton.addEventListener('click', function() {
+        changeScale(-step);
+      });
+    }
+
+    if (resetButton) {
+      resetButton.addEventListener('click', function() {
+        scale = 1;
+        applyScale();
+      });
+    }
 
     container.addEventListener('keydown', function(event) {
+      if (event.target !== zoomInButton && event.target !== zoomOutButton && event.target !== resetButton) {
+        return;
+      }
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
-        toggleZoom();
+        event.target.click();
       }
     });
 
-    setZoomState(container.classList.contains('is-zoomed'));
+    applyScale();
   }
 
   function init() {
-    var containers = document.querySelectorAll('[data-zoom-toggle]');
+    var containers = document.querySelectorAll('[data-zoom-container]');
     containers.forEach(function(container) {
-      setupZoomToggle(container);
+      setupZoom(container);
     });
   }
 
