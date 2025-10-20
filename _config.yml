@@ -6,7 +6,7 @@ theme: minima
 permalink: pretty
 
 include:
-  - _includes/Under_Construction.png
+  - assets/images/Under_Construction.png
 
 plugins:
   - jekyll-feed
