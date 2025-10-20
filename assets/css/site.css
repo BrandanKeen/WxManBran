@@ -115,13 +115,14 @@ a:focus {
 .site-nav {
   --nav-bar-height: 4.75rem;
   background: var(--brandPrimary);
-  display: flex;
-  align-items: stretch;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
   padding: 0 1.75rem;
   min-height: var(--nav-bar-height);
   height: var(--nav-bar-height);
   position: relative;
+  column-gap: 1.5rem;
 }
 
 .site-nav__links {
@@ -191,13 +192,13 @@ a:focus {
 }
 
 .site-nav__actions {
-  position: absolute;
-  right: 1.75rem;
-  top: 0;
-  bottom: 0;
+  position: static;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 1.25rem;
+  height: 100%;
+  justify-self: end;
 }
 
 .site-nav__theme {
@@ -209,10 +210,8 @@ a:focus {
 }
 
 .site-nav__brand {
-  position: absolute;
-  left: 1.75rem;
-  top: 50%;
-  transform: translateY(-50%);
+  position: static;
+  transform: none;
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
@@ -225,6 +224,8 @@ a:focus {
   font-weight: 700;
   letter-spacing: 0.08rem;
   text-transform: uppercase;
+  height: 100%;
+  justify-self: start;
 }
 
 .site-nav__brand-text {
@@ -835,7 +836,11 @@ section {
 }
 
 @media (max-width: 640px) {
-  .site-nav { --nav-bar-height: 4.2rem; }
+  .site-nav {
+    --nav-bar-height: 4.2rem;
+    padding: 0 1.2rem;
+    column-gap: 1rem;
+  }
 
   .site-nav__links > li > a,
   .site-nav__links > li > button,
@@ -881,8 +886,8 @@ section {
 
 /* Center the entire top navigation */
 .site-nav {
-  display: flex;
-  justify-content: center;   /* centers the <ul> block in the header */
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   width: 100%;
   height: var(--nav-bar-height);
@@ -895,7 +900,7 @@ section {
   justify-content: center;   /* centers the menu items within the ul */
   gap: 1.25rem;              /* adjust spacing between items as desired */
   list-style: none;
-  margin: 0 auto;            /* centers the ul within the nav container */
+  margin: 0;
   padding: 0;
   height: 100%;
 }
@@ -957,12 +962,8 @@ section {
     margin-right: 0.45rem;
   }
   .site-nav__links { gap: 1rem; }
-  .site-nav__actions {
-    right: 1.2rem;
-    gap: 0.9rem;
-  }
+  .site-nav__actions { gap: 0.9rem; }
   .site-nav__brand {
-    left: 1.2rem;
     padding: 0.28rem 0.15rem 0.28rem 0;
     gap: 0.45rem;
   }
