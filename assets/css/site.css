@@ -100,7 +100,7 @@ a:focus {
 }
 
 /* Header and navigation */
-.site-header {
+.site > header.site-header {
   background: var(--brandPrimary);
   color: var(--surface);
   box-shadow: 0 12px 24px color-mix(in srgb, var(--brandPrimary) 18%, transparent);
