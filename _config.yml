@@ -5,6 +5,9 @@ baseurl: "/WxManBran"                   # remove when you add a custom domain
 theme: minima
 permalink: pretty
 
+include:
+  - _includes/Under_Construction.png
+
 plugins:
   - jekyll-feed
   - jekyll-sitemap
