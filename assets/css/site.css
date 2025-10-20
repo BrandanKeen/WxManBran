@@ -1373,6 +1373,16 @@ details[open] > .storm-plot-summary::before {
   color: color-mix(in srgb, var(--ink) 65%, transparent);
 }
 
+:root[data-theme='dark'] .post-card ul,
+:root[data-theme='dark'] .post-card ol {
+  color: color-mix(in srgb, var(--text-on-dark) 94%, transparent);
+}
+
+:root[data-theme='dark'] .post-card ul > li,
+:root[data-theme='dark'] .post-card ol > li {
+  color: color-mix(in srgb, var(--text-on-dark) 94%, transparent);
+}
+
 :root[data-theme='dark'] .post-content ul > li,
 :root[data-theme='dark'] .post-content ol > li {
   color: color-mix(in srgb, var(--text-on-dark) 68%, transparent);
