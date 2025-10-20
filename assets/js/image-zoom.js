@@ -3,88 +3,60 @@
     return;
   }
 
-  function clamp(value, min, max) {
-    return Math.min(Math.max(value, min), max);
-  }
-
-  function setupZoom(container) {
+  function setupZoomToggle(container) {
     var target = container.querySelector('[data-zoom-target]');
-    var viewport = container.querySelector('[data-zoom-viewport]');
-    if (!target || !viewport) {
+    var figure = container.querySelector('.storm-multi-panels__figure');
+    if (!target) {
       return;
     }
 
-    var zoomInButton = container.querySelector('[data-zoom-in]');
-    var zoomOutButton = container.querySelector('[data-zoom-out]');
-    var resetButton = container.querySelector('[data-zoom-reset]');
+    container.setAttribute('role', 'button');
+    container.setAttribute('aria-pressed', 'false');
+    container.setAttribute('aria-label', 'Toggle zoom on storm plot');
+    if (!container.hasAttribute('tabindex')) {
+      container.setAttribute('tabindex', '0');
+    }
 
-    var scale = 1;
-    var minScale = 1;
-    var maxScale = 3;
-    var step = 0.25;
-
-    function applyScale() {
-      target.style.transform = 'scale(' + scale + ')';
-      if (scale === 1) {
-        if (typeof viewport.scrollTo === 'function') {
-          viewport.scrollTo({ top: 0, left: 0 });
-        } else {
-          viewport.scrollTop = 0;
-          viewport.scrollLeft = 0;
+    function setZoomState(isZoomed) {
+      if (isZoomed) {
+        container.classList.add('is-zoomed');
+        container.setAttribute('aria-pressed', 'true');
+      } else {
+        container.classList.remove('is-zoomed');
+        container.setAttribute('aria-pressed', 'false');
+        if (figure) {
+          figure.scrollTop = 0;
+          figure.scrollLeft = 0;
         }
       }
-      if (resetButton) {
-        resetButton.disabled = scale === 1;
-      }
-      if (zoomOutButton) {
-        zoomOutButton.disabled = scale <= minScale;
-      }
-      if (zoomInButton) {
-        zoomInButton.disabled = scale >= maxScale;
-      }
     }
 
-    function changeScale(delta) {
-      scale = clamp(scale + delta, minScale, maxScale);
-      applyScale();
+    function toggleZoom() {
+      var nextState = !container.classList.contains('is-zoomed');
+      setZoomState(nextState);
     }
 
-    if (zoomInButton) {
-      zoomInButton.addEventListener('click', function() {
-        changeScale(step);
-      });
-    }
-
-    if (zoomOutButton) {
-      zoomOutButton.addEventListener('click', function() {
-        changeScale(-step);
-      });
-    }
-
-    if (resetButton) {
-      resetButton.addEventListener('click', function() {
-        scale = 1;
-        applyScale();
-      });
-    }
-
-    container.addEventListener('keydown', function(event) {
-      if (event.target !== zoomInButton && event.target !== zoomOutButton && event.target !== resetButton) {
+    container.addEventListener('click', function(event) {
+      if (event.button !== undefined && event.button !== 0) {
         return;
       }
+      toggleZoom();
+    });
+
+    container.addEventListener('keydown', function(event) {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
-        event.target.click();
+        toggleZoom();
       }
     });
 
-    applyScale();
+    setZoomState(container.classList.contains('is-zoomed'));
   }
 
   function init() {
-    var containers = document.querySelectorAll('[data-zoom-container]');
+    var containers = document.querySelectorAll('[data-zoom-toggle]');
     containers.forEach(function(container) {
-      setupZoom(container);
+      setupZoomToggle(container);
     });
   }
 
