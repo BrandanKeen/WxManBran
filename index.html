@@ -27,6 +27,11 @@ permalink: /
 
     #wx-dashboard{display:grid;gap:22px;margin-bottom:56px;}
     header.site-header{display:flex;justify-content:flex-end;align-items:center}
+    #wx-dashboard > header.site-header{
+      position:sticky;
+      top:calc(var(--nav-bar-height,4.75rem) + 20px);
+      z-index:950;
+    }
     #wx-conn{font-size:17px;color:var(--inkAlt);margin-right:5ch}
     :root:not([data-theme='dark']) #wx-conn{color:#ffffff}
 
