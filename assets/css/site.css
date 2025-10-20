@@ -47,6 +47,12 @@ body.site {
   color: color-mix(in srgb, var(--inkAlt) 70%, var(--surface));
 }
 
+.section-intro img {
+  display: block;
+  max-width: min(85%, 560px);
+  margin: 1.5rem auto 0;
+}
+
 /* Global links and focus */
 a {
   color: var(--brandAccent);
