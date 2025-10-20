@@ -199,9 +199,12 @@ permalink: /
         const contentWidth = Math.max(containerRect.width - paddingLeft - paddingRight, 0);
         const contentLeft = containerRect.left + paddingLeft;
 
+        const containerDocumentTop = containerRect.top + window.scrollY;
+        const fixedTop = containerDocumentTop + initialOffset;
+        document.documentElement.style.setProperty('--status-fixed-top', `${fixedTop}px`);
+
         document.documentElement.style.setProperty('--status-fixed-left', `${contentLeft}px`);
         document.documentElement.style.setProperty('--status-fixed-width', `${contentWidth}px`);
-        document.documentElement.style.setProperty('--status-fixed-top', `${containerRect.top + initialOffset}px`);
         document.documentElement.style.setProperty('--status-banner-height', `${statusHeader.offsetHeight}px`);
       };
 
