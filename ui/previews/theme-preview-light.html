@@ -145,11 +145,16 @@ fill="currentColor" stroke="none">
           .container{max-width:1100px;margin:20px auto 48px;padding:0 16px}
           .hero{display:block;margin:0 auto 1rem auto;max-width:420px;width:55%;min-width:240px;height:auto}
 
-          #wx-dashboard{display:grid;gap:22px;margin-bottom:56px;}
+          :root{--status-banner-height:3rem;}
+          #wx-dashboard{display:grid;gap:22px;margin-bottom:56px;padding-top:calc(var(--nav-bar-height,4.75rem) + 20px + var(--status-banner-height));}
           header.site-header{display:flex;justify-content:flex-end;align-items:center}
           #wx-dashboard > header.site-header{
-            position:sticky;
+            position:fixed;
             top:calc(var(--nav-bar-height,4.75rem) + 20px);
+            left:50%;
+            transform:translateX(-50%);
+            width:min(100%,calc(1100px + 32px));
+            min-height:var(--status-banner-height);
             z-index:950;
           }
           #wx-conn{font-size:17px;color:var(--inkAlt);margin-right:5ch}
@@ -258,7 +263,7 @@ fill="currentColor" stroke="none">
       @media (max-width: 480px){
         .container{margin:10px auto 20px}
         .hero{max-width:170px;width:42%;margin:.2rem auto .6rem}
-        #wx-dashboard{gap:14px;margin-bottom:44px;}
+        #wx-dashboard{gap:14px;margin-bottom:44px;padding-top:calc(var(--nav-bar-height,4.75rem) + 20px + var(--status-banner-height));}
         .cards{gap:14px}
         .card{padding:16px 12px 42px}
         .card h2{font-size:calc(clamp(14px,4.0vw,18px) * 1.06)}
