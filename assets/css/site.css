@@ -1300,6 +1300,51 @@ details[open] > .storm-plot-summary::before {
   --storm-multi-panel-offset-right: min(calc(90vw * 0.018), 18px);
 }
 
+.storm-plot--zoomable {
+  position: relative;
+  cursor: zoom-in;
+  display: block;
+}
+
+.storm-plot--zoomable .storm-multi-panels__figure {
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--brandMuted) 32%, transparent);
+  box-shadow: 0 16px 28px color-mix(in srgb, var(--brandPrimary) 14%, transparent);
+  background-color: color-mix(in srgb, var(--surface) 95%, transparent);
+  padding: clamp(0.75rem, 1vw, 1.25rem);
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.storm-plot--zoomable:focus-visible {
+  outline: none;
+}
+
+.storm-plot--zoomable:focus-visible .storm-multi-panels__figure {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brandAccent) 32%, transparent);
+  border-color: color-mix(in srgb, var(--brandAccent) 45%, transparent);
+}
+
+.storm-plot--zoomable [data-zoom-target] {
+  display: block;
+  width: 100%;
+  height: auto;
+  transform-origin: center center;
+  transition: transform 0.24s ease;
+}
+
+.storm-plot--zoomable.is-zoomed {
+  cursor: zoom-out;
+}
+
+.storm-plot--zoomable.is-zoomed .storm-multi-panels__figure {
+  overflow: auto;
+}
+
+.storm-plot--zoomable.is-zoomed [data-zoom-target] {
+  transform: scale(1.75);
+}
+
 .storm-multi-panels__watermark {
   position: absolute;
   top: var(--storm-multi-panel-offset-top);
@@ -1319,6 +1364,8 @@ details[open] > .storm-plot-summary::before {
   box-shadow: 0 18px 32px color-mix(in srgb, var(--ink) 8%, transparent);
   border: 1px solid color-mix(in srgb, var(--brandMuted) 30%, transparent);
   display: block;
+  transform-origin: center center;
+  transition: transform 0.2s ease;
 }
 
 .storm-multi-panels__frame {
@@ -1436,6 +1483,17 @@ details[open] > .storm-plot-summary::before {
 :root[data-theme='dark'] .storm-multi-panels__figure img {
   border-color: color-mix(in srgb, var(--brandMuted) 65%, transparent);
   box-shadow: 0 20px 36px color-mix(in srgb, var(--brandSecondary-900) 45%, transparent);
+}
+
+:root[data-theme='dark'] .storm-plot--zoomable .storm-multi-panels__figure {
+  background-color: color-mix(in srgb, var(--surfaceAlt) 85%, transparent);
+  border-color: color-mix(in srgb, var(--brandMuted) 50%, transparent);
+  box-shadow: 0 20px 36px color-mix(in srgb, var(--brandSecondary-900) 40%, transparent);
+}
+
+:root[data-theme='dark'] .storm-plot--zoomable:focus-visible .storm-multi-panels__figure {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brandAccent) 45%, transparent);
+  border-color: color-mix(in srgb, var(--brandAccent) 60%, transparent);
 }
 
 :root[data-theme='dark'] .storm-multi-panels__frame iframe {

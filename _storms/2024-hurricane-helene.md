@@ -45,10 +45,10 @@ MediaComingSoon
 <div class="storm-data">
   <details class="storm-plot-group" open>
     <summary class="storm-plot-summary">Multi-Panel Plots</summary>
-    <div class="storm-plot storm-multi-panels">
+    <div class="storm-plot storm-multi-panels storm-plot--zoomable" data-zoom-toggle>
       <figure class="storm-multi-panels__figure">
         <span class="storm-multi-panels__watermark" aria-hidden="true">WxManBran.com</span>
-        <img src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_MultiPanel.svg' | relative_url }}" alt="Multi-panel plot for Hurricane Helene" loading="lazy">
+        <img src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_MultiPanel.svg' | relative_url }}" alt="Multi-panel plot for Hurricane Helene" loading="lazy" data-zoom-target>
       </figure>
     </div>
   </details>
