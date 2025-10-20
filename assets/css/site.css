@@ -113,20 +113,23 @@ a:focus {
 }
 
 .site-nav {
-  --nav-bar-height: 4.75rem;
+  --nav-bar-height: clamp(4.2rem, 7vw, 4.75rem);
   background: var(--brandPrimary);
-  display: flex;
-  align-items: stretch;
-  justify-content: center;
-  padding: 0 1.75rem;
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr) max-content;
+  align-items: center;
+  padding: 0 clamp(1rem, 3vw, 1.75rem);
   min-height: var(--nav-bar-height);
   height: var(--nav-bar-height);
+  width: 100%;
+  box-sizing: border-box;
   position: relative;
+  column-gap: clamp(1rem, 2.8vw, 1.5rem);
 }
 
 .site-nav__links {
   display: flex;
-  gap: 1.5rem;
+  gap: clamp(1rem, 2.8vw, 1.5rem);
   align-items: center;
   list-style: none;
   margin: 0;
@@ -151,9 +154,9 @@ a:focus {
   gap: 0.75rem;
   line-height: 1.1;
   border-radius: 9999px;
-  padding: 0 1.2rem;
+  padding: 0 clamp(0.85rem, 2.5vw, 1.2rem);
   transition: background-color 0.18s ease, color 0.18s ease, opacity 0.18s ease;
-  font-size: 1.55rem;
+  font-size: clamp(1.2rem, 2vw, 1.55rem);
   border: none;
   background: transparent;
   cursor: pointer;
@@ -191,13 +194,13 @@ a:focus {
 }
 
 .site-nav__actions {
-  position: absolute;
-  right: 1.75rem;
-  top: 0;
-  bottom: 0;
+  position: static;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 1.25rem;
+  height: 100%;
+  justify-self: end;
 }
 
 .site-nav__theme {
@@ -209,12 +212,11 @@ a:focus {
 }
 
 .site-nav__brand {
-  position: absolute;
-  left: 1.75rem;
-  top: 50%;
-  transform: translateY(-50%);
+  position: static;
+  transform: none;
   display: inline-flex;
   align-items: center;
+  min-width: max-content;
   gap: 0.6rem;
   padding: 0.35rem 0.2rem 0.35rem 0;
   border-radius: 0;
@@ -225,10 +227,12 @@ a:focus {
   font-weight: 700;
   letter-spacing: 0.08rem;
   text-transform: uppercase;
+  height: 100%;
+  justify-self: start;
 }
 
 .site-nav__brand-text {
-  font-size: 3.2rem;
+  font-size: clamp(2.7rem, 4.6vw, 3.2rem);
   line-height: 1;
   font-family: 'Times New Roman', Times, serif;
   color: #a61127;
@@ -247,8 +251,9 @@ a:focus {
 
 .site-nav__brand-image {
   display: block;
-  width: 2.25rem;
-  height: auto;
+  height: calc(var(--nav-bar-height) - 0.5rem);
+  width: auto;
+  flex-shrink: 0;
 }
 
 .nav-gear {
@@ -835,7 +840,11 @@ section {
 }
 
 @media (max-width: 640px) {
-  .site-nav { --nav-bar-height: 4.2rem; }
+  .site-nav {
+    --nav-bar-height: 4.2rem;
+    padding: 0 1.2rem;
+    column-gap: 1rem;
+  }
 
   .site-nav__links > li > a,
   .site-nav__links > li > button,
@@ -881,8 +890,8 @@ section {
 
 /* Center the entire top navigation */
 .site-nav {
-  display: flex;
-  justify-content: center;   /* centers the <ul> block in the header */
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr) max-content;
   align-items: center;
   width: 100%;
   height: var(--nav-bar-height);
@@ -895,7 +904,7 @@ section {
   justify-content: center;   /* centers the menu items within the ul */
   gap: 1.25rem;              /* adjust spacing between items as desired */
   list-style: none;
-  margin: 0 auto;            /* centers the ul within the nav container */
+  margin: 0;
   padding: 0;
   height: 100%;
 }
@@ -957,12 +966,8 @@ section {
     margin-right: 0.45rem;
   }
   .site-nav__links { gap: 1rem; }
-  .site-nav__actions {
-    right: 1.2rem;
-    gap: 0.9rem;
-  }
+  .site-nav__actions { gap: 0.9rem; }
   .site-nav__brand {
-    left: 1.2rem;
     padding: 0.28rem 0.15rem 0.28rem 0;
     gap: 0.45rem;
   }
@@ -971,7 +976,8 @@ section {
     letter-spacing: 0.07rem;
   }
   .site-nav__brand-image {
-    width: 1.8rem;
+    height: calc(var(--nav-bar-height) - 0.75rem);
+    width: auto;
   }
 }
 
@@ -994,12 +1000,12 @@ section {
   gap: .75rem;
   line-height: 1.1;
   border-radius: 9999px;   /* pill shape */
-  padding: 0 1.2rem;       /* so the highlight wraps the text */
+  padding: 0 clamp(0.85rem, 2.5vw, 1.2rem);       /* so the highlight wraps the text */
   transition: background-color .18s ease, color .18s ease, opacity .18s ease;
   border: none;
   background: transparent;
   cursor: pointer;
-  font-size: 1.55rem;
+  font-size: clamp(1.2rem, 2vw, 1.55rem);
   height: 100%;
 }
 
