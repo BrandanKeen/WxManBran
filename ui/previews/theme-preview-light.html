@@ -147,8 +147,7 @@ fill="currentColor" stroke="none">
 
           :root{
             --status-banner-height:3rem;
-            --status-fixed-left:0px;
-            --status-fixed-width:min(100%,calc(1100px + 32px));
+            --status-fixed-top:calc(var(--nav-bar-height,4.75rem) + 20px);
           }
           #wx-dashboard{display:grid;gap:22px;margin-bottom:56px;padding-top:calc(var(--status-banner-height) + 22px);}
           header.site-header{display:flex;justify-content:flex-end;align-items:center}
@@ -159,9 +158,9 @@ fill="currentColor" stroke="none">
           #wx-dashboard > header.site-header.is-fixed{
             position:fixed;
             top:var(--status-fixed-top);
-            left:var(--status-fixed-left);
-            transform:none;
-            width:var(--status-fixed-width);
+            left:50%;
+            transform:translateX(-50%);
+            width:min(100%,calc(1100px + 32px));
             min-height:var(--status-banner-height);
             z-index:950;
           }
@@ -269,7 +268,10 @@ fill="currentColor" stroke="none">
 
       /* Phones */
       @media (max-width: 480px){
-        .container{margin:10px auto 20px}
+          :root{
+            --status-fixed-top:calc(var(--nav-bar-height,4.75rem) + 10px);
+          }
+          .container{margin:10px auto 20px}
         .hero{max-width:170px;width:42%;margin:.2rem auto .6rem}
         #wx-dashboard{gap:14px;margin-bottom:44px;padding-top:calc(var(--status-banner-height) + 14px);}
         .cards{gap:14px}
@@ -301,36 +303,15 @@ fill="currentColor" stroke="none">
         </style>
 
       <script>
-        document.addEventListener('DOMContentLoaded', () => {
-          document.body.classList.add('theme-classic');
-          document.body.dataset.color = 'values';
+      document.addEventListener('DOMContentLoaded', () => {
+        document.body.classList.add('theme-classic');
+        document.body.dataset.color = 'values';
 
-          const statusHeader = document.querySelector('#wx-dashboard > header.site-header');
-          if (statusHeader) {
-            const container = statusHeader.closest('.container');
-            if (!container) return;
-
-            const containerRect = container.getBoundingClientRect();
-            const headerRect = statusHeader.getBoundingClientRect();
-            const topOffset = headerRect.top - containerRect.top;
-
-            document.documentElement.style.setProperty('--status-fixed-top', `${headerRect.top}px`);
-
-            const updateStatusBannerMetrics = () => {
-              const currentContainerRect = container.getBoundingClientRect();
-              document.documentElement.style.setProperty('--status-fixed-left', `${currentContainerRect.left}px`);
-              document.documentElement.style.setProperty('--status-fixed-width', `${currentContainerRect.width}px`);
-              if (window.scrollY === 0) {
-                document.documentElement.style.setProperty('--status-fixed-top', `${currentContainerRect.top + topOffset}px`);
-              }
-            };
-
-            updateStatusBannerMetrics();
-            statusHeader.classList.add('is-fixed');
-
-            window.addEventListener('resize', updateStatusBannerMetrics);
-          }
-        });
+        const statusHeader = document.querySelector('#wx-dashboard > header.site-header');
+        if (statusHeader) {
+          statusHeader.classList.add('is-fixed');
+        }
+      });
       </script>
 
         <div class="container">
