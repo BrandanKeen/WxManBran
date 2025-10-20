@@ -145,8 +145,26 @@ fill="currentColor" stroke="none">
           .container{max-width:1100px;margin:20px auto 48px;padding:0 16px}
           .hero{display:block;margin:0 auto 1rem auto;max-width:420px;width:55%;min-width:240px;height:auto}
 
-          #wx-dashboard{display:grid;gap:22px;margin-bottom:56px;}
+          :root{
+            --status-banner-height:3rem;
+            --status-fixed-top:calc(var(--nav-bar-height,4.75rem) + 20px);
+            --status-fixed-left:0px;
+            --status-fixed-width:min(100%,1100px);
+          }
+          #wx-dashboard{display:grid;gap:22px;margin-bottom:56px;padding-top:calc(var(--status-banner-height) + 22px);}
           header.site-header{display:flex;justify-content:flex-end;align-items:center}
+          #wx-dashboard > header.site-header{
+            position:relative;
+            z-index:1;
+          }
+          #wx-dashboard > header.site-header.is-fixed{
+            position:fixed;
+            top:var(--status-fixed-top);
+            left:var(--status-fixed-left);
+            width:var(--status-fixed-width);
+            min-height:var(--status-banner-height);
+            z-index:950;
+          }
           #wx-conn{font-size:17px;color:var(--inkAlt);margin-right:5ch}
           :root:not([data-theme='dark']) #wx-conn{color:#ffffff}
 
@@ -251,9 +269,12 @@ fill="currentColor" stroke="none">
 
       /* Phones */
       @media (max-width: 480px){
-        .container{margin:10px auto 20px}
+          :root{
+            --status-fixed-top:calc(var(--nav-bar-height,4.75rem) + 10px);
+          }
+          .container{margin:10px auto 20px}
         .hero{max-width:170px;width:42%;margin:.2rem auto .6rem}
-        #wx-dashboard{gap:14px;margin-bottom:44px;}
+        #wx-dashboard{gap:14px;margin-bottom:44px;padding-top:calc(var(--status-banner-height) + 14px);}
         .cards{gap:14px}
         .card{padding:16px 12px 42px}
         .card h2{font-size:calc(clamp(14px,4.0vw,18px) * 1.06)}
@@ -283,10 +304,38 @@ fill="currentColor" stroke="none">
         </style>
 
       <script>
-        document.addEventListener('DOMContentLoaded', () => {
-          document.body.classList.add('theme-classic');
-          document.body.dataset.color = 'values';
-        });
+      document.addEventListener('DOMContentLoaded', () => {
+        document.body.classList.add('theme-classic');
+        document.body.dataset.color = 'values';
+
+        const statusHeader = document.querySelector('#wx-dashboard > header.site-header');
+        if (statusHeader) {
+          const container = statusHeader.closest('.container') || document.querySelector('.container');
+          const initialOffset = statusHeader.offsetTop;
+          const updateStatusBannerMetrics = () => {
+            if (!container) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            const containerStyle = window.getComputedStyle(container);
+            const paddingLeft = parseFloat(containerStyle.paddingLeft) || 0;
+            const paddingRight = parseFloat(containerStyle.paddingRight) || 0;
+            const contentWidth = Math.max(containerRect.width - paddingLeft - paddingRight, 0);
+            const contentLeft = containerRect.left + paddingLeft;
+
+            document.documentElement.style.setProperty('--status-fixed-left', `${contentLeft}px`);
+            document.documentElement.style.setProperty('--status-fixed-width', `${contentWidth}px`);
+            document.documentElement.style.setProperty('--status-fixed-top', `${containerRect.top + initialOffset}px`);
+            document.documentElement.style.setProperty('--status-banner-height', `${statusHeader.offsetHeight}px`);
+          };
+
+          updateStatusBannerMetrics();
+          statusHeader.classList.add('is-fixed');
+          updateStatusBannerMetrics();
+
+          window.addEventListener('resize', updateStatusBannerMetrics);
+        }
+      });
       </script>
 
         <div class="container">
