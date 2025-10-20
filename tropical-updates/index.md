@@ -13,6 +13,15 @@ permalink: /tropical-updates/
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
+    var shareDetails = document.querySelectorAll('.post-card__share');
+    document.addEventListener('click', function (event) {
+      shareDetails.forEach(function (details) {
+        if (details.hasAttribute('open') && !details.contains(event.target)) {
+          details.removeAttribute('open');
+        }
+      });
+    });
+
     var copyButtons = document.querySelectorAll('.js-copy-link');
     copyButtons.forEach(function (button) {
       button.addEventListener('click', function () {
@@ -112,7 +121,7 @@ permalink: /tropical-updates/
               allowfullscreen></iframe>
           </div>
           <details class="post-card__share read-more-wrap">
-            <summary class="read-more link-chip">Share →</summary>
+            <summary class="read-more link-chip">Share</summary>
             <div class="post-card__share-panel">
               <a class="share-link link-chip" href="https://www.facebook.com/sharer/sharer.php?u=https://youtu.be/{{ post.youtube_id }}" target="_blank" rel="noopener">
                 <svg class="share-link__icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24">

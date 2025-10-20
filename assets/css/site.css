@@ -567,6 +567,7 @@ a:focus {
   cursor: pointer;
 }
 
+.post-card__share > summary::marker,
 .post-card__share > summary::-webkit-details-marker {
   display: none;
 }
