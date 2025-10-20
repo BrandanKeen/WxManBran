@@ -28,6 +28,8 @@ permalink: /
     :root{
       --status-banner-height:3rem;
       --status-fixed-top:calc(var(--nav-bar-height,4.75rem) + 20px);
+      --status-fixed-left:0px;
+      --status-fixed-width:min(100%,1100px);
     }
     #wx-dashboard{display:grid;gap:22px;margin-bottom:56px;padding-top:calc(var(--status-banner-height) + 22px);}
     header.site-header{display:flex;justify-content:flex-end;align-items:center}
@@ -38,9 +40,8 @@ permalink: /
     #wx-dashboard > header.site-header.is-fixed{
       position:fixed;
       top:var(--status-fixed-top);
-      left:50%;
-      transform:translateX(-50%);
-      width:min(100%,calc(1100px + 32px));
+      left:var(--status-fixed-left);
+      width:var(--status-fixed-width);
       min-height:var(--status-banner-height);
       z-index:950;
     }
@@ -185,7 +186,30 @@ permalink: /
 
     const statusHeader = document.querySelector('#wx-dashboard > header.site-header');
     if (statusHeader) {
+      const container = statusHeader.closest('.container') || document.querySelector('.container');
+      const initialOffset = statusHeader.offsetTop;
+      const updateStatusBannerMetrics = () => {
+        if (!container) {
+          return;
+        }
+        const containerRect = container.getBoundingClientRect();
+        const containerStyle = window.getComputedStyle(container);
+        const paddingLeft = parseFloat(containerStyle.paddingLeft) || 0;
+        const paddingRight = parseFloat(containerStyle.paddingRight) || 0;
+        const contentWidth = Math.max(containerRect.width - paddingLeft - paddingRight, 0);
+        const contentLeft = containerRect.left + paddingLeft;
+
+        document.documentElement.style.setProperty('--status-fixed-left', `${contentLeft}px`);
+        document.documentElement.style.setProperty('--status-fixed-width', `${contentWidth}px`);
+        document.documentElement.style.setProperty('--status-fixed-top', `${containerRect.top + initialOffset}px`);
+        document.documentElement.style.setProperty('--status-banner-height', `${statusHeader.offsetHeight}px`);
+      };
+
+      updateStatusBannerMetrics();
       statusHeader.classList.add('is-fixed');
+      updateStatusBannerMetrics();
+
+      window.addEventListener('resize', updateStatusBannerMetrics);
     }
   });
 </script>
