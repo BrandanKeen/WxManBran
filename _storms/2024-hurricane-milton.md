@@ -36,8 +36,12 @@ Hurricane Milton was one of the most powerful hurricanes ever recorded in the At
 - **Wind Damage:** Strong Category 3 winds damaged buildings and power infrastructure along Florida’s Gulf Coast.
 - **Tornadoes:** Around 45 tornadoes occurred across the Florida Peninsula, including several rated EF-3 near Fort Pierce and Vero Beach.
 
-### Source
+<br />
+
+#### _Source_
 The information above is sourced from the National Hurricane Center's Tropical Cyclone Report. You can view the full document <a href="https://www.nhc.noaa.gov/data/tcr/AL142024_Milton.pdf" target="_blank" rel="noopener noreferrer">here</a>.
+
+<br />
 
 ## Media
 MediaComingSoon

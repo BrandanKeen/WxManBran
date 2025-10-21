@@ -14,7 +14,7 @@ overview: >-
 
 <h1 class="storm-page__title">Hurricane Hermine</h1>
 
-Hermine was a compact, fast-strengthening Gulf cyclone that became a Category 1 hurricane before striking Florida’s Big Bend coast just east of St. Marks. The system formed from a tropical wave over the Straits of Florida, intensified over very warm waters and improving upper-level conditions, and swept northeast across Georgia and the Carolinas after landfall while weakening.
+Hermine was a compact, fast-strengthening Gulf cyclone that became a Category 1 hurricane before striking Florida’s Big Bend coast just east of St. Marks. The system formed from a tropical wave, organized over the Straits of Florida, and steadily intensified over very warm waters and improving upper-level conditions. Hermine reached peak intensity of 70 kt (80 mph) late on September 1 into early September 2 and brought destructive storm surge along the Nature Coast, flooding rains across Florida’s west coast into the Southeast, and a small outbreak of tornadoes. After landfall, Hermine weakened while sweeping northeast across Georgia and the Carolinas, with widespread power outages and pockets of wind and water damage.
 
 ## Overview
 - **Storm Intensity:** Category 1 hurricane at landfall
@@ -37,8 +37,12 @@ Hermine was a compact, fast-strengthening Gulf cyclone that became a Category 1 
 - **Fatalities:** One direct death in Ocala, Florida; an additional fatality occurred in North Carolina during strong winds the next morning.
 - **Damage:** Estimated $550 million (wind and water).
 
-### Source
+<br />
+
+#### _Source_
 The information above is sourced from the National Hurricane Center's Tropical Cyclone Report. You can view the full document <a href="https://www.nhc.noaa.gov/data/tcr/AL092016_Hermine.pdf" target="_blank" rel="noopener noreferrer">here</a>.
+
+<br />
 
 ## Media
 MediaComingSoon
