@@ -1564,24 +1564,22 @@ details[open] > .storm-plot-summary::before {
 }
 
 .storm-page__image-pair {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  justify-items: center;
   margin: 0 auto 2rem;
-  max-width: min(100%, 720px);
+  max-width: min(100%, 640px);
 }
 
 .storm-page__image {
-  flex: 1 1 300px;
-  max-width: 320px;
   margin: 0;
   text-align: center;
 }
 
 .storm-page__image img {
   display: block;
-  width: 100%;
+  width: min(100%, 320px);
   height: auto;
   border-radius: 0.75rem;
   box-shadow: 0 16px 26px color-mix(in srgb, var(--brandPrimary) 14%, transparent);
