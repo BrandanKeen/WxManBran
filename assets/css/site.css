@@ -1326,6 +1326,14 @@ details.about-section > .toggle-summary {
   list-style: none;
 }
 
+details.storm-season + details.storm-season {
+  margin-top: 1rem;
+}
+
+details.storm-season > .storm-season__content {
+  margin-bottom: 1rem;
+}
+
 details.storm-season > .toggle-summary::-webkit-details-marker,
 details.about-section > .toggle-summary::-webkit-details-marker {
   display: none;
