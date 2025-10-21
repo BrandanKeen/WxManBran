@@ -811,6 +811,7 @@ section {
   grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
   gap: 1.25rem;
   justify-content: center;
+  justify-items: stretch;
 }
 
 .posts-grid.posts-grid--fit .post-card {
@@ -1228,6 +1229,16 @@ section {
 .storm-card-list {
   gap: 2rem;
   grid-template-columns: 1fr;
+}
+
+.storm-season__content .posts-grid.posts-grid--fit {
+  justify-items: center;
+}
+
+.storm-season__content .posts-grid.posts-grid--fit > .post-card {
+  width: 100%;
+  max-width: min(100%, 384px);
+  justify-self: center;
 }
 
 .storm-card {
