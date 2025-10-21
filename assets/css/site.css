@@ -642,6 +642,7 @@ a:focus {
   border-radius: 0.5rem;
   padding: 0.05rem 0.35rem;
   transition: background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+  text-decoration: none;
 }
 
 .link-chip:hover,
@@ -760,11 +761,16 @@ a:focus {
 
 .card h3 {
   margin: 0;
-  color: var(--brandPrimary);
+  color: var(--inkAlt);
+}
+
+.card__title--center {
+  text-align: center;
 }
 
 .card a {
   font-weight: 600;
+  text-decoration: none;
 }
 
 .card small {
@@ -1407,6 +1413,11 @@ details.about-section[open] > .toggle-summary::before {
 .development-media--single .development-media__figure {
   width: 100%;
   max-width: none;
+}
+
+.development-media--single .development-media__figure.development-media__figure--narrow {
+  max-width: 48rem;
+  margin-inline: auto;
 }
 
 @media (min-width: 50rem) {
