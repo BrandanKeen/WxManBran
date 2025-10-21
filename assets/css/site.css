@@ -809,7 +809,7 @@ section {
 .posts-grid.posts-grid--fit > .post-card:only-child {
   width: 100%;
   max-width: 480px;
-  justify-self: center;
+  justify-self: start;
 }
 
 .card--fit {
