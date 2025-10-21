@@ -56,7 +56,6 @@ permalink: /about/
         <div class="development-media development-media--single">
           <figure class="development-media__figure">
             <img src="{{ '/assets/images/new_station_mount.png' | relative_url }}" alt="Adjustable mast mounted to the WxManBran vehicle for elevating the anemometer">
-            <figcaption>The custom mast raises the anemometer 10–40 ft so wind measurements meet WMO standards even during mobile deployments.</figcaption>
           </figure>
         </div>
       </article>
