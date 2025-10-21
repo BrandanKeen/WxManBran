@@ -10,11 +10,6 @@ thumbnail: /assets/images/storms/2024-hurricane-helene/Helene_Landfall.jpg
 overview: >-
   Rapidly intensifying over the Gulf of Mexico, Helene struck Florida's Big Bend as a Category 4 hurricane before racing
   inland with destructive surge, wind, flooding, and tornadoes from the Gulf Coast to the Appalachians.
-storm_detail_images:
-  - src: /assets/images/previous-storms/Helene_radar.gif
-    alt: "Radar imagery of Hurricane Helene"
-  - src: /assets/images/previous-storms/Helene_eye.png
-    alt: "Eye of Hurricane Helene"
 ---
 
 <h1 class="storm-page__title">Hurricane Helene</h1>
@@ -49,7 +44,28 @@ Hurricane Helene formed in the northwestern Caribbean on September 24 and rapidl
 
 ## Media
 
-Media Coming Soon
+<details class="storm-plot-group" open>
+  <summary class="storm-plot-summary">Photos</summary>
+  <div class="media-wide">
+    <div class="media-row two-up">
+      <figure>
+        <img src="{{ '/assets/images/previous-storms/Helene_radar.gif' | relative_url }}"
+             alt="Hurricane Helene radar loop" loading="lazy" decoding="async">
+        <figcaption>Helene - Radar</figcaption>
+      </figure>
+      <figure>
+        <img src="{{ '/assets/images/previous-storms/Helene_eye.png' | relative_url }}"
+             alt="Hurricane Helene eye close-up" loading="lazy" decoding="async">
+        <figcaption>Helene - Eye</figcaption>
+      </figure>
+    </div>
+  </div>
+</details>
+
+<details class="storm-plot-group">
+  <summary class="storm-plot-summary">Videos</summary>
+  <p>Videos coming soon.</p>
+</details>
 
 <br />
 
