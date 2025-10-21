@@ -95,7 +95,7 @@ def ensure_storm_container(slug: str) -> Path:
 
             ## Media
 
-            MediaComingSoon
+            Media Coming Soon
 
             ## Data
 
