@@ -38,33 +38,19 @@ permalink: /previous-storms/
           <h3 class="post-title">
             <a class="link-chip" href="{{ storm.url | relative_url }}">{{ storm.title }}</a>
           </h3>
+          {% case storm.title %}
+          {% when "Hurricane Helene" %}
+          <div class="post-card__image-pair">
+            <img class="post-card__image" src="{{ '/assets/images/previous-storms/Helene_radar.gif' | relative_url }}" alt="Radar of Hurricane Helene">
+            <img class="post-card__image" src="{{ '/assets/images/previous-storms/Helene_eye.png' | relative_url }}" alt="Eye of Hurricane Helene">
+          </div>
+          {% when "Hurricane Milton" %}
+          <div class="post-card__image-pair">
+            <img class="post-card__image" src="{{ '/assets/images/previous-storms/Milton_radar.GIF' | relative_url }}" alt="Radar of Hurricane Milton">
+            <img class="post-card__image" src="{{ '/assets/images/previous-storms/Milton_eye.png' | relative_url }}" alt="Eye of Hurricane Milton">
+          </div>
+          {% endcase %}
         </header>
-        {% capture storm_inline_media %}
-        {% case storm.title %}
-        {% when "Hurricane Hermine" %}
-        <div class="post-card__image-pair">
-          <img class="post-card__image" src="{{ '/assets/images/previous-storms/Hermine_radar.jpeg' | relative_url }}" alt="Radar of Hurricane Hermine">
-        </div>
-        {% when "Hurricane Debby" %}
-        <div class="post-card__image-pair">
-          <img class="post-card__image" src="{{ '/assets/images/previous-storms/Debby_radar.gif' | relative_url }}" alt="Radar of Hurricane Debby">
-        </div>
-        {% when "Hurricane Helene" %}
-        <div class="post-card__image-pair">
-          <img class="post-card__image" src="{{ '/assets/images/previous-storms/Helene_radar.gif' | relative_url }}" alt="Radar of Hurricane Helene">
-          <img class="post-card__image" src="{{ '/assets/images/previous-storms/Helene_eye.png' | relative_url }}" alt="Eye of Hurricane Helene">
-        </div>
-        {% when "Hurricane Milton" %}
-        <div class="post-card__image-pair">
-          <img class="post-card__image" src="{{ '/assets/images/previous-storms/Milton_radar.GIF' | relative_url }}" alt="Radar of Hurricane Milton">
-          <img class="post-card__image" src="{{ '/assets/images/previous-storms/Milton_eye.png' | relative_url }}" alt="Eye of Hurricane Milton">
-        </div>
-        {% endcase %}
-        {% endcapture %}
-        {% assign storm_inline_media = storm_inline_media | strip %}
-        {% if storm_inline_media != "" %}
-        {{ storm_inline_media }}
-        {% endif %}
         {% if storm_thumbnail %}
         <a class="post-card__thumb-link" href="{{ storm.url | relative_url }}">
           <img class="post-card__thumb" src="{{ storm_thumbnail | relative_url }}" alt="{{ storm.title }} thumbnail">
