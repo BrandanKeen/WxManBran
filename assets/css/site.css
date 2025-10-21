@@ -1907,3 +1907,39 @@ body, .site { overflow-x: hidden; }
 
 /* Guard in case other img rules load later */
 .media-bleed .media-row img { max-width: none !important; margin: 0 !important; }
+/* === Media (card-width two-up) === */
+.media-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+  margin: 0;
+}
+@media (min-width: 640px) {
+  .media-row.two-up { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Ensure images fill columns and ignore any global max-width caps */
+.media-row.two-up img {
+  width: 100% !important;
+  max-width: none !important;
+  height: auto;
+  margin: 0 !important;
+  display: block;
+  border-radius: 10px;
+}
+
+/* Card-width wrapper: pulls the grid into the card padding so it touches the card edges */
+.media-wide {
+  margin-left: -2rem;
+  margin-right: -2rem;
+  width: calc(100% + 4rem);
+}
+
+/* Optional (future-proof): tie to a card padding variable if used
+.site-content { --pad: 2rem; }
+.media-wide {
+  margin-left: calc(-1 * var(--pad));
+  margin-right: calc(-1 * var(--pad));
+  width: calc(100% + (2 * var(--pad)));
+}
+*/
