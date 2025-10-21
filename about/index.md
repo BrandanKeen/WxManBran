@@ -34,10 +34,35 @@ permalink: /about/
   <summary class="toggle-summary">Recent Developments</summary>
   <div class="about-section__content">
     <p>Keep an eye on this space for the newest features, field projects, and technology upgrades rolling out across WxManBran.</p>
-    <h3>Multi-Station Deployment — August 11, 2025</h3>
-    <p>Three additional Davis Vantage Pro 2 weather stations, along with the necessary data logging hardware, have been acquired and are prepared for operational deployment. These units will be strategically positioned during future hurricane intercepts to enable simultaneous, multi-location surface observations and improved spatial capture of storm impacts.</p>
-    <h3>Adjustable Station Mount — October 28, 2024</h3>
-    <p>A reinforced, height-adjustable mast has been developed to raise the anemometer anywhere from 10–40 ft. This enables WMO 10 m–standard wind measurements and improves peak wind/gust capture on the vehicle-based station.</p>
+    <div class="development-list">
+      <article class="development-item">
+        <h3>Multi-Station Deployment — August 11, 2025</h3>
+        <div class="development-media development-media--split">
+          <figure class="development-media__figure">
+            <img src="{{ '/assets/images/Deplyable_Station1.JPEG' | relative_url }}" alt="Deployable Davis Vantage Pro 2 weather station equipment staged on a workbench">
+            <figcaption>One of the new deployable stations staged with tripods, power, and data logging hardware before field deployment.</figcaption>
+          </figure>
+          <figure class="development-media__figure">
+            <img src="{{ '/assets/images/Deplyable_Station2.JPEG' | relative_url }}" alt="Three portable weather station cases and tripods prepared for hurricane intercept missions">
+            <figcaption>The three-station kit packed and ready so simultaneous landfall observations can be captured at multiple locations.</figcaption>
+          </figure>
+        </div>
+        <p>Three additional Davis Vantage Pro 2 weather stations, along with the necessary data logging hardware, have been acquired and are prepared for operational deployment. These units will be strategically positioned during future hurricane intercepts to enable simultaneous, multi-location surface observations and improved spatial capture of storm impacts.</p>
+      </article>
+      <article class="development-item">
+        <h3>Adjustable Station Mount — October 28, 2024</h3>
+        <div class="development-media development-media--single">
+          <figure class="development-media__figure">
+            <img src="{{ '/assets/images/new_station_mount.png' | relative_url }}" alt="Adjustable mast mounted to the WxManBran vehicle for elevating the anemometer">
+            <figcaption>The custom mast raises the anemometer 10–40 ft so wind measurements meet WMO standards even during mobile deployments.</figcaption>
+          </figure>
+        </div>
+        <p>A reinforced, height-adjustable mast has been developed to raise the anemometer anywhere from 10–40 ft. This enables WMO 10 m–standard wind measurements and improves peak wind/gust capture on the vehicle-based station.</p>
+        <div class="development-media__video">
+          <iframe src="https://www.youtube-nocookie.com/embed/5Y_rzp0XOUs?rel=0&amp;modestbranding=1" title="Adjustable station mount field test video" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+      </article>
+    </div>
   </div>
 </details>
 
