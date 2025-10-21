@@ -34,6 +34,10 @@ permalink: /about/
   <summary class="toggle-summary">Recent Developments</summary>
   <div class="about-section__content">
     <p>Keep an eye on this space for the newest features, field projects, and technology upgrades rolling out across WxManBran.</p>
+    <h3>Multi-Station Deployment — August 11, 2025</h3>
+    <p>Three additional Davis Vantage Pro 2 weather stations, along with the necessary data logging hardware, have been acquired and are prepared for operational deployment. These units will be strategically positioned during future hurricane intercepts to enable simultaneous, multi-location surface observations and improved spatial capture of storm impacts.</p>
+    <h3>Adjustable Station Mount — October 28, 2024</h3>
+    <p>A reinforced, height-adjustable mast has been developed to raise the anemometer anywhere from 10–40 ft. This enables WMO 10 m–standard wind measurements and improves peak wind/gust capture on the vehicle-based station.</p>
   </div>
 </details>
 
