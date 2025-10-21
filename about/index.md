@@ -21,7 +21,7 @@ permalink: /about/
   <div class="about-section__content">
     <p><p>
     This site is connected to a live Weather Data Dashboard. During landfalling hurricanes,
-    a truck-mounted weather station streams various meteorological parameters to the site in real time.
+    a truck-mounted Davis Vantage Pro 2 weather station streams various meteorological parameters to the site in real time.
     Connectivity is maintained via a Starlink satellite dish to avoid cellular outages.
     These observations provide ground truth and real-time updates, improving critical timing and
     operational decision-making for emergency management agencies and utility providers.
@@ -73,7 +73,7 @@ permalink: /about/
     <p>The next year, 2005, I printed plotting sheets from the National Hurricane Center every morning, marked each storm’s latitude and longitude, shaded watches and warnings with colored pencils, and kept a log of every advisory number, wind, pressure, and movement. I didn’t realize the season would become record-breaking at the time, but by the end I was worn out from tracking so many storms.</p>
     <p>In 2010, I attended the University of North Florida on a baseball scholarship and, after a few transfers, graduated from Flagler College with a B.A. in Business Administration in 2015. In 2016, while still chasing a professional baseball career back home, I felt pulled to intercept Hurricane Hermine, the first U.S. landfalling hurricane since Wilma in 2005. Hermine was a Category 1 with 85 mph winds, but it was my first real taste of field work and it planted the seed that if I wanted to do this safely and successfully, I needed a meteorology degree.</p>
     <p>In 2020, after hanging up my cleats, I went back to school. I took online community college classes in 2021, then enrolled at Florida Institute of Technology in 2022, completing my B.S. in Meteorology in May 2025. While studying, I balanced classes with intercepts of Hurricanes Debby, Helene, and Milton during the 2024 season, this time with a weather station mounted on my truck to capture real data inside the storm.</p>
-    <p>Looking ahead, my goal is to intercept and gather data from as many landfalling hurricanes as I can, keep improving this site, and share updates on the tropics that can help ease anxiety while providing clarity and truth. I feel incredibly blessed to pursue what I love, and I hope something here encourages you, teaches you, or simply connects us through a shared respect for weather.</p>
+    <p>Looking ahead, my goal is to intercept and gather data from as many landfalling hurricanes as I can, keep improving this site, and share updates on the tropics that can help ease anxiety while providing clarity and truth. I feel incredibly blessed to pursue what I love, and I hope something here encourages you, teaches you, or simply connects us through a shared interest for weather.</p>
     <p>— Brandan Keen (WxManBran)</p>
   </div>
 </details>
