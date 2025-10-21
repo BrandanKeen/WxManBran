@@ -8,5 +8,6 @@ Previous Storms cards render the artwork automatically.
 
 Current storm directories:
 
+- `assets/images/storms/2016-hurricane-hermine/`
 - `assets/images/storms/2024-hurricane-helene/`
 - `assets/images/storms/2024-hurricane-milton/`
