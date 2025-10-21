@@ -36,6 +36,13 @@ Hurricane Debby was a compact but impactful Category 1 hurricane that rapidly in
 - **Tornadoes:** At least 26 tornadoes while Debby was a tropical cyclone, including an EF-3 near Lucama, North Carolina.
 - **Fatalities and damage:** 18 fatalities and over $4 billion (USD) in combined U.S. and Canada damage.
 
+<br />
+
+#### _Source_
+The information above is sourced from the National Hurricane Center's Tropical Cyclone Report. You can view the full document <a href="https://www.nhc.noaa.gov/data/tcr/AL042024_Debby.pdf" target="_blank" rel="noopener noreferrer">here</a>.
+
+<br />
+
 ## Media
 MediaComingSoon
 
