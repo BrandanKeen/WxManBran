@@ -1177,7 +1177,7 @@ section {
 .post-card__thumb {
   width: 100%;
   height: 100%;
-  aspect-ratio: 3 / 2;       /* slightly taller frame for a larger presence */
+  aspect-ratio: 4 / 3;       /* slightly taller frame for a larger presence */
   object-fit: contain;       /* show whole image without cropping */
   object-position: center;
   display: block;
