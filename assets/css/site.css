@@ -799,11 +799,16 @@ section {
 }
 
 /* Grid helpers */
+
 .posts-grid.posts-grid--fit {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
   gap: 1.25rem;
   justify-content: center;
+}
+
+.posts-grid.posts-grid--fit > .post-card {
+  margin: 0;
 }
 
 .posts-grid.posts-grid--fit > .post-card:only-child {
@@ -1327,11 +1332,15 @@ details.about-section > .toggle-summary {
 }
 
 details.storm-season + details.storm-season {
-  margin-top: 1rem;
+  margin-top: 1.25rem;
+}
+
+details.storm-season[open] {
+  margin-bottom: 1.25rem;
 }
 
 details.storm-season > .storm-season__content {
-  margin-bottom: 1rem;
+  padding-bottom: 1.25rem;
 }
 
 details.storm-season > .toggle-summary::-webkit-details-marker,
