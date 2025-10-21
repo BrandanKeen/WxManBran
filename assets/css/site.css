@@ -799,11 +799,16 @@ section {
 }
 
 /* Grid helpers */
+
 .posts-grid.posts-grid--fit {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
   gap: 1.25rem;
   justify-content: center;
+}
+
+.posts-grid.posts-grid--fit > .post-card {
+  margin: 0;
 }
 
 .posts-grid.posts-grid--fit > .post-card:only-child {
@@ -1201,9 +1206,9 @@ section {
   display: block;
 }
 
-/* Increase vertical space between rows in the grid */
+/* Ensure vertical spacing between stacked cards matches the column gap */
 .posts-grid.posts-grid--fit {
-  row-gap: 2rem;            /* adjust value as desired */
+  row-gap: 1.25rem;         /* keep the same separation as between columns */
   padding-bottom: 2.5rem;   /* ensure the grid clears surrounding content */
 }
 
@@ -1327,11 +1332,15 @@ details.about-section > .toggle-summary {
 }
 
 details.storm-season + details.storm-season {
-  margin-top: 1rem;
+  margin-top: 1.25rem;
+}
+
+details.storm-season[open] {
+  margin-bottom: 1.25rem;
 }
 
 details.storm-season > .storm-season__content {
-  margin-bottom: 1rem;
+  padding-bottom: 1.25rem;
 }
 
 details.storm-season > .toggle-summary::-webkit-details-marker,
