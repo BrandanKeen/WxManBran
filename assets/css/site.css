@@ -1545,6 +1545,35 @@ details[open] > .storm-plot-summary::before {
   display: block;
 }
 
+.storm-page__image-pair {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(1rem, 2vw, 1.75rem);
+  margin: 0 auto 2.5rem;
+  width: 100%;
+  max-width: 1120px;
+}
+
+.storm-page__image {
+  flex: 1 1 480px;
+  min-width: 280px;
+  margin: 0;
+  text-align: center;
+}
+
+.storm-page__image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+  box-shadow: 0 16px 26px color-mix(in srgb, var(--brandPrimary) 14%, transparent);
+}
+
+.post-card .storm-page__image-pair {
+  display: none;
+}
+
 .storm-page__title {
   margin: 0 0 1.5rem;
   text-align: center;

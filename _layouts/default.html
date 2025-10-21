@@ -58,6 +58,20 @@
           | replace: '—Weather Man Bran', '— WxManBran'
           | replace: '&mdash;Weather Man Bran', '&mdash; WxManBran' %}
       {% endif %}
+      {% if page.collection == 'storms' and page.storm_detail_images %}
+        {% capture storm_image_pair %}
+<div class="storm-page__image-pair">
+  {% for image in page.storm_detail_images %}
+  <figure class="storm-page__image">
+    <img src="{{ image.src | relative_url }}" alt="{{ image.alt }}">
+  </figure>
+  {% endfor %}
+</div>
+{% endcapture %}
+        {% assign heading_close = '</h1>' %}
+        {% assign heading_close_with_images = heading_close | append: storm_image_pair %}
+        {% assign rendered_content = rendered_content | replace_first: heading_close, heading_close_with_images %}
+      {% endif %}
       {{ rendered_content }}
       {% if page.collection == 'posts' or page.collection == 'storms' %}
         {% include share-buttons.html %}
