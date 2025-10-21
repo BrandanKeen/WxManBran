@@ -95,7 +95,9 @@ def ensure_storm_container(slug: str) -> Path:
 
             ## Media
 
-            MediaComingSoon
+            Media Coming Soon
+
+            <br />
 
             ## Data
 
@@ -114,6 +116,8 @@ def ensure_storm_container(slug: str) -> Path:
         if MARKER_START not in text or MARKER_END not in text:
             addition = dedent(
                 f"""\
+
+                <br />
 
                 ## Data
 

@@ -98,11 +98,11 @@ def update_markdown(path: Path, block: str) -> None:
     if MARKER_START in text and MARKER_END in text:
         start_idx = text.index(MARKER_START) + len(MARKER_START)
         end_idx = text.index(MARKER_END)
-        new_text = text[:start_idx] + "\n" + block + "\n" + text[end_idx:]
+        new_text = text[:start_idx] + "\n\n" + block + "\n" + text[end_idx:]
     else:
         if not text.endswith("\n"):
             text += "\n"
-        new_text = text + "\n" + MARKER_START + "\n" + block + "\n" + MARKER_END + "\n"
+        new_text = text + "\n" + MARKER_START + "\n\n" + block + "\n" + MARKER_END + "\n"
     path.write_text(new_text, encoding="utf-8")
 
 
