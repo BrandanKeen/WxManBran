@@ -562,8 +562,9 @@ a:focus {
 
 .post-card__share {
   text-align: center;
-  margin-top: auto;
-  padding-top: 0.75rem;
+  margin-top: 0.75rem;
+  padding-top: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .post-card__share > summary {
