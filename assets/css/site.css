@@ -1825,3 +1825,164 @@ details[open] > .storm-plot-summary::before {
     justify-content: center;
   }
 }
+/* Two-up media layout for storm pages */
+.media-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+/* Two columns on wider screens */
+@media (min-width: 640px) {
+  .media-row.two-up {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Make images truly fill their columns and defeat the global 560px cap */
+.media-row.two-up img {
+  width: 100% !important;
+  max-width: none !important;
+  height: auto;
+  margin: 0 !important;
+  display: block;
+  border-radius: 10px;
+}
+
+/* Variant A: full width of the white content card */
+.media-wide {
+  /* pulls the row into the card’s side padding so it “touches” the card edges */
+  margin-left: -2rem;
+  margin-right: -2rem;
+  width: calc(100% + 4rem);
+}
+
+/* Variant B: true full-bleed across the viewport */
+.media-bleed {
+  width: 100vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  /* small side padding so images don't touch the window edge */
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+/* Full-bleed wrapper that spans the entire viewport width */
+.media-bleed {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding-left: clamp(6px, 1.5vw, 16px);
+  padding-right: clamp(6px, 1.5vw, 16px);
+}
+
+/* Two-up grid for media */
+.media-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(8px, 1.5vw, 20px);
+  margin: 0;
+}
+@media (min-width: 640px) {
+  .media-row.two-up { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Strong overrides so images fill columns and are not capped or centered */
+.media-bleed .media-row img {
+  width: 100% !important;
+  max-width: none !important;
+  height: auto;
+  margin: 0 !important;
+  display: block;
+  border-radius: 10px;
+}
+
+/* Tighter figures and consistent captions */
+.media-bleed .media-row figure { margin: 0; }
+.media-bleed .media-row figcaption { text-align: center; margin-top: 0.25rem; }
+
+/* Prevent horizontal scrollbar on full-bleed sections */
+body, .site { overflow-x: hidden; }
+
+/* Guard in case other img rules load later */
+.media-bleed .media-row img { max-width: none !important; margin: 0 !important; }
+/* === Media (card-width two-up) === */
+.media-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+  margin: 0;
+}
+@media (min-width: 640px) {
+  .media-row.two-up { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Ensure images fill columns and ignore any global max-width caps */
+.media-row.two-up img {
+  width: 100% !important;
+  max-width: none !important;
+  height: auto;
+  margin: 0 !important;
+  display: block;
+  border-radius: 10px;
+}
+
+/* Card-width wrapper: pulls the grid into the card padding so it touches the card edges */
+.media-wide {
+  margin-left: -2rem;
+  margin-right: -2rem;
+  width: calc(100% + 4rem);
+}
+
+/* Optional (future-proof): tie to a card padding variable if used
+.site-content { --pad: 2rem; }
+.media-wide {
+  margin-left: calc(-1 * var(--pad));
+  margin-right: calc(-1 * var(--pad));
+  width: calc(100% + (2 * var(--pad)));
+}
+*/
+/* === Media (card-width two-up, tight) === */
+
+/* grid */
+.media-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.25rem;            /* tighter gap so images are nearly touching */
+  margin: 0;
+  justify-items: stretch;
+  align-items: start;
+}
+@media (min-width: 640px) {
+  .media-row.two-up { grid-template-columns: 1fr 1fr; }
+}
+/* prevent min-content sizing from shrinking columns */
+.media-row > * { min-width: 0; }
+
+/* images fill columns; defeat any global caps/centering */
+.media-row.two-up img {
+  width: 100% !important;
+  max-width: none !important;
+  height: auto;
+  margin: 0 !important;
+  display: block;
+  border-radius: 10px;
+}
+
+/* remove default figure spacing */
+.media-row figure { margin: 0; }
+.media-row figcaption { text-align: center; margin-top: 0.25rem; }
+
+/* card-width wrapper that hugs the card edges */
+.site-content { --pad: 2rem; }  /* matches existing .site-content padding */
+.media-wide {
+  margin-left: calc(-1 * var(--pad));
+  margin-right: calc(-1 * var(--pad));
+  width: calc(100% + (2 * var(--pad)));
+  max-width: none;              /* ensure no inherited max-width constrains it */
+  box-sizing: border-box;
+}
+
+/* if you want them to literally kiss the card edge, add a touch more pull */
+/* .media-wide { --extra: 0.25rem; margin-left: calc(-1 * var(--pad) - var(--extra)); margin-right: calc(-1 * var(--pad) - var(--extra)); width: calc(100% + 2*(var(--pad) + var(--extra))); } */
