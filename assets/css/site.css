@@ -1825,3 +1825,31 @@ details[open] > .storm-plot-summary::before {
     justify-content: center;
   }
 }
+/* Two-up media grid for storm pages */
+.media-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .media-row.two-up {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.media-row figure {
+  margin: 0;
+}
+
+.media-row img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+}
+.media-row figcaption {
+  font-size: 0.9rem;
+  opacity: 0.85;
+  margin-top: 0.25rem;
+}
