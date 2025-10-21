@@ -44,11 +44,13 @@ Hurricane Debby was a compact but impactful Category 1 hurricane that rapidly in
 <br />
 
 ## Media
-MediaComingSoon
 
+Media Coming Soon
 
 <!-- DATA-SECTION:START -->
+
 <h2>Data</h2>
+
 <div class="storm-data">
   <p>No data was gathered during this storm intercept.</p>
 </div>
