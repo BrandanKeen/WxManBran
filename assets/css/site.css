@@ -562,6 +562,7 @@ a:focus {
 
 .post-card__share {
   text-align: center;
+  margin: 0;
   margin-top: 0.75rem;
   padding-top: 0.5rem;
 }
@@ -572,6 +573,12 @@ a:focus {
   gap: 0.25rem;
   list-style: none;
   cursor: pointer;
+  color: var(--brandAccent);
+}
+
+.post-card__share > summary:hover,
+.post-card__share > summary:focus-visible {
+  color: var(--brandAccentAlt);
 }
 
 .post-card__share > summary::marker,
