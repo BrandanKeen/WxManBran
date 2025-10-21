@@ -1943,3 +1943,46 @@ body, .site { overflow-x: hidden; }
   width: calc(100% + (2 * var(--pad)));
 }
 */
+/* === Media (card-width two-up, tight) === */
+
+/* grid */
+.media-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.25rem;            /* tighter gap so images are nearly touching */
+  margin: 0;
+  justify-items: stretch;
+  align-items: start;
+}
+@media (min-width: 640px) {
+  .media-row.two-up { grid-template-columns: 1fr 1fr; }
+}
+/* prevent min-content sizing from shrinking columns */
+.media-row > * { min-width: 0; }
+
+/* images fill columns; defeat any global caps/centering */
+.media-row.two-up img {
+  width: 100% !important;
+  max-width: none !important;
+  height: auto;
+  margin: 0 !important;
+  display: block;
+  border-radius: 10px;
+}
+
+/* remove default figure spacing */
+.media-row figure { margin: 0; }
+.media-row figcaption { text-align: center; margin-top: 0.25rem; }
+
+/* card-width wrapper that hugs the card edges */
+.site-content { --pad: 2rem; }  /* matches existing .site-content padding */
+.media-wide {
+  margin-left: calc(-1 * var(--pad));
+  margin-right: calc(-1 * var(--pad));
+  width: calc(100% + (2 * var(--pad)));
+  max-width: none;              /* ensure no inherited max-width constrains it */
+  box-sizing: border-box;
+}
+
+/* if you want them to literally kiss the card edge, add a touch more pull */
+/* .media-wide { --extra: 0.25rem; margin-left: calc(-1 * var(--pad) - var(--extra)); margin-right: calc(-1 * var(--pad) - var(--extra)); width: calc(100% + 2*(var(--pad) + var(--extra))); } */
