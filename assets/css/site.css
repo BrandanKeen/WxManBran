@@ -806,6 +806,12 @@ section {
   justify-content: center;
 }
 
+.posts-grid.posts-grid--fit > .post-card:only-child {
+  width: 100%;
+  max-width: 480px;
+  justify-self: start;
+}
+
 .card--fit {
   width: 100%;
   max-width: 660px;
@@ -1165,6 +1171,14 @@ section {
   margin-top: 0.75rem;
 }
 
+.post-card__thumb-link {
+  display: block;
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f5f7fb;
+}
+
 .post-card__video {
   display: flex;
 }
@@ -1182,12 +1196,9 @@ section {
 .post-card__thumb {
   width: 100%;
   height: 100%;
-  aspect-ratio: 4 / 3;       /* slightly taller frame for a larger presence */
-  object-fit: contain;       /* show whole image without cropping */
+  object-fit: cover;
   object-position: center;
   display: block;
-  background: #f5f7fb;      /* subtle letterbox behind image edges */
-  border-radius: 8px;
 }
 
 /* Increase vertical space between rows in the grid */
