@@ -45,7 +45,7 @@ permalink: /about/
             <img src="{{ '/assets/images/Deplyable_Station1.JPEG' | relative_url }}" alt="Deployable Davis Vantage Pro 2 weather station equipment staged on a workbench">
           </figure>
         </div>
-        <p>Three additional Davis Vantage Pro 2 weather stations, along with the necessary data logging hardware, have been acquired and are prepared for operational deployment. These units will be strategically positioned during future hurricane intercepts to enable simultaneous, multi-location surface observations and improved spatial capture of storm impacts.</p>
+        <p>Three additional Davis Vantage Pro 2 weather stations, along with the necessary data logging hardware and shelter housings, are prepared for operational deployment. These units will be strategically positioned during future hurricane intercepts to enable simultaneous, multi-location surface observations and improved spatial capture of storm impacts.</p>
         <div class="development-media__video">
           <iframe src="https://www.youtube-nocookie.com/embed/5Y_rzp0XOUs?rel=0&amp;modestbranding=1" title="Adjustable station mount field test video" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </div>
