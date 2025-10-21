@@ -53,7 +53,7 @@ permalink: /about/
       <article class="development-item">
         <h3>Adjustable Station Mount — October 28, 2024</h3>
         <div class="development-media development-media--single">
-          <figure class="development-media__figure">
+          <figure class="development-media__figure development-media__figure--narrow">
             <img src="{{ '/assets/images/new_station_mount.png' | relative_url }}" alt="Adjustable mast mounted to the WxManBran vehicle for elevating the anemometer">
           </figure>
         </div>
