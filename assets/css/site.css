@@ -1361,11 +1361,12 @@ details.about-section[open] > .toggle-summary::before {
 }
 
 .development-media--single {
-  justify-items: center;
+  justify-items: stretch;
 }
 
 .development-media--single .development-media__figure {
-  max-width: min(100%, 560px);
+  width: 100%;
+  max-width: none;
 }
 
 @media (min-width: 50rem) {
