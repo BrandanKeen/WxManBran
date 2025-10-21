@@ -49,17 +49,19 @@ Hurricane Milton was one of the most powerful hurricanes ever recorded in the At
 
 ## Media
 
-<div class="media-row two-up media-wide">
-  <figure>
-    <img src="{{ '/assets/images/previous-storms/Milton_radar.GIF' | relative_url }}"
-         alt="Hurricane Milton radar loop" loading="lazy" decoding="async">
-    <figcaption>Milton - Radar</figcaption>
-  </figure>
-  <figure>
-    <img src="{{ '/assets/images/previous-storms/Milton_eye.png' | relative_url }}"
-         alt="Hurricane Milton eye close-up" loading="lazy" decoding="async">
-    <figcaption>Milton - Eye</figcaption>
-  </figure>
+<div class="media-bleed">
+  <div class="media-row two-up">
+    <figure>
+      <img src="{{ '/assets/images/previous-storms/Milton_radar.GIF' | relative_url }}"
+           alt="Hurricane Milton radar loop" loading="lazy" decoding="async">
+      <figcaption>Milton - Radar</figcaption>
+    </figure>
+    <figure>
+      <img src="{{ '/assets/images/previous-storms/Milton_eye.png' | relative_url }}"
+           alt="Hurricane Milton eye close-up" loading="lazy" decoding="async">
+      <figcaption>Milton - Eye</figcaption>
+    </figure>
+  </div>
 </div>
 
 <br />

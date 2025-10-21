@@ -1867,3 +1867,43 @@ details[open] > .storm-plot-summary::before {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
 }
+
+/* Full-bleed wrapper that spans the entire viewport width */
+.media-bleed {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding-left: clamp(6px, 1.5vw, 16px);
+  padding-right: clamp(6px, 1.5vw, 16px);
+}
+
+/* Two-up grid for media */
+.media-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(8px, 1.5vw, 20px);
+  margin: 0;
+}
+@media (min-width: 640px) {
+  .media-row.two-up { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Strong overrides so images fill columns and are not capped or centered */
+.media-bleed .media-row img {
+  width: 100% !important;
+  max-width: none !important;
+  height: auto;
+  margin: 0 !important;
+  display: block;
+  border-radius: 10px;
+}
+
+/* Tighter figures and consistent captions */
+.media-bleed .media-row figure { margin: 0; }
+.media-bleed .media-row figcaption { text-align: center; margin-top: 0.25rem; }
+
+/* Prevent horizontal scrollbar on full-bleed sections */
+body, .site { overflow-x: hidden; }
+
+/* Guard in case other img rules load later */
+.media-bleed .media-row img { max-width: none !important; margin: 0 !important; }
