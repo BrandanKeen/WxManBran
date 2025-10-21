@@ -6,7 +6,7 @@ permalink: /previous-storms/
 
 <div class="section-intro">
   <h1>Previous Storms</h1>
-  <p>This portion of the website is still under construction. Upon completion, it will have interactive plots to view data from previous hurricane intercepts.</p>
+  <p>Explore past hurricane intercepts by season. Select a storm to view its summary, media, and interactive data plots.</p>
 </div>
 
 {% assign storms_by_season = site.storms | group_by: 'season' %}
