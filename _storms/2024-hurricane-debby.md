@@ -39,7 +39,7 @@ Hurricane Debby was a compact but impactful Category 1 hurricane that rapidly in
 <br />
 
 #### _Source_
-The information above is sourced from the National Hurricane Center's Tropical Cyclone Report. You can view the full document <a href="https://www.nhc.noaa.gov/data/tcr/AL042024_Debby.pdf" target="_blank" rel="noopener noreferrer">here</a>.
+<em>The information above is sourced from the National Hurricane Center's Tropical Cyclone Report. You can view the full document <a href="https://www.nhc.noaa.gov/data/tcr/AL042024_Debby.pdf" target="_blank" rel="noopener noreferrer">here</a>.</em>
 
 <br />
 
