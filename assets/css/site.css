@@ -576,6 +576,11 @@ a:focus {
   color: var(--brandAccent);
 }
 
+.post-card__share > summary:hover,
+.post-card__share > summary:focus-visible {
+  color: var(--brandAccentAlt);
+}
+
 .post-card__share > summary::marker,
 .post-card__share > summary::-webkit-details-marker {
   display: none;
