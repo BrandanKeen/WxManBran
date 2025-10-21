@@ -760,7 +760,7 @@ a:focus {
 
 .card h3 {
   margin: 0;
-  color: var(--brandPrimary);
+  color: var(--inkAlt);
 }
 
 .card a {
