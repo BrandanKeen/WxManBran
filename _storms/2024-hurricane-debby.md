@@ -43,60 +43,6 @@ MediaComingSoon
 <!-- DATA-SECTION:START -->
 <h2>Data</h2>
 <div class="storm-data">
-  <details class="storm-plot-group" open>
-    <summary class="storm-plot-summary">Multi-Panel Plots</summary>
-    <div class="storm-plot storm-multi-panels">
-      <figure class="storm-multi-panels__figure">
-        <span class="storm-multi-panels__watermark" aria-hidden="true">WxManBran.com</span>
-        <img src="{{ '/assets/plots/2024-hurricane-debby/Hurricane_Debby_MultiPanel.svg' | relative_url }}" alt="Multi-panel plot for Hurricane Debby" loading="lazy">
-      </figure>
-    </div>
-  </details>
-  <details class="storm-plot-group" open>
-    <summary class="storm-plot-summary">Pressure (MSLP)</summary>
-    <div class="storm-plot">
-
-      <iframe src="{{ '/assets/plots/2024-hurricane-debby/Hurricane_Debby_MSLP.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
-    </div>
-  </details>
-  <details class="storm-plot-group">
-    <summary class="storm-plot-summary">Pressure Tendencies</summary>
-    <div class="storm-plot">
-      <iframe src="{{ '/assets/plots/2024-hurricane-debby/Hurricane_Debby_PTendency_5min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
-    </div>
-    <div class="storm-plot">
-      <iframe src="{{ '/assets/plots/2024-hurricane-debby/Hurricane_Debby_PTendency_10min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
-    </div>
-    <div class="storm-plot">
-      <iframe src="{{ '/assets/plots/2024-hurricane-debby/Hurricane_Debby_PTendency_15min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
-    </div>
-    <div class="storm-plot">
-      <iframe src="{{ '/assets/plots/2024-hurricane-debby/Hurricane_Debby_PTendency_30min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
-    </div>
-    <div class="storm-plot">
-      <iframe src="{{ '/assets/plots/2024-hurricane-debby/Hurricane_Debby_PTendency_1hour.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
-    </div>
-  </details>
-  <details class="storm-plot-group" open>
-    <summary class="storm-plot-summary">Wind Speed</summary>
-    <div class="storm-plot">
-
-      <iframe src="{{ '/assets/plots/2024-hurricane-debby/Hurricane_Debby_WindSpeed.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
-    </div>
-  </details>
-  <details class="storm-plot-group" open>
-    <summary class="storm-plot-summary">Temperature &amp; Dewpoint</summary>
-    <div class="storm-plot">
-
-      <iframe src="{{ '/assets/plots/2024-hurricane-debby/Hurricane_Debby_Temp_Dew.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
-    </div>
-  </details>
-  <details class="storm-plot-group" open>
-    <summary class="storm-plot-summary">Rain Rate</summary>
-    <div class="storm-plot">
-
-      <iframe src="{{ '/assets/plots/2024-hurricane-debby/Hurricane_Debby_RainRate.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
-    </div>
-  </details>
+  <p>No data was gathered during this storm intercept.</p>
 </div>
 <!-- DATA-SECTION:END -->
