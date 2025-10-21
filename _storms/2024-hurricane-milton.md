@@ -39,7 +39,7 @@ Hurricane Milton was one of the most powerful hurricanes ever recorded in the At
 <br />
 
 #### _Source_
-The information above is sourced from the National Hurricane Center's Tropical Cyclone Report. You can view the full document <a href="https://www.nhc.noaa.gov/data/tcr/AL142024_Milton.pdf" target="_blank" rel="noopener noreferrer">here</a>.
+<em>The information above is sourced from the National Hurricane Center's Tropical Cyclone Report. You can view the full document <a href="https://www.nhc.noaa.gov/data/tcr/AL142024_Milton.pdf" target="_blank" rel="noopener noreferrer">here</a>.</em>
 
 <br />
 

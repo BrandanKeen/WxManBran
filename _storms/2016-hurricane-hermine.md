@@ -40,7 +40,7 @@ Hermine was a compact, fast-strengthening Gulf cyclone that became a Category 1 
 <br />
 
 #### _Source_
-The information above is sourced from the National Hurricane Center's Tropical Cyclone Report. You can view the full document <a href="https://www.nhc.noaa.gov/data/tcr/AL092016_Hermine.pdf" target="_blank" rel="noopener noreferrer">here</a>.
+<em>The information above is sourced from the National Hurricane Center's Tropical Cyclone Report. You can view the full document <a href="https://www.nhc.noaa.gov/data/tcr/AL092016_Hermine.pdf" target="_blank" rel="noopener noreferrer">here</a>.</em>
 
 <br />
 
