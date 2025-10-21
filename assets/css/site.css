@@ -806,6 +806,12 @@ section {
   justify-content: center;
 }
 
+.posts-grid.posts-grid--fit > .post-card:only-child {
+  width: 100%;
+  max-width: 480px;
+  justify-self: center;
+}
+
 .card--fit {
   width: 100%;
   max-width: 660px;
