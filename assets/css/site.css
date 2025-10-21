@@ -572,6 +572,7 @@ a:focus {
   gap: 0.25rem;
   list-style: none;
   cursor: pointer;
+  color: var(--brandAccent);
 }
 
 .post-card__share > summary::marker,
