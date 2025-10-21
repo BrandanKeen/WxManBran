@@ -52,13 +52,12 @@ permalink: /about/
       </article>
       <article class="development-item">
         <h3>Adjustable Station Mount — October 28, 2024</h3>
-        <p>A reinforced, height-adjustable mast has been developed to raise the anemometer anywhere from 10–40 ft. This enables WMO 10 m (33 ft.) standard wind measurements and improves peak wind/gust capture on the vehicle-based station.</p>
         <div class="development-media development-media--single">
           <figure class="development-media__figure">
             <img src="{{ '/assets/images/new_station_mount.png' | relative_url }}" alt="Adjustable mast mounted to the WxManBran vehicle for elevating the anemometer">
-            <figcaption>The custom mast raises the anemometer 10–40 ft so wind measurements meet WMO standards even during mobile deployments.</figcaption>
           </figure>
         </div>
+        <p>A steel wire reinforced, height-adjustable mast has been developed to raise the anemometer anywhere from 10–40 ft. This enables WMO 10 m (33 ft.) standard wind measurements and improves peak wind/gust capture on the vehicle-based station.</p>
       </article>
     </div>
   </div>
