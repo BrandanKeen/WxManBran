@@ -548,6 +548,24 @@ a:focus {
   text-decoration: none;
 }
 
+.post-card__image-pair {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0.75rem auto 0;
+  flex-wrap: wrap;
+}
+
+.post-card__image {
+  flex: 1 1 160px;
+  max-width: 200px;
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.4rem 1rem color-mix(in srgb, var(--brandPrimary) 14%, transparent);
+}
+
 .read-more-wrap {
   text-align: center;
   margin-top: 0.75rem;
