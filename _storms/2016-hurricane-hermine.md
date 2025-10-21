@@ -37,6 +37,9 @@ Hermine was a compact, fast-strengthening Gulf cyclone that became a Category 1 
 - **Fatalities:** One direct death in Ocala, Florida; an additional fatality occurred in North Carolina during strong winds the next morning.
 - **Damage:** Estimated $550 million (wind and water).
 
+### Source
+The information above is sourced from the National Hurricane Center's Tropical Cyclone Report. You can view the full document <a href="https://www.nhc.noaa.gov/data/tcr/AL092016_Hermine.pdf" target="_blank" rel="noopener noreferrer">here</a>.
+
 ## Media
 MediaComingSoon
 

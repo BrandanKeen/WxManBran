@@ -36,6 +36,9 @@ Hurricane Helene formed in the northwestern Caribbean on September 24 and rapidl
 - **Tornadoes:** At least 33 tornadoes while Helene was a tropical cyclone (39 including post-tropical).
 - **Fatalities:** At least 249 deaths in the U.S. (175 direct, 71 indirect, 3 unknown causes).
 
+### Source
+The information above is sourced from the National Hurricane Center's Tropical Cyclone Report. You can view the full document <a href="https://www.nhc.noaa.gov/data/tcr/AL092024_Helene.pdf" target="_blank" rel="noopener noreferrer">here</a>.
+
 ## Media
 MediaComingSoon
 
