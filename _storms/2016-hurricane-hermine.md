@@ -6,7 +6,7 @@ landfall: September 2, 2016 &mdash; near St. Marks, FL
 landfall_date: 2016-09-02
 permalink: /storms/hurricane-hermine-2016/
 sort_date: 2016-09-02
-thumbnail: /assets/images/storms/2016-hurricane-hermine/Hermine_Landfall.svg
+thumbnail: /assets/images/storms/2016-hurricane-hermine/Hermine_Landfall.gif
 overview: >-
   Hurricane Hermine was a compact, fast-strengthening Gulf cyclone that struck Florida's Big Bend with destructive surge,
   flooding rains, and tornadoes before racing northeast across the Southeast.
@@ -14,7 +14,7 @@ overview: >-
 
 <h1 class="storm-page__title">Hurricane Hermine</h1>
 
-Hermine was a compact, fast-strengthening Gulf cyclone that became a Category 1 hurricane before striking Florida’s Big Bend coast just east of St. Marks. The system formed from a tropical wave over the Straits of Florida, intensified over very warm waters and improving upper-level conditions, and swept northeast across Georgia and the Carolinas after landfall while weakening.
+Hermine was a compact, fast-strengthening Gulf cyclone that became a Category 1 hurricane before striking Florida’s Big Bend coast just east of St. Marks. The system formed from a tropical wave, organized over the Straits of Florida, and steadily intensified over very warm waters and improving upper-level conditions. Hermine reached peak intensity of 70 kt (80 mph) late on September 1 into early September 2 and brought destructive storm surge along the Nature Coast, flooding rains across Florida’s west coast into the Southeast, and a small outbreak of tornadoes. After landfall, Hermine weakened while sweeping northeast across Georgia and the Carolinas, with widespread power outages and pockets of wind and water damage.
 
 ## Overview
 - **Storm Intensity:** Category 1 hurricane at landfall
