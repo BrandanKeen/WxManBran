@@ -809,6 +809,7 @@ section {
 
 .posts-grid.posts-grid--fit > .post-card {
   margin: 0;
+  height: auto; /* allow stacked cards to respect the row gap */
 }
 
 .posts-grid.posts-grid--fit > .post-card:only-child {
