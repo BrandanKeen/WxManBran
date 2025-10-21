@@ -39,7 +39,7 @@ Hurricane Helene formed in the northwestern Caribbean on September 24 and rapidl
 <br />
 
 #### _Source_
-The information above is sourced from the National Hurricane Center's Tropical Cyclone Report. You can view the full document <a href="https://www.nhc.noaa.gov/data/tcr/AL092024_Helene.pdf" target="_blank" rel="noopener noreferrer">here</a>.
+<em>The information above is sourced from the National Hurricane Center's Tropical Cyclone Report. You can view the full document <a href="https://www.nhc.noaa.gov/data/tcr/AL092024_Helene.pdf" target="_blank" rel="noopener noreferrer">here</a>.</em>
 
 <br />
 
