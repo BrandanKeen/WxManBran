@@ -48,6 +48,8 @@ Hermine was a compact, fast-strengthening Gulf cyclone that became a Category 1 
 
 Media Coming Soon
 
+<br />
+
 <!-- DATA-SECTION:START -->
 
 <h2>Data</h2>
