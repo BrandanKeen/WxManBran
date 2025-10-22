@@ -1335,6 +1335,10 @@ section {
   display: block;
 }
 
+.post-card__thumb[src*="Helene_eye"] {
+  object-position: right center;
+}
+
 /* Ensure vertical spacing between stacked cards matches the column gap */
 .posts-grid.posts-grid--fit {
   row-gap: 1.25rem;         /* keep the same separation as between columns */
@@ -1409,6 +1413,10 @@ section {
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+.storm-card__thumb img[src*="Helene_eye"] {
+  object-position: right center;
 }
 
 .storm-card__thumb--empty {
