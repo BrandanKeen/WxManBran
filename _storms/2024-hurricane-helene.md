@@ -92,11 +92,11 @@ Hurricane Helene formed in the northwestern Caribbean on September 24 and rapidl
     <div class="media-row two-up media-row--fill">
       <figure>
         <a
-          href="{{ '/assets/images/previous-storms/Helene_radar.gif' | relative_url }}"
+          href="{{ '/assets/images/previous-storms/Helene_radar.GIF' | relative_url }}"
           target="_blank"
           rel="noopener noreferrer">
           <img
-            src="{{ '/assets/images/previous-storms/Helene_radar.gif' | relative_url }}"
+            src="{{ '/assets/images/previous-storms/Helene_radar.GIF' | relative_url }}"
             alt="Hurricane Helene radar loop"
             loading="lazy" decoding="async" />
         </a>
