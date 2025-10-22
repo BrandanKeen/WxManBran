@@ -1438,6 +1438,7 @@ details.about-section[open] > .toggle-summary::before {
 }
 
 .development-media--single {
+  grid-template-columns: minmax(0, 1fr);
   justify-items: stretch;
 }
 
