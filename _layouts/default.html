@@ -251,5 +251,57 @@
         });
       })();
     </script>
+    <script>
+      (function() {
+        function enhanceImages() {
+          var images = document.querySelectorAll('img');
+          if (!images.length) { return; }
+
+          images.forEach(function(img) {
+            if (!img || img.dataset.zoomProcessed === 'true') {
+              return;
+            }
+
+            var source = img.getAttribute('data-fullsize-src') || img.getAttribute('src');
+            if (!source) {
+              return;
+            }
+
+            var parent = img.parentElement;
+            if (parent && parent.tagName === 'A') {
+              parent.classList.add('zoomable-image');
+              if (!parent.getAttribute('href') || parent.getAttribute('href') === '#') {
+                parent.setAttribute('href', source);
+              }
+              parent.setAttribute('target', '_blank');
+              var rel = parent.getAttribute('rel') || '';
+              var relValues = rel.split(/\s+/).filter(Boolean);
+              if (relValues.indexOf('noopener') === -1) { relValues.push('noopener'); }
+              if (relValues.indexOf('noreferrer') === -1) { relValues.push('noreferrer'); }
+              parent.setAttribute('rel', relValues.join(' '));
+            } else {
+              var wrapper = document.createElement('a');
+              wrapper.className = 'zoomable-image';
+              wrapper.setAttribute('href', source);
+              wrapper.setAttribute('target', '_blank');
+              wrapper.setAttribute('rel', 'noopener noreferrer');
+
+              if (parent) {
+                parent.insertBefore(wrapper, img);
+              }
+              wrapper.appendChild(img);
+            }
+
+            img.dataset.zoomProcessed = 'true';
+          });
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', enhanceImages, { once: true });
+        } else {
+          enhanceImages();
+        }
+      })();
+    </script>
   </body>
 </html>
