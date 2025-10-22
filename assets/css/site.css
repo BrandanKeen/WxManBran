@@ -518,6 +518,7 @@ a:focus {
   border: 1px solid color-mix(in srgb, var(--brandMuted) 40%, transparent);
   border-radius: 12px;
   padding: 1rem;
+  box-sizing: border-box;
   margin-block: 1.25rem;
   display: flex;
   flex-direction: column;
@@ -580,6 +581,8 @@ a:focus {
   margin: 0;
   margin-top: 0.75rem;
   padding-top: 0.5rem;
+  --share-accent: var(--brandAccent);
+  --share-accent-hover: var(--brandAccentAlt);
 }
 
 .post-card__share > summary {
@@ -647,9 +650,24 @@ a:focus {
   color: var(--brandAccentAlt);
 }
 
-:root[data-theme='dark'] .share-link:hover,
-:root[data-theme='dark'] .share-link:focus-visible {
-  color: color-mix(in srgb, var(--brandAccentAlt) 80%, var(--text-on-dark));
+:root[data-theme='dark'] .post-card__share > summary {
+  color: color-mix(in srgb, var(--share-accent, var(--brandAccent)) 72%, var(--text-on-dark));
+}
+
+:root[data-theme='dark'] .post-card__share > summary:hover,
+:root[data-theme='dark'] .post-card__share > summary:focus-visible {
+  color: color-mix(in srgb, var(--share-accent-hover, var(--brandAccentAlt)) 84%, var(--text-on-dark));
+}
+
+:root[data-theme='dark'] .post-card__share .share-link {
+  color: color-mix(in srgb, var(--share-accent, var(--brandAccent)) 72%, var(--text-on-dark));
+}
+
+:root[data-theme='dark'] .post-card__share .share-link:hover,
+:root[data-theme='dark'] .post-card__share .share-link:focus-visible {
+  color: color-mix(in srgb, var(--share-accent-hover, var(--brandAccentAlt)) 84%, var(--text-on-dark));
+  background: color-mix(in srgb, var(--share-accent, var(--brandAccent)) 16%, transparent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--share-accent, var(--brandAccent)) 28%, transparent);
 }
 
 .share-link__icon {
@@ -1443,8 +1461,8 @@ details.about-section[open] > .toggle-summary::before {
 }
 
 .development-media--single .development-media__figure {
-  width: 100%;
-  max-width: none;
+  width: min(94%, 60rem);
+  margin-inline: auto;
 }
 
 .development-media--single .development-media__figure.development-media__figure--narrow {
@@ -1485,7 +1503,8 @@ details.about-section[open] > .toggle-summary::before {
 
 .development-media__video {
   margin-top: 1.75rem;
-  width: 100%;
+  width: min(94%, 60rem);
+  margin-inline: auto;
   background: color-mix(in srgb, var(--surface) 94%, transparent);
   border: 1px solid color-mix(in srgb, var(--brandMuted) 45%, transparent);
   border-radius: 14px;
