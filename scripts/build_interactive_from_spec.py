@@ -55,10 +55,7 @@ def extract_units(label: Optional[str]) -> str:
 
 
 def hover_time_format(tickformat: Optional[str]) -> str:
-    if not tickformat:
-        return "%Y-%m-%d %H:%M"
-    sanitized = tickformat.replace("\n", " ").strip()
-    return sanitized or "%Y-%m-%d %H:%M"
+    return "%b %d, %I:%M %p"
 
 
 def map_linestyle(style: Optional[str]) -> str:
@@ -230,7 +227,6 @@ def build_hover_details(
     base_label: str,
     base_format: str,
     base_unit: str,
-    time_fmt: str,
     values_length: int,
     extras: List[HoverEntry],
 ) -> Tuple[str, Optional[List[List[Optional[float]]]]]:
@@ -247,8 +243,7 @@ def build_hover_details(
                 f"{format_unit_suffix(entry.unit)}"
             )
     hovertemplate = (
-        f"Time: %{{x|{time_fmt}}}<br>"
-        f"{base_label}: %{{y{base_format}}}{format_unit_suffix(base_unit)}"
+        f" %{{y{base_format}}}{format_unit_suffix(base_unit)}"
         f"{extra_template}<extra></extra>"
     )
     return hovertemplate, customdata
@@ -258,7 +253,7 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
     traces: List[Dict[str, object]] = []
     legend_name = None
     layout: Dict[str, object] = {
-        "hovermode": "closest",
+        "hovermode": "x unified",
         "plot_bgcolor": "#ffffff",
         "paper_bgcolor": "#ffffff",
         "margin": {"l": 60, "r": 60, "t": 60 if spec.title else 40, "b": 60},
@@ -304,18 +299,6 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
     force_persistent_legend = False
     for meta in processed_series:
         extras: List[HoverEntry] = []
-        if len(processed_series) > 1:
-            for other in processed_series:
-                if other is meta:
-                    continue
-                extras.append(
-                    HoverEntry(
-                        label=other.label,
-                        values=other.values,
-                        unit=other.unit,
-                        hover_format=other.hover_format,
-                    )
-                )
         if rain_accum_column and "rain rate" in meta.series.column.lower():
             accum_label, accum_values = rain_accum_column
             extras.append(
@@ -330,7 +313,6 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             meta.label,
             meta.hover_format,
             meta.unit,
-            time_fmt,
             len(meta.values),
             extras,
         )
@@ -411,6 +393,7 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
     layout["xaxis"] = {
         "title": spec.xlabel,
         "tickformat": spec.x_tickformat,
+        "hoverformat": time_fmt,
         "showline": True,
         "linecolor": "black",
         "ticks": "outside",
@@ -440,6 +423,7 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             "spikemode": "across+marker",
             "showspikes": False,
         }
+        layout["xaxis"]["hoverformat"] = time_fmt
     config = {
         "responsive": True,
         "displaylogo": False,
@@ -466,7 +450,7 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
     domains = compute_domains(rows, cols)
     traces: List[Dict[str, object]] = []
     layout: Dict[str, object] = {
-        "hovermode": "closest",
+        "hovermode": "x unified",
         "plot_bgcolor": "#ffffff",
         "paper_bgcolor": "#ffffff",
         "margin": {"l": 60, "r": 60, "t": 60 if spec.title else 40, "b": 110},
@@ -521,18 +505,6 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             )
         for meta in subplot_series:
             extras: List[HoverEntry] = []
-            if len(subplot_series) > 1:
-                for other in subplot_series:
-                    if other is meta:
-                        continue
-                    extras.append(
-                        HoverEntry(
-                            label=other.label,
-                            values=other.values,
-                            unit=other.unit,
-                            hover_format=other.hover_format,
-                        )
-                    )
             if rain_accum_column and "rain rate" in meta.series.column.lower():
                 accum_label, accum_values = rain_accum_column
                 extras.append(
@@ -547,7 +519,6 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
                 meta.label,
                 meta.hover_format,
                 meta.unit,
-                time_fmt,
                 len(meta.values),
                 extras,
             )
@@ -590,6 +561,7 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             "domain": x_domain,
             "anchor": axis_ref("y", index),
             "tickformat": spec.x_tickformat,
+            "hoverformat": time_fmt,
             "showline": True,
             "linecolor": "black",
             "ticks": "outside",
@@ -689,6 +661,7 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             "spikemode": "across+marker",
             "showspikes": False,
         }
+        layout["xaxis"]["hoverformat"] = time_fmt
         layout["spikedistance"] = -1
         layout["hoverdistance"] = -1
     else:
@@ -744,6 +717,26 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
       return Number.isNaN(parsed) ? NaN : parsed;
     }};
     Plotly.newPlot('chart', figure.data, figure.layout, config).then((gd) => {{
+      const clearHoverTitles = () => {{
+        const fullLayout = gd._fullLayout;
+        if (!fullLayout) {{
+          return;
+        }}
+        Object.keys(fullLayout).forEach((key) => {{
+          if (!key.startsWith('xaxis')) {{
+            return;
+          }}
+          const axis = fullLayout[key];
+          if (axis && typeof axis === 'object') {{
+            axis._hovertitle = '';
+          }}
+        }});
+      }};
+      clearHoverTitles();
+      gd.on('plotly_afterplot', clearHoverTitles);
+      gd.on('plotly_relayout', clearHoverTitles);
+      gd.on('plotly_restyle', clearHoverTitles);
+      gd.on('plotly_update', clearHoverTitles);
       const originalCount = gd.data.length;
       const originalTraces = gd.data.slice(0, originalCount);
       const highlightTraces = [];
