@@ -46,19 +46,26 @@ Hurricane Helene formed in the northwestern Caribbean on September 24 and rapidl
 
 <details class="storm-plot-group" open>
   <summary class="storm-plot-summary">Photos</summary>
-  <div class="media-wide">
-    <div class="media-row two-up media-row--fill">
-      <figure>
-        <img src="{{ '/assets/images/previous-storms/Helene_radar.gif' | relative_url }}"
-             alt="Hurricane Helene radar loop" loading="lazy" decoding="async">
-        <figcaption>Helene - Radar</figcaption>
-      </figure>
-      <figure>
-        <img src="{{ '/assets/images/previous-storms/Helene_eye.png' | relative_url }}"
-             alt="Hurricane Helene eye close-up" loading="lazy" decoding="async">
-        <figcaption>Helene - Eye</figcaption>
-      </figure>
-    </div>
+  <div class="development-media development-media--split">
+    <figure class="development-media__figure">
+      <img
+        src="{{ '/assets/images/previous-storms/Helene_radar.gif' | relative_url }}"
+        alt="Hurricane Helene radar loop"
+        loading="lazy"
+        decoding="async"
+      >
+      <figcaption>Helene - Radar</figcaption>
+    </figure>
+
+    <figure class="development-media__figure">
+      <img
+        src="{{ '/assets/images/previous-storms/Helene_eye.png' | relative_url }}"
+        alt="Hurricane Helene eye"
+        loading="lazy"
+        decoding="async"
+      >
+      <figcaption>Helene - Eye</figcaption>
+    </figure>
   </div>
 </details>
 
