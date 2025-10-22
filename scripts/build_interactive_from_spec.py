@@ -134,6 +134,19 @@ def pressure_hover_format(is_pressure: bool) -> str:
     return ":.1f" if is_pressure else ""
 
 
+def should_force_legend(
+    label: Optional[str],
+    column: Optional[str],
+    unit: Optional[str],
+    *context: Optional[str],
+) -> bool:
+    label_lower = (label or "").lower()
+    column_lower = (column or "").lower()
+    if "rain rate" in label_lower or "rain rate" in column_lower:
+        return True
+    return is_pressure_context(label, column, format_unit_suffix(unit), *context)
+
+
 def format_unit_suffix(unit: str) -> str:
     return f" {unit}" if unit else ""
 
@@ -288,6 +301,7 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             )
         )
     rain_accum_column = find_rain_accumulation_column(data.columns)
+    force_persistent_legend = False
     for meta in processed_series:
         extras: List[HoverEntry] = []
         if len(processed_series) > 1:
@@ -336,7 +350,19 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             trace["yaxis"] = "y2"
         if legend_name:
             trace["legend"] = legend_name
+        if should_force_legend(
+            meta.label,
+            meta.series.column,
+            meta.unit,
+            spec.ylabel,
+            spec.title,
+            spec.secondary_ylabel,
+        ):
+            trace["showlegend"] = True
+            force_persistent_legend = True
         traces.append(trace)
+    if force_persistent_legend:
+        layout["showlegend"] = True
     yaxis = {
         "title": spec.ylabel,
         "showline": True,
@@ -457,6 +483,7 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
     total_axes = rows * cols
     secondary_counter = 0
     rain_accum_column = find_rain_accumulation_column(data.columns)
+    force_persistent_legend = False
     for subplot in spec.subplots or []:
         index = (subplot.row - 1) * cols + subplot.col
         x_domain, y_domain = domains[(subplot.row, subplot.col)]
@@ -544,6 +571,17 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
                 trace["yaxis"] = axis_ref("y", sec_index)
             if legend_name:
                 trace["legend"] = legend_name
+            if should_force_legend(
+                meta.label,
+                meta.series.column,
+                meta.unit,
+                subplot.ylabel,
+                subplot.title,
+                subplot.secondary_ylabel,
+                spec.title,
+            ):
+                trace["showlegend"] = True
+                force_persistent_legend = True
             traces.append(trace)
         # Primary axis definition
         xaxis_name = axis_name("x", index)
@@ -656,6 +694,8 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
     else:
         layout["spikedistance"] = -1
         layout["hoverdistance"] = -1
+    if force_persistent_legend:
+        layout["showlegend"] = True
     config = {
         "responsive": True,
         "displaylogo": False,
