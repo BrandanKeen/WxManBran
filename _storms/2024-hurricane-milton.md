@@ -44,10 +44,16 @@ Hurricane Milton was one of the most powerful hurricanes ever recorded in the At
 
 ## Media
 
+<style>
+/* Milton page only */
+.media-row.two-up.media-row--fill img { width: 100%; height: auto; display: block; }
+.media-row.two-up.media-row--fill figure { margin: 0; }
+</style>
+
 <details class="storm-plot-group" open>
   <summary class="storm-plot-summary">Photos</summary>
   <div class="media-wide" style="--media-max-target: 1120px; --media-gutter: 1rem;">
-    <div class="media-row two-up media-row--fill" style="gap: 0.5rem;">
+    <div class="media-row two-up media-row--fill" style="gap: 0.5rem; grid-template-columns: minmax(0,1fr) minmax(0,1fr);">
       <figure>
         <img
           src="{{ '/assets/images/previous-storms/Milton_radar.GIF' | relative_url }}"
