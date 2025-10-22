@@ -525,6 +525,21 @@ a:focus {
   transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, color 0.35s ease;
 }
 
+.post-card--brief-placeholder .post-card__placeholder {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--inkAlt);
+  font-weight: 600;
+  padding: 1.5rem;
+}
+
+.post-card--brief-placeholder .post-card__placeholder p {
+  margin: 0;
+}
+
 .post-card__header {
   text-align: center;
 }
