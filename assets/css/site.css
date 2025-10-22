@@ -2422,3 +2422,122 @@ html[data-theme="dark"] .share .share-action:focus-visible {
   width: var(--nav-icon-size) !important;
   height: var(--nav-icon-size) !important;
 }
+
+/* ================================================
+   MOBILE ONLY POLISH - accordion left-align, width, colors
+   ================================================ */
+@media (max-width: 480px) {
+  /* Use the same horizontal gutter as the page container.
+     If your page container uses a different padding, set this to match. */
+  :root { --page-gutter: 12px; } /* adjust to match the home container side padding */
+
+  /* Keep the header the same visual width as the home container */
+  .site-nav__row {
+    margin-left: var(--page-gutter);
+    margin-right: var(--page-gutter);
+    border-radius: 12px; /* optional - matches your cards */
+  }
+
+  /* Drawer becomes a left-anchored floating panel sized by its content,
+     with a sensible max so it never exceeds the screen minus gutters. */
+  .site-nav__drawer-panel {
+    position: fixed;
+    top: var(--nav-bar-height);
+    left: var(--page-gutter);
+    right: auto;
+    width: auto;                 /* shrink-to-fit */
+    display: inline-block;       /* shrink-to-fit needs inline-block */
+    min-width: 220px;            /* do not collapse too small */
+    max-width: calc(100vw - (var(--page-gutter) * 2));
+    background: rgba(11,22,48,.98);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 12px;
+    z-index: 1050;
+    overflow: hidden;
+  }
+
+  /* Drawer list flows from the left, no weird centering */
+  .site-nav__drawer-list {
+    margin: 0;
+    padding: .5rem .5rem .75rem;
+    display: grid;
+    gap: .5rem;
+    justify-items: stretch;
+    width: max-content;  /* panel hugs the width of the widest item */
+  }
+
+  /* Each item uses a two-column grid so icons never overlap text */
+  .drawer-link {
+    display: grid;
+    grid-template-columns: 22px 1fr; /* icon - label */
+    align-items: center;
+    column-gap: .6rem;
+    min-height: 44px;
+    padding: .55rem .65rem;
+    border-radius: 12px;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.10);
+    text-decoration: none;
+    color: #fff;              /* labels white */
+    font-size: .95rem;
+    line-height: 1.15;
+    text-align: left;         /* anchor everything to the left */
+  }
+
+  /* Kill any old absolute positioning on icons and normalize sizing */
+  .drawer-link .nav-icon,
+  .drawer-link .nav-icon svg {
+    position: static !important;
+    width: 22px;
+    height: 22px;
+    display: block;
+    flex: 0 0 22px;
+  }
+
+  /* Labels never sit under icons */
+  .drawer-link .nav-label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .drawer-link.is-active {
+    background: #6e2745;
+    border-color: #6e2745;
+    color: #fff;
+  }
+
+  /* Make sure the desktop pills and desktop gear stay hidden on phones */
+  .site-nav__links { display: none !important; }
+  .nav-gear--desktop { display: none !important; }
+
+  /* Mobile gear popover aligns with the same gutter as the header */
+  .nav-gear--mobile .nav-gear__panel {
+    position: fixed;
+    top: calc(var(--nav-bar-height) + .25rem);
+    right: var(--page-gutter);
+    z-index: 1100;
+    min-width: 220px;
+    padding: .5rem;
+    background: rgba(11,22,48,.98);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-nav { --nav-bar-height: 4.2rem; }
+  .site-nav__drawer-button,
+  .nav-gear--mobile > summary.nav-gear__button {
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.10);
+    color: #fff;
+  }
+  .nav-gear--mobile > summary::-webkit-details-marker { display: none; }
+}
