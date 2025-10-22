@@ -2191,3 +2191,79 @@ html[data-theme="dark"] .share .share-action:focus,
 html[data-theme="dark"] .share .share-action:focus-visible {
   color: var(--share-red-hover);
 }
+
+/* === Mobile micro nav - show at least 3 pills at once on phones === */
+@media (max-width: 480px) {
+  /* Slightly reduce bar height and inner padding */
+  .site-nav {
+    --nav-bar-height: 4.4rem;
+    padding: 0 0.75rem;
+  }
+
+  /* Hide the WMB wordmark but keep the flags */
+  .site-nav__brand-text { display: none; }
+
+  /* Keep all pills fully visible vertically and allow smooth horizontal scroll */
+  .site-nav__links {
+    gap: 0.5rem;
+    overflow-x: auto;
+    overflow-y: visible;               /* was hidden in another block */
+    padding: 0.2rem 0.25rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  .site-nav__links > li { flex: 0 0 auto; }
+
+  /* Make pills smaller but keep at least 44px tap height */
+  .site-nav__links > li > a,
+  .site-nav__links > li > button {
+    font-size: 1.05rem;                /* down from ~1.3–1.55rem */
+    padding: 0 0.6rem;                 /* narrower pill */
+    min-height: 44px;                  /* accessibility */
+    line-height: 1.1;
+    border-radius: 9999px;             /* preserve pill shape */
+    /* show a pill bg even when not hovered */
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.10);
+  }
+
+  /* ensure the active pill is clearly filled at rest */
+  .site-nav__links > li > a[aria-current="page"],
+  .site-nav__links > li > button[aria-current="page"] {
+    background: #6e2745;
+    color: #fff;
+    border-color: #6e2745;
+  }
+
+  /* Tighten icons so more pills fit – include SVG fallback */
+  .site-nav__links .nav-icon,
+  .site-nav__links > li > a > svg,
+  .site-nav__links > li > button > svg {
+    width: 1.15rem;                    /* ~18–19px */
+    height: 1.15rem;
+    margin-right: 0.35rem;
+    flex-shrink: 0;
+  }
+
+  /* Prevent long labels from exploding width - keep icons fully visible */
+  .site-nav__links .nav-label {
+    max-width: 7.5ch;                  /* show a readable chunk */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Slightly smaller gear button on the right */
+  .nav-gear__button {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* Keep brand flags reasonable at this size */
+  .site-nav__brand-image { width: 1.5rem; }
+}
+
+/* Optional: narrow mid-range phones benefit too */
+@media (min-width: 481px) and (max-width: 640px) {
+  .site-nav__links { overflow-y: visible; }
+}
+
