@@ -764,6 +764,14 @@ a:focus {
   color: var(--inkAlt);
 }
 
+.card__title--center {
+  text-align: center;
+}
+
+.card--centered {
+  text-align: center;
+}
+
 .card a {
   font-weight: 600;
   text-decoration: none;
