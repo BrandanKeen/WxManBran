@@ -143,46 +143,64 @@ Hurricane Milton was one of the most powerful hurricanes ever recorded in the At
     <summary class="storm-plot-summary">Pressure (MSLP)</summary>
     <div class="storm-plot">
 
-      <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_MSLP.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+      <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_MSLP.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"
+              allowfullscreen
+              title="Milton minimum pressure interactive chart"></iframe>
     </div>
   </details>
   <details class="storm-plot-group">
     <summary class="storm-plot-summary">Pressure Tendencies</summary>
     <div class="storm-plot">
-      <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_PTendency_5min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+      <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_PTendency_5min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"
+              allowfullscreen
+              title="Milton pressure tendency 5-minute chart"></iframe>
     </div>
     <div class="storm-plot">
-      <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_PTendency_10min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+      <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_PTendency_10min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"
+              allowfullscreen
+              title="Milton pressure tendency 10-minute chart"></iframe>
     </div>
     <div class="storm-plot">
-      <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_PTendency_15min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+      <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_PTendency_15min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"
+              allowfullscreen
+              title="Milton pressure tendency 15-minute chart"></iframe>
     </div>
     <div class="storm-plot">
-      <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_PTendency_30min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+      <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_PTendency_30min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"
+              allowfullscreen
+              title="Milton pressure tendency 30-minute chart"></iframe>
     </div>
     <div class="storm-plot">
-      <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_PTendency_1hour.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+      <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_PTendency_1hour.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"
+              allowfullscreen
+              title="Milton pressure tendency 1-hour chart"></iframe>
     </div>
   </details>
   <details class="storm-plot-group" open>
     <summary class="storm-plot-summary">Wind Speed</summary>
     <div class="storm-plot">
 
-      <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_WindSpeed.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+      <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_WindSpeed.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"
+              allowfullscreen
+              title="Milton wind speed interactive chart"></iframe>
     </div>
   </details>
   <details class="storm-plot-group" open>
     <summary class="storm-plot-summary">Temperature &amp; Dewpoint</summary>
     <div class="storm-plot">
 
-      <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_Temp_Dew.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+      <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_Temp_Dew.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"
+              allowfullscreen
+              title="Milton temperature and dewpoint chart"></iframe>
     </div>
   </details>
   <details class="storm-plot-group" open>
     <summary class="storm-plot-summary">Rain Rate</summary>
     <div class="storm-plot">
 
-      <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_RainRate.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+      <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_RainRate.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"
+              allowfullscreen
+              title="Milton rain rate interactive chart"></iframe>
     </div>
   </details>
 </div>
