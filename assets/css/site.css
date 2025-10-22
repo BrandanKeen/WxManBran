@@ -620,12 +620,21 @@ a:focus {
   transition: background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
 }
 
+:root[data-theme='dark'] .share-link {
+  color: color-mix(in srgb, var(--brandAccent) 68%, var(--text-on-dark));
+}
+
 .share-link:hover,
 .share-link:focus-visible {
   background: color-mix(in srgb, var(--brandAccent) 12%, transparent);
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--brandAccent) 20%, transparent);
   outline: none;
   color: var(--brandAccentAlt);
+}
+
+:root[data-theme='dark'] .share-link:hover,
+:root[data-theme='dark'] .share-link:focus-visible {
+  color: color-mix(in srgb, var(--brandAccentAlt) 80%, var(--text-on-dark));
 }
 
 .share-link__icon {
