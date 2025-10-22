@@ -518,11 +518,27 @@ a:focus {
   border: 1px solid color-mix(in srgb, var(--brandMuted) 40%, transparent);
   border-radius: 12px;
   padding: 1rem;
+  box-sizing: border-box;
   margin-block: 1.25rem;
   display: flex;
   flex-direction: column;
   height: 100%;
   transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, color 0.35s ease;
+}
+
+.post-card--brief-placeholder .post-card__placeholder {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--inkAlt);
+  font-weight: 600;
+  padding: 1.5rem;
+}
+
+.post-card--brief-placeholder .post-card__placeholder p {
+  margin: 0;
 }
 
 .post-card__header {
@@ -620,6 +636,10 @@ a:focus {
   border-radius: 0.65rem;
   cursor: pointer;
   transition: background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+}
+
+:root[data-theme='dark'] .share-link {
+  color: color-mix(in srgb, var(--brandAccent) 68%, var(--text-on-dark));
 }
 
 .share-link:hover,
@@ -1258,13 +1278,16 @@ section {
 }
 
 .storm-season__content .posts-grid.posts-grid--fit {
-  justify-items: center;
+  justify-content: flex-start;
+  justify-items: stretch;
+  gap: clamp(1.25rem, 2vw, 2rem);
 }
 
 .storm-season__content .posts-grid.posts-grid--fit > .post-card {
   width: 100%;
   max-width: min(100%, 384px);
-  justify-self: center;
+  justify-self: stretch;
+  margin: 0;
 }
 
 .storm-card {
@@ -1415,7 +1438,7 @@ details.about-section[open] > .toggle-summary::before {
 
 .development-item h3 {
   margin-bottom: 1.25rem;
-  font-size: clamp(1.5rem, 1.1rem + 1vw, 1.85rem);
+  font-size: 1.35rem;
 }
 
 .development-item p {
@@ -1433,12 +1456,13 @@ details.about-section[open] > .toggle-summary::before {
 }
 
 .development-media--single {
+  grid-template-columns: minmax(0, 1fr);
   justify-items: stretch;
 }
 
 .development-media--single .development-media__figure {
-  width: 100%;
-  max-width: none;
+  width: min(94%, 60rem);
+  margin-inline: auto;
 }
 
 .development-media--single .development-media__figure.development-media__figure--narrow {
@@ -1479,6 +1503,8 @@ details.about-section[open] > .toggle-summary::before {
 
 .development-media__video {
   margin-top: 1.75rem;
+  width: min(94%, 60rem);
+  margin-inline: auto;
   background: color-mix(in srgb, var(--surface) 94%, transparent);
   border: 1px solid color-mix(in srgb, var(--brandMuted) 45%, transparent);
   border-radius: 14px;
@@ -1877,9 +1903,14 @@ details[open] > .storm-plot-summary::before {
 .site-content { --pad: 2rem; }  /* matches existing card padding */
 
 .media-wide {
-  margin-left: calc(-1 * var(--pad));
-  margin-right: calc(-1 * var(--pad));
-  width: calc(100% + (2 * var(--pad)));
+  --media-base-width: calc(100% + (2 * var(--pad)));
+  --media-extra: min(
+    clamp(0px, calc((100vw - 720px) / 6), calc((100vw - var(--media-base-width)) / 2)),
+    calc((1600px - var(--media-base-width)) / 2)
+  );
+  margin-left: calc(-1 * var(--pad) - var(--media-extra));
+  margin-right: calc(-1 * var(--pad) - var(--media-extra));
+  width: calc(var(--media-base-width) + (2 * var(--media-extra)));
   max-width: none;
   box-sizing: border-box;
 }
