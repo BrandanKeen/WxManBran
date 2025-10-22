@@ -2109,6 +2109,31 @@ details[open] > .storm-plot-summary::before {
   border-radius: 10px;
 }
 
+.media-row.media-row--equal-height {
+  align-items: stretch;
+}
+
+.media-row.media-row--equal-height figure {
+  display: flex;
+  flex-direction: column;
+}
+
+.media-row.media-row--equal-height figure > a {
+  flex: 1 1 auto;
+  display: flex;
+}
+
+.media-row.media-row--equal-height figure > img {
+  flex: 1 1 auto;
+}
+
+.media-row.media-row--equal-height figure > a > img,
+.media-row.media-row--equal-height figure > img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}
+
 /* tidy figures/captions */
 .media-row figure { margin: 0; }
 .media-row figcaption { text-align: center; margin-top: 0.25rem; }
