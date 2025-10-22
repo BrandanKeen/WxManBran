@@ -756,6 +756,7 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
         return entries;
       }});
       let suppressSyntheticHover = false;
+      let pendingHoverState = null;
       function hideHighlights() {{
         highlightIndexMap.forEach((highlightIdx) => {{
           if (highlightIdx === null) {{
@@ -781,12 +782,79 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
         }}
         return exact || best;
       }}
+      function queuePendingHover(points, isUserEvent) {{
+        if (!isUserEvent) {{
+          return;
+        }}
+        if (!points || !points.length) {{
+          pendingHoverState = {{ hasPoints: false }};
+          return;
+        }}
+        const targetTime = toTimestamp(points[0].x);
+        if (!Number.isFinite(targetTime)) {{
+          pendingHoverState = {{ hasPoints: false }};
+          return;
+        }}
+        pendingHoverState = {{ hasPoints: true, targetTime }};
+      }}
+      function flushPendingHover() {{
+        if (!pendingHoverState) {{
+          return;
+        }}
+        const state = pendingHoverState;
+        pendingHoverState = null;
+        if (!state.hasPoints) {{
+          hideHighlights();
+          Plotly.Fx.unhover(gd);
+          return;
+        }}
+        applyHoverForTime(state.targetTime);
+      }}
+      function applyHoverForTime(targetTime) {{
+        const hoverPoints = [];
+        highlightIndexMap.forEach((highlightIdx, sourceIdx) => {{
+          if (highlightIdx === null) {{
+            return;
+          }}
+          const entries = dataLookup[sourceIdx];
+          if (!entries || !entries.length) {{
+            Plotly.restyle(gd, {{ visible: false }}, highlightIdx);
+            return;
+          }}
+          const match = findMatch(entries, targetTime);
+          if (!match) {{
+            Plotly.restyle(gd, {{ visible: false }}, highlightIdx);
+            return;
+          }}
+          Plotly.restyle(gd, {{ x: [[match.x]], y: [[match.y]], visible: true }}, highlightIdx);
+          hoverPoints.push({{ curveNumber: match.curveNumber, pointNumber: match.index, subplot: match.subplot }});
+        }});
+        const uniquePoints = hoverPoints.filter((point, idx, arr) =>
+          arr.findIndex(
+            (p) =>
+              p.curveNumber === point.curveNumber &&
+              p.pointNumber === point.pointNumber &&
+              p.subplot === point.subplot
+          ) === idx
+        );
+        suppressSyntheticHover = true;
+        if (uniquePoints.length) {{
+          Plotly.Fx.hover(gd, uniquePoints);
+        }} else {{
+          Plotly.Fx.unhover(gd);
+        }}
+        setTimeout(() => {{
+          suppressSyntheticHover = false;
+          flushPendingHover();
+        }}, 0);
+      }}
       addHighlights.then(() => {{
         if (!highlightTraces.length) {{
           return;
         }}
         gd.on('plotly_hover', (event) => {{
           if (suppressSyntheticHover) {{
+            queuePendingHover(event.points, Boolean(event.event));
             return;
           }}
           if (!event.points || !event.points.length) {{
@@ -798,48 +866,16 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
             hideHighlights();
             return;
           }}
-          const hoverPoints = [];
-          highlightIndexMap.forEach((highlightIdx, sourceIdx) => {{
-            if (highlightIdx === null) {{
-              return;
-            }}
-            const entries = dataLookup[sourceIdx];
-            if (!entries || !entries.length) {{
-              Plotly.restyle(gd, {{ visible: false }}, highlightIdx);
-              return;
-            }}
-            const match = findMatch(entries, targetTime);
-            if (!match) {{
-              Plotly.restyle(gd, {{ visible: false }}, highlightIdx);
-              return;
-            }}
-            Plotly.restyle(gd, {{ x: [[match.x]], y: [[match.y]], visible: true }}, highlightIdx);
-            hoverPoints.push({{ curveNumber: match.curveNumber, pointNumber: match.index, subplot: match.subplot }});
-          }});
-          if (!suppressSyntheticHover) {{
-            suppressSyntheticHover = true;
-            const uniquePoints = hoverPoints.filter((point, idx, arr) =>
-              arr.findIndex(
-                (p) =>
-                  p.curveNumber === point.curveNumber &&
-                  p.pointNumber === point.pointNumber &&
-                  p.subplot === point.subplot
-              ) === idx
-            );
-            if (uniquePoints.length) {{
-              Plotly.Fx.hover(gd, uniquePoints);
-              setTimeout(() => {{
-                suppressSyntheticHover = false;
-              }}, 0);
-            }} else {{
-              suppressSyntheticHover = false;
-              Plotly.Fx.unhover(gd);
-            }}
-          }}
+          applyHoverForTime(targetTime);
         }});
-        gd.on('plotly_unhover', () => {{
+        gd.on('plotly_unhover', (event) => {{
+          if (suppressSyntheticHover) {{
+            queuePendingHover(null, Boolean(event && event.event));
+            return;
+          }}
+          pendingHoverState = null;
           hideHighlights();
-          if (!suppressSyntheticHover) {{
+          if (event && event.event) {{
             Plotly.Fx.unhover(gd);
           }}
         }});
