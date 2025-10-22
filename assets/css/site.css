@@ -1236,13 +1236,16 @@ section {
 }
 
 .storm-season__content .posts-grid.posts-grid--fit {
-  justify-items: center;
+  justify-content: flex-start;
+  justify-items: stretch;
+  gap: clamp(1.25rem, 2vw, 2rem);
 }
 
 .storm-season__content .posts-grid.posts-grid--fit > .post-card {
   width: 100%;
   max-width: min(100%, 384px);
-  justify-self: center;
+  justify-self: stretch;
+  margin: 0;
 }
 
 .storm-card {
