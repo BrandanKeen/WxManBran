@@ -50,9 +50,9 @@ Hermine was a compact, fast-strengthening Gulf cyclone that became a Category 1 
   <summary class="storm-plot-summary">Photos</summary>
   <div class="media-wide">
     <div class="media-row two-up media-row--fill media-row--center">
-      <figure class="media-row__figure--wide">
+      <figure class="media-row__figure--narrow">
         <a href="{{ '/assets/images/previous-storms/Hermine_radar.PNG' | relative_url }}" target="_blank" rel="noopener noreferrer">
-          <img src="{{ '/assets/images/previous-storms/Hermine_radar.jpeg' | relative_url }}"
+          <img src="{{ '/assets/images/previous-storms/Hermine_radar.PNG' | relative_url }}"
                alt="Hurricane Hermine radar loop" loading="lazy" decoding="async">
         </a>
         <figcaption>Reflectivity of Hurricane Hermine. Crosshairs show vehicle location.</figcaption>
