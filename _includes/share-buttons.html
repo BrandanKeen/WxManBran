@@ -31,8 +31,8 @@
   {% if subheading %}
   <p class="share-panel__subtitle">{{ subheading }}</p>
   {% endif %}
-  <div class="share-panel__buttons" role="group" aria-label="{{ aria_label }}">
-    <a class="share-button share-button--facebook"
+  <div class="share share-panel__buttons" role="group" aria-label="{{ aria_label }}">
+    <a class="share-button share-action share-button--facebook"
        href="https://www.facebook.com/sharer/sharer.php?u={{ share_url | uri_escape }}"
        target="_blank"
        rel="noopener"
@@ -42,7 +42,7 @@
       </svg>
       <span class="share-button__label">Facebook</span>
     </a>
-    <a class="share-button share-button--x"
+    <a class="share-button share-action share-button--x"
        href="https://twitter.com/intent/tweet?url={{ share_url | uri_escape }}&text={{ share_title | uri_escape }}"
        target="_blank"
        rel="noopener"
@@ -52,7 +52,7 @@
       </svg>
       <span class="share-button__label">Share on X</span>
     </a>
-    <a class="share-button share-button--email"
+    <a class="share-button share-action share-button--email"
        href="mailto:?subject={{ share_title | uri_escape }}&body={{ share_title | uri_escape }}%0A%0A{{ share_url | uri_escape }}"
        title="Share via email">
       <svg class="share-button__icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24">
@@ -60,7 +60,7 @@
       </svg>
       <span class="share-button__label">Email</span>
     </a>
-    <a class="share-button share-button--sms"
+    <a class="share-button share-action share-button--sms"
        href="sms:?&body={{ share_title | uri_escape }}%20-%20{{ share_url | uri_escape }}"
        title="Share via text message">
       <svg class="share-button__icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24">
@@ -68,7 +68,7 @@
       </svg>
       <span class="share-button__label">Text</span>
     </a>
-    <button class="share-button share-button--copy" type="button" data-share-copy data-share-url="{{ share_url }}">
+    <button class="share-button share-action share-button--copy" type="button" data-share-copy data-share-url="{{ share_url }}">
       <svg class="share-button__icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24">
         <path d="M10.59 13.41a1 1 0 0 1 0 1.41l-2.83 2.83a2 2 0 1 1-2.83-2.83l2.12-2.12a1 1 0 0 0-1.41-1.41l-2.12 2.12a4 4 0 1 0 5.66 5.66l2.83-2.83a3 3 0 0 0 0-4.24 1 1 0 0 0-1.42.01zm2.82-2.82a1 1 0 0 1 0-1.41l2.83-2.83a2 2 0 1 1 2.83 2.83l-2.12 2.12a1 1 0 1 0 1.41 1.41l2.12-2.12a4 4 0 1 0-5.66-5.66l-2.83 2.83a3 3 0 0 0 0 4.24 1 1 0 0 0 1.42-.01z" />
       </svg>
