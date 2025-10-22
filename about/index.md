@@ -39,10 +39,14 @@ permalink: /about/
         <h3>Multi-Station Deployment — August 11, 2025</h3>
         <div class="development-media development-media--split">
           <figure class="development-media__figure">
-            <img src="{{ '/assets/images/Deplyable_Station2.JPEG' | relative_url }}" alt="Three portable weather station cases and tripods prepared for hurricane intercept missions">
+            <a href="{{ '/assets/images/Deplyable_Station2.JPEG' | relative_url }}" target="_blank" rel="noopener noreferrer">
+              <img src="{{ '/assets/images/Deplyable_Station2.JPEG' | relative_url }}" alt="Three portable weather station cases and tripods prepared for hurricane intercept missions">
+            </a>
           </figure>
           <figure class="development-media__figure">
-            <img src="{{ '/assets/images/Deplyable_Station1.JPEG' | relative_url }}" alt="Deployable Davis Vantage Pro 2 weather station equipment staged on a workbench">
+            <a href="{{ '/assets/images/Deplyable_Station1.JPEG' | relative_url }}" target="_blank" rel="noopener noreferrer">
+              <img src="{{ '/assets/images/Deplyable_Station1.JPEG' | relative_url }}" alt="Deployable Davis Vantage Pro 2 weather station equipment staged on a workbench">
+            </a>
           </figure>
         </div>
         <p>Three additional Davis Vantage Pro 2 weather stations, along with the necessary data logging hardware and shelter housings, are prepared for operational deployment. These units will be strategically positioned during future hurricane intercepts to enable simultaneous, multi-location surface observations and improved spatial capture of storm impacts.</p>
@@ -54,7 +58,9 @@ permalink: /about/
         <h3>Adjustable Station Mount — October 28, 2024</h3>
         <div class="development-media development-media--single">
           <figure class="development-media__figure">
-            <img src="{{ '/assets/images/new_station_mount.png' | relative_url }}" alt="Adjustable mast mounted to the WxManBran vehicle for elevating the anemometer">
+            <a href="{{ '/assets/images/new_station_mount.png' | relative_url }}" target="_blank" rel="noopener noreferrer">
+              <img src="{{ '/assets/images/new_station_mount.png' | relative_url }}" alt="Adjustable mast mounted to the WxManBran vehicle for elevating the anemometer">
+            </a>
           </figure>
         </div>
         <p>A steel wire reinforced, height-adjustable mast has been developed to raise the anemometer anywhere from 10–40 ft. This enables WMO 10 m (33 ft.) standard wind measurements and improves peak wind/gust capture on the vehicle-based station.</p>
