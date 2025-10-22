@@ -73,7 +73,8 @@ Hurricane Milton was one of the most powerful hurricanes ever recorded in the At
   #milton-photos figcaption {
     text-align: center;
     font-size: 0.9rem;
-    padding-top: 0.5rem;
+    margin-top: 0;
+    padding-top: 0.25rem;
   }
   @media (max-width: 900px) {
     #milton-photos .media-row {
