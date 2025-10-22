@@ -22,51 +22,6 @@ permalink: /tropical-updates/
       });
     });
 
-    var copyButtons = document.querySelectorAll('.js-copy-link');
-    copyButtons.forEach(function (button) {
-      button.addEventListener('click', function () {
-        var link = button.getAttribute('data-copy');
-        if (!link) {
-          return;
-        }
-
-        var resetText = function () {
-          button.querySelector('.share-link__label').textContent = 'Copy link';
-        };
-
-        var setCopied = function () {
-          button.querySelector('.share-link__label').textContent = 'Copied!';
-          setTimeout(resetText, 2400);
-        };
-
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(link).then(setCopied).catch(function () {
-            fallbackCopy();
-          });
-          return;
-        }
-
-        function fallbackCopy() {
-          var tempInput = document.createElement('textarea');
-          tempInput.value = link;
-          tempInput.setAttribute('readonly', '');
-          tempInput.style.position = 'absolute';
-          tempInput.style.left = '-9999px';
-          document.body.appendChild(tempInput);
-          tempInput.select();
-          try {
-            document.execCommand('copy');
-            setCopied();
-          } catch (err) {
-            resetText();
-          }
-          document.body.removeChild(tempInput);
-        }
-
-        fallbackCopy();
-      });
-    });
-
     function rgbToHex(r, g, b) {
       return '#' + [r, g, b].map(function (value) {
         var hex = value.toString(16);
@@ -267,9 +222,6 @@ permalink: /tropical-updates/
               <a class="share-link link-chip" href="sms:?&body={{ 'Check out this tropical weather brief: https://youtu.be/' | append: post.youtube_id | uri_escape }}">
                 <span class="share-link__label">Text</span>
               </a>
-              <button class="share-link link-chip js-copy-link" type="button" data-copy="https://youtu.be/{{ post.youtube_id }}">
-                <span class="share-link__label">Copy link</span>
-              </button>
             </div>
           </details>
         </article>
