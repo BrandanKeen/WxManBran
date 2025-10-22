@@ -29,54 +29,6 @@
               </a>
             </li>
           {% endfor %}
-
-          <!-- Settings inside the drawer on phones (reuses your existing toggle markup) -->
-          <li class="site-nav__drawer-item site-nav__drawer-settings">
-            <details class="nav-gear" data-theme-gear>
-              <summary class="drawer-link" aria-label="Theme settings">
-                <span class="nav-icon" aria-hidden="true">
-                  <!-- Inline gear SVG (from your current nav.html) -->
-                  <svg viewBox="0 0 24 24" role="presentation" focusable="false" aria-hidden="true">
-                    <path d="M12 15.25a3.25 3.25 0 1 0 0-6.5 3.25 3.25 0 0 0 0 6.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M20.5 13.46V10.6l-2.13-.53a6.35 6.35 0 0 0-.62-1.5l1.17-1.87-2.02-2.02-1.87 1.17c-.5-.24-1.03-.43-1.58-.57L12.4 2.5h-2.86l-.53 2.13c-.54.14-1.07.33-1.57.57l-1.87-1.17-2.02 2.02 1.17 1.87c-.26.48-.46 1-.6 1.54L2.5 10.6v2.86l2.13.53c.14.54.34 1.06.6 1.54l-1.17 1.87 2.02 2.02 1.87-1.17c.5.24 1.03.43 1.57.57l.53 2.13h2.86l.53-2.13c.55-.14 1.08-.33 1.58-.57l1.87 1.17 2.02-2.02-1.17-1.87c.26-.48.46-1 .62-1.54l2.13-.53Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </span>
-                <span class="nav-label">Theme</span>
-              </summary>
-              <div class="nav-gear__panel">
-                <!-- reuse your existing toggle button exactly -->
-                <button
-                  type="button"
-                  class="theme-toggle__button"
-                  data-theme-toggle
-                  aria-pressed="false"
-                  aria-label="Switch to dark mode"
-                  title="Switch to dark mode"
-                >
-                  <span class="theme-toggle__track" aria-hidden="true">
-                    <span class="theme-toggle__label theme-toggle__label--day">Light</span>
-                    <span class="theme-toggle__thumb">
-                      <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">
-                        <!-- SUN SVG -->
-                        <svg viewBox="0 0 24 24" role="presentation" focusable="false" aria-hidden="true">
-                          <circle cx="12" cy="12" r="4.25" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                          <path d="M12 2.5v2.3M12 19.2v2.3M4.8 12H2.5M21.5 12h-2.3M5.7 5.7l-1.6-1.6M19.9 19.9l-1.6-1.6M18.3 5.7l1.6-1.6M4.1 19.9l1.6-1.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                      </span>
-                      <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">
-                        <!-- MOON SVG -->
-                        <svg viewBox="0 0 24 24" role="presentation" focusable="false" aria-hidden="true">
-                          <path d="M21 14.25a8.26 8.26 0 1 1-10.78-10.5 8.26 8.26 0 0 0 10.78 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                      </span>
-                    </span>
-                    <span class="theme-toggle__label theme-toggle__label--night">Dark</span>
-                  </span>
-                  <span class="visually-hidden" data-theme-toggle-text>Switch to dark mode</span>
-                </button>
-              </div>
-            </details>
-          </li>
         </ul>
       </div>
     </details>
@@ -87,8 +39,49 @@
       <span class="site-nav__brand-text">WMB</span>
     </a>
 
-    <!-- Right spacer keeps brand perfectly centered -->
-    <div class="site-nav__spacer" aria-hidden="true"></div>
+    <!-- Right gear, visible on phones -->
+    <details class="nav-gear nav-gear--mobile" data-theme-gear>
+      <summary class="nav-gear__button" aria-label="Theme settings">
+        <span class="nav-gear__icon nav-icon" aria-hidden="true">
+          <!-- reuse the same inline gear SVG already in this file -->
+          <svg viewBox="0 0 24 24" role="presentation" focusable="false" aria-hidden="true">
+            <path d="M12 15.25a3.25 3.25 0 1 0 0-6.5 3.25 3.25 0 0 0 0 6.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M20.5 13.46V10.6l-2.13-.53a6.35 6.35 0 0 0-.62-1.5l1.17-1.87-2.02-2.02-1.87 1.17c-.5-.24-1.03-.43-1.58-.57L12.4 2.5h-2.86l-.53 2.13c-.54.14-1.07.33-1.57.57l-1.87-1.17-2.02 2.02 1.17 1.87c-.26.48-.46 1-.6 1.54L2.5 10.6v2.86l2.13.53c.14.54.34 1.06.6 1.54l-1.17 1.87 2.02 2.02 1.87-1.17c.5.24 1.03.43 1.57.57l.53 2.13h2.86l.53-2.13c.55-.14 1.08-.33 1.58-.57l1.87 1.17 2.02-2.02-1.17-1.87c.26-.48.46-1 .62-1.54l2.13-.53Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="visually-hidden">Settings</span>
+      </summary>
+      <div class="nav-gear__panel">
+        <!-- reuse the existing theme toggle button markup exactly -->
+        <button
+          type="button"
+          class="theme-toggle__button"
+          data-theme-toggle
+          aria-pressed="false"
+          aria-label="Switch to dark mode"
+          title="Switch to dark mode"
+        >
+          <span class="theme-toggle__track" aria-hidden="true">
+            <span class="theme-toggle__label theme-toggle__label--day">Light</span>
+            <span class="theme-toggle__thumb">
+              <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="presentation" focusable="false" aria-hidden="true">
+                  <circle cx="12" cy="12" r="4.25" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M12 2.5v2.3M12 19.2v2.3M4.8 12H2.5M21.5 12h-2.3M5.7 5.7l-1.6-1.6M19.9 19.9l-1.6-1.6M18.3 5.7l1.6-1.6M4.1 19.9l1.6-1.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+              <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="presentation" focusable="false" aria-hidden="true">
+                  <path d="M21 14.25a8.26 8.26 0 1 1-10.78-10.5 8.26 8.26 0 0 0 10.78 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+            </span>
+            <span class="theme-toggle__label theme-toggle__label--night">Dark</span>
+          </span>
+          <span class="visually-hidden" data-theme-toggle-text>Switch to dark mode</span>
+        </button>
+      </div>
+    </details>
   </div>
 
   <!-- === Desktop pills (hidden on phones) === -->
