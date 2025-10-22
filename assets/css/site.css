@@ -1869,6 +1869,31 @@ details[open] > .storm-plot-summary::before {
   justify-content: center;
 }
 
+.share {
+  --share-fg: var(--brandAccent, #bd1c25);
+  --share-fg-hover: var(--brandAccentAlt, #bc1823);
+}
+
+:root[data-theme='dark'] .share {
+  --share-fg: var(--brandAccent-300, #c3323a);
+  --share-fg-hover: var(--brandAccent-200, #ca4950);
+}
+
+.share .share-action {
+  color: var(--share-fg);
+}
+
+.share a,
+.share a:visited {
+  color: inherit;
+}
+
+.share .share-action:hover,
+.share .share-action:focus,
+.share .share-action:focus-visible {
+  color: var(--share-fg-hover);
+}
+
 .share-button {
   display: inline-flex;
   align-items: center;
@@ -1877,7 +1902,7 @@ details[open] > .storm-plot-summary::before {
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--brandPrimary) 45%, transparent);
   background: color-mix(in srgb, var(--brandPrimary) 12%, var(--surface));
-  color: var(--inkAlt);
+  color: inherit;
   font-weight: 600;
   text-decoration: none;
   font-size: 1.05rem;
@@ -1890,7 +1915,6 @@ details[open] > .storm-plot-summary::before {
   transform: translateY(-1px);
   background: color-mix(in srgb, var(--brandAccent) 20%, var(--surface));
   border-color: color-mix(in srgb, var(--brandAccent) 55%, transparent);
-  color: var(--inkAlt);
 }
 
 .share-button:focus-visible {
@@ -1910,18 +1934,7 @@ details[open] > .storm-plot-summary::before {
   width: 1.5rem;
   height: 1.5rem;
   fill: currentColor;
-}
-
-.share-button--facebook .share-button__icon {
-  color: #1877f2;
-}
-
-.share-button--x .share-button__icon {
-  color: #000;
-}
-
-:root:not([data-theme='dark']) .share-button--x {
-  color: #000;
+  color: currentColor;
 }
 
 .share-link[href*='facebook.com'] .share-link__icon {
@@ -1938,15 +1951,6 @@ details[open] > .storm-plot-summary::before {
   color: inherit;
 }
 
-:root[data-theme='dark'] .share-button--copy {
-  color: var(--brandAccent);
-}
-
-:root[data-theme='dark'] .share-button--copy:hover,
-:root[data-theme='dark'] .share-button--copy:focus,
-:root[data-theme='dark'] .share-button--copy:focus-visible {
-  color: var(--brandAccentAlt);
-}
 
 .share-button__label {
   white-space: nowrap;
