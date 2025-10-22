@@ -654,34 +654,39 @@ a:focus {
   transition: background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
 }
 
-:root[data-theme='dark'] .share-link {
-  color: color-mix(in srgb, var(--brandAccent) 68%, var(--text-on-dark));
-}
-
 .share-link:hover,
 .share-link:focus-visible {
   outline: none;
   color: var(--share-color-hover);
 }
 
+:root:not([data-theme='dark']) .post-card__share .share-link {
+  color: #000;
+}
+
+:root:not([data-theme='dark']) .post-card__share .share-link:hover,
+:root:not([data-theme='dark']) .post-card__share .share-link:focus-visible {
+  color: color-mix(in srgb, #000 70%, white);
+  background: color-mix(in srgb, #000 12%, transparent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, #000 18%, transparent);
+}
+
 :root[data-theme='dark'] .post-card__share > summary {
-  color: color-mix(in srgb, var(--share-accent, var(--brandAccent)) 72%, var(--text-on-dark));
+  color: var(--share-color);
 }
 
 :root[data-theme='dark'] .post-card__share > summary:hover,
 :root[data-theme='dark'] .post-card__share > summary:focus-visible {
-  color: color-mix(in srgb, var(--share-accent-hover, var(--brandAccentAlt)) 84%, var(--text-on-dark));
+  color: var(--share-color-hover);
 }
 
 :root[data-theme='dark'] .post-card__share .share-link {
-  color: color-mix(in srgb, var(--share-accent, var(--brandAccent)) 72%, var(--text-on-dark));
+  color: var(--share-color);
 }
 
 :root[data-theme='dark'] .post-card__share .share-link:hover,
 :root[data-theme='dark'] .post-card__share .share-link:focus-visible {
-  color: color-mix(in srgb, var(--share-accent-hover, var(--brandAccentAlt)) 84%, var(--text-on-dark));
-  background: color-mix(in srgb, var(--share-accent, var(--brandAccent)) 16%, transparent);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--share-accent, var(--brandAccent)) 28%, transparent);
+  color: var(--share-color-hover);
 }
 
 .share-link__icon {
@@ -756,8 +761,10 @@ a:focus {
 
 .post-card__share .share-link:hover,
 .post-card__share .share-link:focus-visible {
+  color: var(--share-color-hover);
   background: var(--share-hover-bg);
   box-shadow: 0 0 0 2px var(--share-hover-shadow);
+  outline: none;
 }
 
 /* Hero */
@@ -1993,6 +2000,10 @@ details[open] > .storm-plot-summary::before {
 }
 @media (min-width: 720px) {
   .media-row.two-up { grid-template-columns: repeat(auto-fit, minmax(480px, 1fr)); }
+}
+
+@media (min-width: 720px) {
+  .media-row.two-up.media-row--fill { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 /* prevent min-content shrink */
