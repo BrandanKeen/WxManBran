@@ -2191,3 +2191,142 @@ html[data-theme="dark"] .share .share-action:focus,
 html[data-theme="dark"] .share .share-action:focus-visible {
   color: var(--share-red-hover);
 }
+
+.nav-gear--desktop { display: none; }
+
+/* === Mobile micro v3.2 — smaller labels, tight icons, symmetric gutters, guarantee 3 pills === */
+@media (max-width: 480px) {
+  .site-nav {
+    --nav-bar-height: 4.1rem;
+    padding: max(0.2rem, env(safe-area-inset-top)) 0.5rem 0.2rem;
+  }
+
+  /* Keep brand hidden on phones */
+  .site-nav__brand,
+  .site-nav__brand-text,
+  .site-nav__brand-image { display: none !important; }
+
+  /* Pill row: make it compact + add equal gutters */
+  .site-nav__links {
+    gap: 0.30rem;
+    overflow-x: auto;
+    overflow-y: visible;
+    padding-inline: 0.75rem;
+    padding-block: 0.20rem;
+    -webkit-overflow-scrolling: touch;
+    scroll-padding-inline: 0.75rem;
+  }
+  .site-nav__links > li { flex: 0 0 auto; }
+  .site-nav__links > li > details { display: inline-block; }
+
+  /* Pill sizing — smaller text, narrow padding, still ≥44px tall */
+  .site-nav__links > li > a,
+  .site-nav__links > li > button,
+  .site-nav__links > li > details > summary {
+    font-size: 0.80rem;
+    padding: 0 0.40rem;
+    min-height: 44px;
+    line-height: 1.05;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.10);
+    max-width: calc(33.33vw - 0.9rem);
+  }
+
+  /* Active pill visible at rest */
+  .site-nav__links > li > a[aria-current="page"],
+  .site-nav__links > li.is-active > a,
+  .site-nav__links > li > button[aria-current="page"],
+  .site-nav__links > li > details[open] > summary {
+    background: #6e2745;
+    color: #fff;
+    border-color: #6e2745;
+  }
+
+  /* Icons — keep slightly smaller than text height */
+  .site-nav__links .nav-icon,
+  .site-nav__links > li > a > svg,
+  .site-nav__links > li > button > svg,
+  .site-nav__links > li > details > summary > svg {
+    width: 0.90rem;
+    height: 0.90rem;
+    margin-right: 0.28rem;
+    flex-shrink: 0;
+  }
+
+  /* Labels — tighter max width so 3 pills fit comfortably */
+  .site-nav__links .nav-label,
+  .site-nav__links > li > a span:not(.nav-icon),
+  .site-nav__links > li > button span:not(.nav-icon),
+  .site-nav__links > li > details > summary span:not(.nav-icon) {
+    display: inline-block;
+    max-width: 5.5ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Mobile gear (as a pill) remains icon-only */
+  .site-nav__item--settings .nav-label { display: none; }
+  .site-nav__item--settings .nav-icon { margin-right: 0; }
+}
+
+/* Extra squeeze for narrowest Androids */
+@media (max-width: 400px) {
+  .site-nav__links {
+    gap: 0.28rem;
+    padding-inline: 0.70rem;
+    scroll-padding-inline: 0.70rem;
+  }
+  .site-nav__links .nav-label,
+  .site-nav__links > li > a span:not(.nav-icon),
+  .site-nav__links > li > button span:not(.nav-icon),
+  .site-nav__links > li > details > summary span:not(.nav-icon) { max-width: 5.1ch; }
+}
+
+/* Desktop/tablet: external gear pinned far right, icon-only */
+@media (min-width: 641px) {
+  /* Make the nav a flex row; let links use the space, pin gear to the right */
+  .site-nav { display: flex; align-items: center; }
+  .site-nav__links { flex: 1 1 auto; overflow-x: visible; }
+
+  /* Show the external gear; hide the mobile gear-pill */
+  .nav-gear--desktop { display: inline-block !important; margin-left: auto; }
+  .site-nav__item--settings { display: none !important; }
+
+  /* Icon-only summary button */
+  .nav-gear--desktop > summary.nav-gear__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 9999px;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.10);
+    cursor: pointer;
+    outline: none;
+  }
+
+  /* Hide any visible labels; keep aria-label for accessibility */
+  .nav-gear__label,
+  .theme-toggle__label,
+  .theme-toggle__text { display: none !important; }
+
+  /* Gear icon size on desktop */
+  .nav-gear--desktop .nav-icon,
+  .nav-gear--desktop > summary svg {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    flex-shrink: 0;
+  }
+}
+
+/* Phones: hide the external gear; keep the gear pill */
+@media (max-width: 480px) {
+  .nav-gear--desktop { display: none !important; }
+}
+
