@@ -53,7 +53,7 @@ permalink: /about/
       <article class="development-item">
         <h3>Adjustable Station Mount — October 28, 2024</h3>
         <div class="development-media development-media--single">
-          <figure class="development-media__figure development-media__figure--narrow">
+          <figure class="development-media__figure">
             <img src="{{ '/assets/images/new_station_mount.png' | relative_url }}" alt="Adjustable mast mounted to the WxManBran vehicle for elevating the anemometer">
           </figure>
         </div>
@@ -66,7 +66,7 @@ permalink: /about/
 <details class="about-section" open>
   <summary class="toggle-summary">About Me</summary>
   <div class="about-section__content">
-    <p>Hi, my name is Brandan Keen, and welcome to WxManBran.com. I built this site to be easy to navigate, informative, educational, and genuinely useful. It started in May 2025 as a bare GitHub repository to show prospective employers my Python work and data visualizations (you can still see that here: <a href="https://github.com/BrandanKeen/hurricane-field-analysis" target="_blank" rel="noopener">here</a>). Since then, it has grown into the beginnings of something I believe only God could have inspired me to start.</p>
+    <p>Hi, my name is Brandan Keen, and welcome to WxManBran.com. I built this site to be easy to navigate, informative, educational, and genuinely useful. It started in May 2025 as a bare GitHub repository to show prospective employers my Python work and data visualizations (you can still see that <a href="https://github.com/BrandanKeen/hurricane-field-analysis" target="_blank" rel="noopener">here</a>). Since then, it has grown into the beginnings of something I believe only God could have inspired me to start.</p>
     <p>My passion for weather began when I was five. From the back of my parents’ minivan, I saw tornado damage from the 1998 Central Florida Tornado Outbreak in Winter Garden, Florida. Those scenes stuck with me, and whenever a thunderstorm built near my elementary school, I would panic and cry, sometimes asking the office to call my mom so I knew she was okay.</p>
     <p>In 2004, everything changed. Hurricane Charley roared through Punta Gorda as a strong Category 4, with wind gusts of 105 mph recorded at Orlando International Airport. My house, just northwest of the airport, took intense impacts, and I missed three weeks of school because of power and grid outages. This experience sparked a deep fascination with tracking hurricanes, which grew even more when Hurricanes Frances and Jeanne hit Florida three and six weeks later, respectively. I grabbed my parents’ old JVC camcorder (not waterproof), covered it with a hand towel, and “reported” outside in rain and winds that were maybe 30 mph at most.</p>
     <p>The next year, 2005, I began to print plotting sheets from the National Hurricane Center every morning before school, marking each storm’s latitude and longitude, shaded watches and warnings with colored pencils, and kept a log of every advisory number, wind, pressure, and movement. I didn’t realize the season would become record-breaking at the time, but by the end I was worn out from tracking so many storms.</p>
