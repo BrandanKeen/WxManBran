@@ -63,22 +63,24 @@ Hurricane Helene formed in the northwestern Caribbean on September 24 and rapidl
   }
   #helene-photos figure a {
     display: flex;
-    flex: 1 1 auto;
+    flex: 0 0 auto;
     align-items: center;
     justify-content: center;
-    padding: 0.35rem;
+    width: 100%;
+    padding: 0;
     background-color: #000;
     border-radius: 10px;
   }
+  #helene-photos figure:first-child a,
+  #helene-photos figure:last-child a {
+    aspect-ratio: 3 / 4;
+  }
   #helene-photos img {
     display: block;
-    width: 100%;
-    height: auto !important;
-    max-height: 100%;
+    width: auto !important;
+    max-width: 100%;
+    height: 100% !important;
     object-fit: contain !important;
-  }
-  #helene-photos figure:first-child img {
-    width: 85%;
   }
   #helene-photos figcaption {
     text-align: center;
