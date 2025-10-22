@@ -9,11 +9,6 @@ thumbnail: /assets/images/storms/2024-hurricane-milton/Milton_Landfall.jpg
 overview: >-
   Hurricane Milton was one of the most powerful hurricanes ever recorded in the Atlantic Basin, rapidly intensifying to a
   Category 5 before making a destructive landfall near Siesta Key, Florida.
-storm_detail_images:
-  - src: /assets/images/previous-storms/Milton_radar.GIF
-    alt: "Radar imagery of Hurricane Milton"
-  - src: /assets/images/previous-storms/Milton_eye.png
-    alt: "Eye of Hurricane Milton"
 ---
 
 <h1 class="storm-page__title">Hurricane Milton</h1>
@@ -49,20 +44,28 @@ Hurricane Milton was one of the most powerful hurricanes ever recorded in the At
 
 ## Media
 
-<div class="media-wide">
-  <div class="media-row two-up">
-    <figure>
-      <img src="{{ '/assets/images/previous-storms/Milton_radar.GIF' | relative_url }}"
-           alt="Hurricane Milton radar loop" loading="lazy" decoding="async">
-      <figcaption>Milton - Radar</figcaption>
-    </figure>
-    <figure>
-      <img src="{{ '/assets/images/previous-storms/Milton_eye.png' | relative_url }}"
-           alt="Hurricane Milton eye close-up" loading="lazy" decoding="async">
-      <figcaption>Milton - Eye</figcaption>
-    </figure>
+<details class="storm-plot-group" open>
+  <summary class="storm-plot-summary">Photos</summary>
+  <div class="media-wide">
+    <div class="media-row two-up">
+      <figure>
+        <img src="{{ '/assets/images/previous-storms/Milton_radar.GIF' | relative_url }}"
+             alt="Hurricane Milton radar loop" loading="lazy" decoding="async">
+        <figcaption>Milton - Radar</figcaption>
+      </figure>
+      <figure>
+        <img src="{{ '/assets/images/previous-storms/Milton_eye.png' | relative_url }}"
+             alt="Hurricane Milton eye close-up" loading="lazy" decoding="async">
+        <figcaption>Milton - Eye</figcaption>
+      </figure>
+    </div>
   </div>
-</div>
+</details>
+
+<details class="storm-plot-group">
+  <summary class="storm-plot-summary">Videos</summary>
+  <p>Videos coming soon.</p>
+</details>
 
 <br />
 
