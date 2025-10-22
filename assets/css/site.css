@@ -2005,22 +2005,3 @@ details[open] > .storm-plot-summary::before {
 @media (min-width: 1200px) {
   .site-content { width: min(1200px, 95vw); } /* was 960px; adjust to taste */
 }
-
-
-/* Only change the "Share" label/link color under the video card */
-.post-card__share .read-more {
-  color: var(--brandAccent);
-}
-.post-card__share .read-more:hover,
-.post-card__share .read-more:focus-visible {
-  color: var(--brandAccentAlt);
-}
-
-/* Optional: also make the links inside the Share panel match */
-.post-card__share .share-link {
-  color: var(--brandAccent);
-}
-.post-card__share .share-link:hover,
-.post-card__share .share-link:focus-visible {
-  color: var(--brandAccentAlt);
-}
