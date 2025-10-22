@@ -30,7 +30,7 @@ permalink: /about/
   </div>
 </details>
 
-<details class="about-section">
+<details class="about-section" open>
   <summary class="toggle-summary">Recent Developments</summary>
   <div class="about-section__content">
     
@@ -63,7 +63,7 @@ permalink: /about/
   </div>
 </details>
 
-<details class="about-section">
+<details class="about-section" open>
   <summary class="toggle-summary">About Me</summary>
   <div class="about-section__content">
     <p>Hi, my name is Brandan Keen, and welcome to WxManBran.com. I built this site to be easy to navigate, informative, educational, and genuinely useful. It started in May 2025 as a bare GitHub repository to show prospective employers my Python work and data visualizations (you can still see that here: <a href="https://github.com/BrandanKeen/hurricane-field-analysis" target="_blank" rel="noopener">here</a>). Since then, it has grown into the beginnings of something I believe only God could have inspired me to start.</p>
