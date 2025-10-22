@@ -55,22 +55,26 @@ Hurricane Milton was one of the most powerful hurricanes ever recorded in the At
   <div class="media-wide" style="--media-max-target: 1120px; --media-gutter: 1rem;">
     <div class="media-row two-up media-row--fill" style="gap: 0.5rem; grid-template-columns: minmax(0,1fr) minmax(0,1fr);">
       <figure>
-        <img
-          src="{{ '/assets/images/previous-storms/Milton_radar.GIF' | relative_url }}"
-          alt="Hurricane Milton radar loop"
-          loading="lazy"
-          decoding="async"
-          style="width: 60%; margin: 0 auto; display: block;"
-        >
+        <a href="{{ '/assets/images/previous-storms/Milton_radar.GIF' | relative_url }}" target="_blank" rel="noopener noreferrer">
+          <img
+            src="{{ '/assets/images/previous-storms/Milton_radar.GIF' | relative_url }}"
+            alt="Hurricane Milton radar loop"
+            loading="lazy"
+            decoding="async"
+            style="width: 60%; margin: 0 auto; display: block;"
+          >
+        </a>
         <figcaption>Radar of Hurricane Milton. Crosshairs show vehicle location.</figcaption>
       </figure>
       <figure>
-        <img
-          src="{{ '/assets/images/previous-storms/Milton_eye.png' | relative_url }}"
-          alt="Hurricane Milton eye"
-          loading="lazy"
-          decoding="async"
-        >
+        <a href="{{ '/assets/images/previous-storms/Milton_eye.png' | relative_url }}" target="_blank" rel="noopener noreferrer">
+          <img
+            src="{{ '/assets/images/previous-storms/Milton_eye.png' | relative_url }}"
+            alt="Hurricane Milton eye"
+            loading="lazy"
+            decoding="async"
+          >
+        </a>
         <figcaption>Inside the eye of Hurricane Milton</figcaption>
       </figure>
     </div>
@@ -94,7 +98,9 @@ Hurricane Milton was one of the most powerful hurricanes ever recorded in the At
     <div class="storm-plot storm-multi-panels">
       <figure class="storm-multi-panels__figure">
         <span class="storm-multi-panels__watermark" aria-hidden="true">WxManBran.com</span>
-        <img src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_MultiPanel.svg' | relative_url }}" alt="Multi-panel plot for Hurricane Milton" loading="lazy">
+        <a href="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_MultiPanel.svg' | relative_url }}" target="_blank" rel="noopener noreferrer">
+          <img src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_MultiPanel.svg' | relative_url }}" alt="Multi-panel plot for Hurricane Milton" loading="lazy">
+        </a>
       </figure>
     </div>
   </details>

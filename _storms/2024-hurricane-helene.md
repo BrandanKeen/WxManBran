@@ -49,22 +49,26 @@ Hurricane Helene formed in the northwestern Caribbean on September 24 and rapidl
   <div class="media-wide" style="--media-base-width: calc(100% + 6rem); --media-max-target: 1500px; --media-gutter: 1rem;">
     <div class="media-row two-up media-row--fill" style="gap: 0.5rem;">
       <figure>
-        <img
-          src="{{ '/assets/images/previous-storms/Helene_radar.gif' | relative_url }}"
-          alt="Hurricane Helene radar loop"
-          loading="lazy"
-          decoding="async"
-        >
+        <a href="{{ '/assets/images/previous-storms/Helene_radar.gif' | relative_url }}" target="_blank" rel="noopener noreferrer">
+          <img
+            src="{{ '/assets/images/previous-storms/Helene_radar.gif' | relative_url }}"
+            alt="Hurricane Helene radar loop"
+            loading="lazy"
+            decoding="async"
+          >
+        </a>
         <figcaption>Radar of Hurricane Helene. Crosshairs show vehicle location.</figcaption>
       </figure>
 
       <figure>
-        <img
-          src="{{ '/assets/images/previous-storms/Helene_eye.png' | relative_url }}"
-          alt="Hurricane Helene eye"
-          loading="lazy"
-          decoding="async"
-        >
+        <a href="{{ '/assets/images/previous-storms/Helene_eye.png' | relative_url }}" target="_blank" rel="noopener noreferrer">
+          <img
+            src="{{ '/assets/images/previous-storms/Helene_eye.png' | relative_url }}"
+            alt="Hurricane Helene eye"
+            loading="lazy"
+            decoding="async"
+          >
+        </a>
         <figcaption>Inside the eye of Hurricane Helene</figcaption>
       </figure>
     </div>
@@ -88,7 +92,9 @@ Hurricane Helene formed in the northwestern Caribbean on September 24 and rapidl
     <div class="storm-plot storm-multi-panels">
       <figure class="storm-multi-panels__figure">
         <span class="storm-multi-panels__watermark" aria-hidden="true">WxManBran.com</span>
-        <img src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_MultiPanel.svg' | relative_url }}" alt="Multi-panel plot for Hurricane Helene" loading="lazy">
+        <a href="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_MultiPanel.svg' | relative_url }}" target="_blank" rel="noopener noreferrer">
+          <img src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_MultiPanel.svg' | relative_url }}" alt="Multi-panel plot for Hurricane Helene" loading="lazy">
+        </a>
       </figure>
     </div>
   </details>
