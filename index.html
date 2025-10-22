@@ -37,13 +37,11 @@ permalink: /
     #wx-conn{font-size:17px;color:var(--inkAlt);margin-right:2ch}
     :root:not([data-theme='dark']) #wx-conn{color:#ffffff}
 
-    /* Center the two cards on wide screens */
+    /* Center the two cards and keep them side-by-side when space allows */
     .cards{display:grid;gap:22px;justify-content:center}
-    @media (min-width:880px){
-      .cards{grid-template-columns:repeat(2,minmax(360px,520px))}
-    }
-    @media (max-width:879.98px){
-      .cards{grid-template-columns:minmax(280px,700px)}
+    .cards > .card{width:min(100%,520px);justify-self:center}
+    @media (min-width:640px){
+      .cards{grid-template-columns:repeat(2,minmax(260px,1fr))}
     }
 
     .card{position:relative;background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);padding:34px 22px 60px}

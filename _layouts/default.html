@@ -43,6 +43,18 @@
     {% if site.plugins contains 'jekyll-feed' %}
     {% feed_meta %}
     {% endif %}
+    <script>
+      // Set --vh to the actual innerHeight to fix mobile 100vh issues
+      (function() {
+        function setVH() {
+          var vh = window.innerHeight * 0.01;
+          document.documentElement.style.setProperty('--vh', vh + 'px');
+        }
+        setVH();
+        window.addEventListener('resize', setVH);
+        window.addEventListener('orientationchange', setVH);
+      })();
+    </script>
   </head>
   <body class="site">
     <a class="skip-link" href="#content">Skip to content</a>
@@ -63,7 +75,7 @@
 <div class="storm-page__image-pair">
   {% for image in page.storm_detail_images %}
   <figure class="storm-page__image">
-    <img src="{{ image.src | relative_url }}" alt="{{ image.alt }}">
+    <img src="{{ image.src | relative_url }}" alt="{{ image.alt }}" loading="lazy" decoding="async">
   </figure>
   {% endfor %}
 </div>
