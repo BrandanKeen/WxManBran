@@ -75,6 +75,20 @@ a:focus {
   outline-offset: 3px;
 }
 
+a[href="mailto:connect@wxmanbran.com"] {
+  text-decoration: none;
+}
+
+a[href="mailto:connect@wxmanbran.com"]:hover {
+  text-decoration: none;
+  outline: 2px solid #d50000;
+  outline-offset: 2px;
+}
+
+a[href="mailto:connect@wxmanbran.com"]:focus {
+  text-decoration: none;
+}
+
 .skip-link {
   position: absolute;
   left: -999px;
