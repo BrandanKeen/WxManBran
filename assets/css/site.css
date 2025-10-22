@@ -1903,28 +1903,32 @@ details[open] > .storm-plot-summary::before {
 .site-content { --pad: 2rem; }  /* matches existing card padding */
 
 .media-wide {
-  --media-base-width: calc(100% + (2 * var(--pad)));
+  --media-base-width: calc(100% + (2 * var(--pad, 2rem)));
+  --media-gutter: clamp(0.75rem, 5vw, 3.5rem);
+  --media-max-target: min(1900px, calc(100vw - (2 * var(--media-gutter))));
+  --media-extra-limit: max(0px, calc((var(--media-max-target) - var(--media-base-width)) / 2));
   --media-extra: min(
-    clamp(0px, calc((100vw - 720px) / 6), calc((100vw - var(--media-base-width)) / 2)),
-    calc((1600px - var(--media-base-width)) / 2)
+    max(0px, calc((100vw - var(--media-base-width)) / 2)),
+    var(--media-extra-limit)
   );
-  margin-left: calc(-1 * var(--pad) - var(--media-extra));
-  margin-right: calc(-1 * var(--pad) - var(--media-extra));
-  width: calc(var(--media-base-width) + (2 * var(--media-extra)));
+  --media-width: calc(var(--media-base-width) + (2 * var(--media-extra)));
+  margin-left: calc((100% - var(--media-width)) / 2);
+  margin-right: calc((100% - var(--media-width)) / 2);
+  width: var(--media-width);
   max-width: none;
   box-sizing: border-box;
 }
 
 .media-row {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.25rem;            /* nearly touching */
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(0.25rem, 1vw, 0.75rem);
   margin: 0;
   justify-items: stretch;
   align-items: start;
 }
-@media (min-width: 640px) {
-  .media-row.two-up { grid-template-columns: 1fr 1fr; }
+@media (min-width: 720px) {
+  .media-row.two-up { grid-template-columns: repeat(auto-fit, minmax(480px, 1fr)); }
 }
 
 /* prevent min-content shrink */
