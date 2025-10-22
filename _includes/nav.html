@@ -1,17 +1,104 @@
 <nav class="site-nav">
-  <div class="site-nav__brand" aria-label="WxManBran brand mark">
-    <img class="site-nav__brand-image"
-         src="{{ '/assets/images/Hurricane_Flags.png' | relative_url }}"
-         alt="Hurricane warning flags icon" />
-    <span class="site-nav__brand-text" aria-hidden="true">WMB</span>
+  <!-- === Mobile header row (phones only) === -->
+  <div class="site-nav__row" aria-hidden="false">
+    <!-- Left: hamburger + accordion drawer -->
+    <details class="site-nav__drawer" data-mobile-menu>
+      <summary class="site-nav__drawer-button" aria-label="Open menu">
+        <!-- Simple hamburger -->
+        <svg viewBox="0 0 24 24" width="22" height="22" role="presentation" focusable="false" aria-hidden="true">
+          <path d="M3 6.5h18M3 12h18M3 17.5h18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </summary>
+
+      <!-- Drawer panel -->
+      <div class="site-nav__drawer-panel">
+        <ul class="site-nav__drawer-list">
+          {% assign current = page.url | default: '/' | relative_url %}
+          {% for item in site.data.nav %}
+            {% assign item_url = item.url | relative_url %}
+            {% assign normalized_current = current | replace: '//','/' %}
+            {% assign normalized_item    = item_url | replace:  '//','/' %}
+            <li class="site-nav__drawer-item">
+              <a href="{{ item_url }}"
+                 class="drawer-link{% if normalized_current == normalized_item %} is-active{% endif %}"
+                 {% if normalized_current == normalized_item %}aria-current="page"{% endif %}>
+                {% if item.icon %}
+                  <span class="nav-icon" aria-hidden="true">{% include icon.html name=item.icon %}</span>
+                {% endif %}
+                <span class="nav-label">{{ item.title }}</span>
+              </a>
+            </li>
+          {% endfor %}
+
+          <!-- Settings inside the drawer on phones (reuses your existing toggle markup) -->
+          <li class="site-nav__drawer-item site-nav__drawer-settings">
+            <details class="nav-gear" data-theme-gear>
+              <summary class="drawer-link" aria-label="Theme settings">
+                <span class="nav-icon" aria-hidden="true">
+                  <!-- Inline gear SVG (from your current nav.html) -->
+                  <svg viewBox="0 0 24 24" role="presentation" focusable="false" aria-hidden="true">
+                    <path d="M12 15.25a3.25 3.25 0 1 0 0-6.5 3.25 3.25 0 0 0 0 6.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M20.5 13.46V10.6l-2.13-.53a6.35 6.35 0 0 0-.62-1.5l1.17-1.87-2.02-2.02-1.87 1.17c-.5-.24-1.03-.43-1.58-.57L12.4 2.5h-2.86l-.53 2.13c-.54.14-1.07.33-1.57.57l-1.87-1.17-2.02 2.02 1.17 1.87c-.26.48-.46 1-.6 1.54L2.5 10.6v2.86l2.13.53c.14.54.34 1.06.6 1.54l-1.17 1.87 2.02 2.02 1.87-1.17c.5.24 1.03.43 1.57.57l.53 2.13h2.86l.53-2.13c.55-.14 1.08-.33 1.58-.57l1.87 1.17 2.02-2.02-1.17-1.87c.26-.48.46-1 .62-1.54l2.13-.53Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="nav-label">Theme</span>
+              </summary>
+              <div class="nav-gear__panel">
+                <!-- reuse your existing toggle button exactly -->
+                <button
+                  type="button"
+                  class="theme-toggle__button"
+                  data-theme-toggle
+                  aria-pressed="false"
+                  aria-label="Switch to dark mode"
+                  title="Switch to dark mode"
+                >
+                  <span class="theme-toggle__track" aria-hidden="true">
+                    <span class="theme-toggle__label theme-toggle__label--day">Light</span>
+                    <span class="theme-toggle__thumb">
+                      <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">
+                        <!-- SUN SVG -->
+                        <svg viewBox="0 0 24 24" role="presentation" focusable="false" aria-hidden="true">
+                          <circle cx="12" cy="12" r="4.25" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                          <path d="M12 2.5v2.3M12 19.2v2.3M4.8 12H2.5M21.5 12h-2.3M5.7 5.7l-1.6-1.6M19.9 19.9l-1.6-1.6M18.3 5.7l1.6-1.6M4.1 19.9l1.6-1.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                      </span>
+                      <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">
+                        <!-- MOON SVG -->
+                        <svg viewBox="0 0 24 24" role="presentation" focusable="false" aria-hidden="true">
+                          <path d="M21 14.25a8.26 8.26 0 1 1-10.78-10.5 8.26 8.26 0 0 0 10.78 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                      </span>
+                    </span>
+                    <span class="theme-toggle__label theme-toggle__label--night">Dark</span>
+                  </span>
+                  <span class="visually-hidden" data-theme-toggle-text>Switch to dark mode</span>
+                </button>
+              </div>
+            </details>
+          </li>
+        </ul>
+      </div>
+    </details>
+
+    <!-- Centered brand -->
+    <a class="site-nav__brand" href="{{ '/' | relative_url }}" aria-label="WxManBran brand mark">
+      <img class="site-nav__brand-image" src="{{ '/assets/images/Hurricane_Flags.png' | relative_url }}" alt="Hurricane warning flags icon"/>
+      <span class="site-nav__brand-text">WMB</span>
+    </a>
+
+    <!-- Right spacer keeps brand perfectly centered -->
+    <div class="site-nav__spacer" aria-hidden="true"></div>
   </div>
+
+  <!-- === Desktop pills (hidden on phones) === -->
   <ul class="site-nav__links">
     {% assign current = page.url | default: '/' | relative_url %}
     {% for item in site.data.nav %}
       {% assign item_url = item.url | relative_url %}
-      {% assign normalized_current = current | replace: '//', '/' %}
-      {% assign normalized_item = item_url | replace: '//', '/' %}
-      <li>
+      {% assign normalized_current = current | replace: '//','/' %}
+      {% assign normalized_item    = item_url | replace:  '//','/' %}
+      <li class="site-nav__item">
         <a href="{{ item_url }}"
            class="nav-link{% if normalized_current == normalized_item %} is-active{% endif %}"
            {% if normalized_current == normalized_item %}aria-current="page"{% endif %}>
@@ -22,64 +109,22 @@
         </a>
       </li>
     {% endfor %}
-    <li class="site-nav__item site-nav__item--settings">
-      <details class="nav-gear" data-theme-gear>
-        <summary class="nav-gear__button" aria-label="Theme settings">
-          <span class="nav-gear__icon nav-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" role="presentation" focusable="false">
-              <path d="M12 15.25a3.25 3.25 0 1 0 0-6.5 3.25 3.25 0 0 0 0 6.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-              <path d="M20.5 13.46V10.6l-2.13-.53a6.35 6.35 0 0 0-.62-1.5l1.17-1.87-2.02-2.02-1.87 1.17c-.5-.24-1.03-.44-1.58-.58L12.4 3.5h-2.86l-.55 2.27c-.55.14-1.08.34-1.58.58L5.54 5.18 3.52 7.2l1.17 1.87c-.28.48-.5.98-.65 1.51l-2.04.5v2.86l2.13.53c.14.55.35 1.09.62 1.59l-1.17 1.87 2.02 2.02 1.87-1.17c.48.23.99.42 1.52.56l.55 2.24h2.86l.55-2.24c.52-.14 1.03-.33 1.52-.56l1.87 1.17 2.02-2.02-1.17-1.87c.27-.5.48-1.03.62-1.58l2.04-.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </span>
-          <span class="nav-label">Settings</span>
-        </summary>
-        <div class="nav-gear__panel">
-          <button
-            type="button"
-            class="theme-toggle__button"
-            data-theme-toggle
-            aria-pressed="false"
-            aria-label="Switch to dark mode"
-            title="Switch to dark mode"
-          >
-            <span class="theme-toggle__track" aria-hidden="true">
-              <span class="theme-toggle__label theme-toggle__label--day">Light</span>
-              <span class="theme-toggle__thumb">
-                <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">
-                  <!-- SUN SVG -->
-                  <svg viewBox="0 0 24 24" role="presentation" focusable="false">
-                    <circle cx="12" cy="12" r="4.25" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M12 2.5v2.3M12 19.2v2.3M4.8 12H2.5M21.5 12h-2.3M5.7 5.7l-1.6-1.6M19.9 19.9l-1.6-1.6M5.7 18.3l-1.6 1.6M19.9 4.1l-1.6 1.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-                </span>
-                <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">
-                  <!-- MOON SVG -->
-                  <svg viewBox="0 0 24 24" role="presentation" focusable="false">
-                    <path d="M21 14.25a8.26 8.26 0 1 1-10.78-10.5 8.27 8.27 0 0 0 10.78 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-                </span>
-              </span>
-              <span class="theme-toggle__label theme-toggle__label--night">Dark</span>
-            </span>
-            <span class="visually-hidden" data-theme-toggle-text>Switch to dark mode</span>
-          </button>
-        </div>
-      </details>
-    </li>
   </ul>
 
-  <!-- DESKTOP/TABLET gear: pinned far right, icon-only -->
+  <!-- Desktop gear pinned far right, icon-only -->
   <details class="nav-gear nav-gear--desktop" data-theme-gear>
     <summary class="nav-gear__button" aria-label="Theme settings">
       <span class="nav-gear__icon nav-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" role="presentation" focusable="false">
-          <path d="M12 15.25a3.25 3.25 0 1 0 0-6.5 3.25 3.25 0 0 0 0 6.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-          <path d="M20.5 13.46V10.6l-2.13-.53a6.35 6.35 0 0 0-.62-1.5l1.17-1.87-2.02-2.02-1.87 1.17c-.5-.24-1.03-.44-1.58-.58L12.4 3.5h-2.86l-.55 2.27c-.55.14-1.08.34-1.58.58L5.54 5.18 3.52 7.2l1.17 1.87c-.28.48-.5.98-.65 1.51l-2.04.5v2.86l2.13.53c.14.55.35 1.09.62 1.59l-1.17 1.87 2.02 2.02 1.87-1.17c.48.23.99.42 1.52.56l.55 2.24h2.86l.55-2.24c.52-.14 1.03-.33 1.52-.56l1.87 1.17 2.02-2.02-1.17-1.87c.27-.5.48-1.03.62-1.58l2.04-.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+        <!-- same inline gear SVG so sizing matches other icons -->
+        <svg viewBox="0 0 24 24" role="presentation" focusable="false" aria-hidden="true">
+          <path d="M12 15.25a3.25 3.25 0 1 0 0-6.5 3.25 3.25 0 0 0 0 6.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M20.5 13.46V10.6l-2.13-.53a6.35 6.35 0 0 0-.62-1.5l1.17-1.87-2.02-2.02-1.87 1.17c-.5-.24-1.03-.43-1.58-.57L12.4 2.5h-2.86l-.53 2.13c-.54.14-1.07.33-1.57.57l-1.87-1.17-2.02 2.02 1.17 1.87c-.26.48-.46 1-.6 1.54L2.5 10.6v2.86l2.13.53c.14.54.34 1.06.6 1.54l-1.17 1.87 2.02 2.02 1.87-1.17c.5.24 1.03.43 1.57.57l.53 2.13h2.86l.53-2.13c.55-.14 1.08-.33 1.58-.57l1.87 1.17 2.02-2.02-1.17-1.87c.26-.48.46-1 .62-1.54l2.13-.53Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </span>
-      <span class="nav-gear__label" aria-hidden="true">Settings</span>
+      <span class="visually-hidden">Settings</span>
     </summary>
     <div class="nav-gear__panel">
+      <!-- exact same toggle button, reusing your markup so labels read Light/Dark -->
       <button
         type="button"
         class="theme-toggle__button"
@@ -92,16 +137,14 @@
           <span class="theme-toggle__label theme-toggle__label--day">Light</span>
           <span class="theme-toggle__thumb">
             <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">
-              <!-- SUN SVG -->
-              <svg viewBox="0 0 24 24" role="presentation" focusable="false">
+              <svg viewBox="0 0 24 24" role="presentation" focusable="false" aria-hidden="true">
                 <circle cx="12" cy="12" r="4.25" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M12 2.5v2.3M12 19.2v2.3M4.8 12H2.5M21.5 12h-2.3M5.7 5.7l-1.6-1.6M19.9 19.9l-1.6-1.6M5.7 18.3l-1.6 1.6M19.9 4.1l-1.6 1.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M12 2.5v2.3M12 19.2v2.3M4.8 12H2.5M21.5 12h-2.3M5.7 5.7l-1.6-1.6M19.9 19.9l-1.6-1.6M18.3 5.7l1.6-1.6M4.1 19.9l1.6-1.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
             </span>
             <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">
-              <!-- MOON SVG -->
-              <svg viewBox="0 0 24 24" role="presentation" focusable="false">
-                <path d="M21 14.25a8.26 8.26 0 1 1-10.78-10.5 8.27 8.27 0 0 0 10.78 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              <svg viewBox="0 0 24 24" role="presentation" focusable="false" aria-hidden="true">
+                <path d="M21 14.25a8.26 8.26 0 1 1-10.78-10.5 8.26 8.26 0 0 0 10.78 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
             </span>
           </span>
