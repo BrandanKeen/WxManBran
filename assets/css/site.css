@@ -2019,6 +2019,20 @@ details[open] > .storm-plot-summary::before {
 .media-row figure { margin: 0; }
 .media-row figcaption { text-align: center; margin-top: 0.25rem; }
 
+.media-row.two-up.media-row--fill.media-row--center {
+  grid-template-columns: minmax(0, 1fr);
+  justify-content: center;
+  justify-items: center;
+}
+
+.media-row.two-up.media-row--fill.media-row--center figure {
+  width: min(420px, 100%);
+}
+
+.media-row.two-up.media-row--fill.media-row--center figure.media-row__figure--narrow {
+  width: min(360px, 100%);
+}
+
 @media (min-width: 1200px) {
   .site-content { width: min(1200px, 95vw); } /* was 960px; adjust to taste */
 }
