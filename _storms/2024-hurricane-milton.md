@@ -107,7 +107,7 @@ Hurricane Milton was one of the most powerful hurricanes ever recorded in the At
           src="{{ '/assets/images/previous-storms/Milton_radar.GIF' | relative_url }}"
           alt="Hurricane Milton radar loop"
           loading="lazy" decoding="async" />
-        <figcaption>Radar of Hurricane Milton. Crosshairs show vehicle location.</figcaption>
+        <figcaption>Reflectivity of Hurricane Milton. Crosshairs show vehicle location.</figcaption>
       </figure>
 
       <figure>
