@@ -47,12 +47,12 @@ Hurricane Helene formed in the northwestern Caribbean on September 24 and rapidl
 <!-- Helene-only local styles to match Milton layout without affecting other pages. -->
 <style>
   #helene-photos {
-    width: min(100%, 960px);
+    width: 100%;
     margin: 0 auto;
   }
   #helene-photos .media-row {
     display: grid;
-    grid-template-columns: minmax(0, 0.36fr) minmax(0, 0.95fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.75rem;
     align-items: stretch;
   }
@@ -62,13 +62,23 @@ Hurricane Helene formed in the northwestern Caribbean on September 24 and rapidl
     flex-direction: column;
   }
   #helene-photos figure a {
-    display: block;
+    display: flex;
     flex: 1 1 auto;
+    align-items: center;
+    justify-content: center;
+    padding: 0.35rem;
+    background-color: #000;
+    border-radius: 10px;
   }
   #helene-photos img {
     display: block;
     width: 100%;
-    height: auto;
+    height: auto !important;
+    max-height: 100%;
+    object-fit: contain !important;
+  }
+  #helene-photos figure:first-child img {
+    width: 85%;
   }
   #helene-photos figcaption {
     text-align: center;
@@ -89,7 +99,7 @@ Hurricane Helene formed in the northwestern Caribbean on September 24 and rapidl
   <summary class="storm-plot-summary">Photos</summary>
   <div id="helene-photos" class="media-wide"
        style="--media-base-width: calc(100% + 6rem); --media-max-target: 1500px; --media-gutter: 1rem;">
-    <div class="media-row two-up media-row--fill">
+    <div class="media-row two-up media-row--fill media-row--equal-height">
       <figure>
         <a
           href="{{ '/assets/images/previous-storms/Helene_radar.GIF' | relative_url }}"
