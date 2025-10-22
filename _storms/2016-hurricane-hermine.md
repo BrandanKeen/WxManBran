@@ -59,7 +59,7 @@ Hermine was a compact, fast-strengthening Gulf cyclone that became a Category 1 
   </div>
 </details>
 
-<details class="storm-plot-group">
+<details class="storm-plot-group" open>
   <summary class="storm-plot-summary">Videos</summary>
   <p>Videos coming soon.</p>
 </details>
