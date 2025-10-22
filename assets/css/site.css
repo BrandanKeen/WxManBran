@@ -1886,9 +1886,14 @@ details[open] > .storm-plot-summary::before {
 .site-content { --pad: 2rem; }  /* matches existing card padding */
 
 .media-wide {
-  margin-left: calc(-1 * var(--pad));
-  margin-right: calc(-1 * var(--pad));
-  width: calc(100% + (2 * var(--pad)));
+  --media-base-width: calc(100% + (2 * var(--pad)));
+  --media-extra: min(
+    clamp(0px, calc((100vw - 720px) / 6), calc((100vw - var(--media-base-width)) / 2)),
+    calc((1600px - var(--media-base-width)) / 2)
+  );
+  margin-left: calc(-1 * var(--pad) - var(--media-extra));
+  margin-right: calc(-1 * var(--pad) - var(--media-extra));
+  width: calc(var(--media-base-width) + (2 * var(--media-extra)));
   max-width: none;
   box-sizing: border-box;
 }
