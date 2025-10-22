@@ -717,6 +717,26 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
       return Number.isNaN(parsed) ? NaN : parsed;
     }};
     Plotly.newPlot('chart', figure.data, figure.layout, config).then((gd) => {{
+      const clearHoverTitles = () => {{
+        const fullLayout = gd._fullLayout;
+        if (!fullLayout) {{
+          return;
+        }}
+        Object.keys(fullLayout).forEach((key) => {{
+          if (!key.startsWith('xaxis')) {{
+            return;
+          }}
+          const axis = fullLayout[key];
+          if (axis && typeof axis === 'object') {{
+            axis._hovertitle = '';
+          }}
+        }});
+      }};
+      clearHoverTitles();
+      gd.on('plotly_afterplot', clearHoverTitles);
+      gd.on('plotly_relayout', clearHoverTitles);
+      gd.on('plotly_restyle', clearHoverTitles);
+      gd.on('plotly_update', clearHoverTitles);
       const originalCount = gd.data.length;
       const originalTraces = gd.data.slice(0, originalCount);
       const highlightTraces = [];
