@@ -49,7 +49,7 @@ Hurricane Debby was a compact but impactful Category 1 hurricane that rapidly in
   <summary class="storm-plot-summary">Photos</summary>
   <div class="media-wide">
     <div class="media-row two-up media-row--fill media-row--center">
-      <figure>
+      <figure class="media-row__figure--narrow">
         <img src="{{ '/assets/images/previous-storms/Debby_radar.gif' | relative_url }}"
              alt="Hurricane Debby radar loop" loading="lazy" decoding="async">
         <figcaption>Debby - Radar</figcaption>

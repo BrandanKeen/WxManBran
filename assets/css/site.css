@@ -2026,7 +2026,11 @@ details[open] > .storm-plot-summary::before {
 }
 
 .media-row.two-up.media-row--fill.media-row--center figure {
-  width: min(480px, 100%);
+  width: min(420px, 100%);
+}
+
+.media-row.two-up.media-row--fill.media-row--center figure.media-row__figure--narrow {
+  width: min(360px, 100%);
 }
 
 @media (min-width: 1200px) {
