@@ -47,12 +47,12 @@ Hurricane Milton was one of the most powerful hurricanes ever recorded in the At
 <!-- Milton-only local styles. Scoped so it cannot affect other pages. -->
 <style>
   #milton-photos {
-    width: min(100%, 1024px);
+    width: 100%;
     margin: 0 auto;
   }
   #milton-photos .media-row {
     display: grid;
-    grid-template-columns: minmax(0, 0.36fr) minmax(0, 0.95fr); /* slightly reduce eye width to keep equal heights within container */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.75rem;
     align-items: stretch;
   }
@@ -62,13 +62,25 @@ Hurricane Milton was one of the most powerful hurricanes ever recorded in the At
     flex-direction: column;
   }
   #milton-photos figure a {
-    display: block;
-    flex: 1 1 auto;
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0;
+    background-color: #000;
+    border-radius: 10px;
+  }
+  #milton-photos figure:first-child a,
+  #milton-photos figure:last-child a {
+    aspect-ratio: 963 / 815;
   }
   #milton-photos img {
     display: block;
-    width: 100%;
-    height: auto;
+    width: auto !important;
+    max-width: 100%;
+    height: 100% !important;
+    object-fit: contain !important;
   }
   #milton-photos figcaption {
     text-align: center;
@@ -93,7 +105,7 @@ Hurricane Milton was one of the most powerful hurricanes ever recorded in the At
   <div id="milton-photos" class="media-wide"
        style="--media-base-width: calc(100% + 6rem); --media-max-target: 1500px; --media-gutter: 1rem;">
 
-    <div class="media-row two-up media-row--fill">
+    <div class="media-row two-up media-row--fill media-row--equal-height">
       <figure>
         <a
           href="{{ '/assets/images/previous-storms/Milton_radar.GIF' | relative_url }}"
