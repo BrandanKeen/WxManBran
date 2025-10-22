@@ -48,48 +48,35 @@ Hurricane Milton was one of the most powerful hurricanes ever recorded in the At
 <style>
   #milton-photos .media-row {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.5rem;
-    justify-items: center;
+    grid-template-columns: minmax(0, 0.36fr) minmax(0, 1fr); /* scaled to equalize photo heights */
+    gap: 0.75rem;
     align-items: stretch;
   }
   #milton-photos figure {
     margin: 0;
-    width: 100%;
-    height: 100%;
-    display: grid;
-    grid-template-rows: minmax(0, 1fr) auto;
+    display: flex;
+    flex-direction: column;
   }
-  #milton-photos figure:first-child { max-width: 320px; }
-  #milton-photos figure:last-child { max-width: 560px; }
-  #milton-photos img {
-    width: 100% !important;
-    height: 100%;
-    object-fit: contain;
+  #milton-photos figure a {
     display: block;
+    flex: 1 1 auto;
+  }
+  #milton-photos img {
+    display: block;
+    width: 100%;
+    height: auto;
   }
   #milton-photos figcaption {
     text-align: center;
     font-size: 0.9rem;
-    min-height: 3rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    padding-top: 0.5rem;
   }
   @media (max-width: 900px) {
     #milton-photos .media-row {
       grid-template-columns: 1fr;
     }
-    #milton-photos figure {
-      max-width: 100%;
-      height: auto;
-      grid-template-rows: auto auto;
-    }
-    #milton-photos img {
-      height: auto;
-    }
-    #milton-photos figcaption {
-      min-height: 0;
+    #milton-photos figure a {
+      flex: none;
     }
   }
 </style>
@@ -103,18 +90,26 @@ Hurricane Milton was one of the most powerful hurricanes ever recorded in the At
 
     <div class="media-row two-up media-row--fill">
       <figure>
-        <img
-          src="{{ '/assets/images/previous-storms/Milton_radar.GIF' | relative_url }}"
-          alt="Hurricane Milton radar loop"
-          loading="lazy" decoding="async" />
-        <figcaption>Reflectivity of Hurricane Milton. Crosshairs show vehicle location.</figcaption>
+        <a
+          href="{{ '/assets/images/previous-storms/Milton_radar.GIF' | relative_url }}"
+          target="_blank" rel="noopener noreferrer">
+          <img
+            src="{{ '/assets/images/previous-storms/Milton_radar.GIF' | relative_url }}"
+            alt="Hurricane Milton radar loop"
+            loading="lazy" decoding="async" />
+        </a>
+        <figcaption>Radar of Hurricane Milton. Crosshairs show vehicle location.</figcaption>
       </figure>
 
       <figure>
-        <img
-          src="{{ '/assets/images/previous-storms/Milton_eye.png' | relative_url }}"
-          alt="Inside the eye of Hurricane Milton"
-          loading="lazy" decoding="async" />
+        <a
+          href="{{ '/assets/images/previous-storms/Milton_eye.png' | relative_url }}"
+          target="_blank" rel="noopener noreferrer">
+          <img
+            src="{{ '/assets/images/previous-storms/Milton_eye.png' | relative_url }}"
+            alt="Inside the eye of Hurricane Milton"
+            loading="lazy" decoding="async" />
+        </a>
         <figcaption>Inside the eye of Hurricane Milton</figcaption>
       </figure>
     </div>
