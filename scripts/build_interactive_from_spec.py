@@ -440,17 +440,10 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             "spikemode": "across+marker",
             "showspikes": False,
         }
-    layout.setdefault("autosize", True)
-    layout.setdefault("hovermode", "x unified")
-    layout.setdefault("dragmode", "pan")
-    layout.setdefault("uirevision", "mobile-zoom")
     config = {
         "responsive": True,
         "displaylogo": False,
-        "scrollZoom": True,
-        "doubleClick": "reset",
-        "modeBarButtonsToRemove": ["lasso2d", "select2d", "toggleSpikelines"],
-        "toImageButtonOptions": {"format": "png", "scale": 2},
+        "modeBarButtonsToRemove": ["resetScale2d", "lasso2d", "select2d"],
     }
     return {"data": traces, "layout": layout, "config": config}
 
@@ -701,19 +694,12 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
     else:
         layout["spikedistance"] = -1
         layout["hoverdistance"] = -1
-    layout.setdefault("autosize", True)
-    layout.setdefault("hovermode", "x unified")
-    layout.setdefault("dragmode", "pan")
-    layout.setdefault("uirevision", "mobile-zoom")
     if force_persistent_legend:
         layout["showlegend"] = True
     config = {
         "responsive": True,
         "displaylogo": False,
-        "scrollZoom": True,
-        "doubleClick": "reset",
-        "modeBarButtonsToRemove": ["lasso2d", "select2d", "toggleSpikelines"],
-        "toImageButtonOptions": {"format": "png", "scale": 2},
+        "modeBarButtonsToRemove": ["resetScale2d", "lasso2d", "select2d"],
     }
     return {"data": traces, "layout": layout, "config": config}
 
@@ -738,52 +724,15 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
   <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />
   <script src=\"{PLOTLY_CDN}\"></script>
   <style>
-    html, body {{ margin: 0; padding: 0; height: 100%; }}
-    #chart {{ width: 100%; height: 100%; }}
-    @media (max-width: 700px) {{
-      /* Use the dynamic viewport height var set by default.html on the parent.
-         Inside an iframe, fall back to window height with 100dvh or 100vh. */
-      #chart {{
-        height: 100dvh;
-        height: calc(var(--vh, 1vh) * 100);
-      }}
-    }}
+    body {{ margin: 0; padding: 0; }}
+    #chart {{ width: 100%; height: 100vh; }}
   </style>
 </head>
 <body>
   <div id=\"chart\"></div>
   <script>
     const figure = {figure_json};
-    const baseLayout = figure.layout || {{}};
-    const layout = Object.assign({}, baseLayout, {{
-      autosize: true,
-      hovermode: 'x unified',
-      dragmode: 'pan',
-      uirevision: 'mobile-zoom'
-    }});
-
-    const baseConfig = {config_json};
-    const config = Object.assign({}, baseConfig, {{
-      responsive: true,
-      displaylogo: false,
-      scrollZoom: true,
-      doubleClick: 'reset',
-      modeBarButtonsToRemove: ['lasso2d', 'select2d', 'toggleSpikelines']
-    }});
-    const baseToImage = baseConfig && baseConfig.toImageButtonOptions ? baseConfig.toImageButtonOptions : {{}};
-    config.toImageButtonOptions = Object.assign(
-      {{ format: 'png' }},
-      baseToImage,
-      {{ scale: window.devicePixelRatio || baseToImage.scale || 2 }}
-    );
-
-    const chartEl = document.getElementById('chart');
-    const plotPromise = Plotly.newPlot(chartEl, figure.data, layout, config);
-
-    function resize() {{ Plotly.Plots.resize(chartEl); }}
-    window.addEventListener('resize', resize);
-    window.addEventListener('orientationchange', resize);
-
+    const config = {config_json};
     const toTimestamp = (value) => {{
       if (value === null || value === undefined) {{
         return NaN;
@@ -794,7 +743,7 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
       const parsed = Date.parse(value);
       return Number.isNaN(parsed) ? NaN : parsed;
     }};
-    plotPromise.then((gd) => {{
+    Plotly.newPlot('chart', figure.data, figure.layout, config).then((gd) => {{
       const originalCount = gd.data.length;
       const originalTraces = gd.data.slice(0, originalCount);
       const highlightTraces = [];
