@@ -1173,6 +1173,61 @@ section {
   display: inline-block;
 }
 
+/* Allow the navigation to contract on medium viewports before falling back to icon-only treatments */
+@media (max-width: 1080px) {
+  .site-nav__links {
+    gap: 1rem;
+  }
+}
+
+/* When horizontal room is tight, make the links scrollable instead of overflowing the layout */
+@media (max-width: 920px) {
+  .site-nav {
+    --nav-bar-height: 4.5rem;
+  }
+
+  .site-nav__links {
+    justify-content: flex-start;
+    gap: 0.85rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0 0.35rem;
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--brandAccent) 45%, transparent)
+                     color-mix(in srgb, var(--brandPrimary) 35%, transparent);
+  }
+
+  .site-nav__links > li {
+    flex: 0 0 auto;
+  }
+
+  .site-nav__links::-webkit-scrollbar {
+    height: 0.45rem;
+  }
+
+  .site-nav__links::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--brandAccent) 55%, transparent);
+    border-radius: 999px;
+  }
+
+  .site-nav__links::-webkit-scrollbar-track {
+    background: color-mix(in srgb, var(--brandPrimary) 20%, transparent);
+  }
+
+  .site-nav__links a,
+  .site-nav__links button,
+  .nav-gear__button {
+    font-size: 1.35rem;
+    padding: 0 0.9rem;
+  }
+
+  .site-nav__links .nav-icon {
+    width: calc(var(--nav-bar-height) - 1.8rem);
+    height: calc(var(--nav-bar-height) - 1.8rem);
+    margin-right: 0.4rem;
+  }
+}
+
 /* Optional: tune sizes for small screens so the nav does not wrap awkwardly */
 @media (max-width: 640px) {
   .site-nav { --nav-bar-height: 4.2rem; }
