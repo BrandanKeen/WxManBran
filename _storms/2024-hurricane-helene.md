@@ -44,45 +44,74 @@ Hurricane Helene formed in the northwestern Caribbean on September 24 and rapidl
 
 ## Media
 
+<!-- Helene-only local styles to match Milton layout without affecting other pages. -->
+<style>
+  #helene-photos {
+    width: min(100%, 960px);
+    margin: 0 auto;
+  }
+  #helene-photos .media-row {
+    display: grid;
+    grid-template-columns: minmax(0, 0.36fr) minmax(0, 0.95fr);
+    gap: 0.75rem;
+    align-items: stretch;
+  }
+  #helene-photos figure {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  #helene-photos figure a {
+    display: block;
+    flex: 1 1 auto;
+  }
+  #helene-photos img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  #helene-photos figcaption {
+    text-align: center;
+    font-size: 0.9rem;
+    padding-top: 0.5rem;
+  }
+  @media (max-width: 900px) {
+    #helene-photos .media-row {
+      grid-template-columns: 1fr;
+    }
+    #helene-photos figure a {
+      flex: none;
+    }
+  }
+</style>
+
 <details class="storm-plot-group" open>
   <summary class="storm-plot-summary">Photos</summary>
-  <div class="media-wide" style="--media-base-width: calc(100% + 6rem); --media-max-target: 1500px; --media-gutter: 1rem;">
-    <div
-      class="media-row two-up media-row--fill"
-      style="gap: 0.5rem; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch;"
-    >
-      <figure style="display: flex; flex-direction: column; height: 100%;">
+  <div id="helene-photos" class="media-wide"
+       style="--media-base-width: calc(100% + 6rem); --media-max-target: 1500px; --media-gutter: 1rem;">
+    <div class="media-row two-up media-row--fill">
+      <figure>
         <a
           href="{{ '/assets/images/previous-storms/Helene_radar.gif' | relative_url }}"
           target="_blank"
-          rel="noopener noreferrer"
-          style="display: flex; flex: 1;"
-        >
+          rel="noopener noreferrer">
           <img
             src="{{ '/assets/images/previous-storms/Helene_radar.gif' | relative_url }}"
             alt="Hurricane Helene radar loop"
-            loading="lazy"
-            decoding="async"
-            style="width: 100%; height: 100%; object-fit: cover;"
-          >
+            loading="lazy" decoding="async" />
         </a>
         <figcaption>Reflectivity of Hurricane Helene. Crosshairs show vehicle location.</figcaption>
       </figure>
 
-      <figure style="display: flex; flex-direction: column; height: 100%;">
+      <figure>
         <a
           href="{{ '/assets/images/previous-storms/Helene_eye.png' | relative_url }}"
           target="_blank"
-          rel="noopener noreferrer"
-          style="display: flex; flex: 1;"
-        >
+          rel="noopener noreferrer">
           <img
             src="{{ '/assets/images/previous-storms/Helene_eye.png' | relative_url }}"
-            alt="Hurricane Helene eye"
-            loading="lazy"
-            decoding="async"
-            style="width: 100%; height: 100%; object-fit: cover;"
-          >
+            alt="Inside the eye of Hurricane Helene"
+            loading="lazy" decoding="async" />
         </a>
         <figcaption>Inside the eye of Hurricane Helene</figcaption>
       </figure>
