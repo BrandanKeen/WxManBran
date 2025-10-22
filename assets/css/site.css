@@ -1485,7 +1485,8 @@ details.about-section[open] > .toggle-summary::before {
 
 .development-media__video {
   margin-top: 1.75rem;
-  width: 100%;
+  width: min(94%, 60rem);
+  margin-inline: auto;
   background: color-mix(in srgb, var(--surface) 94%, transparent);
   border: 1px solid color-mix(in srgb, var(--brandMuted) 45%, transparent);
   border-radius: 14px;
