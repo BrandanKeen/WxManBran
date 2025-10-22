@@ -1506,9 +1506,11 @@ details.about-section[open] > .toggle-summary::before {
   margin-top: 1.25rem;
 }
 
+
 .development-media {
   display: grid;
-  gap: 1.25rem;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(4px, 0.8vw, 10px);
   margin: 1.5rem 0 0;
 }
 
@@ -1531,7 +1533,7 @@ details.about-section[open] > .toggle-summary::before {
   margin-inline: auto;
 }
 
-@media (min-width: 50rem) {
+@media (min-width: 720px) {
   .development-media--split {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1552,6 +1554,7 @@ details.about-section[open] > .toggle-summary::before {
   display: block;
   width: 100%;
   height: auto;
+  object-fit: cover;
 }
 
 .development-media__figure figcaption {
