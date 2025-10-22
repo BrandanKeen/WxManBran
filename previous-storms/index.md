@@ -24,7 +24,8 @@ permalink: /previous-storms/
     {% assign storms_for_season = season_group.items | where_exp: "storm", "storm.placeholder != true" %}
     {% if storms_for_season.size > 0 %}
     <div class="posts-grid posts-grid--fit">
-      {% assign storms_sorted = storms_for_season | sort: 'sort_date' | reverse %}
+      {% assign storms_sorted = storms_for_season | sort: 'landfall_date' | reverse %}
+      {% assign storms_sorted = storms_sorted | sort: 'sort_date' | reverse %}
       {% for storm in storms_sorted %}
       {% assign storm_thumbnail = storm.thumbnail | default: storm.thumb | default: storm.image %}
       {% assign landfall_date_source = storm.landfall_date | default: storm.sort_date %}
