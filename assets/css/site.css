@@ -805,6 +805,7 @@ section {
   grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
   gap: 1.25rem;
   justify-content: center;
+  justify-items: stretch;
 }
 
 .posts-grid.posts-grid--fit .post-card {
@@ -1222,6 +1223,19 @@ section {
 .storm-card-list {
   gap: 2rem;
   grid-template-columns: 1fr;
+}
+
+.storm-season__content .posts-grid.posts-grid--fit {
+  justify-content: flex-start;
+  justify-items: stretch;
+  gap: clamp(1.25rem, 2vw, 2rem);
+}
+
+.storm-season__content .posts-grid.posts-grid--fit > .post-card {
+  width: 100%;
+  max-width: min(100%, 384px);
+  justify-self: stretch;
+  margin: 0;
 }
 
 .storm-card {
@@ -1824,4 +1838,47 @@ details[open] > .storm-plot-summary::before {
     width: 100%;
     justify-content: center;
   }
+}
+/* === MEDIA (card-width, tight two-up) — CANONICAL === */
+.site-content { --pad: 2rem; }  /* matches existing card padding */
+
+.media-wide {
+  margin-left: calc(-1 * var(--pad));
+  margin-right: calc(-1 * var(--pad));
+  width: calc(100% + (2 * var(--pad)));
+  max-width: none;
+  box-sizing: border-box;
+}
+
+.media-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.25rem;            /* nearly touching */
+  margin: 0;
+  justify-items: stretch;
+  align-items: start;
+}
+@media (min-width: 640px) {
+  .media-row.two-up { grid-template-columns: 1fr 1fr; }
+}
+
+/* prevent min-content shrink */
+.media-row > * { min-width: 0; }
+
+/* images fill columns; beat any caps/centering */
+.media-row img {
+  width: 100% !important;
+  max-width: none !important;
+  height: auto;
+  margin: 0 !important;
+  display: block;
+  border-radius: 10px;
+}
+
+/* tidy figures/captions */
+.media-row figure { margin: 0; }
+.media-row figcaption { text-align: center; margin-top: 0.25rem; }
+
+@media (min-width: 1200px) {
+  .site-content { width: min(1200px, 95vw); } /* was 960px; adjust to taste */
 }
