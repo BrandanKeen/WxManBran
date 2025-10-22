@@ -1928,6 +1928,16 @@ details[open] > .storm-plot-summary::before {
   color: inherit;
 }
 
+:root[data-theme='dark'] .share-button--copy {
+  color: var(--brandAccent);
+}
+
+:root[data-theme='dark'] .share-button--copy:hover,
+:root[data-theme='dark'] .share-button--copy:focus,
+:root[data-theme='dark'] .share-button--copy:focus-visible {
+  color: var(--brandAccentAlt);
+}
+
 .share-button__label {
   white-space: nowrap;
 }
