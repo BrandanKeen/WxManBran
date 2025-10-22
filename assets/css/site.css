@@ -768,6 +768,10 @@ a:focus {
   text-align: center;
 }
 
+.card--centered {
+  text-align: center;
+}
+
 .card a {
   font-weight: 600;
   text-decoration: none;
