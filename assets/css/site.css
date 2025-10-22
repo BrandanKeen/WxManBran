@@ -2054,6 +2054,8 @@ details[open] > .storm-plot-summary::before {
 .share .share-action { color: #111; }
 .share .share-action--facebook { color: #1877F2; }
 .share .share-action--x { color: #000; }
+/* Keep the copy-link control aligned with the neutral actions */
+.share .share-action--copy { color: #111; }
 /* Optional hover tweaks for light mode */
 .share .share-action--facebook:hover,
 .share .share-action--facebook:focus,
@@ -2068,6 +2070,9 @@ html[data-theme="dark"] .share {
 
 /* All actions are red in dark mode, including Facebook and X */
 html[data-theme="dark"] .share .share-action {
+  color: var(--share-red);
+}
+html[data-theme="dark"] .share .share-action--copy {
   color: var(--share-red);
 }
 html[data-theme="dark"] .share .share-action:hover,
