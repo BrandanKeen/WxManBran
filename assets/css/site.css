@@ -518,6 +518,7 @@ a:focus {
   border: 1px solid color-mix(in srgb, var(--brandMuted) 40%, transparent);
   border-radius: 12px;
   padding: 1rem;
+  box-sizing: border-box;
   margin-block: 1.25rem;
   display: flex;
   flex-direction: column;
