@@ -2286,42 +2286,58 @@ html[data-theme="dark"] .share .share-action:focus-visible {
   .site-nav__links > li > details > summary span:not(.nav-icon) { max-width: 5.1ch; }
 }
 
-/* Desktop/tablet: external gear pinned far right, icon-only */
+/* Desktop/tablet: external gear pinned far right, icon-only (no pill) */
 @media (min-width: 641px) {
-  /* Make the nav a flex row; let links use the space, pin gear to the right */
-  .site-nav { display: flex; align-items: center; }
+  /* Layout: pills consume space, gear floats to the right */
+  .site-nav {
+    display: flex;
+    align-items: center;
+    --desktop-gear-icon-size: min(calc(var(--nav-bar-height) - 1.6rem), 3rem);
+  }
   .site-nav__links { flex: 1 1 auto; overflow-x: visible; }
 
   /* Show the external gear; hide the mobile gear-pill */
   .nav-gear--desktop { display: inline-block !important; margin-left: auto; }
   .site-nav__item--settings { display: none !important; }
 
-  /* Icon-only summary button */
+  /* Summary button hit-area: transparent, no pill */
   .nav-gear--desktop > summary.nav-gear__button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 9999px;
-    background: rgba(255,255,255,.08);
-    border: 1px solid rgba(255,255,255,.10);
+    width: max(44px, var(--desktop-gear-icon-size, 44px));
+    height: max(44px, var(--desktop-gear-icon-size, 44px));
+    background: transparent !important;
+    border: 0 !important;
+    padding: 0;
+    border-radius: 50%;
     cursor: pointer;
-    outline: none;
+    min-height: 0;
   }
 
-  /* Hide any visible labels; keep aria-label for accessibility */
-  .nav-gear__label,
-  .theme-toggle__label,
-  .theme-toggle__text { display: none !important; }
+  .nav-gear--desktop > summary.nav-gear__button:hover,
+  .nav-gear--desktop > summary.nav-gear__button:focus-visible,
+  .nav-gear--desktop[open] > summary.nav-gear__button {
+    background: transparent !important;
+    color: inherit;
+    opacity: 1;
+  }
 
-  /* Gear icon size on desktop */
-  .nav-gear--desktop .nav-icon,
+  .nav-gear--desktop > summary .nav-gear__label { display: none; }
+
+  /* Gear icon size = same as other nav icons on desktop */
+  .nav-gear--desktop > summary .nav-icon,
   .nav-gear--desktop > summary svg {
-    width: 20px;
-    height: 20px;
+    width: var(--desktop-gear-icon-size, 44px);
+    height: var(--desktop-gear-icon-size, 44px);
     margin: 0;
     flex-shrink: 0;
+  }
+
+  /* Ensure toggle labels show inside the panel on desktop */
+  .nav-gear__panel .theme-toggle__label,
+  .nav-gear__panel [data-theme-toggle-text] {
+    display: inline-block !important;
   }
 }
 
