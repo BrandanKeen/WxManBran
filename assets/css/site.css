@@ -1985,17 +1985,6 @@ details[open] > .storm-plot-summary::before {
   .media-row.two-up { grid-template-columns: repeat(auto-fit, minmax(480px, 1fr)); }
 }
 
-.media-row.two-up.media-row--compact {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.media-row.two-up.media-row--compact > * {
-  flex: 1 1 320px;
-  max-width: 420px;
-}
-
 /* prevent min-content shrink */
 .media-row > * { min-width: 0; }
 
