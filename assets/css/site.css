@@ -554,10 +554,14 @@ a:focus {
   padding-top: 0.5rem;
 }
 
-.read-more { 
-  color: var(--brandAccent);
+.read-more {
+  color: #0d6efd;
   text-decoration: none;
   font-weight: 600;
+}
+
+:root[data-theme='dark'] .read-more {
+  color: #ff6b6b;
 }
 
 .post-card__share {
@@ -565,6 +569,17 @@ a:focus {
   margin: 0;
   margin-top: 0.75rem;
   padding-top: 0.5rem;
+  --share-color: #0d6efd;
+  --share-color-hover: #0a58ca;
+  --share-hover-bg: color-mix(in srgb, #0d6efd 14%, transparent);
+  --share-hover-shadow: color-mix(in srgb, #0d6efd 22%, transparent);
+}
+
+:root[data-theme='dark'] .post-card__share {
+  --share-color: #ff6b6b;
+  --share-color-hover: #ff5252;
+  --share-hover-bg: color-mix(in srgb, #ff6b6b 18%, transparent);
+  --share-hover-shadow: color-mix(in srgb, #ff6b6b 28%, transparent);
 }
 
 .post-card__share > summary {
@@ -573,12 +588,15 @@ a:focus {
   gap: 0.25rem;
   list-style: none;
   cursor: pointer;
-  color: var(--brandAccent);
+  color: var(--share-color);
 }
 
 .post-card__share > summary:hover,
 .post-card__share > summary:focus-visible {
-  color: var(--brandAccentAlt);
+  color: var(--share-color-hover);
+  background: var(--share-hover-bg);
+  box-shadow: 0 0 0 2px var(--share-hover-shadow);
+  outline: none;
 }
 
 .post-card__share > summary::marker,
@@ -608,7 +626,7 @@ a:focus {
   align-items: center;
   justify-content: center;
   gap: 0.35rem;
-  color: var(--brandAccent);
+  color: var(--share-color);
   font-weight: 600;
   font-size: 0.95rem;
   text-decoration: none;
@@ -622,10 +640,8 @@ a:focus {
 
 .share-link:hover,
 .share-link:focus-visible {
-  background: color-mix(in srgb, var(--brandAccent) 12%, transparent);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--brandAccent) 20%, transparent);
   outline: none;
-  color: var(--brandAccentAlt);
+  color: var(--share-color-hover);
 }
 
 .share-link__icon {
@@ -635,6 +651,31 @@ a:focus {
 
 .share-link__icon path {
   fill: currentColor;
+}
+
+:root:not([data-theme='dark']) .post-card__share .share-link[href*='facebook.com'] {
+  color: #1877f2;
+}
+
+:root:not([data-theme='dark']) .post-card__share .share-link[href*='facebook.com']:hover,
+:root:not([data-theme='dark']) .post-card__share .share-link[href*='facebook.com']:focus-visible {
+  color: color-mix(in srgb, #1877f2 86%, white);
+  background: color-mix(in srgb, #1877f2 14%, transparent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, #1877f2 22%, transparent);
+}
+
+:root:not([data-theme='dark']) .post-card__share .share-link[href*='twitter.com'],
+:root:not([data-theme='dark']) .post-card__share .share-link[href*='x.com'] {
+  color: #000;
+}
+
+:root:not([data-theme='dark']) .post-card__share .share-link[href*='twitter.com']:hover,
+:root:not([data-theme='dark']) .post-card__share .share-link[href*='twitter.com']:focus-visible,
+:root:not([data-theme='dark']) .post-card__share .share-link[href*='x.com']:hover,
+:root:not([data-theme='dark']) .post-card__share .share-link[href*='x.com']:focus-visible {
+  color: color-mix(in srgb, #000 70%, white);
+  background: color-mix(in srgb, #000 14%, transparent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, #000 22%, transparent);
 }
 
 /* Highlight around text (no underline) for title and read-more */
@@ -661,7 +702,22 @@ a:focus {
 
 .read-more.link-chip:hover,
 .read-more.link-chip:focus-visible {
-  color: var(--brandAccentAlt);
+  color: #0a58ca;
+  background: color-mix(in srgb, #0d6efd 14%, transparent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, #0d6efd 22%, transparent);
+}
+
+:root[data-theme='dark'] .read-more.link-chip:hover,
+:root[data-theme='dark'] .read-more.link-chip:focus-visible {
+  color: #ff5252;
+  background: color-mix(in srgb, #ff6b6b 18%, transparent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, #ff6b6b 28%, transparent);
+}
+
+.post-card__share .share-link:hover,
+.post-card__share .share-link:focus-visible {
+  background: var(--share-hover-bg);
+  box-shadow: 0 0 0 2px var(--share-hover-shadow);
 }
 
 /* Hero */
