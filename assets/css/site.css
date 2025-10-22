@@ -2194,98 +2194,6 @@ html[data-theme="dark"] .share .share-action:focus-visible {
 
 .nav-gear--desktop { display: none; }
 
-/* === Mobile micro v3.2 — smaller labels, tight icons, symmetric gutters, guarantee 3 pills === */
-@media (max-width: 480px) {
-  .site-nav {
-    --nav-bar-height: 4.1rem;
-    padding: max(0.2rem, env(safe-area-inset-top)) 0.5rem 0.2rem;
-  }
-
-  /* Keep brand hidden on phones */
-  .site-nav__brand,
-  .site-nav__brand-text,
-  .site-nav__brand-image { display: none !important; }
-
-  /* Pill row: make it compact + add equal gutters */
-  .site-nav__links {
-    gap: 0.30rem;
-    overflow-x: auto;
-    overflow-y: visible;
-    padding-inline: 0.75rem;
-    padding-block: 0.20rem;
-    -webkit-overflow-scrolling: touch;
-    scroll-padding-inline: 0.75rem;
-  }
-  .site-nav__links > li { flex: 0 0 auto; }
-  .site-nav__links > li > details { display: inline-block; }
-
-  /* Pill sizing — smaller text, narrow padding, still ≥44px tall */
-  .site-nav__links > li > a,
-  .site-nav__links > li > button,
-  .site-nav__links > li > details > summary {
-    font-size: 0.80rem;
-    padding: 0 0.40rem;
-    min-height: 44px;
-    line-height: 1.05;
-    border-radius: 9999px;
-    display: inline-flex;
-    align-items: center;
-    background: rgba(255,255,255,.08);
-    border: 1px solid rgba(255,255,255,.10);
-    max-width: calc(33.33vw - 0.9rem);
-  }
-
-  /* Active pill visible at rest */
-  .site-nav__links > li > a[aria-current="page"],
-  .site-nav__links > li.is-active > a,
-  .site-nav__links > li > button[aria-current="page"],
-  .site-nav__links > li > details[open] > summary {
-    background: #6e2745;
-    color: #fff;
-    border-color: #6e2745;
-  }
-
-  /* Icons — keep slightly smaller than text height */
-  .site-nav__links .nav-icon,
-  .site-nav__links > li > a > svg,
-  .site-nav__links > li > button > svg,
-  .site-nav__links > li > details > summary > svg {
-    width: 0.90rem;
-    height: 0.90rem;
-    margin-right: 0.28rem;
-    flex-shrink: 0;
-  }
-
-  /* Labels — tighter max width so 3 pills fit comfortably */
-  .site-nav__links .nav-label,
-  .site-nav__links > li > a span:not(.nav-icon),
-  .site-nav__links > li > button span:not(.nav-icon),
-  .site-nav__links > li > details > summary span:not(.nav-icon) {
-    display: inline-block;
-    max-width: 5.5ch;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  /* Mobile gear (as a pill) remains icon-only */
-  .site-nav__item--settings .nav-label { display: none; }
-  .site-nav__item--settings .nav-icon { margin-right: 0; }
-}
-
-/* Extra squeeze for narrowest Androids */
-@media (max-width: 400px) {
-  .site-nav__links {
-    gap: 0.28rem;
-    padding-inline: 0.70rem;
-    scroll-padding-inline: 0.70rem;
-  }
-  .site-nav__links .nav-label,
-  .site-nav__links > li > a span:not(.nav-icon),
-  .site-nav__links > li > button span:not(.nav-icon),
-  .site-nav__links > li > details > summary span:not(.nav-icon) { max-width: 5.1ch; }
-}
-
 /* Desktop/tablet: external gear pinned far right, icon-only (no pill) */
 @media (min-width: 641px) {
   /* Layout: pills consume space, gear floats to the right */
@@ -2341,8 +2249,97 @@ html[data-theme="dark"] .share .share-action:focus-visible {
   }
 }
 
-/* Phones: hide the external gear; keep the gear pill */
+
+
+/* === Mobile drawer nav (phones) === */
 @media (max-width: 480px) {
+  /* Hide desktop pills and desktop gear on phones */
+  .site-nav__links { display: none !important; }
   .nav-gear--desktop { display: none !important; }
+
+  /* Mobile header row: [hamburger] [brand centered] [spacer] */
+  .site-nav__row {
+    display: grid;
+    grid-template-columns: 44px 1fr 44px;
+    align-items: center;
+    height: 4.2rem;
+    padding: max(0.2rem, env(safe-area-inset-top)) 0.5rem 0.2rem;
+    background: linear-gradient(to bottom, #0b1630, rgba(11,22,48,.95));
+    border-bottom: 1px solid rgba(255,255,255,.12);
+  }
+  .site-nav__drawer { grid-column: 1; position: relative; }
+  .site-nav__brand  { grid-column: 2; justify-self: center; display: inline-flex; gap: .5rem; align-items: center; }
+  .site-nav__spacer { grid-column: 3; width: 44px; height: 44px; }
+
+  .site-nav__brand-image { width: 1.2rem; height: auto; }
+  .site-nav__brand-text  { font-weight: 800; letter-spacing: .02em; color: #fff; }
+
+  .site-nav__drawer-button {
+    width: 44px; height: 44px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 9999px;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.10);
+    color: #fff;
+  }
+
+  /* Drawer panel */
+  .site-nav__drawer-panel {
+    position: relative;
+    background: rgba(11,22,48,.95);
+    border-top: 1px solid rgba(255,255,255,.12);
+    overflow: hidden;
+  }
+  /* Smooth open/close without JS */
+  .site-nav__drawer:not([open]) .site-nav__drawer-panel { display: none; }
+  .site-nav__drawer[open] .site-nav__drawer-panel { display: block; }
+
+  .site-nav__drawer-list { padding: .5rem .5rem .75rem; display: grid; gap: .5rem; }
+  .site-nav__drawer-item { list-style: none; }
+
+  .drawer-link {
+    display: inline-flex; align-items: center; gap: .55rem;
+    min-height: 44px; padding: .55rem .65rem;
+    border-radius: 12px;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.10);
+    color: rgba(255,255,255,.92);
+    text-decoration: none;
+    font-size: .95rem;
+    line-height: 1.1;
+  }
+  .drawer-link .nav-icon,
+  .drawer-link > svg {
+    width: 18px; height: 18px; flex-shrink: 0;
+  }
+  .drawer-link.is-active {
+    background: #6e2745; color: #fff; border-color: #6e2745;
+  }
+  .drawer-link .nav-label {
+    max-width: 26ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+
+  /* Settings entry inside drawer */
+  .site-nav__drawer-settings .nav-gear > summary.drawer-link .nav-label { display: inline; }
 }
 
+/* Keep desktop/tablet behavior */
+@media (min-width: 641px) {
+  .site-nav__row { display: none; } /* hide mobile row on larger screens */
+}
+
+/* === Icon sizing sync: make the gear exactly match the other icons === */
+.site-nav {
+  --nav-icon-size: calc(var(--nav-bar-height) - 1.6rem);
+}
+.nav-icon,
+.nav-icon svg {
+  width: var(--nav-icon-size);
+  height: var(--nav-icon-size);
+}
+
+/* Override any older gear-specific sizing */
+.nav-gear__icon svg {
+  width: var(--nav-icon-size) !important;
+  height: var(--nav-icon-size) !important;
+}
