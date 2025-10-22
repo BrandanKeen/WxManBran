@@ -2033,6 +2033,10 @@ details[open] > .storm-plot-summary::before {
   width: min(360px, 100%);
 }
 
+.media-row.two-up.media-row--fill.media-row--center figure.media-row__figure--wide {
+  width: min(640px, 100%);
+}
+
 @media (min-width: 1200px) {
   .site-content { width: min(1200px, 95vw); } /* was 960px; adjust to taste */
 }
