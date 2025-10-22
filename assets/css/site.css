@@ -1443,8 +1443,8 @@ details.about-section[open] > .toggle-summary::before {
 }
 
 .development-media--single .development-media__figure {
-  width: 100%;
-  max-width: none;
+  width: min(94%, 60rem);
+  margin-inline: auto;
 }
 
 .development-media--single .development-media__figure.development-media__figure--narrow {
