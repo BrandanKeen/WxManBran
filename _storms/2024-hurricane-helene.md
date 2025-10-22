@@ -47,26 +47,41 @@ Hurricane Helene formed in the northwestern Caribbean on September 24 and rapidl
 <details class="storm-plot-group" open>
   <summary class="storm-plot-summary">Photos</summary>
   <div class="media-wide" style="--media-base-width: calc(100% + 6rem); --media-max-target: 1500px; --media-gutter: 1rem;">
-    <div class="media-row two-up media-row--fill" style="gap: 0.5rem;">
-      <figure>
-        <a href="{{ '/assets/images/previous-storms/Helene_radar.gif' | relative_url }}" target="_blank" rel="noopener noreferrer">
+    <div
+      class="media-row two-up media-row--fill"
+      style="gap: 0.5rem; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch;"
+    >
+      <figure style="display: flex; flex-direction: column; height: 100%;">
+        <a
+          href="{{ '/assets/images/previous-storms/Helene_radar.gif' | relative_url }}"
+          target="_blank"
+          rel="noopener noreferrer"
+          style="display: flex; flex: 1;"
+        >
           <img
             src="{{ '/assets/images/previous-storms/Helene_radar.gif' | relative_url }}"
             alt="Hurricane Helene radar loop"
             loading="lazy"
             decoding="async"
+            style="width: 100%; height: 100%; object-fit: cover;"
           >
         </a>
         <figcaption>Reflectivity of Hurricane Helene. Crosshairs show vehicle location.</figcaption>
       </figure>
 
-      <figure>
-        <a href="{{ '/assets/images/previous-storms/Helene_eye.png' | relative_url }}" target="_blank" rel="noopener noreferrer">
+      <figure style="display: flex; flex-direction: column; height: 100%;">
+        <a
+          href="{{ '/assets/images/previous-storms/Helene_eye.png' | relative_url }}"
+          target="_blank"
+          rel="noopener noreferrer"
+          style="display: flex; flex: 1;"
+        >
           <img
             src="{{ '/assets/images/previous-storms/Helene_eye.png' | relative_url }}"
             alt="Hurricane Helene eye"
             loading="lazy"
             decoding="async"
+            style="width: 100%; height: 100%; object-fit: cover;"
           >
         </a>
         <figcaption>Inside the eye of Hurricane Helene</figcaption>
