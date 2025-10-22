@@ -2192,6 +2192,8 @@ html[data-theme="dark"] .share .share-action:focus-visible {
   color: var(--share-red-hover);
 }
 
+.nav-gear--desktop { display: none; }
+
 /* Mobile micro v3 — smaller labels, smaller icons, gear inside row, 3 pills visible */
 @media (max-width: 480px) {
   .site-nav {
@@ -2268,9 +2270,6 @@ html[data-theme="dark"] .share .share-action:focus-visible {
   .site-nav__item--settings .nav-label { display: none; }
   .site-nav__item--settings .nav-icon { margin-right: 0; }
 
-  /* Hide any legacy gear container that still exists */
-  .nav-gear { display: none !important; }
-  .site-nav__item--settings .nav-gear { display: inline-block !important; }
 }
 
 /* Extra squeeze for the narrowest Androids */
@@ -2280,5 +2279,49 @@ html[data-theme="dark"] .share .share-action:focus-visible {
   .site-nav__links > li > a span:not(.nav-icon),
   .site-nav__links > li > button span:not(.nav-icon),
   .site-nav__links > li > details > summary span:not(.nav-icon) { max-width: 5.25ch; }
+}
+
+/* Desktop/tablet: external gear pinned far right, icon-only */
+@media (min-width: 641px) {
+  /* Make the nav a flex row; let links use the space, pin gear to the right */
+  .site-nav { display: flex; align-items: center; }
+  .site-nav__links { flex: 1 1 auto; overflow-x: visible; }
+
+  /* Show the external gear; hide the mobile gear-pill */
+  .nav-gear--desktop { display: inline-block !important; margin-left: auto; }
+  .site-nav__item--settings { display: none !important; }
+
+  /* Icon-only summary button */
+  .nav-gear--desktop > summary.nav-gear__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 9999px;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.10);
+    cursor: pointer;
+    outline: none;
+  }
+
+  /* Hide any visible labels; keep aria-label for accessibility */
+  .nav-gear__label,
+  .theme-toggle__label,
+  .theme-toggle__text { display: none !important; }
+
+  /* Gear icon size on desktop */
+  .nav-gear--desktop .nav-icon,
+  .nav-gear--desktop > summary svg {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    flex-shrink: 0;
+  }
+}
+
+/* Phones: hide the external gear; keep the gear pill */
+@media (max-width: 480px) {
+  .nav-gear--desktop { display: none !important; }
 }
 
