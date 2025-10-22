@@ -565,6 +565,8 @@ a:focus {
   margin: 0;
   margin-top: 0.75rem;
   padding-top: 0.5rem;
+  --share-accent: var(--brandAccent);
+  --share-accent-hover: var(--brandAccentAlt);
 }
 
 .post-card__share > summary {
@@ -626,6 +628,26 @@ a:focus {
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--brandAccent) 20%, transparent);
   outline: none;
   color: var(--brandAccentAlt);
+}
+
+:root[data-theme='dark'] .post-card__share > summary {
+  color: color-mix(in srgb, var(--share-accent, var(--brandAccent)) 72%, var(--text-on-dark));
+}
+
+:root[data-theme='dark'] .post-card__share > summary:hover,
+:root[data-theme='dark'] .post-card__share > summary:focus-visible {
+  color: color-mix(in srgb, var(--share-accent-hover, var(--brandAccentAlt)) 84%, var(--text-on-dark));
+}
+
+:root[data-theme='dark'] .post-card__share .share-link {
+  color: color-mix(in srgb, var(--share-accent, var(--brandAccent)) 72%, var(--text-on-dark));
+}
+
+:root[data-theme='dark'] .post-card__share .share-link:hover,
+:root[data-theme='dark'] .post-card__share .share-link:focus-visible {
+  color: color-mix(in srgb, var(--share-accent-hover, var(--brandAccentAlt)) 84%, var(--text-on-dark));
+  background: color-mix(in srgb, var(--share-accent, var(--brandAccent)) 16%, transparent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--share-accent, var(--brandAccent)) 28%, transparent);
 }
 
 .share-link__icon {
