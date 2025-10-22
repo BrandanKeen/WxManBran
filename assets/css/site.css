@@ -2194,91 +2194,96 @@ html[data-theme="dark"] .share .share-action:focus-visible {
 
 .nav-gear--desktop { display: none; }
 
-/* Mobile micro v3 — smaller labels, smaller icons, gear inside row, 3 pills visible */
+/* === Mobile micro v3.2 — smaller labels, tight icons, symmetric gutters, guarantee 3 pills === */
 @media (max-width: 480px) {
   .site-nav {
     --nav-bar-height: 4.1rem;
     padding: max(0.2rem, env(safe-area-inset-top)) 0.5rem 0.2rem;
   }
 
-  /* Hide brand area on phones only */
+  /* Keep brand hidden on phones */
   .site-nav__brand,
   .site-nav__brand-text,
   .site-nav__brand-image { display: none !important; }
 
-  /* Make the row compact and prevent vertical clipping */
+  /* Pill row: make it compact + add equal gutters */
   .site-nav__links {
-    gap: 0.35rem;
+    gap: 0.30rem;
     overflow-x: auto;
     overflow-y: visible;
-    padding: 0.2rem 0.25rem;
+    padding-inline: 0.75rem;
+    padding-block: 0.20rem;
     -webkit-overflow-scrolling: touch;
+    scroll-padding-inline: 0.75rem;
   }
   .site-nav__links > li { flex: 0 0 auto; }
   .site-nav__links > li > details { display: inline-block; }
 
-  /* Smaller labels and pill width, keep ≥44px tap height */
+  /* Pill sizing — smaller text, narrow padding, still ≥44px tall */
   .site-nav__links > li > a,
   .site-nav__links > li > button,
   .site-nav__links > li > details > summary {
-    font-size: 0.85rem;
-    padding: 0 0.45rem;
+    font-size: 0.80rem;
+    padding: 0 0.40rem;
     min-height: 44px;
-    line-height: 1.1;
+    line-height: 1.05;
     border-radius: 9999px;
-    background: rgba(255,255,255,.08);
-    border: 1px solid rgba(255,255,255,.10);
     display: inline-flex;
     align-items: center;
-    max-width: calc(33.33vw - 1rem);
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.10);
+    max-width: calc(33.33vw - 0.9rem);
   }
 
   /* Active pill visible at rest */
   .site-nav__links > li > a[aria-current="page"],
   .site-nav__links > li.is-active > a,
   .site-nav__links > li > button[aria-current="page"],
-  .site-nav__item--settings .nav-gear[open] > summary {
+  .site-nav__links > li > details[open] > summary {
     background: #6e2745;
     color: #fff;
     border-color: #6e2745;
   }
 
-  /* Smaller icons including SVG fallback */
+  /* Icons — keep slightly smaller than text height */
   .site-nav__links .nav-icon,
   .site-nav__links > li > a > svg,
   .site-nav__links > li > button > svg,
   .site-nav__links > li > details > summary > svg {
-    width: 0.9rem;
-    height: 0.9rem;
+    width: 0.90rem;
+    height: 0.90rem;
     margin-right: 0.28rem;
     flex-shrink: 0;
   }
 
-  /* Ellipsize long labels to save width */
+  /* Labels — tighter max width so 3 pills fit comfortably */
   .site-nav__links .nav-label,
   .site-nav__links > li > a span:not(.nav-icon),
   .site-nav__links > li > button span:not(.nav-icon),
   .site-nav__links > li > details > summary span:not(.nav-icon) {
     display: inline-block;
-    max-width: 5.75ch;
+    max-width: 5.5ch;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-  /* Gear as a pill, icon-only on phones */
+  /* Mobile gear (as a pill) remains icon-only */
   .site-nav__item--settings .nav-label { display: none; }
   .site-nav__item--settings .nav-icon { margin-right: 0; }
-
 }
 
-/* Extra squeeze for the narrowest Androids */
+/* Extra squeeze for narrowest Androids */
 @media (max-width: 400px) {
-  .site-nav__links { gap: 0.3rem; }
+  .site-nav__links {
+    gap: 0.28rem;
+    padding-inline: 0.70rem;
+    scroll-padding-inline: 0.70rem;
+  }
   .site-nav__links .nav-label,
   .site-nav__links > li > a span:not(.nav-icon),
   .site-nav__links > li > button span:not(.nav-icon),
-  .site-nav__links > li > details > summary span:not(.nav-icon) { max-width: 5.25ch; }
+  .site-nav__links > li > details > summary span:not(.nav-icon) { max-width: 5.1ch; }
 }
 
 /* Desktop/tablet: external gear pinned far right, icon-only */
