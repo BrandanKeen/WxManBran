@@ -772,6 +772,10 @@ a:focus {
   text-align: center;
 }
 
+.card--centered .link-chip {
+  align-self: center;
+}
+
 .card a {
   font-weight: 600;
   text-decoration: none;
