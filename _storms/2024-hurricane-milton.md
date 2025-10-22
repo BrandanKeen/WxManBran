@@ -44,36 +44,71 @@ Hurricane Milton was one of the most powerful hurricanes ever recorded in the At
 
 ## Media
 
+<!-- Milton-only local styles. Scoped so it cannot affect other pages. -->
 <style>
-/* Milton page only */
-.media-row.two-up.media-row--fill img { width: 100%; height: auto; display: block; }
-.media-row.two-up.media-row--fill figure { margin: 0; }
+  #milton-photos .media-row {
+    display: grid;
+    grid-template-columns: minmax(0, 0.36fr) minmax(0, 0.95fr); /* slightly reduce eye width to keep equal heights within container */
+    gap: 0.75rem;
+    align-items: stretch;
+  }
+  #milton-photos figure {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  #milton-photos figure a {
+    display: block;
+    flex: 1 1 auto;
+  }
+  #milton-photos img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  #milton-photos figcaption {
+    text-align: center;
+    font-size: 0.9rem;
+    padding-top: 0.5rem;
+  }
+  @media (max-width: 900px) {
+    #milton-photos .media-row {
+      grid-template-columns: 1fr;
+    }
+    #milton-photos figure a {
+      flex: none;
+    }
+  }
 </style>
 
 <details class="storm-plot-group" open>
   <summary class="storm-plot-summary">Photos</summary>
-  <div class="media-wide" style="--media-max-target: 1120px; --media-gutter: 1rem;">
-    <div class="media-row two-up media-row--fill" style="gap: 0.5rem; grid-template-columns: minmax(0,1fr) minmax(0,1fr);">
+
+  <!-- Keep this wrapper so the block aligns like Helene without touching sitewide CSS -->
+  <div id="milton-photos" class="media-wide"
+       style="--media-base-width: calc(100% + 6rem); --media-max-target: 1500px; --media-gutter: 1rem;">
+
+    <div class="media-row two-up media-row--fill">
       <figure>
-        <a href="{{ '/assets/images/previous-storms/Milton_radar.GIF' | relative_url }}" target="_blank" rel="noopener noreferrer">
+        <a
+          href="{{ '/assets/images/previous-storms/Milton_radar.GIF' | relative_url }}"
+          target="_blank" rel="noopener noreferrer">
           <img
             src="{{ '/assets/images/previous-storms/Milton_radar.GIF' | relative_url }}"
             alt="Hurricane Milton radar loop"
-            loading="lazy"
-            decoding="async"
-            style="width: 60%; margin: 0 auto; display: block;"
-          >
+            loading="lazy" decoding="async" />
         </a>
         <figcaption>Radar of Hurricane Milton. Crosshairs show vehicle location.</figcaption>
       </figure>
+
       <figure>
-        <a href="{{ '/assets/images/previous-storms/Milton_eye.png' | relative_url }}" target="_blank" rel="noopener noreferrer">
+        <a
+          href="{{ '/assets/images/previous-storms/Milton_eye.png' | relative_url }}"
+          target="_blank" rel="noopener noreferrer">
           <img
             src="{{ '/assets/images/previous-storms/Milton_eye.png' | relative_url }}"
-            alt="Hurricane Milton eye"
-            loading="lazy"
-            decoding="async"
-          >
+            alt="Inside the eye of Hurricane Milton"
+            loading="lazy" decoding="async" />
         </a>
         <figcaption>Inside the eye of Hurricane Milton</figcaption>
       </figure>
