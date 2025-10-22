@@ -1869,31 +1869,6 @@ details[open] > .storm-plot-summary::before {
   justify-content: center;
 }
 
-.share {
-  --share-fg: var(--brandAccent, #bd1c25);
-  --share-fg-hover: var(--brandAccentAlt, #bc1823);
-}
-
-:root[data-theme='dark'] .share {
-  --share-fg: var(--brandAccent-300, #c3323a);
-  --share-fg-hover: var(--brandAccent-200, #ca4950);
-}
-
-.share .share-action {
-  color: var(--share-fg);
-}
-
-.share a,
-.share a:visited {
-  color: inherit;
-}
-
-.share .share-action:hover,
-.share .share-action:focus,
-.share .share-action:focus-visible {
-  color: var(--share-fg-hover);
-}
-
 .share-button {
   display: inline-flex;
   align-items: center;
@@ -2032,4 +2007,51 @@ details[open] > .storm-plot-summary::before {
 
 @media (min-width: 1200px) {
   .site-content { width: min(1200px, 95vw); } /* was 960px; adjust to taste */
+}
+
+/* Ensure icons follow text color */
+.share .share-action svg {
+  width: 1.15em;
+  height: 1.15em;
+  color: currentColor;
+  fill: currentColor;
+}
+
+/* Baseline link behavior inside the share block */
+.share .share-action {
+  text-decoration: none;
+}
+.share .share-action:hover,
+.share .share-action:focus,
+.share .share-action:focus-visible {
+  text-decoration: underline;
+  color: inherit;
+}
+.share a:visited { color: inherit; }
+
+/* ---------- Light mode ---------- */
+/* Set explicit palette per network */
+.share .share-action { color: #111; }
+.share .share-action--facebook { color: #1877F2; }
+.share .share-action--x { color: #000; }
+/* Optional hover tweaks for light mode */
+.share .share-action--facebook:hover,
+.share .share-action--facebook:focus,
+.share .share-action--facebook:focus-visible { color: #166FE5; }
+
+/* ---------- Dark mode ---------- */
+/* Use the same red as other links in dark theme */
+html[data-theme="dark"] .share {
+  --share-red: var(--brand-link-red, var(--accent-400, #e16a6a));
+  --share-red-hover: var(--brand-link-red-hover, var(--accent-300, #ff8b8b));
+}
+
+/* All actions are red in dark mode, including Facebook and X */
+html[data-theme="dark"] .share .share-action {
+  color: var(--share-red);
+}
+html[data-theme="dark"] .share .share-action:hover,
+html[data-theme="dark"] .share .share-action:focus,
+html[data-theme="dark"] .share .share-action:focus-visible {
+  color: var(--share-red-hover);
 }
