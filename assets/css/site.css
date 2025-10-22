@@ -71,21 +71,6 @@ img, video {
   border: 0;
 }
 
-/* Tighten nav and link hit areas on small screens */
-@media (max-width: 640px) {
-  .site-nav {
-    --nav-bar-height: 4.2rem;
-  }
-  .site-nav__links {
-    gap: 1rem;
-  }
-  .site-nav__links > li > a,
-  .site-nav__links > li > button,
-  .nav-gear__button {
-    padding: 0.5rem 0.4rem;
-  }
-}
-
 /* Share panel buttons: bigger targets on phones */
 @media (max-width: 640px) {
   .share-panel__buttons {
@@ -1173,33 +1158,6 @@ section {
 }
 
 /* Responsive adjustments */
-@media (max-width: 760px) {
-  .site-nav__links {
-    gap: 1rem;
-  }
-}
-
-@media (max-width: 640px) {
-  .site-nav {
-    --nav-bar-height: 4.2rem;
-    padding: 0 1.2rem;
-    column-gap: 1rem;
-  }
-
-  .site-nav__links > li > a,
-  .site-nav__links > li > button,
-  .nav-gear__button {
-    font-size: 1.3rem;
-    padding: 0 0.95rem;
-  }
-
-  .site-nav__links .nav-icon {
-    width: calc(var(--nav-bar-height) - 1.5rem);
-    height: calc(var(--nav-bar-height) - 1.5rem);
-    margin-right: 0.45rem;
-  }
-}
-
 @media (max-width: 480px) {
   .site-content {
     padding: 1.5rem;
@@ -1300,10 +1258,6 @@ section {
 
 /* When horizontal room is tight, make the links scrollable instead of overflowing the layout */
 @media (max-width: 920px) {
-  .site-nav {
-    --nav-bar-height: 4.5rem;
-  }
-
   .site-nav__links {
     justify-content: flex-start;
     gap: 0.85rem;
@@ -1331,50 +1285,9 @@ section {
   .site-nav__links::-webkit-scrollbar-track {
     background: color-mix(in srgb, var(--brandPrimary) 20%, transparent);
   }
-
-  .site-nav__links a,
-  .site-nav__links button,
-  .nav-gear__button {
-    font-size: 1.35rem;
-    padding: 0 0.9rem;
-  }
-
-  .site-nav__links .nav-icon {
-    width: calc(var(--nav-bar-height) - 1.8rem);
-    height: calc(var(--nav-bar-height) - 1.8rem);
-    margin-right: 0.4rem;
-  }
 }
 
 /* Optional: tune sizes for small screens so the nav does not wrap awkwardly */
-@media (max-width: 640px) {
-  .site-nav { --nav-bar-height: 4.2rem; }
-  .site-nav__links a,
-  .site-nav__links button,
-  .nav-gear__button {
-    font-size: 1.3rem;
-    padding: 0 0.95rem;
-  }
-  .site-nav__links .nav-icon {
-    width: calc(var(--nav-bar-height) - 1.5rem);
-    height: calc(var(--nav-bar-height) - 1.5rem);
-    margin-right: 0.45rem;
-  }
-  .site-nav__links { gap: 1rem; }
-  .site-nav__actions { gap: 0.9rem; }
-  .site-nav__brand {
-    padding: 0.28rem 0.15rem 0.28rem 0;
-    gap: 0.45rem;
-  }
-  .site-nav__brand-text {
-    font-size: 2.2rem;
-    letter-spacing: 0.07rem;
-  }
-  .site-nav__brand-image {
-    width: 1.8rem;
-  }
-}
-
 /* === FINAL NAV COLORS AND HIGHLIGHTS (authoritative) === */
 
 /* White links on navy bar */
