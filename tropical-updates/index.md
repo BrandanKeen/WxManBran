@@ -175,16 +175,7 @@ permalink: /tropical-updates/
         </article>
 
         <!-- Placeholder brief card keeps the row paired -->
-        <article class="post-card post-card--brief-placeholder" aria-labelledby="brief-placeholder-{{ forloop.index }}">
-          <header class="post-card__header">
-            <time class="post-date" datetime="{{ post.date | date_to_xmlschema }}">
-              {{ post.date | date: "%B %d, %Y %-I %p" }} ET
-            </time>
-            <h2 class="post-title" id="brief-placeholder-{{ forloop.index }}">
-              {{ post.title | append: ": Brief" }}
-            </h2>
-          </header>
-
+        <article class="post-card post-card--brief-placeholder">
           <div class="post-card__placeholder">
             <p>No video briefing available.</p>
           </div>
