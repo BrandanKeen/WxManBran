@@ -2191,3 +2191,94 @@ html[data-theme="dark"] .share .share-action:focus,
 html[data-theme="dark"] .share .share-action:focus-visible {
   color: var(--share-red-hover);
 }
+
+/* Mobile micro v3 — smaller labels, smaller icons, gear inside row, 3 pills visible */
+@media (max-width: 480px) {
+  .site-nav {
+    --nav-bar-height: 4.1rem;
+    padding: max(0.2rem, env(safe-area-inset-top)) 0.5rem 0.2rem;
+  }
+
+  /* Hide brand area on phones only */
+  .site-nav__brand,
+  .site-nav__brand-text,
+  .site-nav__brand-image { display: none !important; }
+
+  /* Make the row compact and prevent vertical clipping */
+  .site-nav__links {
+    gap: 0.35rem;
+    overflow-x: auto;
+    overflow-y: visible;
+    padding: 0.2rem 0.25rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  .site-nav__links > li { flex: 0 0 auto; }
+  .site-nav__links > li > details { display: inline-block; }
+
+  /* Smaller labels and pill width, keep ≥44px tap height */
+  .site-nav__links > li > a,
+  .site-nav__links > li > button,
+  .site-nav__links > li > details > summary {
+    font-size: 0.85rem;
+    padding: 0 0.45rem;
+    min-height: 44px;
+    line-height: 1.1;
+    border-radius: 9999px;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.10);
+    display: inline-flex;
+    align-items: center;
+    max-width: calc(33.33vw - 1rem);
+  }
+
+  /* Active pill visible at rest */
+  .site-nav__links > li > a[aria-current="page"],
+  .site-nav__links > li.is-active > a,
+  .site-nav__links > li > button[aria-current="page"],
+  .site-nav__item--settings .nav-gear[open] > summary {
+    background: #6e2745;
+    color: #fff;
+    border-color: #6e2745;
+  }
+
+  /* Smaller icons including SVG fallback */
+  .site-nav__links .nav-icon,
+  .site-nav__links > li > a > svg,
+  .site-nav__links > li > button > svg,
+  .site-nav__links > li > details > summary > svg {
+    width: 0.9rem;
+    height: 0.9rem;
+    margin-right: 0.28rem;
+    flex-shrink: 0;
+  }
+
+  /* Ellipsize long labels to save width */
+  .site-nav__links .nav-label,
+  .site-nav__links > li > a span:not(.nav-icon),
+  .site-nav__links > li > button span:not(.nav-icon),
+  .site-nav__links > li > details > summary span:not(.nav-icon) {
+    display: inline-block;
+    max-width: 5.75ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Gear as a pill, icon-only on phones */
+  .site-nav__item--settings .nav-label { display: none; }
+  .site-nav__item--settings .nav-icon { margin-right: 0; }
+
+  /* Hide any legacy gear container that still exists */
+  .nav-gear { display: none !important; }
+  .site-nav__item--settings .nav-gear { display: inline-block !important; }
+}
+
+/* Extra squeeze for the narrowest Androids */
+@media (max-width: 400px) {
+  .site-nav__links { gap: 0.3rem; }
+  .site-nav__links .nav-label,
+  .site-nav__links > li > a span:not(.nav-icon),
+  .site-nav__links > li > button span:not(.nav-icon),
+  .site-nav__links > li > details > summary span:not(.nav-icon) { max-width: 5.25ch; }
+}
+
