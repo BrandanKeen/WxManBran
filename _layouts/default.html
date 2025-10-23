@@ -191,5 +191,75 @@
         });
       })();
     </script>
+    <script>
+      (function(){
+        var detailsList = Array.prototype.slice.call(document.querySelectorAll('[data-mobile-menu], [data-theme-gear]'));
+        if (!detailsList.length) return;
+
+        function setExpanded(details, expanded) {
+          var summary = details.querySelector('summary');
+          if (!summary) return;
+          summary.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+        }
+
+        function closeDetails(details) {
+          if (!details.hasAttribute('open')) return;
+          details.removeAttribute('open');
+          setExpanded(details, false);
+        }
+
+        detailsList.forEach(function(details){
+          var summary = details.querySelector('summary');
+          if (!summary) return;
+
+          setExpanded(details, details.hasAttribute('open'));
+
+          function toggleDetails() {
+            var willOpen = !details.hasAttribute('open');
+            if (willOpen) {
+              detailsList.forEach(function(other){
+                if (other !== details) {
+                  closeDetails(other);
+                }
+              });
+              details.setAttribute('open', '');
+              setExpanded(details, true);
+            } else {
+              closeDetails(details);
+            }
+          }
+
+          summary.addEventListener('click', function(event){
+            event.preventDefault();
+            toggleDetails();
+          });
+
+          summary.addEventListener('keydown', function(event){
+            if (event.key === ' ' || event.key === 'Enter') {
+              event.preventDefault();
+              toggleDetails();
+            }
+          });
+        });
+
+        function handleOutside(event) {
+          var target = event.target;
+          var isInside = detailsList.some(function(details){
+            return details.contains(target);
+          });
+          if (!isInside) {
+            detailsList.forEach(closeDetails);
+          }
+        }
+
+        var supportsPointer = typeof window !== 'undefined' && 'PointerEvent' in window;
+        if (supportsPointer) {
+          document.addEventListener('pointerdown', handleOutside);
+        } else {
+          document.addEventListener('mousedown', handleOutside);
+          document.addEventListener('touchstart', handleOutside);
+        }
+      })();
+    </script>
   </body>
 </html>
