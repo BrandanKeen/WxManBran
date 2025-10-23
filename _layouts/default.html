@@ -39,7 +39,6 @@
     <link rel="icon" type="image/png" href="{{ '/assets/images/Hurricane_Flags.png' | relative_url }}">
     <link rel="shortcut icon" type="image/png" href="{{ '/assets/images/Hurricane_Flags.png' | relative_url }}">
     <link rel="stylesheet" href="{{ '/assets/main.css' | relative_url }}">
-    <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
     {% if site.plugins contains 'jekyll-feed' %}
     {% feed_meta %}
     {% endif %}
@@ -92,91 +91,6 @@
         </div>
       </div>
     </footer>
-    <script>
-      (function() {
-        var root = document.documentElement;
-        var storageKey = 'wx-theme-preference';
-        if (!root || typeof window === 'undefined') { return; }
-
-        function getStoredTheme() {
-          try {
-            return window.localStorage.getItem(storageKey);
-          } catch (error) {
-            return null;
-          }
-        }
-
-        function setStoredTheme(theme) {
-          try {
-            window.localStorage.setItem(storageKey, theme);
-          } catch (error) {
-            /* no-op */
-          }
-        }
-
-        function resolveTheme(theme) {
-          return theme === 'dark' ? 'dark' : 'light';
-        }
-
-        var toggle = document.querySelector('[data-theme-toggle]');
-        if (!toggle) { return; }
-        var gear = document.querySelector('[data-theme-gear]');
-        var textNode = toggle.querySelector('[data-theme-toggle-text]');
-        var mediaQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
-
-        function applyTheme(theme, shouldPersist) {
-          var normalized = resolveTheme(theme);
-          root.dataset.theme = normalized;
-          var isDark = normalized === 'dark';
-          toggle.setAttribute('aria-pressed', isDark ? 'true' : 'false');
-          toggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
-          toggle.setAttribute('title', isDark ? 'Switch to light mode' : 'Switch to dark mode');
-          if (textNode) {
-            textNode.textContent = isDark ? 'Switch to light mode' : 'Switch to dark mode';
-          }
-          if (shouldPersist) {
-            setStoredTheme(normalized);
-          }
-        }
-
-        var initialTheme = root.dataset.theme || getStoredTheme();
-        if (!initialTheme && mediaQuery) {
-          initialTheme = mediaQuery.matches ? 'dark' : 'light';
-        }
-        applyTheme(initialTheme, false);
-
-        toggle.addEventListener('click', function() {
-          var nextTheme = root.dataset.theme === 'dark' ? 'light' : 'dark';
-          applyTheme(nextTheme, true);
-        });
-
-        if (gear) {
-          document.addEventListener('click', function(event) {
-            if (!gear.open) {
-              return;
-            }
-            if (gear.contains(event.target)) {
-              return;
-            }
-            gear.open = false;
-          });
-        }
-
-        if (mediaQuery) {
-          var mediaHandler = function(event) {
-            if (getStoredTheme()) {
-              return;
-            }
-            applyTheme(event.matches ? 'dark' : 'light', false);
-          };
-          if (typeof mediaQuery.addEventListener === 'function') {
-            mediaQuery.addEventListener('change', mediaHandler);
-          } else if (typeof mediaQuery.addListener === 'function') {
-            mediaQuery.addListener(mediaHandler);
-          }
-        }
-      })();
-    </script>
     <script>
       (function() {
         var panels = document.querySelectorAll('[data-share-panel]');
@@ -248,6 +162,32 @@
               handleSuccess();
             }
           });
+        });
+      })();
+    </script>
+    <script>
+      (function(){
+        var root = document.documentElement;
+        var storageKey = 'wx-theme-preference';
+        function setTheme(theme) {
+          root.dataset.theme = theme;
+          try { localStorage.setItem(storageKey, theme); } catch(e) {}
+          var pressed = theme === 'dark';
+          document.querySelectorAll('[data-theme-toggle]').forEach(function(btn){
+            btn.setAttribute('aria-pressed', String(pressed));
+            btn.setAttribute('aria-label', pressed ? 'Switch to light mode' : 'Switch to dark mode');
+            var live = btn.querySelector('[data-theme-toggle-text]');
+            if (live) live.textContent = pressed ? 'Switch to light mode' : 'Switch to dark mode';
+          });
+        }
+        // Initialize buttons to match current theme
+        setTheme(root.dataset.theme || 'light');
+        // Click handler
+        document.addEventListener('click', function(e){
+          var btn = e.target.closest('[data-theme-toggle]');
+          if (!btn) return;
+          var next = (root.dataset.theme === 'dark') ? 'light' : 'dark';
+          setTheme(next);
         });
       })();
     </script>
