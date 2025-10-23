@@ -71,9 +71,90 @@
         {% assign heading_close_with_images = heading_close | append: storm_image_pair %}
         {% assign rendered_content = rendered_content | replace_first: heading_close, heading_close_with_images %}
       {% endif %}
-      {{ rendered_content }}
+      {% if page.collection == 'posts' %}
+        <article class="post-content" data-post-content>
+          {{ rendered_content }}
+        </article>
+      {% else %}
+        {{ rendered_content }}
+      {% endif %}
       {% if page.collection == 'posts' or page.collection == 'storms' %}
         {% include share-buttons.html %}
+      {% endif %}
+      {% if page.collection == 'posts' %}
+      <script>
+        (function () {
+          var content = document.querySelector('[data-post-content]');
+          if (!content) {
+            return;
+          }
+
+          var images = content.querySelectorAll('img');
+          if (!images.length) {
+            return;
+          }
+
+          Array.prototype.forEach.call(images, function (image) {
+            if (!image || image.closest('a')) {
+              return;
+            }
+
+            var source = image.getAttribute('data-fullsize-src') ||
+              image.getAttribute('data-src') ||
+              image.getAttribute('src');
+
+            if (!source) {
+              return;
+            }
+
+            var wrapperTarget = image.closest('picture') || image;
+            var parent = wrapperTarget && wrapperTarget.parentNode;
+            if (!parent) {
+              return;
+            }
+
+            var anchor = document.createElement('a');
+            anchor.className = 'post-image-link';
+            anchor.href = source;
+            anchor.target = '_blank';
+            anchor.rel = 'noopener noreferrer';
+
+            var altText = image.getAttribute('alt');
+            if (altText && altText.trim().length > 0) {
+              var trimmed = altText.trim();
+              anchor.setAttribute('aria-label', 'Open image in new tab: ' + trimmed);
+              anchor.title = trimmed;
+            } else {
+              anchor.setAttribute('aria-label', 'Open image in new tab');
+            }
+
+            var shouldReplaceParent = false;
+            if (parent.tagName === 'P') {
+              shouldReplaceParent = true;
+              for (var i = 0; i < parent.childNodes.length; i++) {
+                var node = parent.childNodes[i];
+                if (node === wrapperTarget) {
+                  continue;
+                }
+                if (node.nodeType === 3 && !node.textContent.trim()) {
+                  continue;
+                }
+                shouldReplaceParent = false;
+                break;
+              }
+            }
+
+            if (shouldReplaceParent && parent.parentNode) {
+              parent.parentNode.insertBefore(anchor, parent);
+              anchor.appendChild(wrapperTarget);
+              parent.remove();
+            } else {
+              parent.insertBefore(anchor, wrapperTarget);
+              anchor.appendChild(wrapperTarget);
+            }
+          });
+        })();
+      </script>
       {% endif %}
     </main>
     <footer class="site-footer">
