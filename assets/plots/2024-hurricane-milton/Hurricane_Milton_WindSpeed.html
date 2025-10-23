@@ -574,9 +574,8 @@ const moveScrub = (touch) => {
             Plotly.Fx.unhover(gd);
           }
         });
-        if (isCoarsePointerDevice()) {
-          setupTouchHover();
-        }
+        const HAS_TOUCH = (('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (window.matchMedia && window.matchMedia('(pointer: coarse)').matches));
+if (HAS_TOUCH) { setupTouchHover(); }
       });
     });
   </script>
