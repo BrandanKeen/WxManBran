@@ -53,7 +53,8 @@ Hurricane Milton was one of the most powerful hurricanes ever recorded in the At
   #milton-photos .media-row {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.75rem;
+    column-gap: 0.75rem;
+    row-gap: 1.25rem;
     align-items: stretch;
   }
   #milton-photos figure {
@@ -84,11 +85,15 @@ Hurricane Milton was one of the most powerful hurricanes ever recorded in the At
     text-align: center;
     font-size: 0.9rem;
     margin-top: 0;
-    padding-top: 0.25rem;
+    padding: 0.25rem 0 0.75rem;
+  }
+  #milton-photos figure:first-child figcaption {
+    padding-bottom: 1.5rem;
   }
   @media (max-width: 900px) {
     #milton-photos .media-row {
       grid-template-columns: 1fr;
+      row-gap: 1.5rem;
     }
     #milton-photos figure a {
       flex: none;
@@ -146,12 +151,9 @@ Hurricane Milton was one of the most powerful hurricanes ever recorded in the At
   <details class="storm-plot-group" open>
     <summary class="storm-plot-summary">Multi-Panel Plots</summary>
     <div class="storm-plot storm-multi-panels">
-      <figure class="storm-multi-panels__figure">
-        <span class="storm-multi-panels__watermark" aria-hidden="true">WxManBran.com</span>
-        <a href="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_MultiPanel.svg' | relative_url }}" target="_blank" rel="noopener noreferrer">
-          <img src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_MultiPanel.svg' | relative_url }}" alt="Multi-panel plot for Hurricane Milton" loading="lazy">
-        </a>
-      </figure>
+      <div class="storm-multi-panels__frame">
+        <iframe src="{{ '/assets/plots/2024-hurricane-milton/Hurricane_Milton_MultiPanel.html' | relative_url }}?v={{ site.time | date: '%s' }}" width="100%" height="720" loading="lazy" style="border:0"></iframe>
+      </div>
     </div>
   </details>
   <details class="storm-plot-group" open>
