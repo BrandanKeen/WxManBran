@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -14,7 +14,7 @@
         var root = document.documentElement;
         if (!root) { return; }
         var storageKey = 'wx-theme-preference';
-        var fallbackTheme = 'light';
+        var fallbackTheme = 'dark';
         if (typeof window === 'undefined') {
           root.dataset.theme = fallbackTheme;
           return;
@@ -181,7 +181,7 @@
           });
         }
         // Initialize buttons to match current theme
-        setTheme(root.dataset.theme || 'light');
+        setTheme(root.dataset.theme || 'dark');
         // Click handler
         document.addEventListener('click', function(e){
           var btn = e.target.closest('[data-theme-toggle]');
