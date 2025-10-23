@@ -2351,6 +2351,7 @@ html[data-theme="dark"] .share .share-action:focus-visible {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    margin-left: .35rem;
     border-radius: 9999px;
     background: rgba(255,255,255,.08);
     border: 1px solid rgba(255,255,255,.10);
