@@ -2611,7 +2611,7 @@ html[data-theme="dark"] .share .share-action:focus-visible {
   .site-nav__row {
     width: 100vw;          /* cover the entire viewport width */
     margin-left: 50%;      /* center the 100vw box within any parent flow */
-    transform: translateX(calc(-50% + 25px)) translateY(-5px);  /* center, nudge right, and lift slightly */
+    transform: translateX(calc(-50% + 5px)) translateY(-5px);  /* center, nudge right, and lift slightly */
     border-radius: 0;      /* no rounded outer corners that reveal background */
     padding-top: env(safe-area-inset-top, 0);
   }
@@ -2619,3 +2619,45 @@ html[data-theme="dark"] .share .share-action:focus-visible {
   /* Clip any internal overflow so no sub-element can create a right-edge gap */
   .site-nav { overflow: hidden; }
 }
+
+
+
+
+
+/* Mobile only: remove white outline and right hairline on the top nav */
+@media (max-width: 480px) {
+  /* 1) Kill any border/outline/box-shadow that cards apply to the mobile nav row */
+  .site-nav__row,
+  .site-nav__row::before,
+  .site-nav__row::after {
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* Also remove focus rings on the hamburger and gear to avoid white boxes on tap */
+  .site-nav__row summary:focus,
+  .site-nav__row summary:focus-visible,
+  .site-nav__row button:focus,
+  .site-nav__row button:focus-visible {
+    outline: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* 2) Ensure the bar is centered and clipped so no 1px sliver shows on the right */
+  :root { --page-gutter: 12px; } /* set this to match your home container side padding */
+
+  .site-nav { overflow-x: clip; }       /* Safari 17+ */
+  @supports not (overflow-x: clip) {
+    .site-nav { overflow-x: hidden; }   /* fallback */
+  }
+
+  .site-nav__row {
+    width: calc(100% - (var(--page-gutter) * 2));
+    margin-left: var(--page-gutter);
+    margin-right: var(--page-gutter);
+    background-clip: padding-box; /* prevents any hidden border from bleeding at edges */
+    border-radius: 12px;          /* keep your rounded capsule without a border */
+  }
+}
+
