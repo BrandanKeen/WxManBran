@@ -1109,6 +1109,16 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
           const ratio = (clamped - rect.left) / length;
           return start + ratio * (end - start);
         }};
+        const preventInteractionDefaults = (event) => {{
+          if (!event) {{
+            return;
+          }}
+          event.preventDefault();
+          event.stopPropagation();
+          if (typeof event.stopImmediatePropagation === 'function') {{
+            event.stopImmediatePropagation();
+          }}
+        }};
         const beginScrub = (touch) => {{
           const target = findTouchTarget(touch.clientX, touch.clientY);
           if (!target) {{
@@ -1119,6 +1129,16 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
             return false;
           }}
           applyHoverForTime(targetTime);
+          return true;
+        }};
+        const activateScrubSession = (touch, event) => {{
+          const started = beginScrub(touch);
+          if (!started) {{
+            return false;
+          }}
+          activeTouchId = touch.identifier;
+          isScrubbing = true;
+          preventInteractionDefaults(event);
           return true;
         }};
         const moveScrub = (touch) => {{
@@ -1153,13 +1173,7 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
           if (stillActive) {{
             return;
           }}
-          if (event) {{
-            event.preventDefault();
-            event.stopPropagation();
-            if (typeof event.stopImmediatePropagation === 'function') {{
-              event.stopImmediatePropagation();
-            }}
-          }}
+          preventInteractionDefaults(event);
           endScrub();
         }};
         const handleDoubleTap = (event) => {{
@@ -1170,13 +1184,7 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
             hideHighlights();
             Plotly.Fx.unhover(gd);
             resetToInitialView();
-            if (event) {{
-              event.preventDefault();
-              event.stopPropagation();
-              if (typeof event.stopImmediatePropagation === 'function') {{
-                event.stopImmediatePropagation();
-              }}
-            }}
+            preventInteractionDefaults(event);
             return true;
           }}
           lastTapTimestamp = now;
@@ -1212,16 +1220,8 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
             if (handleDoubleTap(event)) {{
               return;
             }}
-            const started = beginScrub(touch);
-            if (started) {{
-              activeTouchId = touch.identifier;
-              isScrubbing = true;
-              event.preventDefault();
-              event.stopPropagation();
-              if (typeof event.stopImmediatePropagation === 'function') {{
-                event.stopImmediatePropagation();
-              }}
-            }} else {{
+            const started = activateScrubSession(touch, event);
+            if (!started) {{
               isScrubbing = false;
               activeTouchId = null;
             }}
@@ -1231,21 +1231,30 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
         root.addEventListener(
           'touchmove',
           (event) => {{
-            if (!isScrubbing || activeTouchId === null) {{
+            const touches = Array.from(event.touches || []);
+            if (!touches.length) {{
               return;
             }}
-            const touches = Array.from(event.touches || []);
-            const touch = touches.find((item) => item.identifier === activeTouchId);
+            let touch = touches.find((item) => item.identifier === activeTouchId);
+            if (!touch) {{
+              if (touches.length !== 1) {{
+                return;
+              }}
+              touch = touches[0];
+            }}
             if (!touch) {{
               return;
             }}
+            if (!isScrubbing || activeTouchId === null) {{
+              refreshTouchTargets();
+              const started = activateScrubSession(touch, event);
+              if (!started) {{
+                return;
+              }}
+            }}
             const moved = moveScrub(touch);
             if (moved) {{
-              event.preventDefault();
-              event.stopPropagation();
-              if (typeof event.stopImmediatePropagation === 'function') {{
-                event.stopImmediatePropagation();
-              }}
+              preventInteractionDefaults(event);
             }}
           }},
           {{ passive: false }}
