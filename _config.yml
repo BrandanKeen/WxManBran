@@ -1,7 +1,7 @@
-title: WxManBran
+﻿title: WxManBran
 description: Tropical weather updates by Weather Man Bran
-url: "https://brandankeen.github.io"   # change to your domain later
-baseurl: "/WxManBran"                   # remove when you add a custom domain
+url: "https://wxmanbran.com"
+baseurl: ""
 theme: minima
 permalink: pretty
 
@@ -28,3 +28,4 @@ defaults:
       type: "storms"
     values:
       layout: default
+

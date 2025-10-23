@@ -1,4 +1,4 @@
-# WxManBran.com
+﻿# WxManBran.com
 
 A lightweight Jekyll site for tropical weather storytelling. Everything is designed so you can edit Markdown directly on GitHub and let GitHub Pages publish automatically.
 
@@ -6,7 +6,7 @@ A lightweight Jekyll site for tropical weather storytelling. Everything is desig
 
 1. Edit files from the GitHub interface (no local Ruby setup required).
 2. Commit changes to `main`. GitHub Actions will build the site and deploy `_site`.
-3. Visit <https://brandankeen.github.io/WxManBran/> (or your custom domain) to verify.
+3. Visit <https://brandankeen.github.io/> (or your custom domain) to verify.
 
 ## Add a New Tropical Update (5 Steps)
 
@@ -78,3 +78,4 @@ bundle exec jekyll build
 ```
 
 This mirrors the production Pages build, so you’ll know a change is safe to merge as soon as CI passes.
+
