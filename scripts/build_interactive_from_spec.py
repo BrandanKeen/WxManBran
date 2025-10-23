@@ -881,6 +881,222 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
           flushPendingHover();
         }}, 0);
       }}
+      function isCoarsePointerDevice() {{
+        if (typeof window === 'undefined') {{
+          return false;
+        }}
+        if (typeof window.matchMedia === 'function') {{
+          try {{
+            if (window.matchMedia('(pointer: coarse)').matches) {{
+              return true;
+            }}
+          }} catch (err) {{
+            // Ignore errors from matchMedia
+          }}
+        }}
+        return 'ontouchstart' in window;
+      }}
+      function setupTouchHover() {{
+        const root = gd;
+        if (!root || typeof root.addEventListener !== 'function') {{
+          return;
+        }}
+        let activeTouchId = null;
+        let isScrubbing = false;
+        let touchTargets = [];
+        const refreshTouchTargets = () => {{
+          const fullLayout = gd._fullLayout;
+          if (!fullLayout || !fullLayout._plots) {{
+            touchTargets = [];
+            return;
+          }}
+          touchTargets = Object.keys(fullLayout._plots)
+            .map((subplot) => {{
+              const plot = fullLayout._plots[subplot];
+              if (!plot || !plot.xaxis || !plot.yaxis) {{
+                return null;
+              }}
+              const xaxis = plot.xaxis;
+              const yaxis = plot.yaxis;
+              if (
+                typeof xaxis._length !== 'number' ||
+                xaxis._length <= 0 ||
+                typeof yaxis._length !== 'number' ||
+                yaxis._length <= 0
+              ) {{
+                return null;
+              }}
+              return {{ axis: xaxis, yaxis }};
+            }})
+            .filter((entry) => Boolean(entry));
+        }};
+        const findTouchTarget = (clientX, clientY) => {{
+          if (!touchTargets.length) {{
+            return null;
+          }}
+          const rootRect = root.getBoundingClientRect();
+          for (const entry of touchTargets) {{
+            const axis = entry.axis;
+            const yaxis = entry.yaxis;
+            if (!axis || !yaxis) {{
+              continue;
+            }}
+            const left =
+              rootRect.left + (typeof axis._offset === 'number' ? axis._offset : 0);
+            const width = typeof axis._length === 'number' ? axis._length : 0;
+            const top =
+              rootRect.top + (typeof yaxis._offset === 'number' ? yaxis._offset : 0);
+            const height = typeof yaxis._length === 'number' ? yaxis._length : 0;
+            if (width <= 0 || height <= 0) {{
+              continue;
+            }}
+            const right = left + width;
+            const bottom = top + height;
+            if (
+              clientX >= left &&
+              clientX <= right &&
+              clientY >= top &&
+              clientY <= bottom
+            ) {{
+              return {{
+                axis,
+                rect: {{ left, right, top, bottom, width, height }}
+              }};
+            }}
+          }}
+          return null;
+        }};
+        const computeTargetTime = (axis, rect, clientX) => {{
+          if (!axis || !rect) {{
+            return NaN;
+          }}
+          const range = axis.range || axis._range;
+          if (!range || range.length < 2) {{
+            return NaN;
+          }}
+          const start = toTimestamp(range[0]);
+          const end = toTimestamp(range[1]);
+          if (!Number.isFinite(start) || !Number.isFinite(end) || start === end) {{
+            return NaN;
+          }}
+          const clamped = Math.min(Math.max(clientX, rect.left), rect.right);
+          const span = rect.width || rect.right - rect.left;
+          const length = span > 0 ? span : 1;
+          const ratio = (clamped - rect.left) / length;
+          return start + ratio * (end - start);
+        }};
+        const beginScrub = (touch) => {{
+          const target = findTouchTarget(touch.clientX, touch.clientY);
+          if (!target) {{
+            return false;
+          }}
+          const targetTime = computeTargetTime(target.axis, target.rect, touch.clientX);
+          if (!Number.isFinite(targetTime)) {{
+            return false;
+          }}
+          applyHoverForTime(targetTime);
+          return true;
+        }};
+        const moveScrub = (touch) => {{
+          const target = findTouchTarget(touch.clientX, touch.clientY);
+          if (!target) {{
+            hideHighlights();
+            Plotly.Fx.unhover(gd);
+            return false;
+          }}
+          const targetTime = computeTargetTime(target.axis, target.rect, touch.clientX);
+          if (!Number.isFinite(targetTime)) {{
+            hideHighlights();
+            Plotly.Fx.unhover(gd);
+            return false;
+          }}
+          applyHoverForTime(targetTime);
+          return true;
+        }};
+        const endScrub = () => {{
+          isScrubbing = false;
+          activeTouchId = null;
+          pendingHoverState = null;
+          hideHighlights();
+          Plotly.Fx.unhover(gd);
+        }};
+        const handleTouchEnd = (event) => {{
+          if (!isScrubbing || activeTouchId === null) {{
+            return;
+          }}
+          const remaining = Array.from(event.touches || []);
+          const stillActive = remaining.some((touch) => touch.identifier === activeTouchId);
+          if (stillActive) {{
+            return;
+          }}
+          if (event) {{
+            event.preventDefault();
+            event.stopPropagation();
+            if (typeof event.stopImmediatePropagation === 'function') {{
+              event.stopImmediatePropagation();
+            }}
+          }}
+          endScrub();
+        }};
+        refreshTouchTargets();
+        gd.on('plotly_afterplot', refreshTouchTargets);
+        gd.on('plotly_relayout', refreshTouchTargets);
+        gd.on('plotly_update', refreshTouchTargets);
+        if (typeof window !== 'undefined') {{
+          window.addEventListener('resize', refreshTouchTargets);
+        }}
+        root.addEventListener(
+          'touchstart',
+          (event) => {{
+            refreshTouchTargets();
+            if (event.touches.length !== 1) {{
+              if (isScrubbing) {{
+                endScrub();
+              }}
+              return;
+            }}
+            const touch = event.touches[0];
+            const started = beginScrub(touch);
+            if (started) {{
+              activeTouchId = touch.identifier;
+              isScrubbing = true;
+              event.preventDefault();
+              event.stopPropagation();
+              if (typeof event.stopImmediatePropagation === 'function') {{
+                event.stopImmediatePropagation();
+              }}
+            }} else {{
+              isScrubbing = false;
+              activeTouchId = null;
+            }}
+          }},
+          {{ passive: false }}
+        );
+        root.addEventListener(
+          'touchmove',
+          (event) => {{
+            if (!isScrubbing || activeTouchId === null) {{
+              return;
+            }}
+            const touches = Array.from(event.touches || []);
+            const touch = touches.find((item) => item.identifier === activeTouchId);
+            if (!touch) {{
+              return;
+            }}
+            const moved = moveScrub(touch);
+            if (moved) {{
+              event.preventDefault();
+              event.stopPropagation();
+              if (typeof event.stopImmediatePropagation === 'function') {{
+                event.stopImmediatePropagation();
+              }}
+            }}
+          }},
+          {{ passive: false }}
+        );
+        root.addEventListener('touchend', handleTouchEnd);
+        root.addEventListener('touchcancel', handleTouchEnd);
+      }}
       addHighlights.then(() => {{
         if (!highlightTraces.length) {{
           return;
@@ -912,6 +1128,9 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
             Plotly.Fx.unhover(gd);
           }}
         }});
+        if (isCoarsePointerDevice()) {{
+          setupTouchHover();
+        }}
       }});
     }});
   </script>
