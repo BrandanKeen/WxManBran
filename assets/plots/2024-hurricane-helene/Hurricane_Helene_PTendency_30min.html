@@ -8,7 +8,10 @@
     body { margin: 0; padding: 0; }
     #chart { width: 100%; height: 100vh; }
   </style>
-</head>
+<style>/* WMB touch-action helper */
+html, body { overscroll-behavior: contain; }
+.js-plotly-plot, .plot-container, .svg-container { touch-action: none; }
+</style></head>
 <body>
   <div id="chart"></div>
   <script>
@@ -148,7 +151,11 @@
           if (highlightIdx === null) {
             return;
           }
-          Plotly.restyle(gd, { visible: false }, highlightIdx);
+          const prev = lastHighlight.get(highlightIdx);
+            if (!prev || prev.visible !== false) {
+              Plotly.restyle(gd, { visible: false }, highlightIdx);
+              lastHighlight.set(highlightIdx, {x: null, y: null, visible: false});
+            }
         });
         hasActiveHover = false;
         currentHoverTargetTime = null;
@@ -196,9 +203,10 @@
           Plotly.Fx.unhover(gd);
           return;
         }
-        applyHoverForTime(state.targetTime);
+        scheduleHover(state.targetTime);
       }
-      function applyHoverForTime(targetTime) {
+      const lastHighlight = new Map();
+function applyHoverForTime(targetTime) {
         const hoverPoints = [];
         highlightIndexMap.forEach((highlightIdx, sourceIdx) => {
           if (highlightIdx === null) {
@@ -206,15 +214,27 @@
           }
           const entries = dataLookup[sourceIdx];
           if (!entries || !entries.length) {
-            Plotly.restyle(gd, { visible: false }, highlightIdx);
+            const prev = lastHighlight.get(highlightIdx);
+            if (!prev || prev.visible !== false) {
+              Plotly.restyle(gd, { visible: false }, highlightIdx);
+              lastHighlight.set(highlightIdx, {x: null, y: null, visible: false});
+            }
             return;
           }
           const match = findMatch(entries, targetTime);
           if (!match) {
-            Plotly.restyle(gd, { visible: false }, highlightIdx);
+            const prev = lastHighlight.get(highlightIdx);
+            if (!prev || prev.visible !== false) {
+              Plotly.restyle(gd, { visible: false }, highlightIdx);
+              lastHighlight.set(highlightIdx, {x: null, y: null, visible: false});
+            }
             return;
           }
-          Plotly.restyle(gd, { x: [[match.x]], y: [[match.y]], visible: true }, highlightIdx);
+          const prev = lastHighlight.get(highlightIdx);
+          if (!prev || prev.x !== match.x || prev.y !== match.y || prev.visible !== true) {
+            Plotly.restyle(gd, { x: [[match.x]], y: [[match.y]], visible: true }, highlightIdx);
+            lastHighlight.set(highlightIdx, {x: match.x, y: match.y, visible: true});
+          }
           hoverPoints.push({ curveNumber: match.curveNumber, pointNumber: match.index, subplot: match.subplot });
         });
         const uniquePoints = hoverPoints.filter((point, idx, arr) =>
@@ -361,7 +381,7 @@
           if (!Number.isFinite(start) || !Number.isFinite(end) || start === end) {
             return NaN;
           }
-          const clamped = Math.min(Math.max(clientX, rect.left), rect.right);
+          const edgePad = 4; const clamped = Math.min(Math.max(clientX, rect.left + edgePad), rect.right - edgePad);
           const span = rect.width || rect.right - rect.left;
           const length = span > 0 ? span : 1;
           const ratio = (clamped - rect.left) / length;
@@ -376,10 +396,22 @@
           if (!Number.isFinite(targetTime)) {
             return false;
           }
-          applyHoverForTime(targetTime);
+          scheduleHover(targetTime);
           return true;
         };
-        const moveScrub = (touch) => {
+        let rafPending = false;
+let rafTargetTime = null;
+function scheduleHover(targetTime) {
+  rafTargetTime = targetTime;
+  if (rafPending) return;
+  rafPending = true;
+  requestAnimationFrame(() => {
+    rafPending = false;
+    const t = rafTargetTime; rafTargetTime = null;
+    if (Number.isFinite(t)) { applyHoverForTime(t); }
+  });
+}
+const moveScrub = (touch) => {
           const target = findTouchTarget(touch.clientX, touch.clientY);
           if (!target) {
             hideHighlights();
@@ -392,7 +424,7 @@
             Plotly.Fx.unhover(gd);
             return false;
           }
-          applyHoverForTime(targetTime);
+          scheduleHover(targetTime);
           return true;
         };
         const endScrub = () => {
@@ -529,7 +561,7 @@
             hideHighlights();
             return;
           }
-          applyHoverForTime(targetTime);
+          scheduleHover(targetTime);
         });
         gd.on('plotly_unhover', (event) => {
           if (suppressSyntheticHover) {
