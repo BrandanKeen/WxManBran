@@ -2275,7 +2275,7 @@ html[data-theme="dark"] .share .share-action:focus-visible {
     align-items: center;
     height: var(--nav-bar-height);
     padding: max(.2rem, env(safe-area-inset-top)) .5rem .2rem;
-    background: linear-gradient(to bottom, #0b1630, rgba(11,22,48,.95));
+    background: var(--brandPrimary);
     border-bottom: 1px solid rgba(255,255,255,.12);
   }
 
