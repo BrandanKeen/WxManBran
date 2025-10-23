@@ -1209,6 +1209,7 @@ section {
 @media (max-width: 480px) {
   .site-content {
     padding: 1.5rem;
+    margin-top: 0.5rem;
   }
 
   .hero {
