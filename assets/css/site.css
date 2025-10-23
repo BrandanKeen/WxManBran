@@ -2201,6 +2201,8 @@ html[data-theme="dark"] .share .share-action:focus-visible {
   .site-nav {
     display: flex;
     align-items: center;
+    padding-left: 2.5rem;
+    padding-right: 1.75rem;
     --desktop-gear-icon-size: min(calc(var(--nav-bar-height) - 1.6rem), 3rem);
   }
   .site-nav__links { flex: 1 1 auto; overflow-x: visible; }
@@ -2214,12 +2216,13 @@ html[data-theme="dark"] .share .share-action:focus-visible {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: max(44px, var(--desktop-gear-icon-size, 44px));
-    height: max(44px, var(--desktop-gear-icon-size, 44px));
     background: transparent !important;
     border: 0 !important;
     padding: 0;
-    border-radius: 50%;
+    gap: 0;
+    width: auto;
+    height: auto;
+    border-radius: 0;
     cursor: pointer;
     min-height: 0;
   }
