@@ -1415,10 +1415,21 @@ section {
 
 .post-card__thumb-link {
   display: block;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
   border-radius: 8px;
   overflow: hidden;
   background: #f5f7fb;
+}
+
+@media (max-width: 768px) and (orientation: portrait) {
+  .tropical-updates__grid .post-card__thumb-link {
+    aspect-ratio: auto;
+  }
+
+  .tropical-updates__grid .post-card__thumb {
+    aspect-ratio: auto;
+    height: auto;
+  }
 }
 
 .post-card__video {
