@@ -189,6 +189,178 @@
           flushPendingHover();
         }, 0);
       }
+      function isCoarsePointerDevice() {
+        if (typeof window === 'undefined') {
+          return false;
+        }
+        if (typeof window.matchMedia === 'function') {
+          try {
+            if (window.matchMedia('(pointer: coarse)').matches) {
+              return true;
+            }
+          } catch (err) {
+            // Ignore errors from matchMedia
+          }
+        }
+        return 'ontouchstart' in window;
+      }
+      function setupTouchHover() {
+        const root = gd;
+        if (!root || typeof root.addEventListener !== 'function') {
+          return;
+        }
+        let activeTouchId = null;
+        let isScrubbing = false;
+        let touchTargets = [];
+        const refreshTouchTargets = () => {
+          if (!gd._fullLayout) {
+            touchTargets = [];
+            return;
+          }
+          const plots = gd._fullLayout._plots || {};
+          touchTargets = Array.from(root.querySelectorAll('rect.nsewdrag'))
+            .map((node) => {
+              const subplot = node.getAttribute('data-subplot');
+              if (!subplot) {
+                return null;
+              }
+              const plot = plots[subplot];
+              if (!plot || !plot.xaxis) {
+                return null;
+              }
+              return { node, axis: plot.xaxis };
+            })
+            .filter((entry) => Boolean(entry));
+        };
+        const findTouchTarget = (clientX, clientY) => {
+          for (const entry of touchTargets) {
+            const rect = entry.node.getBoundingClientRect();
+            if (!rect) {
+              continue;
+            }
+            if (
+              clientX >= rect.left &&
+              clientX <= rect.right &&
+              clientY >= rect.top &&
+              clientY <= rect.bottom
+            ) {
+              return { axis: entry.axis, rect };
+            }
+          }
+          return null;
+        };
+        const computeTargetTime = (axis, rect, clientX) => {
+          if (!axis || !rect) {
+            return NaN;
+          }
+          const range = axis.range || axis._range;
+          if (!range || range.length < 2) {
+            return NaN;
+          }
+          const start = toTimestamp(range[0]);
+          const end = toTimestamp(range[1]);
+          if (!Number.isFinite(start) || !Number.isFinite(end) || start === end) {
+            return NaN;
+          }
+          const clamped = Math.min(Math.max(clientX, rect.left), rect.right);
+          const span = rect.width || rect.right - rect.left;
+          const length = span > 0 ? span : 1;
+          const ratio = (clamped - rect.left) / length;
+          return start + ratio * (end - start);
+        };
+        const beginScrub = (touch) => {
+          const target = findTouchTarget(touch.clientX, touch.clientY);
+          if (!target) {
+            return false;
+          }
+          const targetTime = computeTargetTime(target.axis, target.rect, touch.clientX);
+          if (!Number.isFinite(targetTime)) {
+            return false;
+          }
+          applyHoverForTime(targetTime);
+          return true;
+        };
+        const moveScrub = (touch) => {
+          const target = findTouchTarget(touch.clientX, touch.clientY);
+          if (!target) {
+            hideHighlights();
+            Plotly.Fx.unhover(gd);
+            return false;
+          }
+          const targetTime = computeTargetTime(target.axis, target.rect, touch.clientX);
+          if (!Number.isFinite(targetTime)) {
+            hideHighlights();
+            Plotly.Fx.unhover(gd);
+            return false;
+          }
+          applyHoverForTime(targetTime);
+          return true;
+        };
+        const endScrub = () => {
+          isScrubbing = false;
+          activeTouchId = null;
+          pendingHoverState = null;
+          hideHighlights();
+          Plotly.Fx.unhover(gd);
+        };
+        const handleTouchEnd = (event) => {
+          if (!isScrubbing || activeTouchId === null) {
+            return;
+          }
+          const remaining = Array.from(event.touches || []);
+          const stillActive = remaining.some((touch) => touch.identifier === activeTouchId);
+          if (stillActive) {
+            return;
+          }
+          endScrub();
+        };
+        refreshTouchTargets();
+        gd.on('plotly_afterplot', refreshTouchTargets);
+        gd.on('plotly_relayout', refreshTouchTargets);
+        gd.on('plotly_update', refreshTouchTargets);
+        root.addEventListener(
+          'touchstart',
+          (event) => {
+            if (event.touches.length !== 1) {
+              if (isScrubbing) {
+                endScrub();
+              }
+              return;
+            }
+            const touch = event.touches[0];
+            const started = beginScrub(touch);
+            if (started) {
+              activeTouchId = touch.identifier;
+              isScrubbing = true;
+              event.preventDefault();
+            } else {
+              isScrubbing = false;
+              activeTouchId = null;
+            }
+          },
+          { passive: false }
+        );
+        root.addEventListener(
+          'touchmove',
+          (event) => {
+            if (!isScrubbing || activeTouchId === null) {
+              return;
+            }
+            const touches = Array.from(event.touches || []);
+            const touch = touches.find((item) => item.identifier === activeTouchId);
+            if (!touch) {
+              return;
+            }
+            const moved = moveScrub(touch);
+            if (moved) {
+              event.preventDefault();
+            }
+          },
+          { passive: false }
+        );
+        root.addEventListener('touchend', handleTouchEnd);
+        root.addEventListener('touchcancel', handleTouchEnd);
+      }
       addHighlights.then(() => {
         if (!highlightTraces.length) {
           return;
@@ -220,6 +392,9 @@
             Plotly.Fx.unhover(gd);
           }
         });
+        if (isCoarsePointerDevice()) {
+          setupTouchHover();
+        }
       });
     });
   </script>
