@@ -243,6 +243,13 @@ a[href="mailto:connect@wxmanbran.com"]:focus {
   height: 100%;
 }
 
+.site-nav__links::before,
+.site-nav__links::after {
+  content: "";
+  flex: 0 0 var(--nav-edge-padding, 0px);
+  display: block;
+}
+
 .site-nav__links > li {
   display: flex;
   align-items: center;
