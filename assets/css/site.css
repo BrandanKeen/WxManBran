@@ -2354,7 +2354,8 @@ html[data-theme="dark"] .share .share-action:focus-visible {
   /* Right gear button, visible on phones */
   .nav-gear--mobile {
     grid-column: 3;
-    position: static;
+    position: relative;
+    right: calc(-1 * var(--page-gutter, 12px));
     display: block;
   }
   .nav-gear--mobile > summary.nav-gear__button {
@@ -2363,13 +2364,20 @@ html[data-theme="dark"] .share .share-action:focus-visible {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 9999px;
-    background: rgba(255,255,255,.08);
-    border: 1px solid rgba(255,255,255,.10);
+    border-radius: 0;
+    background: transparent;
+    border: 0;
     color: #fff;
     list-style: none;
     padding: 0;
     min-height: 0;
+  }
+  .nav-gear--mobile > summary.nav-gear__button:hover,
+  .nav-gear--mobile > summary.nav-gear__button:focus-visible,
+  .nav-gear--mobile[open] > summary.nav-gear__button {
+    background: transparent;
+    border: 0;
+    color: #fff;
   }
   .nav-gear--mobile > summary::-webkit-details-marker { display: none; }
 
@@ -2377,7 +2385,7 @@ html[data-theme="dark"] .share .share-action:focus-visible {
   .nav-gear--mobile .nav-gear__panel {
     position: fixed;
     top: calc(var(--nav-bar-height) + .25rem);
-    right: .5rem;
+    right: 0;
     z-index: 1100;
     min-width: 220px;
     padding: .5rem;
@@ -2568,7 +2576,7 @@ html[data-theme="dark"] .share .share-action:focus-visible {
   .nav-gear--mobile .nav-gear__panel {
     position: fixed;
     top: calc(var(--nav-bar-height) + .25rem);
-    right: var(--page-gutter);
+    right: 0;
     z-index: 1100;
     min-width: 220px;
     padding: .5rem;
@@ -2624,7 +2632,12 @@ html[data-theme="dark"] .share .share-action:focus-visible {
     color: #fff;
   }
 
-  .nav-gear--mobile { grid-column: 3; justify-self: end; }
+  .nav-gear--mobile {
+    grid-column: 3;
+    justify-self: end;
+    position: relative;
+    right: calc(-1 * var(--page-gutter, 12px));
+  }
 
   .nav-gear--mobile > summary.nav-gear__button {
     width: 44px;
@@ -2632,12 +2645,20 @@ html[data-theme="dark"] .share .share-action:focus-visible {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 9999px;
-    background: rgba(255,255,255,.08);
-    border: 1px solid rgba(255,255,255,.10);
+    border-radius: 0;
+    background: transparent;
+    border: 0;
     color: #fff;
     margin: 0;
     transform: none;
+  }
+
+  .nav-gear--mobile > summary.nav-gear__button:hover,
+  .nav-gear--mobile > summary.nav-gear__button:focus-visible,
+  .nav-gear--mobile[open] > summary.nav-gear__button {
+    background: transparent;
+    border: 0;
+    color: #fff;
   }
 
   .nav-gear--mobile > summary::-webkit-details-marker { display: none; }
