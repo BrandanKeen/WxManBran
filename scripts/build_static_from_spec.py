@@ -13,12 +13,24 @@ matplotlib.use("Agg")
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import numpy as np
+from zoneinfo import ZoneInfo
 
 from plot_spec_utils import FigureSpec, StormData, load_data, load_spec
 
 
+EASTERN = ZoneInfo("America/New_York")
+
+
 def to_datetime(values: Iterable[str]) -> List[datetime]:
-    return [datetime.fromisoformat(value) for value in values]
+    timestamps: List[datetime] = []
+    for value in values:
+        dt = datetime.fromisoformat(value)
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=EASTERN)
+        else:
+            dt = dt.astimezone(EASTERN)
+        timestamps.append(dt)
+    return timestamps
 
 
 def ensure_output_directory(path: Path) -> None:
@@ -39,7 +51,10 @@ def convert_to_numeric(values: Iterable[Optional[float]]) -> np.ndarray:
 def prepare_axis(ax, subplot, timestamps: List[datetime], shared: bool) -> None:
     ax.set_title(subplot.title)
     if subplot.ylabel:
-        ax.set_ylabel(subplot.ylabel, color=subplot.ylabel_color)
+        if subplot.ylabel_color:
+            ax.set_ylabel(subplot.ylabel, color=subplot.ylabel_color)
+        else:
+            ax.set_ylabel(subplot.ylabel)
     if subplot.grid:
         ax.grid(True, which="major", linestyle="--", linewidth=0.8, alpha=0.6)
     if shared:
@@ -50,7 +65,10 @@ def prepare_axis(ax, subplot, timestamps: List[datetime], shared: bool) -> None:
 def apply_secondary_axis(ax, subplot):
     if subplot.secondary_ylabel:
         sec = ax.twinx()
-        sec.set_ylabel(subplot.secondary_ylabel, color=subplot.secondary_ylabel_color)
+        if subplot.secondary_ylabel_color:
+            sec.set_ylabel(subplot.secondary_ylabel, color=subplot.secondary_ylabel_color)
+        else:
+            sec.set_ylabel(subplot.secondary_ylabel)
         if subplot.secondary_grid:
             sec.grid(True, which="major", linestyle="--", linewidth=0.8, alpha=0.6)
         return sec
@@ -87,9 +105,9 @@ def plot_subplot(ax, subplot, timestamps: List[datetime], data: StormData) -> No
 def format_time_axis(fig: plt.Figure, axes: Iterable[plt.Axes], spec: FigureSpec) -> None:
     formatter = None
     if spec.x_tickformat:
-        formatter = mdates.DateFormatter(spec.x_tickformat)
+        formatter = mdates.DateFormatter(spec.x_tickformat, tz=EASTERN)
     else:
-        formatter = mdates.DateFormatter("%m-%d\n%H:%M")
+        formatter = mdates.DateFormatter("%m-%d\n%H:%M", tz=EASTERN)
     for ax in axes:
         ax.xaxis.set_major_formatter(formatter)
         for label in ax.get_xticklabels():
