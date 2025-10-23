@@ -2728,7 +2728,7 @@ html[data-theme="dark"] .share .share-action:focus-visible {
 
   /* Keep only your blue gradient on the bar itself */
   .site-nav__row {
-    background: linear-gradient(to bottom, #0b1630, rgba(11,22,48,.95)) !important;
+    background: var(--brandPrimary) !important;
     --page-gutter: 12px; /* set to your home container side padding */
     border: 0 !important;
     outline: 0 !important;
