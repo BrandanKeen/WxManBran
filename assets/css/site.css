@@ -282,8 +282,12 @@ a[href="mailto:connect@wxmanbran.com"]:focus {
 
 .site-nav__brand-image {
   display: block;
-  width: 2.25rem;
-  height: auto;
+  width: auto;
+  height: clamp(2.6rem, calc(var(--nav-bar-height) - 1.6rem), 3.2rem);
+}
+
+.site-nav__brand-image--logo {
+  height: clamp(2.4rem, calc(var(--nav-bar-height) - 1.8rem), 3rem);
 }
 
 .site-nav__desktop-brand {
@@ -409,6 +413,7 @@ a[href="mailto:connect@wxmanbran.com"]:focus {
   border: none;
   display: inline-flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .theme-toggle__button:hover,
@@ -1298,7 +1303,10 @@ section {
     letter-spacing: 0.07rem;
   }
   .site-nav__brand-image {
-    width: 1.8rem;
+    height: calc((var(--nav-bar-height) - 1.6rem) * 1.6875);
+  }
+  .site-nav__brand-image--logo {
+    height: calc((var(--nav-bar-height) - 1.8rem) * 1.6875);
   }
 }
 
@@ -2247,7 +2255,9 @@ html[data-theme="dark"] .share .share-action:focus-visible {
 
   /* Show the external gear; hide the mobile gear-pill */
   .nav-gear--desktop {
-    display: inline-block !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
     margin-left: auto;
     margin-right: 1.25rem;
   }
@@ -2355,7 +2365,8 @@ html[data-theme="dark"] .share .share-action:focus-visible {
     gap: .5rem;
     align-items: center;
   }
-  .site-nav__brand-image { width: 1.2rem; height: auto; }
+  .site-nav__brand-image { height: calc((var(--nav-bar-height) - 1.7rem) * 1.6875); }
+  .site-nav__brand-image--logo { height: calc((var(--nav-bar-height) - 1.9rem) * 1.6875); }
   .site-nav__brand-text  { font-weight: 800; letter-spacing: .02em; color: #fff; }
 
   /* Right gear button, visible on phones */
@@ -2720,7 +2731,7 @@ html[data-theme="dark"] .share .share-action:focus-visible {
 
   /* Keep only your blue gradient on the bar itself */
   .site-nav__row {
-    background: linear-gradient(to bottom, #0b1630, rgba(11,22,48,.95)) !important;
+    background: var(--brandPrimary) !important;
     --page-gutter: 12px; /* set to your home container side padding */
     border: 0 !important;
     outline: 0 !important;
