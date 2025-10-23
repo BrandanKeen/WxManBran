@@ -2433,6 +2433,7 @@ html[data-theme="dark"] .share .share-action:focus-visible {
 
   /* Keep the header the same visual width as the home container */
   .site-nav__row {
+    width: calc(100% - (var(--page-gutter) * 2));
     margin-left: var(--page-gutter);
     margin-right: var(--page-gutter);
     border-radius: 12px; /* optional - matches your cards */
@@ -2525,10 +2526,41 @@ html[data-theme="dark"] .share .share-action:focus-visible {
   }
 }
 
+/* =========================
+   MOBILE ACCORDION COLORS
+   Force white labels and icons for both themes
+   ========================= */
+@media (max-width: 480px) {
+  /* Text color */
+  html[data-theme="dark"]  .drawer-link,
+  html[data-theme="light"] .drawer-link {
+    color: #ffffff !important;
+  }
+
+  /* Icon color (icons use currentColor) */
+  html[data-theme="dark"]  .drawer-link .nav-icon,
+  html[data-theme="light"] .drawer-link .nav-icon {
+    color: #ffffff !important;
+  }
+
+  /* Ensure SVGs actually pick up currentColor */
+  .drawer-link .nav-icon svg,
+  .drawer-link > svg {
+    stroke: currentColor !important;
+    fill: currentColor !important;
+  }
+
+  /* Active item can keep the maroon background but text stays white */
+  .drawer-link.is-active {
+    color: #ffffff !important;
+  }
+}
+
 @media (max-width: 480px) {
   .site-nav { --nav-bar-height: 4.2rem; }
-  .site-nav__drawer-button,
-  .nav-gear--mobile > summary.nav-gear__button {
+  .site-nav__row { align-items: center; }
+
+  .site-nav__drawer-button {
     width: 44px;
     height: 44px;
     display: inline-flex;
@@ -2539,5 +2571,22 @@ html[data-theme="dark"] .share .share-action:focus-visible {
     border: 1px solid rgba(255,255,255,.10);
     color: #fff;
   }
+
+  .nav-gear--mobile { grid-column: 3; justify-self: end; }
+
+  .nav-gear--mobile > summary.nav-gear__button {
+    width: 44px;
+    height: var(--nav-bar-height);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.10);
+    color: #fff;
+    margin: 0;
+    transform: none;
+  }
+
   .nav-gear--mobile > summary::-webkit-details-marker { display: none; }
 }
