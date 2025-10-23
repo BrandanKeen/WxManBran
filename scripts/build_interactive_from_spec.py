@@ -878,6 +878,8 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
       }});
       let suppressSyntheticHover = false;
       let pendingHoverState = null;
+      let currentHoverTargetTime = null;
+      let hasActiveHover = false;
       function hideHighlights() {{
         highlightIndexMap.forEach((highlightIdx) => {{
           if (highlightIdx === null) {{
@@ -885,6 +887,8 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
           }}
           Plotly.restyle(gd, {{ visible: false }}, highlightIdx);
         }});
+        hasActiveHover = false;
+        currentHoverTargetTime = null;
       }}
       function findMatch(entries, targetTime) {{
         let exact = null;
@@ -958,6 +962,8 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
               p.subplot === point.subplot
           ) === idx
         );
+        hasActiveHover = uniquePoints.length > 0;
+        currentHoverTargetTime = hasActiveHover ? targetTime : null;
         suppressSyntheticHover = true;
         if (uniquePoints.length) {{
           const fullLayout = gd._fullLayout;
@@ -973,6 +979,12 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
           suppressSyntheticHover = false;
           flushPendingHover();
         }}, 0);
+      }}
+      function reapplyCurrentHover() {{
+        if (!hasActiveHover || currentHoverTargetTime === null) {{
+          return;
+        }}
+        applyHoverForTime(currentHoverTargetTime);
       }}
       function isCoarsePointerDevice() {{
         if (typeof window === 'undefined') {{
@@ -1175,8 +1187,15 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
         gd.on('plotly_afterplot', refreshTouchTargets);
         gd.on('plotly_relayout', refreshTouchTargets);
         gd.on('plotly_update', refreshTouchTargets);
+        const handleHoverDuringLayoutChange = () => {{
+          reapplyCurrentHover();
+        }};
+        gd.on('plotly_relayouting', handleHoverDuringLayoutChange);
+        gd.on('plotly_relayout', handleHoverDuringLayoutChange);
+        gd.on('plotly_update', handleHoverDuringLayoutChange);
         if (typeof window !== 'undefined') {{
           window.addEventListener('resize', refreshTouchTargets);
+          window.addEventListener('scroll', handleHoverDuringLayoutChange, {{ passive: true }});
         }}
         root.addEventListener(
           'touchstart',
