@@ -1192,6 +1192,17 @@ section {
     column-gap: 1rem;
   }
 
+  .site-nav__brand-image {
+    height: clamp(2.4rem, calc(var(--nav-bar-height) - 1.1rem), 3.1rem);
+    max-height: clamp(2.4rem, calc(var(--nav-bar-height) - 1.1rem), 3.1rem);
+    object-fit: contain;
+  }
+
+  .site-nav__brand-image--logo {
+    height: clamp(2.2rem, calc(var(--nav-bar-height) - 1.4rem), 2.85rem);
+    max-height: clamp(2.2rem, calc(var(--nav-bar-height) - 1.4rem), 2.85rem);
+  }
+
   .site-nav__links > li > a,
   .site-nav__links > li > button,
   .nav-gear__button {
@@ -2498,8 +2509,14 @@ html[data-theme="dark"] .share .share-action:focus-visible {
     gap: .5rem;
     align-items: center;
   }
-  .site-nav__brand-image { height: calc((var(--nav-bar-height) - 1.7rem) * 1.6875); }
-  .site-nav__brand-image--logo { height: calc((var(--nav-bar-height) - 1.9rem) * 1.6875); }
+  .site-nav__brand-image {
+    height: clamp(2.4rem, calc(var(--nav-bar-height) - 1.1rem), 3.1rem);
+    max-height: clamp(2.4rem, calc(var(--nav-bar-height) - 1.1rem), 3.1rem);
+  }
+  .site-nav__brand-image--logo {
+    height: clamp(2.2rem, calc(var(--nav-bar-height) - 1.4rem), 2.85rem);
+    max-height: clamp(2.2rem, calc(var(--nav-bar-height) - 1.4rem), 2.85rem);
+  }
   .site-nav__brand-text  { font-weight: 800; letter-spacing: .02em; color: #fff; }
 
   /* Right gear button, visible on phones */
