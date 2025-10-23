@@ -1302,10 +1302,10 @@ section {
     letter-spacing: 0.07rem;
   }
   .site-nav__brand-image {
-    height: calc((var(--nav-bar-height) - 1.6rem) * 2.25);
+    height: calc((var(--nav-bar-height) - 1.6rem) * 1.6875);
   }
   .site-nav__brand-image--logo {
-    height: calc((var(--nav-bar-height) - 1.8rem) * 2.25);
+    height: calc((var(--nav-bar-height) - 1.8rem) * 1.6875);
   }
 }
 
@@ -2362,8 +2362,8 @@ html[data-theme="dark"] .share .share-action:focus-visible {
     gap: .5rem;
     align-items: center;
   }
-  .site-nav__brand-image { height: calc((var(--nav-bar-height) - 1.7rem) * 2.25); }
-  .site-nav__brand-image--logo { height: calc((var(--nav-bar-height) - 1.9rem) * 2.25); }
+  .site-nav__brand-image { height: calc((var(--nav-bar-height) - 1.7rem) * 1.6875); }
+  .site-nav__brand-image--logo { height: calc((var(--nav-bar-height) - 1.9rem) * 1.6875); }
   .site-nav__brand-text  { font-weight: 800; letter-spacing: .02em; color: #fff; }
 
   /* Right gear button, visible on phones */
