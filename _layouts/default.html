@@ -350,6 +350,7 @@
         var storageKey = 'wx-nav-scroll';
         var rangeQuery = window.matchMedia ? window.matchMedia('(min-width: 481px) and (max-width: 1099px)') : null;
         var landscapeQuery = window.matchMedia ? window.matchMedia('(orientation: landscape)') : null;
+        var edgePaddingVar = '--nav-edge-padding';
 
         function viewportSize() {
           return {
@@ -410,33 +411,78 @@
           }
         }
 
+        function resetEdgePadding() {
+          navList.style.removeProperty(edgePaddingVar);
+        }
+
         function clearStored() {
           try {
             sessionStorage.removeItem(storageKey);
           } catch (error) {
           }
+          resetEdgePadding();
         }
 
         function setScroll(value) {
           navList.scrollLeft = clamp(Number(value) || 0, 0, getMaxScroll());
         }
 
-        function ensureActiveVisibility(forceCenter) {
-          if (!isApplicable()) return;
-          var active = navList.querySelector('.is-active, [aria-current="page"]');
-          if (!active) return;
+        function getActiveItem() {
+          return navList.querySelector('.is-active, [aria-current="page"]');
+        }
 
-          var navRect = navList.getBoundingClientRect();
-          var itemRect = active.getBoundingClientRect();
-          if (!navRect || !itemRect) return;
+        function applyEdgePadding(activeItem) {
+          if (!activeItem) {
+            resetEdgePadding();
+            return;
+          }
 
-          var itemStart = itemRect.left - navRect.left;
-          var itemEnd = itemStart + itemRect.width;
-          var needsCenter = forceCenter || itemStart < 0 || itemEnd > navRect.width;
-          if (!needsCenter) return;
+          var navWidth = navList.clientWidth;
+          if (!navWidth) {
+            resetEdgePadding();
+            return;
+          }
 
-          var target = navList.scrollLeft + itemStart - ((navRect.width - itemRect.width) / 2);
-          setScroll(target);
+          var itemWidth = activeItem.getBoundingClientRect().width || activeItem.offsetWidth;
+          if (!itemWidth) {
+            resetEdgePadding();
+            return;
+          }
+
+          var padding = Math.max((navWidth - itemWidth) / 2, 0);
+          navList.style.setProperty(edgePaddingVar, padding + 'px');
+        }
+
+        function ensureActiveVisibility(forceCenter, providedActive) {
+          if (!isApplicable()) {
+            resetEdgePadding();
+            return;
+          }
+
+          var active = providedActive || getActiveItem();
+          if (!active) {
+            resetEdgePadding();
+            return;
+          }
+
+          applyEdgePadding(active);
+
+          var navWidth = navList.clientWidth;
+          if (!navWidth) return;
+
+          var itemWidth = active.offsetWidth;
+          if (!itemWidth) return;
+
+          var currentScroll = navList.scrollLeft;
+          var itemStart = active.offsetLeft - currentScroll;
+          var itemEnd = itemStart + itemWidth;
+          var needsCenter = forceCenter || itemStart < 0 || itemEnd > navWidth;
+          if (!needsCenter) {
+            return;
+          }
+
+          var centered = active.offsetLeft - ((navWidth - itemWidth) / 2);
+          setScroll(centered);
           writeStored(navList.scrollLeft);
         }
 
@@ -445,12 +491,14 @@
             clearStored();
             return;
           }
+          var active = getActiveItem();
+          applyEdgePadding(active);
           var stored = readStored();
           if (stored !== null) {
             setScroll(stored);
-            ensureActiveVisibility(false);
+            ensureActiveVisibility(false, active);
           } else {
-            ensureActiveVisibility(true);
+            ensureActiveVisibility(true, active);
           }
         }
 
@@ -481,11 +529,15 @@
           if (!link || !navList.contains(link)) return;
           if (!isApplicable()) return;
 
-          var navRect = navList.getBoundingClientRect();
-          var itemRect = link.getBoundingClientRect();
-          if (!navRect || !itemRect) return;
+          applyEdgePadding(link);
 
-          var target = navList.scrollLeft + (itemRect.left - navRect.left) - ((navRect.width - itemRect.width) / 2);
+          var navWidth = navList.clientWidth;
+          if (!navWidth) return;
+
+          var itemWidth = link.offsetWidth;
+          if (!itemWidth) return;
+
+          var target = link.offsetLeft - ((navWidth - itemWidth) / 2);
           writeStored(target);
         });
 
