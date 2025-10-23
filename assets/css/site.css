@@ -142,7 +142,7 @@ a[href="mailto:connect@wxmanbran.com"]:focus {
   width: 100%;
   z-index: 1000;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
 }
 
@@ -2633,20 +2633,40 @@ html[data-theme="dark"] .share .share-action:focus-visible {
   /* Prevent any horizontal scroll revealing page background */
   html, body { overflow-x: hidden; }
 
+  /* Keep the fixed header itself from creating stray horizontal scroll */
+  .site > header.site-header {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
   /* Remove side padding from the nav wrapper so children can go edge-to-edge */
-  .site-nav { padding-left: 0; padding-right: 0; }
+  .site-nav {
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+    max-width: 100vw;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
 
   /* Make the visible bar span the full viewport width, not the parent's content box */
   .site-nav__row {
-    width: 100vw;          /* cover the entire viewport width */
-    margin-left: 50%;      /* center the 100vw box within any parent flow */
-    transform: translateX(-50%) translateY(-2px);  /* center and lift slightly */
-    border-radius: 0;      /* no rounded outer corners that reveal background */
+    width: 100%;
+    max-width: 100vw;
+    margin: 0 auto;
+    transform: none;
+    border-radius: 0;
     padding-top: env(safe-area-inset-top, 0);
+    padding-left: var(--page-gutter, 12px);
+    padding-right: var(--page-gutter, 12px);
+    box-sizing: border-box;
+    align-items: center; /* vertical centering of hamburger, logo, gear */
+    overflow-x: hidden;
   }
 
   /* Clip any internal overflow so no sub-element can create a right-edge gap */
-  .site-nav { overflow: hidden; }
+  .site-nav { overflow-x: hidden; }
 }
 
 
@@ -2674,11 +2694,7 @@ html[data-theme="dark"] .share .share-action:focus-visible {
   /* Keep only your blue gradient on the bar itself */
   .site-nav__row {
     background: linear-gradient(to bottom, #0b1630, rgba(11,22,48,.95)) !important;
-    /* match home container width so no white shows around it */
     --page-gutter: 12px; /* set to your home container side padding */
-    width: calc(100% - (var(--page-gutter) * 2));
-    margin-left: var(--page-gutter);
-    margin-right: var(--page-gutter);
     border: 0 !important;
     outline: 0 !important;
   }
