@@ -2317,6 +2317,8 @@ html[data-theme="dark"] .share .share-action:focus-visible {
     align-items: center;
     height: var(--nav-bar-height);
     padding: max(.2rem, env(safe-area-inset-top)) .5rem .2rem;
+    padding-left: var(--page-gutter, 12px);
+    padding-right: var(--page-gutter, 12px);
     background: var(--brandPrimary);
     border-bottom: 1px solid rgba(255,255,255,.12);
   }
