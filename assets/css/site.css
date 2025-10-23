@@ -282,8 +282,12 @@ a[href="mailto:connect@wxmanbran.com"]:focus {
 
 .site-nav__brand-image {
   display: block;
-  width: 2.25rem;
-  height: auto;
+  width: auto;
+  height: clamp(2.6rem, calc(var(--nav-bar-height) - 1.6rem), 3.2rem);
+}
+
+.site-nav__brand-image--logo {
+  height: clamp(2.4rem, calc(var(--nav-bar-height) - 1.8rem), 3rem);
 }
 
 .site-nav__desktop-brand {
@@ -1298,7 +1302,10 @@ section {
     letter-spacing: 0.07rem;
   }
   .site-nav__brand-image {
-    width: 1.8rem;
+    height: calc((var(--nav-bar-height) - 1.6rem) * 2.25);
+  }
+  .site-nav__brand-image--logo {
+    height: calc((var(--nav-bar-height) - 1.8rem) * 2.25);
   }
 }
 
@@ -2355,7 +2362,8 @@ html[data-theme="dark"] .share .share-action:focus-visible {
     gap: .5rem;
     align-items: center;
   }
-  .site-nav__brand-image { width: 1.2rem; height: auto; }
+  .site-nav__brand-image { height: calc((var(--nav-bar-height) - 1.7rem) * 2.25); }
+  .site-nav__brand-image--logo { height: calc((var(--nav-bar-height) - 1.9rem) * 2.25); }
   .site-nav__brand-text  { font-weight: 800; letter-spacing: .02em; color: #fff; }
 
   /* Right gear button, visible on phones */
