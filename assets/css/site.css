@@ -286,6 +286,30 @@ a[href="mailto:connect@wxmanbran.com"]:focus {
   height: auto;
 }
 
+.site-nav__brand--desktop {
+  display: none;
+  align-self: center;
+  grid-column: 1;
+}
+
+.site-nav__brand--desktop .site-nav__brand-image {
+  width: 7rem;
+}
+
+@media (min-width: 641px) {
+  .site-nav__brand--desktop {
+    display: inline-flex;
+  }
+
+  .site-nav__links {
+    grid-column: 2;
+  }
+
+  .nav-gear--desktop {
+    grid-column: 3;
+  }
+}
+
 .nav-gear {
   position: relative;
   display: flex;
