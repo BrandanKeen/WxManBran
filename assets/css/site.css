@@ -2355,6 +2355,13 @@ html[data-theme="dark"] .share .share-action:focus-visible {
     padding-right: 1.75rem;
     --desktop-gear-icon-size: min(calc(var(--nav-bar-height) - 1.6rem), 3rem);
   }
+
+  @supports (padding-left: env(safe-area-inset-left)) {
+    .site-nav {
+      padding-left: calc(0.9rem + env(safe-area-inset-left));
+      padding-right: calc(1.75rem + env(safe-area-inset-right));
+    }
+  }
   .site-nav__links {
     flex: 1 1 auto;
     overflow-x: visible;
@@ -2413,8 +2420,8 @@ html[data-theme="dark"] .share .share-action:focus-visible {
   }
 }
 
-/* Ensure landscape phones/tablets keep horizontal scrolling available */
-@media (min-width: 641px) and (max-width: 920px) {
+/* Ensure tablets and landscape phones keep horizontal scrolling available */
+@media (min-width: 481px) and (max-width: 1099px) {
   .site-nav__links {
     margin-left: 0;
     padding-left: 0.35rem;
