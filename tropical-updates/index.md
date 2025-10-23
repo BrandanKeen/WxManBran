@@ -150,7 +150,7 @@ permalink: /tropical-updates/
   });
 </script>
 
-<div class="posts-grid posts-grid--fit">
+<div class="posts-grid posts-grid--fit tropical-updates__grid">
   {%- for post in posts_sorted -%}
 
     {%- if post.youtube_id -%}
@@ -167,7 +167,7 @@ permalink: /tropical-updates/
           </header>
 
           {% if post.thumb %}
-            <a class="post-card__thumb-link" href="{{ post.url | relative_url }}">
+            <a class="post-card__thumb-link" href="{{ post.url | relative_url }}" target="_blank" rel="noopener">
               <img class="post-card__thumb"
                    src="{{ post.thumb | relative_url }}"
                    alt="{{ post.thumb_alt | default: post.title }}">
@@ -240,7 +240,7 @@ permalink: /tropical-updates/
           </header>
 
           {% if post.thumb %}
-            <a class="post-card__thumb-link" href="{{ post.url | relative_url }}">
+            <a class="post-card__thumb-link" href="{{ post.url | relative_url }}" target="_blank" rel="noopener">
               <img class="post-card__thumb"
                    src="{{ post.thumb | relative_url }}"
                    alt="{{ post.thumb_alt | default: post.title }}">

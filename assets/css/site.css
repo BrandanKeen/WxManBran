@@ -1421,6 +1421,17 @@ section {
   background: #f5f7fb;
 }
 
+@media (max-width: 768px) and (orientation: portrait) {
+  .tropical-updates__grid .post-card__thumb-link {
+    aspect-ratio: auto;
+  }
+
+  .tropical-updates__grid .post-card__thumb {
+    aspect-ratio: auto;
+    height: auto;
+  }
+}
+
 .post-card__video {
   display: flex;
 }
