@@ -148,6 +148,43 @@ def format_unit_suffix(unit: str) -> str:
     return f" {unit}" if unit else ""
 
 
+def is_wind_speed_context(title: Optional[str], outfile: Optional[str]) -> bool:
+    contexts = []
+    if title:
+        contexts.append(title)
+    if outfile:
+        contexts.append(Path(outfile).stem)
+    for text in contexts:
+        lowered = text.lower()
+        if "wind speed" in lowered or "windspeed" in lowered:
+            return True
+    return False
+
+
+def _gust_priority(label: str) -> int:
+    lowered = label.lower()
+    if "gust" in lowered:
+        return 0
+    if "sustain" in lowered:
+        return 1
+    return 2
+
+
+def reorder_wind_speed_series(
+    series: List[ProcessedSeries], *, title: Optional[str], outfile: Optional[str]
+) -> None:
+    if not series or not is_wind_speed_context(title, outfile):
+        return
+    labels = [meta.label.lower() for meta in series]
+    if not (any("gust" in label for label in labels) and any("sustain" in label for label in labels)):
+        return
+    ordered = sorted(
+        enumerate(series),
+        key=lambda item: (_gust_priority(item[1].label), item[0]),
+    )
+    series[:] = [item[1] for item in ordered]
+
+
 def _is_cumulative_series(values: List[Optional[float]]) -> bool:
     prev: Optional[float] = None
     for value in values:
@@ -295,6 +332,7 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
                 hover_format=hover_format,
             )
         )
+    reorder_wind_speed_series(processed_series, title=spec.title, outfile=spec.outfile)
     rain_accum_column = find_rain_accumulation_column(data.columns)
     force_persistent_legend = False
     for meta in processed_series:
@@ -505,6 +543,9 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
                     hover_format=hover_format,
                 )
             )
+        reorder_wind_speed_series(
+            subplot_series, title=subplot.title, outfile=spec.outfile
+        )
         for meta in subplot_series:
             extras: List[HoverEntry] = []
             if rain_accum_column and "rain rate" in meta.series.column.lower():
