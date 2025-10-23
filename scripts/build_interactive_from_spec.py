@@ -466,6 +466,8 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
         "responsive": True,
         "displaylogo": False,
         "modeBarButtonsToRemove": ["resetScale2d", "lasso2d", "select2d"],
+        "scrollZoom": True,
+        "doubleClick": "reset",
     }
     return {"data": traces, "layout": layout, "config": config}
 
@@ -714,6 +716,8 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
         "responsive": True,
         "displaylogo": False,
         "modeBarButtonsToRemove": ["resetScale2d", "lasso2d", "select2d"],
+        "scrollZoom": True,
+        "doubleClick": "reset",
     }
     return {"data": traces, "layout": layout, "config": config}
 
@@ -758,6 +762,47 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
       return Number.isNaN(parsed) ? NaN : parsed;
     }};
     Plotly.newPlot('chart', figure.data, figure.layout, config).then((gd) => {{
+      const captureInitialView = () => {{
+        const fullLayout = gd._fullLayout;
+        if (!fullLayout) {{
+          return {{}};
+        }}
+        const state = {{}};
+        Object.keys(fullLayout).forEach((key) => {{
+          if (!key.startsWith('xaxis') && !key.startsWith('yaxis')) {{
+            return;
+          }}
+          const axis = fullLayout[key];
+          if (!axis || typeof axis !== 'object') {{
+            return;
+          }}
+          if (axis.autorange) {{
+            state[`${{key}}.autorange`] = true;
+          }} else if (Array.isArray(axis.range)) {{
+            state[`${{key}}.range`] = axis.range.slice();
+          }} else if (Array.isArray(axis._range)) {{
+            state[`${{key}}.range`] = axis._range.slice();
+          }}
+        }});
+        return state;
+      }};
+      let initialViewState = captureInitialView();
+      const ensureInitialViewState = () => {{
+        if (!initialViewState || !Object.keys(initialViewState).length) {{
+          initialViewState = captureInitialView();
+        }}
+      }};
+      const resetToInitialView = () => {{
+        ensureInitialViewState();
+        const relayoutUpdate = {{}};
+        Object.keys(initialViewState || {{}}).forEach((key) => {{
+          const value = initialViewState[key];
+          relayoutUpdate[key] = Array.isArray(value) ? value.slice() : value;
+        }});
+        if (Object.keys(relayoutUpdate).length) {{
+          Plotly.relayout(gd, relayoutUpdate);
+        }}
+      }};
       const clearHoverTitles = () => {{
         const fullLayout = gd._fullLayout;
         if (!fullLayout) {{
@@ -774,6 +819,8 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
         }});
       }};
       clearHoverTitles();
+      ensureInitialViewState();
+      gd.on('plotly_afterplot', ensureInitialViewState);
       gd.on('plotly_afterplot', clearHoverTitles);
       gd.on('plotly_relayout', clearHoverTitles);
       gd.on('plotly_restyle', clearHoverTitles);
@@ -913,7 +960,12 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
         );
         suppressSyntheticHover = true;
         if (uniquePoints.length) {{
-          Plotly.Fx.hover(gd, uniquePoints);
+          const fullLayout = gd._fullLayout;
+          if (fullLayout && typeof fullLayout.hovermode === 'string') {{
+            Plotly.Fx.hover(gd, uniquePoints, {{ hovermode: fullLayout.hovermode }});
+          }} else {{
+            Plotly.Fx.hover(gd, uniquePoints);
+          }}
         }} else {{
           Plotly.Fx.unhover(gd);
         }}
@@ -945,6 +997,25 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
         let activeTouchId = null;
         let isScrubbing = false;
         let touchTargets = [];
+        const DOUBLE_TAP_MS = 300;
+        let lastTapTimestamp = 0;
+        let doubleTapTimeoutId = null;
+        const resetTapTracking = () => {{
+          if (doubleTapTimeoutId) {{
+            clearTimeout(doubleTapTimeoutId);
+            doubleTapTimeoutId = null;
+          }}
+          lastTapTimestamp = 0;
+        }};
+        const scheduleTapReset = () => {{
+          if (doubleTapTimeoutId) {{
+            clearTimeout(doubleTapTimeoutId);
+          }}
+          doubleTapTimeoutId = setTimeout(() => {{
+            doubleTapTimeoutId = null;
+            lastTapTimestamp = 0;
+          }}, DOUBLE_TAP_MS);
+        }};
         const refreshTouchTargets = () => {{
           const fullLayout = gd._fullLayout;
           if (!fullLayout || !fullLayout._plots) {{
@@ -1079,6 +1150,27 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
           }}
           endScrub();
         }};
+        const handleDoubleTap = (event) => {{
+          const now = Date.now();
+          if (lastTapTimestamp && now - lastTapTimestamp <= DOUBLE_TAP_MS) {{
+            resetTapTracking();
+            endScrub();
+            hideHighlights();
+            Plotly.Fx.unhover(gd);
+            resetToInitialView();
+            if (event) {{
+              event.preventDefault();
+              event.stopPropagation();
+              if (typeof event.stopImmediatePropagation === 'function') {{
+                event.stopImmediatePropagation();
+              }}
+            }}
+            return true;
+          }}
+          lastTapTimestamp = now;
+          scheduleTapReset();
+          return false;
+        }};
         refreshTouchTargets();
         gd.on('plotly_afterplot', refreshTouchTargets);
         gd.on('plotly_relayout', refreshTouchTargets);
@@ -1094,9 +1186,13 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
               if (isScrubbing) {{
                 endScrub();
               }}
+              resetTapTracking();
               return;
             }}
             const touch = event.touches[0];
+            if (handleDoubleTap(event)) {{
+              return;
+            }}
             const started = beginScrub(touch);
             if (started) {{
               activeTouchId = touch.identifier;
