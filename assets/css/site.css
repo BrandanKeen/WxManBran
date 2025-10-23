@@ -2598,3 +2598,24 @@ html[data-theme="dark"] .share .share-action:focus-visible {
 
   .nav-gear--mobile > summary::-webkit-details-marker { display: none; }
 }
+
+/* === FINAL MOBILE EDGE FIXES (phones only) === */
+@media (max-width: 480px) {
+  /* Prevent any horizontal scroll revealing page background */
+  html, body { overflow-x: hidden; }
+
+  /* Remove side padding from the nav wrapper so children can go edge-to-edge */
+  .site-nav { padding-left: 0; padding-right: 0; }
+
+  /* Make the visible bar span the full viewport width, not the parent's content box */
+  .site-nav__row {
+    width: 100vw;          /* cover the entire viewport width */
+    margin-left: 50%;      /* center the 100vw box within any parent flow */
+    transform: translateX(-50%) translateY(-1px);  /* center and nudge up by ~1px */
+    border-radius: 0;      /* no rounded outer corners that reveal background */
+    padding-top: env(safe-area-inset-top, 0);
+  }
+
+  /* Clip any internal overflow so no sub-element can create a right-edge gap */
+  .site-nav { overflow: hidden; }
+}
