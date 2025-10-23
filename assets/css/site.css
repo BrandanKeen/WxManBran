@@ -32,6 +32,80 @@ body.site {
   line-height: 1.7;
 }
 
+/* Blog post content */
+.post-content {
+  display: block;
+}
+
+.post-content img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 18px;
+  box-shadow: 0 18px 32px color-mix(in srgb, var(--ink) 6%, transparent);
+}
+
+.post-content picture {
+  display: block;
+  width: 100%;
+}
+
+.post-content figure {
+  margin: clamp(1.5rem, 4vw, 2.5rem) auto;
+  text-align: center;
+  max-width: min(100%, 720px);
+}
+
+.post-content figure figcaption {
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+  color: color-mix(in srgb, var(--ink) 75%, transparent);
+}
+
+.post-content .post-image-link {
+  display: block;
+  margin: clamp(1.5rem, 4vw, 2.5rem) auto;
+  max-width: min(100%, 720px);
+  border-radius: 18px;
+  overflow: hidden;
+  line-height: 0;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  box-shadow: 0 18px 32px color-mix(in srgb, var(--ink) 6%, transparent);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.post-content .post-image-link img,
+.post-content .post-image-link picture {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0;
+  box-shadow: none;
+}
+
+.post-content .post-image-link:hover,
+.post-content .post-image-link:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 24px 44px color-mix(in srgb, var(--brandPrimary) 20%, transparent);
+}
+
+.post-content p > .post-image-link,
+.post-content figure > .post-image-link {
+  margin: 0 auto;
+}
+
+@media (max-width: 600px) {
+  .post-content .post-image-link {
+    margin: clamp(1.25rem, 6vw, 1.75rem) auto;
+    border-radius: 16px;
+  }
+
+  .post-content figure {
+    margin: clamp(1.25rem, 6vw, 1.75rem) auto;
+  }
+}
+
 .section-intro {
   text-align: center;
   margin-bottom: 2rem;
@@ -1881,6 +1955,28 @@ details[open] > .storm-plot-summary::before {
   border-color: color-mix(in srgb, var(--brandMuted) 55%, transparent);
   box-shadow: 0 20px 40px color-mix(in srgb, var(--brandSecondary-900) 38%, transparent);
   color: var(--ink);
+}
+
+:root[data-theme='dark'] .post-content img {
+  box-shadow: 0 24px 44px color-mix(in srgb, var(--brandSecondary-900) 32%, transparent);
+}
+
+:root[data-theme='dark'] .post-content .post-image-link {
+  background: color-mix(in srgb, var(--surfaceAlt) 90%, transparent);
+  box-shadow: 0 24px 44px color-mix(in srgb, var(--brandSecondary-900) 38%, transparent);
+}
+
+:root[data-theme='dark'] .post-content .post-image-link:hover,
+:root[data-theme='dark'] .post-content .post-image-link:focus-visible {
+  box-shadow: 0 28px 50px color-mix(in srgb, var(--brandAccent) 28%, transparent);
+}
+
+:root[data-theme='dark'] .post-content .post-image-link img {
+  box-shadow: none;
+}
+
+:root[data-theme='dark'] .post-content figure figcaption {
+  color: color-mix(in srgb, var(--text-on-dark) 78%, transparent);
 }
 
 :root[data-theme='dark'] .post-date,
