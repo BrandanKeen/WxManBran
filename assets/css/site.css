@@ -1415,7 +1415,7 @@ section {
 
 .post-card__thumb-link {
   display: block;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
   border-radius: 8px;
   overflow: hidden;
   background: #f5f7fb;
