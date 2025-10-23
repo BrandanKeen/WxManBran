@@ -185,6 +185,13 @@ def reorder_wind_speed_series(
     series[:] = [item[1] for item in ordered]
 
 
+def wind_series_legend_rank(label: str) -> Optional[int]:
+    rank = _gust_priority(label)
+    if rank < 2:
+        return rank
+    return None
+
+
 def _is_cumulative_series(values: List[Optional[float]]) -> bool:
     prev: Optional[float] = None
     for value in values:
@@ -364,6 +371,9 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
             "opacity": meta.series.alpha if meta.series.alpha is not None else 1.0,
             "hovertemplate": hovertemplate,
         }
+        rank = wind_series_legend_rank(meta.label)
+        if rank is not None:
+            trace["legendrank"] = rank
         if customdata is not None:
             trace["customdata"] = customdata
         if meta.series.secondary_y:
@@ -577,6 +587,9 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
                 "yaxis": axis_ref("y", index),
                 "hovertemplate": hovertemplate,
             }
+            rank = wind_series_legend_rank(meta.label)
+            if rank is not None:
+                trace["legendrank"] = rank
             if customdata is not None:
                 trace["customdata"] = customdata
             if meta.series.secondary_y:
