@@ -979,12 +979,7 @@ def write_html(path: Path, figure: Dict[str, object]) -> None:
         currentHoverTargetTime = hasActiveHover ? targetTime : null;
         suppressSyntheticHover = true;
         if (uniquePoints.length) {{
-          const fullLayout = gd._fullLayout;
-          if (fullLayout && typeof fullLayout.hovermode === 'string') {{
-            Plotly.Fx.hover(gd, uniquePoints, {{ hovermode: fullLayout.hovermode }});
-          }} else {{
-            Plotly.Fx.hover(gd, uniquePoints);
-          }}
+          Plotly.Fx.hover(gd, uniquePoints);
         }} else {{
           Plotly.Fx.unhover(gd);
         }}
