@@ -156,46 +156,46 @@ Hurricane Helene formed in the northwestern Caribbean on September 24 and rapidl
     <summary class="storm-plot-summary">Pressure (MSLP)</summary>
     <div class="storm-plot">
 
-      <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_MSLP.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+      <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_MSLP.html' | relative_url }}?v={{ site.time | date: '%s' }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
     </div>
   </details>
   <details class="storm-plot-group">
     <summary class="storm-plot-summary">Pressure Tendencies</summary>
     <div class="storm-plot">
-      <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_5min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+      <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_5min.html' | relative_url }}?v={{ site.time | date: '%s' }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
     </div>
     <div class="storm-plot">
-      <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_10min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+      <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_10min.html' | relative_url }}?v={{ site.time | date: '%s' }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
     </div>
     <div class="storm-plot">
-      <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_15min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+      <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_15min.html' | relative_url }}?v={{ site.time | date: '%s' }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
     </div>
     <div class="storm-plot">
-      <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_30min.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+      <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_30min.html' | relative_url }}?v={{ site.time | date: '%s' }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
     </div>
     <div class="storm-plot">
-      <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_1hour.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+      <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_PTendency_1hour.html' | relative_url }}?v={{ site.time | date: '%s' }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
     </div>
   </details>
   <details class="storm-plot-group" open>
     <summary class="storm-plot-summary">Wind Speed</summary>
     <div class="storm-plot">
 
-      <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_WindSpeed.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+      <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_WindSpeed.html' | relative_url }}?v={{ site.time | date: '%s' }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
     </div>
   </details>
   <details class="storm-plot-group" open>
     <summary class="storm-plot-summary">Temperature &amp; Dewpoint</summary>
     <div class="storm-plot">
 
-      <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_Temp_Dew.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+      <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_Temp_Dew.html' | relative_url }}?v={{ site.time | date: '%s' }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
     </div>
   </details>
   <details class="storm-plot-group" open>
     <summary class="storm-plot-summary">Rain Rate</summary>
     <div class="storm-plot">
 
-      <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_RainRate.html' | relative_url }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
+      <iframe src="{{ '/assets/plots/2024-hurricane-helene/Hurricane_Helene_RainRate.html' | relative_url }}?v={{ site.time | date: '%s' }}" width="100%" height="520" loading="lazy" style="border:0"></iframe>
     </div>
   </details>
 </div>
