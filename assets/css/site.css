@@ -299,19 +299,19 @@ a[href="mailto:connect@wxmanbran.com"]:focus {
 .site-nav__desktop-brand img {
   display: block;
   width: auto;
-  height: min(3.2rem, calc(var(--nav-bar-height) - 1.45rem));
-  max-height: min(3.2rem, calc(var(--nav-bar-height) - 1.45rem));
+  height: clamp(3.2rem, calc(var(--nav-bar-height) - 0.85rem), 4.1rem);
+  max-height: clamp(3.2rem, calc(var(--nav-bar-height) - 0.85rem), 4.1rem);
   object-fit: contain;
 }
 
 .site-nav__desktop-brand-flags {
-  height: min(3.3rem, calc(var(--nav-bar-height) - 1.3rem));
-  max-height: min(3.3rem, calc(var(--nav-bar-height) - 1.3rem));
+  height: clamp(3.4rem, calc(var(--nav-bar-height) - 0.7rem), 4.2rem);
+  max-height: clamp(3.4rem, calc(var(--nav-bar-height) - 0.7rem), 4.2rem);
 }
 
 .site-nav__desktop-brand-logo {
-  height: min(3.2rem, calc(var(--nav-bar-height) - 1.45rem));
-  max-height: min(3.2rem, calc(var(--nav-bar-height) - 1.45rem));
+  height: clamp(3.2rem, calc(var(--nav-bar-height) - 0.85rem), 4.1rem);
+  max-height: clamp(3.2rem, calc(var(--nav-bar-height) - 0.85rem), 4.1rem);
 }
 
 @media (min-width: 641px) {
