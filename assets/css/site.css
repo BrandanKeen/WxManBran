@@ -2611,7 +2611,7 @@ html[data-theme="dark"] .share .share-action:focus-visible {
   .site-nav__row {
     width: 100vw;          /* cover the entire viewport width */
     margin-left: 50%;      /* center the 100vw box within any parent flow */
-    transform: translateX(calc(-50% + 5px)) translateY(-2px);  /* center, nudge right, and lift slightly */
+    transform: translateX(calc(-50% + 25px)) translateY(-2px);  /* center, nudge right, and lift slightly */
     border-radius: 0;      /* no rounded outer corners that reveal background */
     padding-top: env(safe-area-inset-top, 0);
   }
