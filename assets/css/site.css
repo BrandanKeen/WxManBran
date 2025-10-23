@@ -2413,6 +2413,23 @@ html[data-theme="dark"] .share .share-action:focus-visible {
   }
 }
 
+/* Ensure landscape phones/tablets keep horizontal scrolling available */
+@media (min-width: 641px) and (max-width: 920px) {
+  .site-nav__links {
+    margin-left: 0;
+    padding-left: 0.35rem;
+    padding-right: 0.35rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
+  }
+
+  .site-nav__links > li {
+    flex: 0 0 auto;
+  }
+}
+
 @media (min-width: 1100px) {
   /* Balance the wider desktop brand and gear spacing so the pills align with the dashboard container */
   .site-nav__links {
