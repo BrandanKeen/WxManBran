@@ -342,5 +342,256 @@
         }
       })();
     </script>
+    <script>
+      (function(){
+        var navList = document.querySelector('.site-nav__links');
+        if (!navList) return;
+
+        var storageKey = 'wx-nav-scroll';
+        var rangeQuery = window.matchMedia ? window.matchMedia('(min-width: 481px) and (max-width: 1099px)') : null;
+        var landscapeQuery = window.matchMedia ? window.matchMedia('(orientation: landscape)') : null;
+        var edgePaddingVar = '--nav-edge-padding';
+
+        function viewportSize() {
+          return {
+            width: window.innerWidth || document.documentElement.clientWidth || 0,
+            height: window.innerHeight || document.documentElement.clientHeight || 0
+          };
+        }
+
+        function isLandscape() {
+          if (landscapeQuery && 'matches' in landscapeQuery) {
+            return landscapeQuery.matches;
+          }
+          var size = viewportSize();
+          return size.width > size.height;
+        }
+
+        function withinRange() {
+          if (rangeQuery && 'matches' in rangeQuery) {
+            return rangeQuery.matches;
+          }
+          var size = viewportSize();
+          return size.width >= 481 && size.width <= 1099;
+        }
+
+        function canScrollNav() {
+          return navList.scrollWidth > (navList.clientWidth + 1);
+        }
+
+        function isApplicable() {
+          return withinRange() && isLandscape() && canScrollNav();
+        }
+
+        function getMaxScroll() {
+          return Math.max(navList.scrollWidth - navList.clientWidth, 0);
+        }
+
+        function clamp(value, min, max) {
+          if (value < min) return min;
+          if (value > max) return max;
+          return value;
+        }
+
+        function readStored() {
+          try {
+            var value = sessionStorage.getItem(storageKey);
+            if (value === null) return null;
+            var parsed = parseFloat(value);
+            return isFinite(parsed) ? parsed : null;
+          } catch (error) {
+            return null;
+          }
+        }
+
+        function writeStored(value) {
+          try {
+            sessionStorage.setItem(storageKey, String(clamp(Number(value) || 0, 0, getMaxScroll())));
+          } catch (error) {
+          }
+        }
+
+        function resetEdgePadding() {
+          navList.style.removeProperty(edgePaddingVar);
+        }
+
+        function clearStored() {
+          try {
+            sessionStorage.removeItem(storageKey);
+          } catch (error) {
+          }
+          resetEdgePadding();
+        }
+
+        function setScroll(value) {
+          navList.scrollLeft = clamp(Number(value) || 0, 0, getMaxScroll());
+        }
+
+        function getActiveItem() {
+          return navList.querySelector('.is-active, [aria-current="page"]');
+        }
+
+        function applyEdgePadding(activeItem) {
+          if (!activeItem) {
+            resetEdgePadding();
+            return;
+          }
+
+          var navWidth = navList.clientWidth;
+          if (!navWidth) {
+            resetEdgePadding();
+            return;
+          }
+
+          var itemWidth = activeItem.getBoundingClientRect().width || activeItem.offsetWidth;
+          if (!itemWidth) {
+            resetEdgePadding();
+            return;
+          }
+
+          var padding = Math.max((navWidth - itemWidth) / 2, 0);
+          navList.style.setProperty(edgePaddingVar, padding + 'px');
+        }
+
+        function ensureActiveVisibility(forceCenter, providedActive) {
+          if (!isApplicable()) {
+            resetEdgePadding();
+            return;
+          }
+
+          var active = providedActive || getActiveItem();
+          if (!active) {
+            resetEdgePadding();
+            return;
+          }
+
+          applyEdgePadding(active);
+
+          var navWidth = navList.clientWidth;
+          if (!navWidth) return;
+
+          var itemWidth = active.offsetWidth;
+          if (!itemWidth) return;
+
+          var currentScroll = navList.scrollLeft;
+          var itemStart = active.offsetLeft - currentScroll;
+          var itemEnd = itemStart + itemWidth;
+          var needsCenter = forceCenter || itemStart < 0 || itemEnd > navWidth;
+          if (!needsCenter) {
+            return;
+          }
+
+          var centered = active.offsetLeft - ((navWidth - itemWidth) / 2);
+          setScroll(centered);
+          writeStored(navList.scrollLeft);
+        }
+
+        function applyInitialScroll() {
+          if (!isApplicable()) {
+            clearStored();
+            return;
+          }
+          var active = getActiveItem();
+          applyEdgePadding(active);
+          var stored = readStored();
+          if (stored !== null) {
+            setScroll(stored);
+            ensureActiveVisibility(false, active);
+          } else {
+            ensureActiveVisibility(true, active);
+          }
+        }
+
+        function saveScroll() {
+          if (!isApplicable()) {
+            clearStored();
+            return;
+          }
+          writeStored(navList.scrollLeft);
+        }
+
+        var ticking = false;
+        navList.addEventListener('scroll', function(){
+          if (!isApplicable()) {
+            clearStored();
+            return;
+          }
+          if (ticking) return;
+          ticking = true;
+          window.requestAnimationFrame(function(){
+            ticking = false;
+            writeStored(navList.scrollLeft);
+          });
+        });
+
+        navList.addEventListener('click', function(event){
+          var link = event.target.closest('a');
+          if (!link || !navList.contains(link)) return;
+          if (!isApplicable()) return;
+
+          applyEdgePadding(link);
+
+          var navWidth = navList.clientWidth;
+          if (!navWidth) return;
+
+          var itemWidth = link.offsetWidth;
+          if (!itemWidth) return;
+
+          var target = link.offsetLeft - ((navWidth - itemWidth) / 2);
+          writeStored(target);
+        });
+
+        window.addEventListener('pagehide', saveScroll);
+        window.addEventListener('beforeunload', saveScroll);
+
+        window.addEventListener('resize', function(){
+          window.requestAnimationFrame(function(){
+            if (isApplicable()) {
+              ensureActiveVisibility(false);
+            } else {
+              clearStored();
+            }
+          });
+        });
+
+        if (rangeQuery && typeof rangeQuery.addEventListener === 'function') {
+          rangeQuery.addEventListener('change', applyInitialScroll);
+        } else if (rangeQuery && typeof rangeQuery.addListener === 'function') {
+          rangeQuery.addListener(applyInitialScroll);
+        }
+
+        if (landscapeQuery && typeof landscapeQuery.addEventListener === 'function') {
+          landscapeQuery.addEventListener('change', function(){
+            window.requestAnimationFrame(function(){
+              if (isApplicable()) {
+                ensureActiveVisibility(true);
+              } else {
+                clearStored();
+              }
+            });
+          });
+        } else if (landscapeQuery && typeof landscapeQuery.addListener === 'function') {
+          landscapeQuery.addListener(function(){
+            window.requestAnimationFrame(function(){
+              if (isApplicable()) {
+                ensureActiveVisibility(true);
+              } else {
+                clearStored();
+              }
+            });
+          });
+        }
+
+        function init() {
+          window.requestAnimationFrame(applyInitialScroll);
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', init);
+        } else {
+          init();
+        }
+      })();
+    </script>
   </body>
 </html>
