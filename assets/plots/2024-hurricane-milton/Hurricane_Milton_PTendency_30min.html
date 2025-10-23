@@ -213,38 +213,63 @@
         let isScrubbing = false;
         let touchTargets = [];
         const refreshTouchTargets = () => {
-          if (!gd._fullLayout) {
+          const fullLayout = gd._fullLayout;
+          if (!fullLayout || !fullLayout._plots) {
             touchTargets = [];
             return;
           }
-          const plots = gd._fullLayout._plots || {};
-          touchTargets = Array.from(root.querySelectorAll('rect.nsewdrag'))
-            .map((node) => {
-              const subplot = node.getAttribute('data-subplot');
-              if (!subplot) {
+          touchTargets = Object.keys(fullLayout._plots)
+            .map((subplot) => {
+              const plot = fullLayout._plots[subplot];
+              if (!plot || !plot.xaxis || !plot.yaxis) {
                 return null;
               }
-              const plot = plots[subplot];
-              if (!plot || !plot.xaxis) {
+              const xaxis = plot.xaxis;
+              const yaxis = plot.yaxis;
+              if (
+                typeof xaxis._length !== 'number' ||
+                xaxis._length <= 0 ||
+                typeof yaxis._length !== 'number' ||
+                yaxis._length <= 0
+              ) {
                 return null;
               }
-              return { node, axis: plot.xaxis };
+              return { axis: xaxis, yaxis };
             })
             .filter((entry) => Boolean(entry));
         };
         const findTouchTarget = (clientX, clientY) => {
+          if (!touchTargets.length) {
+            return null;
+          }
+          const rootRect = root.getBoundingClientRect();
           for (const entry of touchTargets) {
-            const rect = entry.node.getBoundingClientRect();
-            if (!rect) {
+            const axis = entry.axis;
+            const yaxis = entry.yaxis;
+            if (!axis || !yaxis) {
               continue;
             }
+            const left =
+              rootRect.left + (typeof axis._offset === 'number' ? axis._offset : 0);
+            const width = typeof axis._length === 'number' ? axis._length : 0;
+            const top =
+              rootRect.top + (typeof yaxis._offset === 'number' ? yaxis._offset : 0);
+            const height = typeof yaxis._length === 'number' ? yaxis._length : 0;
+            if (width <= 0 || height <= 0) {
+              continue;
+            }
+            const right = left + width;
+            const bottom = top + height;
             if (
-              clientX >= rect.left &&
-              clientX <= rect.right &&
-              clientY >= rect.top &&
-              clientY <= rect.bottom
+              clientX >= left &&
+              clientX <= right &&
+              clientY >= top &&
+              clientY <= bottom
             ) {
-              return { axis: entry.axis, rect };
+              return {
+                axis,
+                rect: { left, right, top, bottom, width, height }
+              };
             }
           }
           return null;
@@ -312,15 +337,26 @@
           if (stillActive) {
             return;
           }
+          if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            if (typeof event.stopImmediatePropagation === 'function') {
+              event.stopImmediatePropagation();
+            }
+          }
           endScrub();
         };
         refreshTouchTargets();
         gd.on('plotly_afterplot', refreshTouchTargets);
         gd.on('plotly_relayout', refreshTouchTargets);
         gd.on('plotly_update', refreshTouchTargets);
+        if (typeof window !== 'undefined') {
+          window.addEventListener('resize', refreshTouchTargets);
+        }
         root.addEventListener(
           'touchstart',
           (event) => {
+            refreshTouchTargets();
             if (event.touches.length !== 1) {
               if (isScrubbing) {
                 endScrub();
@@ -333,6 +369,10 @@
               activeTouchId = touch.identifier;
               isScrubbing = true;
               event.preventDefault();
+              event.stopPropagation();
+              if (typeof event.stopImmediatePropagation === 'function') {
+                event.stopImmediatePropagation();
+              }
             } else {
               isScrubbing = false;
               activeTouchId = null;
@@ -354,6 +394,10 @@
             const moved = moveScrub(touch);
             if (moved) {
               event.preventDefault();
+              event.stopPropagation();
+              if (typeof event.stopImmediatePropagation === 'function') {
+                event.stopImmediatePropagation();
+              }
             }
           },
           { passive: false }
