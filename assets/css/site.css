@@ -2434,13 +2434,18 @@ html[data-theme="dark"] .share .share-action:focus-visible {
      If your page container uses a different padding, set this to match. */
   :root { --page-gutter: 12px; } /* adjust to match the home container side padding */
 
-  /* Keep the header the same visual width as the home container */
+  /* Header should be full-bleed with squared corners on phones */
   .site-nav__row {
-    width: calc(100% - (var(--page-gutter) * 2));
-    margin-left: var(--page-gutter);
-    margin-right: var(--page-gutter);
-    border-radius: 12px; /* optional - matches your cards */
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    border-radius: 0;
+    /* Avoid extra band above the bar but still honor the notch when present */
+    padding-top: env(safe-area-inset-top, 0);
   }
+
+  /* Override side padding added elsewhere so the bar truly spans edge to edge */
+  .site-nav { padding-left: 0; padding-right: 0; }
 
   /* Drawer becomes a left-anchored floating panel sized by its content,
      with a sensible max so it never exceeds the screen minus gutters. */
