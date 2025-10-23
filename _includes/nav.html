@@ -85,6 +85,10 @@
   </div>
 
   <!-- === Desktop pills (hidden on phones) === -->
+  <a class="site-nav__desktop-brand" href="{{ '/' | relative_url }}" aria-label="WxManBran home">
+    <img class="site-nav__desktop-brand-flags" src="{{ '/assets/images/Hurricane_Flags.png' | relative_url }}" alt="Hurricane warning flags" />
+    <img class="site-nav__desktop-brand-logo" src="{{ '/assets/images/WMB_Logo.png' | relative_url }}" alt="WxManBran logo" />
+  </a>
   <ul class="site-nav__links">
     {% assign current = page.url | default: '/' | relative_url %}
     {% for item in site.data.nav %}
