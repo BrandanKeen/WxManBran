@@ -2607,6 +2607,16 @@ html[data-theme="dark"] .share .share-action:focus-visible {
   }
 }
 
+@media (max-width: 480px) and (orientation: landscape) {
+  .site-nav__brand-image {
+    height: clamp(1.6rem, calc(var(--nav-bar-height) - 2rem), 2.4rem);
+  }
+
+  .site-nav__brand-image--logo {
+    height: clamp(1.4rem, calc(var(--nav-bar-height) - 2.2rem), 2.1rem);
+  }
+}
+
 /* Keep desktop/tablet behavior */
 @media (min-width: 641px) {
   .site-nav__row { display: none; } /* hide mobile row on larger screens */
