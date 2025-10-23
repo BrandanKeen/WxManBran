@@ -2619,3 +2619,45 @@ html[data-theme="dark"] .share .share-action:focus-visible {
   /* Clip any internal overflow so no sub-element can create a right-edge gap */
   .site-nav { overflow: hidden; }
 }
+
+
+
+
+/* ===== MOBILE: remove white box behind nav and the right hairline ===== */
+@media (max-width: 480px) {
+  /* Nuke any inherited card styles on the header/nav wrappers */
+  header.site-header,
+  .site-header,
+  .site-nav {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+  .site-header::before,
+  .site-header::after,
+  .site-nav::before,
+  .site-nav::after,
+  .site-nav__row::before,
+  .site-nav__row::after {
+    content: none !important;
+  }
+
+  /* Keep only your blue gradient on the bar itself */
+  .site-nav__row {
+    background: linear-gradient(to bottom, #0b1630, rgba(11,22,48,.95)) !important;
+    /* match home container width so no white shows around it */
+    --page-gutter: 12px; /* set to your home container side padding */
+    width: calc(100% - (var(--page-gutter) * 2));
+    margin-left: var(--page-gutter);
+    margin-right: var(--page-gutter);
+    border: 0 !important;
+    outline: 0 !important;
+  }
+
+  /* Clip any sub-pixel bleed on the far right in iOS */
+  .site-nav { overflow-x: clip; }
+  @supports not (overflow-x: clip) { .site-nav { overflow-x: hidden; } }
+
+  /* Remove iOS tap highlight that can appear as a white box */
+  .site-nav__row * { -webkit-tap-highlight-color: transparent; }
+}
