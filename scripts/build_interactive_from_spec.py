@@ -38,6 +38,8 @@ LEGEND_LOCATIONS = {
     "center": ("center", "middle", 0.0, 0.0),
 }
 
+TOP_LEGEND_OFFSET = 0.03
+
 PLOTLY_CDN = "https://cdn.plot.ly/plotly-2.31.1.min.js"
 
 
@@ -101,6 +103,10 @@ def legend_position(loc: Optional[str], x_domain: List[float], y_domain: List[fl
         y = y_start + margin_y
     elif yanchor == "top":
         y = y_end - margin_y
+        lower_bound = y_start + margin_y
+        available = max(0.0, y - lower_bound)
+        shift = min(TOP_LEGEND_OFFSET, available)
+        y -= shift
     else:
         y = (y_start + y_end) / 2
     return {
