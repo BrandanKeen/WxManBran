@@ -282,8 +282,12 @@ a[href="mailto:connect@wxmanbran.com"]:focus {
 
 .site-nav__brand-image {
   display: block;
-  width: 2.25rem;
-  height: auto;
+  width: auto;
+  height: clamp(2.6rem, calc(var(--nav-bar-height) - 1.6rem), 3.2rem);
+}
+
+.site-nav__brand-image--logo {
+  height: clamp(2.4rem, calc(var(--nav-bar-height) - 1.8rem), 3rem);
 }
 
 .site-nav__desktop-brand {
@@ -299,19 +303,19 @@ a[href="mailto:connect@wxmanbran.com"]:focus {
 .site-nav__desktop-brand img {
   display: block;
   width: auto;
-  height: min(3.2rem, calc(var(--nav-bar-height) - 1.45rem));
-  max-height: min(3.2rem, calc(var(--nav-bar-height) - 1.45rem));
+  height: clamp(3.2rem, calc(var(--nav-bar-height) - 0.85rem), 4.1rem);
+  max-height: clamp(3.2rem, calc(var(--nav-bar-height) - 0.85rem), 4.1rem);
   object-fit: contain;
 }
 
 .site-nav__desktop-brand-flags {
-  height: min(3.3rem, calc(var(--nav-bar-height) - 1.3rem));
-  max-height: min(3.3rem, calc(var(--nav-bar-height) - 1.3rem));
+  height: clamp(3.4rem, calc(var(--nav-bar-height) - 0.7rem), 4.2rem);
+  max-height: clamp(3.4rem, calc(var(--nav-bar-height) - 0.7rem), 4.2rem);
 }
 
 .site-nav__desktop-brand-logo {
-  height: min(3.2rem, calc(var(--nav-bar-height) - 1.45rem));
-  max-height: min(3.2rem, calc(var(--nav-bar-height) - 1.45rem));
+  height: clamp(3.2rem, calc(var(--nav-bar-height) - 0.85rem), 4.1rem);
+  max-height: clamp(3.2rem, calc(var(--nav-bar-height) - 0.85rem), 4.1rem);
 }
 
 @media (min-width: 641px) {
@@ -1298,7 +1302,10 @@ section {
     letter-spacing: 0.07rem;
   }
   .site-nav__brand-image {
-    width: 1.8rem;
+    height: calc(var(--nav-bar-height) - 1.6rem);
+  }
+  .site-nav__brand-image--logo {
+    height: calc(var(--nav-bar-height) - 1.8rem);
   }
 }
 
@@ -2295,6 +2302,13 @@ html[data-theme="dark"] .share .share-action:focus-visible {
   }
 }
 
+@media (min-width: 1100px) {
+  /* Balance the wider desktop brand and gear spacing so the pills align with the dashboard container */
+  .site-nav__links {
+    margin-left: -3.15rem;
+  }
+}
+
 
 
 /* === Mobile drawer nav (phones) === */
@@ -2317,8 +2331,8 @@ html[data-theme="dark"] .share .share-action:focus-visible {
     align-items: center;
     height: var(--nav-bar-height);
     padding: max(.2rem, env(safe-area-inset-top)) .5rem .2rem;
-    padding-left: 1.25rem;
-    padding-right: .25rem;
+    padding-left: var(--page-gutter, 12px);
+    padding-right: var(--page-gutter, 12px);
     background: var(--brandPrimary);
     border-bottom: 1px solid rgba(255,255,255,.12);
   }
@@ -2348,13 +2362,15 @@ html[data-theme="dark"] .share .share-action:focus-visible {
     gap: .5rem;
     align-items: center;
   }
-  .site-nav__brand-image { width: 1.2rem; height: auto; }
+  .site-nav__brand-image { height: calc(var(--nav-bar-height) - 1.7rem); }
+  .site-nav__brand-image--logo { height: calc(var(--nav-bar-height) - 1.9rem); }
   .site-nav__brand-text  { font-weight: 800; letter-spacing: .02em; color: #fff; }
 
   /* Right gear button, visible on phones */
   .nav-gear--mobile {
     grid-column: 3;
-    position: static;
+    position: relative;
+    right: calc(-1 * var(--page-gutter, 12px));
     display: block;
   }
   .nav-gear--mobile > summary.nav-gear__button {
@@ -2363,13 +2379,20 @@ html[data-theme="dark"] .share .share-action:focus-visible {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 9999px;
-    background: rgba(255,255,255,.08);
-    border: 1px solid rgba(255,255,255,.10);
+    border-radius: 0;
+    background: transparent;
+    border: 0;
     color: #fff;
     list-style: none;
     padding: 0;
     min-height: 0;
+  }
+  .nav-gear--mobile > summary.nav-gear__button:hover,
+  .nav-gear--mobile > summary.nav-gear__button:focus-visible,
+  .nav-gear--mobile[open] > summary.nav-gear__button {
+    background: transparent;
+    border: 0;
+    color: #fff;
   }
   .nav-gear--mobile > summary::-webkit-details-marker { display: none; }
 
@@ -2377,7 +2400,7 @@ html[data-theme="dark"] .share .share-action:focus-visible {
   .nav-gear--mobile .nav-gear__panel {
     position: fixed;
     top: calc(var(--nav-bar-height) + .25rem);
-    right: .5rem;
+    right: 0;
     z-index: 1100;
     min-width: 220px;
     padding: .5rem;
@@ -2568,7 +2591,7 @@ html[data-theme="dark"] .share .share-action:focus-visible {
   .nav-gear--mobile .nav-gear__panel {
     position: fixed;
     top: calc(var(--nav-bar-height) + .25rem);
-    right: var(--page-gutter);
+    right: 0;
     z-index: 1100;
     min-width: 220px;
     padding: .5rem;
@@ -2624,7 +2647,12 @@ html[data-theme="dark"] .share .share-action:focus-visible {
     color: #fff;
   }
 
-  .nav-gear--mobile { grid-column: 3; justify-self: end; }
+  .nav-gear--mobile {
+    grid-column: 3;
+    justify-self: end;
+    position: relative;
+    right: calc(-1 * var(--page-gutter, 12px));
+  }
 
   .nav-gear--mobile > summary.nav-gear__button {
     width: 44px;
@@ -2632,12 +2660,20 @@ html[data-theme="dark"] .share .share-action:focus-visible {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 9999px;
-    background: rgba(255,255,255,.08);
-    border: 1px solid rgba(255,255,255,.10);
+    border-radius: 0;
+    background: transparent;
+    border: 0;
     color: #fff;
     margin: 0;
     transform: none;
+  }
+
+  .nav-gear--mobile > summary.nav-gear__button:hover,
+  .nav-gear--mobile > summary.nav-gear__button:focus-visible,
+  .nav-gear--mobile[open] > summary.nav-gear__button {
+    background: transparent;
+    border: 0;
+    color: #fff;
   }
 
   .nav-gear--mobile > summary::-webkit-details-marker { display: none; }
