@@ -413,6 +413,7 @@ a[href="mailto:connect@wxmanbran.com"]:focus {
   border: none;
   display: inline-flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .theme-toggle__button:hover,
@@ -2254,7 +2255,9 @@ html[data-theme="dark"] .share .share-action:focus-visible {
 
   /* Show the external gear; hide the mobile gear-pill */
   .nav-gear--desktop {
-    display: inline-block !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
     margin-left: auto;
     margin-right: 1.25rem;
   }
