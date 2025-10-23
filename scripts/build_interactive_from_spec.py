@@ -38,7 +38,7 @@ LEGEND_LOCATIONS = {
     "center": ("center", "middle", 0.0, 0.0),
 }
 
-TOP_LEGEND_OFFSET = 0.03
+TOP_LEGEND_TARGET_Y = 0.80
 
 PLOTLY_CDN = "https://cdn.plot.ly/plotly-2.31.1.min.js"
 
@@ -82,7 +82,13 @@ def compute_domains(rows: int, cols: int, h_spacing: float = 0.08, v_spacing: fl
     return domains
 
 
-def legend_position(loc: Optional[str], x_domain: List[float], y_domain: List[float]) -> Optional[Dict[str, object]]:
+def legend_position(
+    loc: Optional[str],
+    x_domain: List[float],
+    y_domain: List[float],
+    *,
+    clamp_top: bool = True,
+) -> Optional[Dict[str, object]]:
     if not loc:
         return None
     loc_key = loc.lower()
@@ -104,9 +110,9 @@ def legend_position(loc: Optional[str], x_domain: List[float], y_domain: List[fl
     elif yanchor == "top":
         y = y_end - margin_y
         lower_bound = y_start + margin_y
-        available = max(0.0, y - lower_bound)
-        shift = min(TOP_LEGEND_OFFSET, available)
-        y -= shift
+        if clamp_top and TOP_LEGEND_TARGET_Y is not None:
+            y = min(y, TOP_LEGEND_TARGET_Y)
+        y = max(y, lower_bound)
     else:
         y = (y_start + y_end) / 2
     return {
@@ -527,7 +533,9 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
     for subplot in spec.subplots or []:
         index = (subplot.row - 1) * cols + subplot.col
         x_domain, y_domain = domains[(subplot.row, subplot.col)]
-        legend_settings = legend_position(subplot.legend_loc, x_domain, y_domain)
+        legend_settings = legend_position(
+            subplot.legend_loc, x_domain, y_domain, clamp_top=False
+        )
         legend_name = None
         if legend_settings:
             legend_count += 1
