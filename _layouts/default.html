@@ -593,5 +593,25 @@
         }
       })();
     </script>
+    <script>
+      (function () {
+        var header = document.querySelector('.site-header');
+        if (!header) return;
+
+        function setNavHeight() {
+          var h = Math.ceil(header.getBoundingClientRect().height);
+          document.documentElement.style.setProperty('--nav-bar-height', h + 'px');
+          document.body.style.setProperty('--nav-bar-height', h + 'px');
+        }
+
+        window.addEventListener('load', setNavHeight);
+        window.addEventListener('resize', setNavHeight);
+        window.addEventListener('orientationchange', setNavHeight);
+
+        if ('ResizeObserver' in window) {
+          new ResizeObserver(setNavHeight).observe(header);
+        }
+      })();
+    </script>
   </body>
 </html>
