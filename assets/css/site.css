@@ -303,6 +303,7 @@ a[href="mailto:connect@wxmanbran.com"]:focus {
   height: calc(var(--nav-bar-height) - 1.6rem);
   max-width: 3rem;
   max-height: 3rem;
+  flex-shrink: 0;
   line-height: 0;
 }
 
@@ -1279,6 +1280,7 @@ section {
   max-width: 3rem;
   max-height: 3rem;
   margin-right: 0.5rem;
+  flex-shrink: 0;
   line-height: 0;
   vertical-align: -0.15em;
 }
@@ -1309,6 +1311,44 @@ section {
 @media (max-width: 1080px) {
   .site-nav__links {
     gap: 1rem;
+  }
+}
+
+@media (min-width: 921px) {
+  .site-nav__links {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    gap: clamp(1.25rem, 2vw, 2.75rem);
+    width: 100%;
+    justify-items: center;
+  }
+
+  .site-nav__links::before,
+  .site-nav__links::after {
+    display: none;
+  }
+
+  .site-nav__links > li {
+    display: flex;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  .site-nav__links > li > a,
+  .site-nav__links > li > button {
+    width: 100%;
+    justify-content: center;
+    min-width: 0;
+    gap: clamp(0.55rem, 0.35rem + 0.25vw, 0.85rem);
+    font-size: clamp(0.95rem, 0.7rem + 0.35vw, 1.2rem);
+    padding-inline: clamp(0.65rem, 0.35rem + 0.35vw, 1.15rem);
+  }
+
+  .site-nav__links .nav-label {
+    white-space: nowrap;
+    min-width: 0;
   }
 }
 
