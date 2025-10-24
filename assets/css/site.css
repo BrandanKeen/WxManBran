@@ -226,17 +226,22 @@ a[href="mailto:connect@wxmanbran.com"]:focus {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  padding: 0 1.75rem;
+  /* let the bar grow if items wrap */
   min-height: var(--nav-bar-height);
-  height: var(--nav-bar-height);
+  height: auto;
+  padding: .25rem 1.75rem;
   position: relative;
   column-gap: 1.5rem;
+  align-content: center;
 }
 
 .site-nav__links {
   display: flex;
   gap: 1.5rem;
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  row-gap: .5rem;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -253,7 +258,7 @@ a[href="mailto:connect@wxmanbran.com"]:focus {
 .site-nav__links > li {
   display: flex;
   align-items: center;
-  height: 100%;
+  height: auto;            /* override previous 100% */
 }
 
 .site-nav__links > li > a,
@@ -273,7 +278,7 @@ a[href="mailto:connect@wxmanbran.com"]:focus {
   border: none;
   background: transparent;
   cursor: pointer;
-  height: 100%;
+  height: auto;            /* override previous 100% */
 }
 
 .site-nav__links > li > a:hover,
@@ -655,6 +660,9 @@ a[href="mailto:connect@wxmanbran.com"]:focus {
 
 .site-nav__links .nav-label {
   display: inline-block;
+  white-space: normal;      /* allow wrapping */
+  max-width: 14ch;          /* prevents overly long pills */
+  line-height: 1.1;
 }
 
 /* ===== Tropical Updates cards ===== */
