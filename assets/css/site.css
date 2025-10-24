@@ -2909,7 +2909,7 @@ html[data-theme="dark"] .share .share-action:focus-visible {
   .site-nav__row * { -webkit-tap-highlight-color: transparent; }
 }
 
-/* === Desktop nav fit-on-one-line === */
+/* === Desktop nav fit-on-one-line (mouse/trackpad devices) === */
 @media (min-width: 1100px) and (pointer: fine) {
   /* Slightly shorter bar and explicit icon size */
   .site-nav {
