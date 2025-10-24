@@ -2908,3 +2908,34 @@ html[data-theme="dark"] .share .share-action:focus-visible {
   /* Remove iOS tap highlight that can appear as a white box */
   .site-nav__row * { -webkit-tap-highlight-color: transparent; }
 }
+
+/* === Desktop nav fit-on-one-line === */
+@media (min-width: 1100px) {
+  /* Slightly shorter bar and explicit icon size */
+  .site-nav {
+    --nav-bar-height: 4.2rem;      /* was ~4.75rem */
+    --nav-icon-size: 2.15rem;      /* explicitly size icons */
+  }
+
+  /* Keep items on a single row and tighten spacing */
+  .site-nav__links {
+    flex-wrap: nowrap;             /* prevent wrapping */
+    gap: 1rem;                     /* reduce from default */
+  }
+
+  /* Slightly smaller labels and no internal wrapping */
+  .site-nav__links > li > a,
+  .site-nav__links > li > button {
+    font-size: 1.25rem;            /* down from ~1.55rem */
+    padding: 0 0.9rem;             /* reduce horizontal padding */
+    white-space: nowrap;           /* stop “About” from breaking */
+  }
+}
+
+/* Optional extra-tight fallback if still wrapping around 1200 px */
+@media (min-width: 1100px) and (max-width: 1280px) {
+  .site-nav { --nav-icon-size: 2rem; }
+  .site-nav__links { gap: 0.9rem; }
+  .site-nav__links > li > a,
+  .site-nav__links > li > button { font-size: 1.18rem; }
+}
