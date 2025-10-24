@@ -245,7 +245,6 @@ a[href="mailto:connect@wxmanbran.com"]:focus {
   list-style: none;
   margin: 0;
   padding: 0;
-  height: 100%;
 }
 
 .site-nav__links::before,
@@ -1203,7 +1202,6 @@ section {
 
 @media (max-width: 640px) {
   .site-nav {
-    --nav-bar-height: 4.2rem;
     padding: 0 1.2rem;
     column-gap: 1rem;
   }
@@ -1218,7 +1216,6 @@ section {
   .site-nav__links .nav-icon {
     width: calc(var(--nav-bar-height) - 1.5rem);
     height: calc(var(--nav-bar-height) - 1.5rem);
-    margin-right: 0.45rem;
   }
 }
 
@@ -1256,26 +1253,29 @@ section {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
+  align-content: center;
   width: 100%;
-  height: var(--nav-bar-height);
+  min-height: var(--nav-bar-height);
+  height: auto;
 }
 
 /* Make the list horizontal and centered */
 .site-nav__links {
   display: flex;
-  align-items: stretch;
+  align-items: center;
   justify-content: center;   /* centers the menu items within the ul */
+  flex-wrap: wrap;
   gap: 1.25rem;              /* adjust spacing between items as desired */
+  row-gap: .5rem;
   list-style: none;
   margin: 0;
   padding: 0;
-  height: 100%;
 }
 
 .site-nav__links > li {
   display: flex;
   align-items: center;
-  height: 100%;
+  height: auto;
 }
 
 /* Increase SVG icon size slightly above the text size */
@@ -1287,7 +1287,6 @@ section {
   height: calc(var(--nav-bar-height) - 1.6rem);
   max-width: 3rem;
   max-height: 3rem;
-  margin-right: 0.5rem;
   flex-shrink: 0;
   line-height: 0;
   vertical-align: -0.15em;
@@ -1313,6 +1312,9 @@ section {
 /* Keep labels inline next to icons */
 .site-nav__links .nav-label {
   display: inline-block;
+  white-space: normal;
+  max-width: 14ch;
+  line-height: 1.1;
 }
 
 /* Allow the navigation to contract on medium viewports before falling back to icon-only treatments */
@@ -1324,13 +1326,8 @@ section {
 
 @media (min-width: 921px) {
   .site-nav__links {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: minmax(0, 1fr);
-    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
     gap: clamp(1.25rem, 2vw, 2.75rem);
-    width: 100%;
-    justify-items: center;
+    justify-content: center;
   }
 
   .site-nav__links::before,
@@ -1339,14 +1336,12 @@ section {
   }
 
   .site-nav__links > li {
-    display: flex;
     justify-content: center;
     min-width: 0;
   }
 
   .site-nav__links > li > a,
   .site-nav__links > li > button {
-    width: 100%;
     justify-content: center;
     min-width: 0;
     gap: clamp(0.55rem, 0.35rem + 0.25vw, 0.85rem);
@@ -1355,43 +1350,19 @@ section {
   }
 
   .site-nav__links .nav-label {
-    white-space: nowrap;
     min-width: 0;
   }
 }
 
 /* When horizontal room is tight, make the links scrollable instead of overflowing the layout */
 @media (max-width: 920px) {
-  .site-nav {
-    --nav-bar-height: 4.5rem;
-  }
-
   .site-nav__links {
-    justify-content: flex-start;
+    justify-content: center;
     gap: 0.85rem;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding: 0 0.35rem;
-    scrollbar-width: thin;
-    scrollbar-color: color-mix(in srgb, var(--brandAccent) 45%, transparent)
-                     color-mix(in srgb, var(--brandPrimary) 35%, transparent);
   }
 
   .site-nav__links > li {
-    flex: 0 0 auto;
-  }
-
-  .site-nav__links::-webkit-scrollbar {
-    height: 0.45rem;
-  }
-
-  .site-nav__links::-webkit-scrollbar-thumb {
-    background: color-mix(in srgb, var(--brandAccent) 55%, transparent);
-    border-radius: 999px;
-  }
-
-  .site-nav__links::-webkit-scrollbar-track {
-    background: color-mix(in srgb, var(--brandPrimary) 20%, transparent);
+    flex: 0 1 auto;
   }
 
   .site-nav__links a,
@@ -1404,13 +1375,11 @@ section {
   .site-nav__links .nav-icon {
     width: calc(var(--nav-bar-height) - 1.8rem);
     height: calc(var(--nav-bar-height) - 1.8rem);
-    margin-right: 0.4rem;
   }
 }
 
 /* Optional: tune sizes for small screens so the nav does not wrap awkwardly */
 @media (max-width: 640px) {
-  .site-nav { --nav-bar-height: 4.2rem; }
   .site-nav__links a,
   .site-nav__links button,
   .nav-gear__button {
@@ -1420,7 +1389,6 @@ section {
   .site-nav__links .nav-icon {
     width: calc(var(--nav-bar-height) - 1.5rem);
     height: calc(var(--nav-bar-height) - 1.5rem);
-    margin-right: 0.45rem;
   }
   .site-nav__links { gap: 1rem; }
   .site-nav__actions { gap: 0.9rem; }
@@ -2511,7 +2479,6 @@ html[data-theme="dark"] .share .share-action:focus-visible {
   .site-nav {
     display: block;
     padding: 0 .5rem;
-    --nav-bar-height: 4.2rem;
   }
 
   /* 3-column mobile row */
@@ -2833,7 +2800,6 @@ html[data-theme="dark"] .share .share-action:focus-visible {
 }
 
 @media (max-width: 480px) {
-  .site-nav { --nav-bar-height: 4.2rem; }
   .site-nav__row { align-items: center; }
 
   .site-nav__drawer-button {
