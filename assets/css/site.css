@@ -2909,8 +2909,8 @@ html[data-theme="dark"] .share .share-action:focus-visible {
   .site-nav__row * { -webkit-tap-highlight-color: transparent; }
 }
 
-/* === Desktop nav fit-on-one-line (mouse/trackpad devices) === */
-@media (min-width: 1100px) and (pointer: fine) {
+/* === Desktop nav fit-on-one-line (>=1100px viewports) === */
+@media (min-width: 1100px) {
   /* Slightly shorter bar and explicit icon size */
   .site-nav {
     --nav-bar-height: 4.2rem;      /* was ~4.75rem */
@@ -2933,7 +2933,7 @@ html[data-theme="dark"] .share .share-action:focus-visible {
 }
 
 /* Optional extra-tight fallback if still wrapping around 1200 px */
-@media (min-width: 1100px) and (max-width: 1280px) and (pointer: fine) {
+@media (min-width: 1100px) and (max-width: 1280px) {
   .site-nav { --nav-icon-size: 2rem; }
   .site-nav__links { gap: 0.9rem; }
   .site-nav__links > li > a,
