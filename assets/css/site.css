@@ -1329,12 +1329,19 @@ section {
   .site-nav__links > li {
     display: flex;
     justify-content: center;
+    min-width: 0;
   }
 
   .site-nav__links > li > a,
   .site-nav__links > li > button {
     width: 100%;
     justify-content: center;
+    font-size: clamp(0.95rem, 0.7rem + 0.35vw, 1.2rem);
+    padding-inline: clamp(0.65rem, 0.35rem + 0.35vw, 1.15rem);
+  }
+
+  .site-nav__links .nav-label {
+    white-space: nowrap;
   }
 }
 
