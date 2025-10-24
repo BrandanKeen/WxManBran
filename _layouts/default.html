@@ -599,18 +599,36 @@
         if (!header) return;
 
         function setNavHeight() {
-          var h = Math.ceil(header.getBoundingClientRect().height);
-          document.documentElement.style.setProperty('--nav-bar-height', h + 'px');
-          document.body.style.setProperty('--nav-bar-height', h + 'px');
+          var rect = header.getBoundingClientRect();
+          var nextHeight = Math.ceil(rect && rect.height ? rect.height : 0);
+          if (!nextHeight) {
+            return;
+          }
+
+          document.documentElement.style.setProperty('--nav-bar-height', nextHeight + 'px');
+          if (document.body) {
+            document.body.style.setProperty('--nav-bar-height', nextHeight + 'px');
+          }
         }
 
-        window.addEventListener('load', setNavHeight);
-        window.addEventListener('resize', setNavHeight);
-        window.addEventListener('orientationchange', setNavHeight);
+        function queueNavHeight() {
+          if (typeof window.requestAnimationFrame === 'function') {
+            window.requestAnimationFrame(setNavHeight);
+          } else {
+            setNavHeight();
+          }
+        }
+
+        window.addEventListener('load', queueNavHeight);
+        window.addEventListener('resize', queueNavHeight);
+        window.addEventListener('orientationchange', queueNavHeight);
+        document.addEventListener('DOMContentLoaded', queueNavHeight);
 
         if ('ResizeObserver' in window) {
-          new ResizeObserver(setNavHeight).observe(header);
+          new ResizeObserver(queueNavHeight).observe(header);
         }
+
+        queueNavHeight();
       })();
     </script>
   </body>
