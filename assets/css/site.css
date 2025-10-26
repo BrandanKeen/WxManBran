@@ -2689,10 +2689,8 @@ html[data-theme="dark"] .share .share-action:focus-visible {
     top: var(--nav-bar-height);
     left: var(--page-gutter);
     right: auto;
-    width: auto;                 /* shrink-to-fit */
+    width: min(max-content, calc(100vw - (var(--page-gutter) * 2)));
     display: inline-block;       /* shrink-to-fit needs inline-block */
-    min-width: 220px;            /* do not collapse too small */
-    max-width: calc(100vw - (var(--page-gutter) * 2));
     background: rgba(11,22,48,.98);
     border: 1px solid rgba(255,255,255,.12);
     border-radius: 12px;
