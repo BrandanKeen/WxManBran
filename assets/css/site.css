@@ -235,6 +235,12 @@ a[href="mailto:connect@wxmanbran.com"]:focus {
   align-content: center;
 }
 
+@media screen and (max-width: 600px) and (orientation: portrait) {
+  .site-nav {
+    padding-top: 0;
+  }
+}
+
 .site-nav__links {
   display: flex;
   gap: 1.5rem;
