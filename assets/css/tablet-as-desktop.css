@@ -1,0 +1,72 @@
+/* === Desktop from iPad (>= 744px) + robust viewport fixes === */
+
+/* Global container and spacing tokens */
+:root {
+  --bp-desktop: 744px;          /* iPad mini portrait and up */
+  --container-max: 1100px;      /* matches Home .container on index; adjust later if desired */
+  --container-max-lg: 1280px;   /* optional wider cap for big monitors */
+  --gutter: clamp(16px, 2vw, 28px);
+}
+
+/* 1) Use desktop layout from iPad up */
+@media (min-width: 744px) {
+  /* Body/site content widths align with desktop look */
+  body.site { line-height: 1.5; }
+
+  /* Unify page width to desktop feel everywhere */
+  .site-content {
+    width: min(var(--container-max), 92vw);
+    margin: 2rem auto 4rem auto;
+    padding-inline: var(--gutter);
+  }
+
+  /* Keep media and tables fitting within content width */
+  img, video, svg { max-width: 100%; height: auto; object-fit: cover; }
+  table { width: 100%; border-collapse: collapse; }
+  .content, .post-content { overflow-wrap: anywhere; }
+}
+
+/* Optional breathing room on very large displays */
+@media (min-width: 1536px) {
+  .site-content { width: min(var(--container-max-lg), 92vw); }
+}
+
+/* 2) Make nav “desktop-like” from 744–920 px to avoid wrapping */
+@media (min-width: 744px) and (max-width: 920px) {
+  .site-nav {
+    --nav-bar-height: 4.2rem;
+    --nav-icon-size: 2rem;
+  }
+  .site-nav__links {
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 0.9rem;
+  }
+  .site-nav__links > li { min-width: 0; }
+  .site-nav__links > li > a,
+  .site-nav__links > li > button {
+    white-space: nowrap;
+    font-size: 1.05rem;
+    padding: 0 0.7rem;
+    min-width: 0;
+  }
+  .site-nav__links .nav-icon {
+    width: calc(var(--nav-bar-height) - 2rem);
+    height: calc(var(--nav-bar-height) - 2rem);
+  }
+}
+
+/* 3) Replace fragile 100vh usages with dynamic viewport units when supported */
+@supports (min-height: 100dvh) {
+  body.site { min-height: 100dvh; } /* overrides 100vh from site.css */
+}
+@supports (max-height: 100dvh) {
+  /* Drawer overlay: use dvh so mobile browser bars do not cut content */
+  .site-nav__drawer-panel {
+    max-height: calc(100dvh - var(--nav-bar-height) - env(safe-area-inset-bottom));
+  }
+}
+
+/* 4) Safe-area padding is already handled in default.html via viewport-fit=cover.
+   Nothing else needed here. If a full-height hero appears, add: 
+   .hero, .vh-100 { min-height: 100dvh; } in the relevant template. */
