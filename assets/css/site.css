@@ -239,12 +239,6 @@ a[href="mailto:connect@wxmanbran.com"]:focus {
   .site-nav {
     padding-top: 0;
   }
-
-  @supports (padding-top: env(safe-area-inset-top)) {
-    .site-nav {
-      padding-top: env(safe-area-inset-top);
-    }
-  }
 }
 
 .site-nav__links {
