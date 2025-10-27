@@ -20,21 +20,140 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Prepare folders
-        run: mkdir -p _posts assets/docs incoming/posts
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install DOCX processing dependencies
+      - name: Install Pandoc
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install mammoth
+          sudo apt-get update
+          sudo apt-get install -y pandoc
 
-      - name: Convert incoming/posts/*.docx to _posts
-        run: python tools/process_docx_posts.py
+      - name: Prepare folders
+        run: |
+          mkdir -p _posts assets/docs
+          mkdir -p incoming/posts
+          mkdir -p tabs/tropical-updates/drafts
+
+      - name: Convert DOCX to Jekyll posts with thumbnails and YouTube support
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob extglob nocasematch
+
+          # Collect DOCX from both the legacy and new paths
+          files=(incoming/posts/*.docx tabs/tropical-updates/drafts/*.docx)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No DOCX posts found."
+            exit 0
+          fi
+
+          yaml_escape() {
+            local s="$1"
+            s="${s//\\/\\\\}"        # escape backslashes
+            s="${s//\"/\\\"}"        # escape double quotes
+            s="${s//$'\n'/ }"             # replace newlines with spaces
+            echo "$s"
+          }
+
+          for f in "${files[@]}"; do
+            base="$(basename "$f" .docx)"
+
+            # Split base into YYYY-MM-DD - rest
+            yyyy="${base%%-*}"; rest="${base#*-}"
+            mm="${rest%%-*}";  rest="${rest#*-}"
+            dd="${rest%%-*}";  rest="${rest#*-}"
+
+            if [[ -z "$yyyy" || -z "$mm" || -z "$dd" || -z "$rest" ]]; then
+              echo "Skipping $base: expected YYYY-MM-DD-..." >&2
+              continue
+            fi
+
+            # Optional time token at start of 'rest' like 4pm, 12PM, 0930am, 130pm
+            time_token=""
+            slug_raw="$rest"
+            if [[ "$rest" =~ ^([0-9]{1,4}[ap]m|[0-9]{1,4}[AP]M)(-)(.*)$ ]]; then
+              time_token="${BASH_REMATCH[1]}"
+              slug_raw="${BASH_REMATCH[3]}"
+            fi
+
+            # Time normalization to HH:MM:SS
+            # Accept 4pm, 04pm, 0930am, 130PM etc
+            hhmmss="00:00:00"
+            if [[ -n "$time_token" ]]; then
+              t="${time_token,,}"                                # lower
+              ampm="${t: -2}"                                   # am or pm
+              digits="${t%??}"                                  # remove am/pm
+
+              if [[ ${#digits} -le 2 ]]; then
+                # eg 4pm or 12am
+                h=$digits; m=0
+              else
+                # eg 0930am or 130pm
+                h="${digits:0:-2}"; m="${digits: -2}"
+              fi
+              # Convert to 24h
+              if [[ "$ampm" == "am" ]]; then
+                if [[ "$h" == "12" ]]; then h=0; fi
+              else
+                if [[ "$h" != "12" ]]; then h=$((10#$h + 12)); fi
+              fi
+              printf -v hhmmss "%02d:%02d:00" "$h" "$m"
+            fi
+
+            # Slug and human title
+            slug="$(echo "$slug_raw" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g; s/^-+|-+$//g')"
+            # Force 94l to 94L behavior from original
+            human_title="$(echo "$slug_raw" | tr '-' ' ' | sed -E 's/\b([0-9]+)[lL]\b/\1L/g' | awk '{for(i=1;i<=NF;i++){ $i=toupper(substr($i,1,1)) substr($i,2) }}1')"
+
+            # Convert DOCX -> HTML and extract images
+            mkdir -p "assets/docs/$slug"
+            pandoc "$f" -t html5 -o "/tmp/$slug.html" --extract-media="assets/docs/$slug" --wrap=none
+
+            # Normalize extracted image paths to respect baseurl
+            sed -E "s#src=\"(assets/docs/$slug/)?media/([^\"]*)\"#src=\"{{ '/assets/docs/$slug/media/\\2' | relative_url }}\"#g" \
+              "/tmp/$slug.html" > "/tmp/$slug.body.html"
+
+            # Summary: first ~160 visible chars
+            summary="$(sed -E 's/<[^>]+>//g' "/tmp/$slug.body.html" | tr '\n' ' ' | sed -E 's/  +/ /g' | cut -c1-160)"
+
+            # Thumbnail: first image if present
+            thumb=""
+            if compgen -G "assets/docs/$slug/media/*" > /dev/null; then
+              first_img="$(ls -1 "assets/docs/$slug/media/" | head -n1 || true)"
+              if [[ -n "$first_img" ]]; then
+                thumb="{{ '/assets/docs/$slug/media/$first_img' | relative_url }}"
+              fi
+            fi
+
+            # YouTube ID from either youtu.be/<id> or youtube.com/watch?v=<id>
+            yt=""
+            if grep -Eo 'https?://(www\.)?youtu\.be/[A-Za-z0-9_-]{11}|https?://(www\.)?youtube\.com/watch\?v=[A-Za-z0-9_-]{11}' -h "/tmp/$slug.body.html" >/dev/null; then
+              url="$(grep -Eo 'https?://(www\.)?youtu\.be/[A-Za-z0-9_-]{11}|https?://(www\.)?youtube\.com/watch\?v=[A-Za-z0-9_-]{11}' -h "/tmp/$slug.body.html" | head -n1)"
+              id="${url##*/}"
+              if [[ "$url" == *"watch?v="* ]]; then id="${url#*watch?v=}"; fi
+              yt="${id:0:11}"
+              # Remove the raw YouTube link from body to avoid duplication
+              sed -E -i 's#https?://(www\.)?(youtu\.be/[A-Za-z0-9_-]{11}|youtube\.com/watch\?v=[A-Za-z0-9_-]{11})##g' "/tmp/$slug.body.html"
+            fi
+
+            # Write the post
+            out="_posts/$yyyy-$mm-$dd-$slug.html"
+            title_escaped="$(yaml_escape "$human_title")"
+            summary_escaped="$(yaml_escape "$summary")"
+            thumb_escaped="$(yaml_escape "$thumb")"
+            yt_escaped="$(yaml_escape "$yt")"
+
+            {
+              printf '%s\n' "---"
+              printf '%s\n' "layout: default"
+              printf '%s\n' "title: \"$title_escaped\""
+              printf '%s\n' "date: $yyyy-$mm-$dd $hhmmss"
+              if [[ -n "$summary" ]]; then printf '%s\n' "summary: \"$summary_escaped\""; fi
+              if [[ -n "$thumb" ]]; then printf '%s\n' "thumb: \"$thumb_escaped\""; fi
+              if [[ -n "$yt" ]]; then printf '%s\n' "youtube_id: \"$yt_escaped\""; fi
+              printf '%s\n' "---"
+              cat "/tmp/$slug.body.html"
+            } > "$out"
+
+            echo "Wrote $out"
+          done
 
       - name: Build Jekyll site
         uses: actions/jekyll-build-pages@v1
