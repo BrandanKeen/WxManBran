@@ -38,7 +38,7 @@ LEGEND_LOCATIONS = {
     "center": ("center", "middle", 0.0, 0.0),
 }
 
-TOP_LEGEND_TARGET_Y = None
+TOP_LEGEND_TARGET_Y = 0.80
 
 PLOTLY_CDN = "https://cdn.plot.ly/plotly-2.31.1.min.js"
 
@@ -91,21 +91,35 @@ def legend_position(
 ) -> Optional[Dict[str, object]]:
     if not loc:
         return None
+    loc_key = loc.lower()
+    if loc_key not in LEGEND_LOCATIONS:
+        return None
+    xanchor, yanchor, dx, dy = LEGEND_LOCATIONS[loc_key]
     x_start, x_end = x_domain
     y_start, y_end = y_domain
-    margin_x = 0.01
-    margin_y = 0.01
-    x = x_end - margin_x
-    y = y_end - margin_y
-    lower_bound = y_start + margin_y
-    if clamp_top and TOP_LEGEND_TARGET_Y is not None:
-        y = min(y, TOP_LEGEND_TARGET_Y)
-    y = max(y, lower_bound)
+    margin_x = dx
+    margin_y = dy
+    if xanchor == "left":
+        x = x_start + margin_x
+    elif xanchor == "right":
+        x = x_end - margin_x
+    else:
+        x = (x_start + x_end) / 2
+    if yanchor == "bottom":
+        y = y_start + margin_y
+    elif yanchor == "top":
+        y = y_end - margin_y
+        lower_bound = y_start + margin_y
+        if clamp_top and TOP_LEGEND_TARGET_Y is not None:
+            y = min(y, TOP_LEGEND_TARGET_Y)
+        y = max(y, lower_bound)
+    else:
+        y = (y_start + y_end) / 2
     return {
         "x": x,
         "y": y,
-        "xanchor": "right",
-        "yanchor": "top",
+        "xanchor": xanchor,
+        "yanchor": yanchor,
         "bgcolor": "rgba(255,255,255,0.8)",
         "bordercolor": "rgba(0,0,0,0)",
         "borderwidth": 0,
@@ -476,7 +490,6 @@ def build_single_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
         "modeBarButtonsToRemove": ["resetScale2d", "lasso2d", "select2d"],
         "scrollZoom": True,
         "doubleClick": "reset",
-        "watermark": {"visible": False},
     }
     return {"data": traces, "layout": layout, "config": config}
 
@@ -732,7 +745,6 @@ def build_grid_figure(spec: FigureSpec, data: StormData) -> Dict[str, object]:
         "modeBarButtonsToRemove": ["resetScale2d", "lasso2d", "select2d"],
         "scrollZoom": True,
         "doubleClick": "reset",
-        "watermark": {"visible": False},
     }
     return {"data": traces, "layout": layout, "config": config}
 
