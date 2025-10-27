@@ -6,7 +6,7 @@ landfall: September 2, 2016 &mdash; near St. Marks, FL
 landfall_date: 2016-09-02
 permalink: /storms/hurricane-hermine-2016/
 sort_date: 2016-09-02
-thumbnail: /assets/images/storms/2016-hurricane-hermine/Hermine_Landfall.gif
+thumbnail: /tabs/previous-storms/media/images/storms/2016-hurricane-hermine/Hermine_Landfall.gif
 overview: >-
   Hurricane Hermine was a compact, fast-strengthening Gulf cyclone that struck Florida's Big Bend with destructive surge,
   flooding rains, and tornadoes before racing northeast across the Southeast.
