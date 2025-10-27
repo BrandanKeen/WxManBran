@@ -141,8 +141,6 @@ Hurricane Milton was one of the most powerful hurricanes ever recorded in the At
   <p>Videos coming soon.</p>
 </details>
 
-<br />
-
 <!-- DATA-SECTION:START -->
 
 <h2>Data</h2>

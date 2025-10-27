@@ -134,8 +134,6 @@ Hurricane Helene formed in the northwestern Caribbean on September 24 and rapidl
   <p>Videos coming soon.</p>
 </details>
 
-<br />
-
 <!-- DATA-SECTION:START -->
 
 <h2>Data</h2>
