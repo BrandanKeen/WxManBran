@@ -4,9 +4,16 @@ layout: default
 permalink: /tropical-updates/
 ---
 
-{% assign updates = site.categories['tropical-updates'] | sort: 'date' | reverse %}
-{% if updates == nil or updates.size == 0 %}
-<!-- Debug: site.posts={{ site.posts | size }} categories.tropical-updates={{ site.categories['tropical-updates'] | size }} -->
+{% comment %}
+Build-safe query: filter from site.posts so it’s never nil in PR/CI,
+then sort by date (desc). This avoids “cannot sort a null”.
+{% endcomment %}
+{% assign updates = site.posts
+  | where_exp: "p", "p.categories contains 'tropical-updates'"
+  | sort: "date"
+  | reverse %}
+
+{% if updates.size == 0 %}
 <p>No tropical updates found yet.</p>
 {% endif %}
 
