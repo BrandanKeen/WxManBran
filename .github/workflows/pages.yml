@@ -103,6 +103,7 @@ jobs:
               echo "layout: default"
               echo "title: \"$human_title\""
               echo "date: $yyyy-$mm-$dd $hhmmss"
+              echo "categories: [tropical-updates]"
               if [[ -n "$summary" ]]; then echo "summary: \"$summary\""; fi
               if [[ -n "$thumb" ]]; then echo "thumb: $thumb"; fi
               if [[ -n "$yt" ]]; then echo "youtube_id: \"$yt\""; fi

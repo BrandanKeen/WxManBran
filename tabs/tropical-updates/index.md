@@ -1,10 +1,10 @@
 ---
-layout: default
 title: Tropical Updates
+layout: default
 permalink: /tropical-updates/
 ---
 
-{%- assign posts_sorted = site.posts | sort: "date" | reverse -%}
+{% assign updates = site.posts | where_exp: "p", "p.categories contains 'tropical-updates'" %}
 
 <div class="section-intro">
   <h1>Tropical Updates</h1>
@@ -151,7 +151,7 @@ permalink: /tropical-updates/
 </script>
 
 <div class="posts-grid posts-grid--fit tropical-updates__grid">
-  {%- for post in posts_sorted -%}
+  {%- for post in updates -%}
 
     {%- if post.youtube_id -%}
       <div class="post-pair">
