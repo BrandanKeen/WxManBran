@@ -110,15 +110,24 @@ jobs:
             sed -E "s#src=\"(assets/docs/$slug/)?media/([^\"]*)\"#src=\"{{ '/assets/docs/$slug/media/\\2' | relative_url }}\"#g" \
               "/tmp/$slug.html" > "/tmp/$slug.body.html"
 
-            # Summary: first ~160 visible chars
-            summary="$(sed -E 's/<[^>]+>//g' "/tmp/$slug.body.html" | tr '\n' ' ' | sed -E 's/  +/ /g' | cut -c1-160)"
+            # Summary: first ~160 visible chars with ellipsis if truncated
+            raw_summary="$(sed -E 's/<[^>]+>//g' "/tmp/$slug.body.html" | tr '\n' ' ' | sed -E 's/  +/ /g' | awk '{$1=$1; print}')"
+            summary="$raw_summary"
+            if [[ ${#raw_summary} -gt 160 ]]; then
+              truncated="${raw_summary:0:160}"
+              last_space="${truncated% *}"
+              if [[ ${#last_space} -gt 40 ]]; then
+                truncated="$last_space"
+              fi
+              summary="$truncated…"
+            fi
 
             # Thumbnail: first image if present
             thumb=""
             if compgen -G "assets/docs/$slug/media/*" > /dev/null; then
               first_img="$(ls -1 "assets/docs/$slug/media/" | head -n1 || true)"
               if [[ -n "$first_img" ]]; then
-                thumb="{{ '/assets/docs/$slug/media/$first_img' | relative_url }}"
+                thumb="/assets/docs/$slug/media/$first_img"
               fi
             fi
 
@@ -146,7 +155,10 @@ jobs:
               printf '%s\n' "title: \"$title_escaped\""
               printf '%s\n' "date: $yyyy-$mm-$dd $hhmmss"
               if [[ -n "$summary" ]]; then printf '%s\n' "summary: \"$summary_escaped\""; fi
-              if [[ -n "$thumb" ]]; then printf '%s\n' "thumb: \"$thumb_escaped\""; fi
+              if [[ -n "$thumb" ]]; then
+                printf '%s\n' "thumb: \"$thumb_escaped\""
+                printf '%s\n' "thumb_alt: \"$title_escaped\""
+              fi
               if [[ -n "$yt" ]]; then printf '%s\n' "youtube_id: \"$yt_escaped\""; fi
               printf '%s\n' "---"
               cat "/tmp/$slug.body.html"
