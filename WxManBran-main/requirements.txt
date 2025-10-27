@@ -1,0 +1,7 @@
+nbconvert
+nbformat
+pandas
+plotly
+
+matplotlib
+numpy

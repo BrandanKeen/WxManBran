@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="/assets/images/Hurricane_Flags.png">
+    <link rel="shortcut icon" type="image/png" href="/assets/images/Hurricane_Flags.png">
+    <title>Storm Plot Watermark Preview</title>
+    <link rel="stylesheet" href="../../assets/css/brand-colors.css" />
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        background: linear-gradient(180deg, var(--surface) 0%, var(--surfaceAlt) 100%);
+        color: var(--ink);
+        padding: 3rem 1.5rem 4rem;
+        display: flex;
+        justify-content: center;
+      }
+
+      main {
+        width: min(1040px, 100%);
+        display: grid;
+        gap: 2rem;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2rem, 3vw, 2.6rem);
+        text-align: center;
+        color: var(--inkAlt);
+      }
+
+      .previews {
+        display: grid;
+        gap: 1.5rem;
+      }
+
+      @media (min-width: 960px) {
+        .previews {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      figure {
+        margin: 0;
+        display: grid;
+        gap: 1rem;
+      }
+
+      figcaption {
+        font-weight: 700;
+        font-size: 1.125rem;
+        text-align: center;
+        color: var(--inkAlt);
+      }
+
+      iframe {
+        width: 100%;
+        aspect-ratio: 4 / 5;
+        border: 0;
+        border-radius: 18px;
+        box-shadow: 0 24px 48px rgba(19, 21, 68, 0.22);
+        overflow: hidden;
+        background: var(--surfaceAlt);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Storm Plot Watermark Preview</h1>
+      <div class="previews">
+        <figure>
+          <iframe src="storm-plot-watermark-light.html" title="Pressure (MSLP) · Light"></iframe>
+          <figcaption>Light Theme</figcaption>
+        </figure>
+        <figure>
+          <iframe src="storm-plot-watermark-dark.html" title="Pressure (MSLP) · Dark"></iframe>
+          <figcaption>Dark Theme</figcaption>
+        </figure>
+      </div>
+    </main>
+  </body>
+</html>

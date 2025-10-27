@@ -1,0 +1,31 @@
+﻿title: WxManBran
+description: Tropical weather updates by Weather Man Bran
+url: "https://wxmanbran.com"
+baseurl: ""
+theme: minima
+permalink: pretty
+
+include:
+  - assets/images/Under_Construction.png
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+collections:
+  storms:
+    output: true
+    permalink: /storms/:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: default
+  - scope:
+      path: ""
+      type: "storms"
+    values:
+      layout: default
+

@@ -1,0 +1,193 @@
+name: Deploy Jekyll site to Pages
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install pandoc
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc
+
+      - name: Prepare folders
+        run: mkdir -p _posts assets/docs incoming/posts
+
+      - name: Convert incoming/posts/*.docx to _posts
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob extglob nocasematch
+
+          files=(incoming/posts/*.docx)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No DOCX posts found."
+            exit 0
+          fi
+
+          for f in "${files[@]}"; do
+            base="$(basename "$f" .docx)"
+
+            # --- Split YYYY-MM-DD and remainder (no regex) ---
+            yyyy="${base%%-*}"              # first token before '-'
+            rest="${base#*-}"               # after first '-'
+            mm="${rest%%-*}"
+            rest="${rest#*-}"
+            dd="${rest%%-*}"
+            rest="${rest#*-}"               # 'rest' now starts after YYYY-MM-DD-
+
+            if [[ -z "$yyyy" || -z "$mm" || -z "$dd" || -z "$rest" ]]; then
+              echo "Skipping $base: expected YYYY-MM-DD-..." >&2
+              continue
+            fi
+
+            # --- Detect optional time token in 'rest' (first segment) ---
+            time_token="${rest%%-*}"        # first segment after date
+            slug="$rest"
+
+            # normalize time token: remove separators and lower-case
+            norm="$(echo "$time_token" | tr '[:upper:]' '[:lower:]' | tr -d ' :_')"
+            norm="${norm//-}"               # remove hyphens too
+
+            has_time=false
+            ap="am"
+            hour="12"
+            minute="00"
+
+            if [[ "$norm" == *am || "$norm" == *pm ]]; then
+              ap="${norm: -2}"              # last two chars
+              digits="${norm%??}"           # everything before am/pm
+
+              # digits can be H, HH, HMM, HHMM
+              if [[ -n "$digits" && "$digits" == +([0-9]) ]]; then
+                if (( ${#digits} <= 2 )); then
+                  hour="$digits"
+                  minute="00"
+                else
+                  minute="${digits: -2}"
+                  hour="${digits%??}"
+                fi
+
+                # validate hour/min
+                if ((10#$hour >= 1 && 10#$hour <= 12)) && ((10#$minute >= 0 && 10#$minute <= 59)); then
+                  has_time=true
+                  # convert to 24h
+                  h=$((10#$hour % 12))
+                  if [[ "$ap" == "pm" ]]; then h=$((h+12)); fi
+                  hh24=$(printf "%02d" "$h")
+                  mm24=$(printf "%02d" "$minute")
+                  date_iso="$yyyy-$mm-$dd $hh24:$mm24:00"
+
+                  # remove the time token from the slug
+                  slug="${rest#*-}"
+                fi
+              fi
+            fi
+
+            if [[ "$has_time" == false ]]; then
+              date_iso="$yyyy-$mm-$dd 00:00:00"
+              # defensively strip any leading time-like token that might be in slug
+              first_seg="${slug%%-*}"
+              tmp="$(echo "$first_seg" | tr '[:upper:]' '[:lower:]' | tr -d ' :_')"
+              tmp="${tmp//-}"
+              if [[ "$tmp" == *am || "$tmp" == *pm ]]; then
+                slug="${slug#*-}"
+              fi
+            fi
+
+            # Keep a copy of original-case slug for the human title
+            slug_raw="$slug"
+            # Lowercase slug for paths/dirs and filenames
+            slug="${slug,,}"
+
+            date_ymd="$yyyy-$mm-$dd"        # Jekyll filename must be date-only
+
+            # --- Human title from original slug (Cap Words) + force 94L style ---
+            title="$(
+              echo "$slug_raw" \
+              | tr '-' ' ' \
+              | sed 's/\b\(.\)/\u\1/g' \
+              | sed -E 's/\b([0-9]+)[lL]\b/\1L/g'
+            )"
+
+            # --- Convert DOCX -> HTML and extract images ---
+            mkdir -p "assets/docs/$slug"
+            pandoc "$f" -t html5 -o "/tmp/$slug.html" --extract-media="assets/docs/$slug" --wrap=none
+
+            # fix image paths to respect baseurl
+            sed -E "s#src=\"(assets/docs/$slug/)?media/([^\"]*)\"#src=\"{{ '/assets/docs/$slug/media/\2' | relative_url }}\"#g" \
+              "/tmp/$slug.html" > "/tmp/$slug.body.html"
+
+            # Detect first YouTube URL in the converted HTML and extract video ID
+            yt_url="$(grep -Eo 'https?://(www\.)?(youtube\.com/watch\?v=[A-Za-z0-9_-]{11}([^'"'"'[:space:]]*)?|youtu\.be/[A-Za-z0-9_-]{11}([^'"'"'[:space:]]*)?)' "/tmp/$slug.body.html" | head -n1 || true)"
+            yt_id=""
+            if [ -n "$yt_url" ]; then
+              if [[ "$yt_url" =~ youtu\.be/([A-Za-z0-9_-]{11}) ]]; then
+                yt_id="${BASH_REMATCH[1]}"
+              elif [[ "$yt_url" =~ v=([A-Za-z0-9_-]{11}) ]]; then
+                yt_id="${BASH_REMATCH[1]}"
+              fi
+            fi
+
+            # Remove any YouTube anchor tags and bare URLs from the HTML body
+            perl -0777 -pe 's#<a[^>]+href="https?://(?:www\.)?(?:youtube\.com[^"]*|youtu\.be/[^"]*)"[^>]*>.*?</a>##gis' -i "/tmp/$slug.body.html"
+            perl -0777 -pe 's#https?://(?:www\.)?(?:youtube\.com\S*|youtu\.be/\S*)##g' -i "/tmp/$slug.body.html"
+
+            # summary (first ~160 chars)
+            plain="$(sed -E 's/<(script|style)[^>]*>.*<\/\1>//g; s/<[^>]+>/ /g' /tmp/$slug.body.html | tr -s '[:space:]' ' ' | sed 's/^ //; s/ $//')"
+            summary="$(printf '%s' "$plain" | cut -c1-160)"; if [ ${#plain} -gt 160 ]; then summary="${summary% *}…"; fi
+            summary_esc="$(printf '%s' "$summary" | sed 's/\"/\\"/g')"
+
+            # first image as thumbnail
+            thumb_file="$(find "assets/docs/$slug/media" -maxdepth 1 -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.webp' -o -iname '*.gif' \) | head -n 1 || true)"
+            thumb_rel=""; [ -n "$thumb_file" ] && thumb_rel="/${thumb_file#./}"
+
+            # write Jekyll post (date-only filename; full datetime in front matter)
+            out="_posts/$date_ymd-$slug.html"
+            {
+              echo '---'
+              echo 'layout: default'
+              echo "title: \"$title\""
+              echo "date: $date_iso"
+              [ -n "$summary_esc" ] && echo "summary: \"$summary_esc\""
+              [ -n "$thumb_rel" ] && echo "thumb: \"$thumb_rel\"" && echo "thumb_alt: \"$title\""
+              [ -n "$yt_id" ] && echo "youtube_id: \"$yt_id\""
+              echo '---'
+              cat "/tmp/$slug.body.html"
+            } > "$out"
+
+            echo "Wrote $out"
+          done
+
+      - name: Build Jekyll site
+        uses: actions/jekyll-build-pages@v1
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
