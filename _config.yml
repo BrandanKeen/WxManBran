@@ -5,6 +5,8 @@ baseurl: ""
 theme: minima
 permalink: pretty
 
+collections_dir: tabs/previous-storms
+
 include:
   - assets/images/Under_Construction.png
 
