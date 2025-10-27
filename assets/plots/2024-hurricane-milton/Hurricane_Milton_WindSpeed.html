@@ -101,16 +101,48 @@ html, body { overscroll-behavior: contain; }
           return;
         }
         const color = trace.line && trace.line.color ? trace.line.color : '#1f77b4';
+        const baseMarker = trace.marker && typeof trace.marker === 'object' ? trace.marker : null;
+        const fallbackSymbol =
+          baseMarker && typeof baseMarker.symbol !== 'undefined'
+            ? baseMarker.symbol
+            : typeof trace.name === 'string' && /sustained/i.test(trace.name)
+              ? 'circle-open'
+              : 'circle';
+        const symbol =
+          baseMarker && typeof baseMarker.symbol !== 'undefined'
+            ? baseMarker.symbol
+            : fallbackSymbol;
+        const isOpenSymbol = typeof symbol === 'string' && symbol.includes('open');
+        const markerColor =
+          baseMarker && typeof baseMarker.color !== 'undefined'
+            ? baseMarker.color
+            : isOpenSymbol
+              ? 'rgba(0, 0, 0, 0)'
+              : color;
+        const lineColor =
+          baseMarker && baseMarker.line && typeof baseMarker.line.color !== 'undefined'
+            ? baseMarker.line.color
+            : isOpenSymbol
+              ? color
+              : 'rgba(0, 0, 0, 0.85)';
+        const lineWidth =
+          baseMarker && baseMarker.line && typeof baseMarker.line.width !== 'undefined'
+            ? baseMarker.line.width
+            : isOpenSymbol
+              ? 3
+              : 2;
+        const markerSize =
+          baseMarker && typeof baseMarker.size !== 'undefined' ? baseMarker.size : 10;
         highlightIndexMap.set(index, originalCount + highlightTraces.length);
         highlightTraces.push({
           x: [trace.x && trace.x.length ? trace.x[0] : null],
           y: [trace.y && trace.y.length ? trace.y[0] : null],
           mode: 'markers',
           marker: {
-            size: 10,
-            color,
-            symbol: 'circle',
-            line: { color: 'rgba(0, 0, 0, 0.85)', width: 2 },
+            size: markerSize,
+            color: markerColor,
+            symbol,
+            line: { color: lineColor, width: lineWidth },
             opacity: 1
           },
           showlegend: false,
