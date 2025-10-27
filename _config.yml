@@ -3,10 +3,11 @@ description: Tropical weather updates by Weather Man Bran
 url: "https://wxmanbran.com"
 baseurl: ""
 theme: minima
+collections_dir: tabs/previous-storms
 permalink: pretty
 
 include:
-  - assets/images/Under_Construction.png
+  - tabs/data/media/Under_Construction.png
 
 plugins:
   - jekyll-feed
