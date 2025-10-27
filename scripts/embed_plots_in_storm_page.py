@@ -41,7 +41,6 @@ def render_image_group(entry: dict, public_dir: Path) -> str:
     image_url = f"{{{{ '/{rel_path}' | relative_url }}}}"
     body = (
         "      <figure class=\"storm-multi-panels__figure\">\n"
-        "        <span class=\"storm-multi-panels__watermark\" aria-hidden=\"true\">WxManBran.com</span>\n"
         f"        <img src=\"{image_url}\" alt=\"{alt_text}\" loading=\"lazy\">\n"
         "      </figure>"
     )
