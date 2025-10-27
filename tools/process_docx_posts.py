@@ -5,13 +5,17 @@ from __future__ import annotations
 import json
 import re
 import shutil
+import sys
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
+from typing import Iterable, Optional
 
 import mammoth
 
-DOC_GLOB = "incoming/posts/*.docx"
+DEFAULT_DOC_GLOBS: tuple[str, ...] = (
+    "incoming/posts/*.docx",
+    "tabs/tropical-updates/drafts/*.docx",
+)
 POSTS_DIR = Path("_posts")
 ASSETS_ROOT = Path("assets/docs")
 SUMMARY_LIMIT = 160
@@ -206,8 +210,40 @@ def process_doc(path: Path) -> Path:
     return post_path
 
 
+def _iter_doc_paths(tokens: Iterable[str]) -> list[Path]:
+    base = Path(".")
+    results: list[Path] = []
+    seen: set[Path] = set()
+
+    def _add_path(candidate: Path) -> None:
+        try:
+            resolved = candidate.resolve()
+        except FileNotFoundError:
+            return
+        if resolved in seen:
+            return
+        seen.add(resolved)
+        results.append(candidate)
+
+    for token in tokens:
+        # If the shell expanded wildcards we simply receive a concrete path.
+        candidate = Path(token)
+        if candidate.exists():
+            _add_path(candidate)
+            continue
+
+        matched = list(base.glob(token))
+        for match in matched:
+            if match.is_file():
+                _add_path(match)
+
+    results.sort()
+    return results
+
+
 def main() -> None:
-    paths = sorted(Path(".").glob(DOC_GLOB))
+    patterns = tuple(sys.argv[1:]) or DEFAULT_DOC_GLOBS
+    paths = _iter_doc_paths(patterns)
     if not paths:
         print("No DOCX posts found.")
         return

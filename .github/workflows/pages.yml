@@ -20,10 +20,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install pandoc
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y pandoc
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
 
       - name: Prepare folders
         run: |
@@ -31,89 +31,14 @@ jobs:
           mkdir -p incoming/posts
           mkdir -p tabs/tropical-updates/drafts
 
-      - name: Convert DOCX to Jekyll posts with thumbnails and YouTube support
-        shell: bash
+      - name: Install DOCX processing dependencies
         run: |
-          set -euo pipefail
-          shopt -s nullglob extglob nocasematch
+          python -m pip install --upgrade pip
+          pip install mammoth
 
-          files=(incoming/posts/*.docx tabs/tropical-updates/drafts/*.docx)
-          if [ ${#files[@]} -eq 0 ]; then
-            echo "No DOCX posts found."
-            exit 0
-          fi
-
-          for f in "${files[@]}"; do
-            base="$(basename "$f" .docx)"
-
-            yyyy="${base%%-*}"; rest="${base#*-}"
-            mm="${rest%%-*}";  rest="${rest#*-}"
-            dd="${rest%%-*}";  rest="${rest#*-}"
-            if [[ -z "$yyyy" || -z "$mm" || -z "$dd" || -z "$rest" ]]; then
-              echo "Skipping $base: expected YYYY-MM-DD-..." >&2
-              continue
-            fi
-
-            time_token=""
-            slug_raw="$rest"
-            if [[ "$rest" =~ ^([0-9]{1,4}[aApP][mM])-(.*)$ ]]; then
-              time_token="${BASH_REMATCH[1]}"
-              slug_raw="${BASH_REMATCH[2]}"
-            fi
-
-            hhmmss="00:00:00"
-            if [[ -n "$time_token" ]]; then
-              t="${time_token,,}"; ampm="${t: -2}"; digits="${t%??}"
-              if [[ ${#digits} -le 2 ]]; then h=$digits; m=0; else h="${digits:0:-2}"; m="${digits: -2}"; fi
-              if [[ "$ampm" == "am" ]]; then if [[ "$h" == "12" ]]; then h=0; fi
-              else if [[ "$h" != "12" ]]; then h=$((10#$h + 12)); fi; fi
-              printf -v hhmmss "%02d:%02d:00" "$h" "$m"
-            fi
-
-            slug="$(echo "$slug_raw" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g; s/^-+|-+$//g')"
-            human_title="$(echo "$slug_raw" | tr '-' ' ' | sed -E 's/\b([0-9]+)[lL]\b/\1L/g' | awk '{for(i=1;i<=NF;i++){ $i=toupper(substr($i,1,1)) substr($i,2) }}1')"
-
-            mkdir -p "assets/docs/$slug"
-            pandoc "$f" -t html5 -o "/tmp/$slug.html" --extract-media="assets/docs/$slug" --wrap=none
-
-            sed -E "s#src=\"(assets/docs/$slug/)?media/([^\"]*)\"#src=\"{{ '/assets/docs/$slug/media/\\2' | relative_url }}\"#g" \
-              "/tmp/$slug.html" > "/tmp/$slug.body.html"
-
-            summary="$(sed -E 's/<[^>]+>//g' "/tmp/$slug.body.html" | tr '\n' ' ' | sed -E 's/  +/ /g' | cut -c1-160)"
-
-            thumb=""
-            if compgen -G "assets/docs/$slug/media/*" > /dev/null; then
-              first_img="$(ls -1 "assets/docs/$slug/media/" | head -n1 || true)"
-              if [[ -n "$first_img" ]]; then
-                thumb="{{ '/assets/docs/$slug/media/$first_img' | relative_url }}"
-              fi
-            fi
-
-            yt=""
-            if grep -hEo 'https?://(www\.)?youtu\.be/[A-Za-z0-9_-]{11}|https?://(www\.)?youtube\.com/watch\?v=[A-Za-z0-9_-]{11}' "/tmp/$slug.body.html" >/dev/null; then
-              url="$(grep -hEo 'https?://(www\.)?youtu\.be/[A-Za-z0-9_-]{11}|https?://(www\.)?youtube\.com/watch\?v=[A-Za-z0-9_-]{11}' "/tmp/$slug.body.html" | head -n1 || true)"
-              id="${url##*/}"; if [[ "$url" == *"watch?v="* ]]; then id="${url#*watch?v=}"; fi
-              yt="${id:0:11}"
-              sed -E -i 's#https?://(www\.)?(youtu\.be/[A-Za-z0-9_-]{11}|youtube\.com/watch\?v=[A-Za-z0-9_-]{11})##g' "/tmp/$slug.body.html"
-            fi
-
-            out="_posts/$yyyy-$mm-$dd-$slug.html"
-            {
-              echo "---"
-              echo "layout: default"
-              echo "title: \"$human_title\""
-              echo "date: $yyyy-$mm-$dd $hhmmss"
-              echo "categories: [tropical-updates]"
-              echo "published: true"
-              if [[ -n "$summary" ]]; then echo "summary: \"$summary\""; fi
-              if [[ -n "$thumb" ]]; then echo "thumb: $thumb"; fi
-              if [[ -n "$yt" ]]; then echo "youtube_id: \"$yt\""; fi
-              echo "---"
-              cat "/tmp/$slug.body.html"
-            } > "$out"
-
-            echo "Wrote $out"
-          done
+      - name: Convert DOCX posts
+        run: |
+          python tools/process_docx_posts.py incoming/posts/*.docx tabs/tropical-updates/drafts/*.docx
 
       - name: Build Jekyll site
         uses: actions/jekyll-build-pages@v1
