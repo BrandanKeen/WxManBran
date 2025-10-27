@@ -3,7 +3,7 @@ description: Tropical weather updates by Weather Man Bran
 url: "https://wxmanbran.com"
 baseurl: ""
 theme: minima
-collections_dir: tabs
+collections_dir: tabs/previous-storms
 permalink: pretty
 
 include:
@@ -14,12 +14,9 @@ plugins:
   - jekyll-sitemap
 
 collections:
-  posts:
-    relative_directory: tropical-updates/_posts
   storms:
     output: true
     permalink: /storms/:name/
-    relative_directory: previous-storms/_storms
 
 defaults:
   - scope:
