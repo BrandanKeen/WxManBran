@@ -150,7 +150,6 @@ Hurricane Milton was one of the most powerful hurricanes ever recorded in the At
     <summary class="storm-plot-summary">Multi-Panel Plots</summary>
     <div class="storm-plot storm-multi-panels">
       <figure class="storm-multi-panels__figure">
-        <span class="storm-multi-panels__watermark" aria-hidden="true">WxManBran.com</span>
         <a
           href="{{ '/assets/images/previous-storms/multi-panels/Hurricane_Milton_MultiPanel.png' | relative_url }}"
           target="_blank" rel="noopener noreferrer">
