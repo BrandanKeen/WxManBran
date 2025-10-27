@@ -1,10 +1,11 @@
-﻿title: WxManBran
+title: WxManBran
 description: Tropical weather updates by Weather Man Bran
 url: "https://wxmanbran.com"
 baseurl: ""
 theme: minima
 collections_dir: tabs/previous-storms
 permalink: pretty
+timezone: America/New_York
 future: true
 
 include:
@@ -15,6 +16,8 @@ plugins:
   - jekyll-sitemap
 
 collections:
+  posts:
+    output: true
   storms:
     output: true
     permalink: /storms/:name/
