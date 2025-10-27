@@ -149,12 +149,13 @@ Hurricane Milton was one of the most powerful hurricanes ever recorded in the At
   <details class="storm-plot-group" open>
     <summary class="storm-plot-summary">Multi-Panel Plots</summary>
     <div class="storm-plot storm-multi-panels">
+      {% assign milton_multi_panel_image = '/assets/images/previous-storms/multi-panels/Hurricane_Milton_MultiPanel.png' | relative_url %}
       <figure class="storm-multi-panels__figure">
         <a
-          href="{{ '/assets/images/previous-storms/multi-panels/Hurricane_Milton_MultiPanel.png' | relative_url }}"
+          href="{{ milton_multi_panel_image }}"
           target="_blank" rel="noopener noreferrer">
           <img
-            src="{{ '/assets/images/previous-storms/multi-panels/Hurricane_Milton_MultiPanel.png' | relative_url }}"
+            src="{{ milton_multi_panel_image }}"
             alt="Multi-panel plot for Hurricane Milton"
             loading="lazy" decoding="async" />
         </a>
