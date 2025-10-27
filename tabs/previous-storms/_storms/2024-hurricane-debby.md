@@ -6,7 +6,7 @@ landfall: August 5, 2024 &mdash; just west of Steinhatchee, FL
 landfall_date: 2024-08-05
 permalink: /storms/hurricane-debby-2024/
 sort_date: 2024-08-05
-thumbnail: /assets/images/storms/2024-hurricane-debby/Debby_Landfall.jpg
+thumbnail: /tabs/previous-storms/media/images/storms/2024-hurricane-debby/Debby_Landfall.jpg
 overview: >-
   Hurricane Debby was a compact but impactful Category 1 hurricane that rapidly intensified over the eastern Gulf of Mexico before striking Florida’s Big Bend, bringing destructive surge, flooding rains, and tornadoes across the Southeast.
 ---

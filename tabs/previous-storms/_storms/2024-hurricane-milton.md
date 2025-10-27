@@ -5,7 +5,7 @@ season: 2024
 landfall: October 9, 2024 &mdash; Siesta Key, FL
 permalink: /storms/hurricane-milton-2024/
 sort_date: 2024-10-09
-thumbnail: /assets/images/storms/2024-hurricane-milton/Milton_Landfall.jpg
+thumbnail: /tabs/previous-storms/media/images/storms/2024-hurricane-milton/Milton_Landfall.jpg
 overview: >-
   Hurricane Milton was one of the most powerful hurricanes ever recorded in the Atlantic Basin, rapidly intensifying to a
   Category 5 before making a destructive landfall near Siesta Key, Florida.
