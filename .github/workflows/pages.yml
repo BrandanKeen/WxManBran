@@ -140,8 +140,12 @@ jobs:
             summary="$(printf '%s' "$plain" | cut -c1-160)"; if [ ${#plain} -gt 160 ]; then summary="${summary% *}…"; fi
             summary_esc="$(printf '%s' "$summary" | sed 's/"/\\"/g')"
 
-            thumb_file="$(find "assets/docs/$slug/media" -maxdepth 1 -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.webp' -o -iname '*.gif' \) | head -n 1 || true)"
-            thumb_rel=""; [ -n "$thumb_file" ] && thumb_rel="/${thumb_file#./}"
+            thumb_rel=""
+            media_dir="assets/docs/$slug/media"
+            if [ -d "$media_dir" ]; then
+              thumb_file="$(find "$media_dir" -maxdepth 1 -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.webp' -o -iname '*.gif' \) | head -n 1 || true)"
+              [ -n "$thumb_file" ] && thumb_rel="/${thumb_file#./}"
+            fi
 
             out="_posts/$date_ymd-$slug.html"
             {
