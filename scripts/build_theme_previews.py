@@ -19,7 +19,7 @@ NAV_ITEMS = [
 
 
 def _load_page_content() -> str:
-    index_path = ROOT / "index.html"
+    index_path = ROOT / "tabs" / "home" / "index.html"
     raw = index_path.read_text(encoding="utf-8")
     if not raw.startswith("---"):
         raise RuntimeError("index.html is missing front matter; cannot locate content block")

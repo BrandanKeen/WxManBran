@@ -58,5 +58,5 @@ permalink: /previous-storms/
 {% endfor %}
 
 {% if all_seasons == empty %}
-<p>No storms logged yet. Create Markdown files in <code>_storms</code> to populate this archive.</p>
+<p>No storms logged yet. Create Markdown files in <code>tabs/previous-storms/_storms</code> to populate this archive.</p>
 {% endif %}

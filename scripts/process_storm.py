@@ -10,11 +10,11 @@ from pathlib import Path
 from textwrap import dedent
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = ROOT / "data" / "storms"
+DATA_DIR = ROOT / "tabs" / "data" / "storms"
 NOTEBOOKS_DIR = ROOT / "analysis" / "notebooks"
 SPECS_DIR = ROOT / "build" / "specs"
 PLOTS_DIR = ROOT / "assets" / "plots"
-STORMS_DIR = ROOT / "_storms"
+STORMS_DIR = ROOT / "tabs" / "previous-storms" / "_storms"
 SCRIPTS_DIR = ROOT / "scripts"
 
 MARKER_START = "<!-- DATA-SECTION:START -->"
