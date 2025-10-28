@@ -1199,6 +1199,15 @@ section {
   text-underline-offset: 4px;
 }
 
+.site-footer a[href="mailto:connect@wxmanbran.com"] {
+  text-decoration: none;
+}
+
+.site-footer a[href="mailto:connect@wxmanbran.com"]:hover,
+.site-footer a[href="mailto:connect@wxmanbran.com"]:focus {
+  text-decoration: none;
+}
+
 /* Responsive adjustments */
 @media (max-width: 760px) {
   .site-nav__links {
