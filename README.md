@@ -24,7 +24,7 @@ A lightweight Jekyll site for tropical weather storytelling. Everything is desig
 
 ## Add a New Storm Page (5 Steps)
 
-1. Open the `tabs/previous-storms/_storms` folder and create `YYYY-storm-name.md`.
+1. Open the `_storms` folder and create `YYYY-storm-name.md`.
 2. Use this starter front matter:
    ```yaml
    ---
@@ -42,8 +42,7 @@ A lightweight Jekyll site for tropical weather storytelling. Everything is desig
 ## Collections & Structure
 
 - `_posts/` — blog-style updates shown on **Tropical Updates**.
-- `tabs/` — top-level folders that group content by navigation tab (Home, Tropical Updates, Data, Previous Storms, Learn, About).
-- `tabs/previous-storms/_storms/` — collection configured in `_config.yml` with `output: true` for individual storm pages.
+- `_storms/` — collection configured in `_config.yml` with `output: true` for individual storm pages.
 - `_data/nav.yml` — controls the top navigation tabs.
 - `assets/` — store static files in sub-folders by year or feature.
 
